@@ -1,0 +1,15 @@
+﻿"Image Name","BW15005_r_f1"
+"Created Date","	6/12/2023 2:03:54 PM"
+"Specimen","BW15005_R_f1"
+"Description","right side of dorsal surface of feather 1"
+"Observations",""
+"Calibration","1 pixel = 3.927E-003 mm"
+
+
+"Measurement #","Group","Tool","Comments","Class","Line Length (mm)","Width (mm)","Height (mm)","End Distance (mm)","Count"
+"1","","Count","","","-","-","-","-","10"
+"2","","Segment","b2","clear segment","2.662658351170","2.572424143229","0.683084527778","2.661572926816","-"
+"3","","Segment","b6","clear segment","0.810709821233","0.789400385938","0.184511337963","0.810677126330","-"
+"4","","Segment","b6","clear segment","3.327497076950","3.090836336979","1.185583490741","3.310419531647","-"
+"5","","Segment","b6","black segment","0.027770439882","0.027491555729","0.003925773148","0.027770439882","-"
+"6","","Segment","b10","clear segment","5.689062240197","5.227322953646","2.206284509259","5.673852007015","-"

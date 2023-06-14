@@ -1,0 +1,13 @@
+﻿"Image Name","BW15112_R_f2"
+"Created Date","	6/12/2023 2:46:51 PM"
+"Specimen","BW15112_R_f2"
+"Description",""
+"Observations",""
+"Calibration","1 pixel = 3.927E-003 mm"
+
+
+"Measurement #","Group","Tool","Comments","Class","Line Length (mm)","Width (mm)","Height (mm)","End Distance (mm)","Count"
+"1","","Count","","","-","-","-","-","10"
+"2","","Segment","b10","clear segment","6.455452589359","5.816427719271","2.736263884259","6.427905682087","-"
+"3","","Segment","b6","clear segment","4.814900072903","4.543961425521","1.558531939815","4.803811741112","-"
+"4","","Segment","b2","clear segment","1.896864719657","1.841934233854","0.439686592593","1.893685829685","-"
