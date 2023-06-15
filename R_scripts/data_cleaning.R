@@ -1,7 +1,9 @@
-## Symmetry test
+##Data cleaning for plumage project
 
-## testing symmetry of feathers in 2 individuals per populations - N + S
-## includes file cleaning
+
+# Cleaning raw output from LAS X reports ----------------------------------
+
+
 
 
 library(tidyverse)
