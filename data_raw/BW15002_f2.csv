@@ -1,0 +1,15 @@
+﻿"Image Name","BW15002_f2"
+"Created Date","	6/9/2023 12:18:01 PM"
+"Specimen","BW15002_f2"
+"Description",""
+"Observations",""
+"Calibration","1 pixel = 3.927E-003 mm"
+
+
+"Measurement #","Group","Tool","Comments","Class","Line Length (mm)","Width (mm)","Height (mm)","End Distance (mm)","Count"
+"1","","Count","","barb length","-","-","-","-","10"
+"2","","Segment","b2","black segment","3.176922737975","3.114400527604","0.537830921296","3.157864486619","-"
+"3","","Segment","b6","black segment","4.203813344555","3.931292469271","1.197360810185","4.099435513761","-"
+"4","","Segment","b6","clear segment","0.477169889820","0.475211177604","0.043183504630","0.477169234541","-"
+"5","","Segment","b10","clear segment","0.556094462306","0.549831114583","0.082441236111","0.555977348437","-"
+"6","","Segment","b10","black segment","4.957288486088","4.139442819792","2.496791722222","4.834144780877","-"
