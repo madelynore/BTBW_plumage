@@ -2,7 +2,7 @@
 
 library(tidyverse)
 
-avgimg <- read.csv("data/BTBW_micat_avgd_photo_measurements.csv")
+avgimg <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv")
 
 
 # Correlation analysis dorsum ----------------------------------------------------
@@ -123,11 +123,22 @@ write.csv(b_correlations, file = "results/belly_variable_correlations.csv")
 
 
 
-# Prin Comp ---------------------------------------------------------------
+# Analysis of dorsum color---------------------------------------------------------------
 
+## select only the back 
+dorsum <- avg_img %>% 
+  filter(pl_code %in% c("d"))
 
+# remove individual who's luminance mean is an order of magnitude greater than others
+d_sub <- dorsum %>%
+  filter(ID != "612918" )
 
-dpca <- prcomp(avg_img[9:14], scale = T)  
+d_info <- d_sub %>% 
+  select("ID", "photo", "County", "State.Province")
+
+#princomp of only the colors
+d_mean <- d_sub[, grep("Mean", names(d_sub))]
+dpca <- prcomp(d_mean, scale = T)  
 ## eigen vectors
 #reverse the signs
 dpca$rotation <- -1*dpca$rotation
@@ -138,7 +149,7 @@ dpca$rotation
 #reverse the signs of the scores
 pcscores <- as.data.frame(-1*dpca$x)
 
-img_dpc <- cbind(avg_img, pcscores)
+img_dpc <- cbind(d_info, d_mean, pcscores)
 
 #display the first six scores
 head(dpca$x)
@@ -158,29 +169,28 @@ var_explained = dpca$sdev^2 / sum(dpca$sdev^2)
 ## create a scree plot
 plot(var_explained)
 
-
-# add metadata ------------------------------------------------------------
-
-meta <- read.csv("../NMNH_specimen_data.csv")
-
-meta_b <- meta %>% 
-  select(USNM.no., County, State.Province)
-
-d_prelim <- merge(meta_b, img_dpc, by.x = "USNM.no.", by.y = "ID", all = F)
-
-
 # make plots -----------------------------------------------------------
 
-ggplot(d_prelim, aes(x = PC1, y = PC2, color = State.Province, shape = State.Province))+
+## make a column for population name
+img_dpc$pop <-paste(img_dpc$County, img_dpc$State.Province, sep = "_")
+img_dpc$State.Province <- factor(img_dpc$State.Province, levels = c("NS", "NB", "ME", "PA", "TN"), ordered = TRUE)
+
+
+ggplot(img_dpc, aes(x = PC1, y = PC2, color = State.Province, shape = State.Province))+
   geom_point(size = 6.5)+
   xlab(paste0("PC1 (", pc1perc ,"% explained)")) +
   ylab(paste0("PC2 (", pc2perc,"% explained)")) +
   theme_classic()
- 
-d_less <- d_prelim[-c(14,15,17),]
 
-ggplot(data = d_less, aes(y = lumMean, x = State.Province, fill = USNM.no., color = USNM.no.)) + 
-  geom_pointrange(aes(ymin = lumMean - lumSD, ymax = lumMean + lumSD), position = position_dodge(width = 0.2), fatten = 1.5) +
+d_sub$State.Province <- factor(d_sub$State.Province, levels = c("NS", "NB", "ME", "PA", "TN"), ordered = TRUE)
+d_sub$pop <-paste(d_sub$County, d_sub$State.Province, sep = "_")
+d_sub$pop <- factor(d_sub$pop, levels = c("Halifax_NS", "York_NB", 
+                                          "Piscataquis_ME", "Potter_PA", 
+                                          "Carter_TN", "Unicoi_TN"), ordered = TRUE)
+
+
+ggplot(data = d_sub, aes(y = dblMean, x = pop)) + 
+  geom_pointrange(aes(ymin = dblMean - dblSD, ymax = dblMean + dblSD), position = position_dodge(width = 0.2), fatten = 1.5) +
   labs(x = "Location", y = "Luminance (brightness)") +
   theme_classic() +
   theme(
@@ -189,8 +199,44 @@ ggplot(data = d_less, aes(y = lumMean, x = State.Province, fill = USNM.no., colo
     axis.text = element_text(size = 14)
   )
 
+
+ggplot(data = d_sub, aes(y = dblMean, x = pop)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Location", y = "Luminance (brightness)") +
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+ggplot(data = d_sub, aes(y = dblMean, x = pop)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Location", y = "Luminance (brightness)") +
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+ggplot(data = d_sub, aes(y = swMean, x = pop)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Location", y = "Short Wavelength Mean") +
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+## anova for lum means
+a <- aov(dblMean ~ pop, data = d_sub)
+summary(a)
+TukeyHSD(a)
+
 # Perform t-test for comparing perc_black between states
-t_test_result <- t.test(lumMean ~ State.Province, data = d_less)
+t_test_result <- t.test(lumMean ~ State.Province, data = img_dpc)
 
 # Print the test results
 print(t_test_result)
