@@ -128,23 +128,74 @@ write.csv(F_measures, "data/feather_measurements.csv", row.names = F)
 # cleaning raw output from micatoolbox ------------------------------------
 
 library(tidyverse)
+# load file names
+imgfiles <- list.files(path = "data_raw/", pattern = "*Image*")
 
-img <- read.csv("data_raw/Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65.csv")
+imgnm <- paste0("data_raw/", imgfiles[1])
+## extract name of the population
+pop_name <- sub(x = imgfiles[1],
+                pattern = "_\\d+_Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65.*",
+                replacement = "")
+
+#read in file
+img <- read.csv(file = imgnm)
 
 head(img)
 
+## change label to more informative labels
 img_ID <- img %>% 
   separate(Label, into = c("ID", "photo", "plumage_patch"), sep = "_")
 
+# separate plumage patch from replicate
 img_plid <- img_ID %>% 
   separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
 
+## reviewing how many patches measured
 summary(as.factor(img_plid$pl_code))
 
+# add pop name
+img_plid$pop <- rep(pop_name, nrow(img_plid))
 
-avg_img <- img_plid %>% 
+# Initialize an empty dataframe
+allimg <- data.frame()
+
+# Load file names
+imgfiles <- list.files(path = "data_raw/", pattern = "*Image*")
+
+# Loop through each file
+for (i in 1:length(imgfiles)) {
+  imgnm <- paste0("data_raw/", imgfiles[i])
+  
+  # Read in file
+  img <- read.csv(file = imgnm)
+  
+  # Change label to more informative labels
+  img_ID <- img %>% 
+    separate(Label, into = c("ID", "photo", "plumage_patch"), sep = "_")
+  
+  # Separate plumage patch from replicate
+  img_plid <- img_ID %>% 
+    separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
+  
+  # Bind to the dataframe
+  allimg <- rbind(allimg, img_plid)
+}
+
+# Print the dataframe
+print(allimg)
+
+meta <- read.csv("data_raw/NMNH_specimen_data.csv") %>% 
+  select("USNM.no.", "County", "State.Province")
+
+rawimg_meta <-  merge(allimg, meta, by.x = "ID", by.y = "USNM.no.")
+
+img_meta <- subset(rawimg_meta, select = -X)
+
+write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
+
+avg_img <- img_meta %>% 
   group_by(ID, photo, pl_code) %>% 
   summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area, mean),
-            N = n_distinct(rep))
+            N = n_distinct(rep), County = County[1], State.Province = State.Province[1])
 
-write.csv(avg_img, "data/BTBW_micat_avgd_photo_measurements.csv", row.names = F)
+write.csv(avg_img, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
