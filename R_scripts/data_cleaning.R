@@ -121,4 +121,30 @@ F_measures$perc_black <- F_measures$`black segment`/F_measures$sum_length
 F_measures$perc_clear <- F_measures$`clear segment`/F_measures$sum_length
 
 write.csv(F_measures, "data/feather_measurements.csv", row.names = F)
-            
+
+
+
+
+# cleaning raw output from micatoolbox ------------------------------------
+
+library(tidyverse)
+
+img <- read.csv("data_raw/Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65.csv")
+
+head(img)
+
+img_ID <- img %>% 
+  separate(Label, into = c("ID", "photo", "plumage_patch"), sep = "_")
+
+img_plid <- img_ID %>% 
+  separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
+
+summary(as.factor(img_plid$pl_code))
+
+
+avg_img <- img_plid %>% 
+  group_by(ID, photo, pl_code) %>% 
+  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area, mean),
+            N = n_distinct(rep))
+
+write.csv(avg_img, "data/BTBW_micat_avgd_photo_measurements.csv", row.names = F)
