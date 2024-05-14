@@ -139,6 +139,8 @@ d_info <- d_sub %>%
 #princomp of only the colors
 d_mean <- d_sub[, grep("Mean", names(d_sub))]
 dpca <- prcomp(d_mean, scale = T)  
+dpca <- prcomp(d_sub[4:15], scale = T)  
+
 ## eigen vectors
 #reverse the signs
 dpca$rotation <- -1*dpca$rotation
