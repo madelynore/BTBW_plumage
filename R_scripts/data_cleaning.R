@@ -79,7 +79,41 @@ meta <- read.csv("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data/Genoscape_locati
 
 specimen_latlon <- merge(specimen_uniq, meta, by.x = "USNM.no.", by.y = "USNM", all.x = T, all.y = F)
 
-write.csv(specimen_latlon, "data/NMNH_specimen_metadata.csv", row.names = F) 
+
+#adding in lat/lon for those missing
+nocoords <- specimen_latlon[is.na(specimen_latlon$lat),]
+
+## removing them from df
+coords <- anti_join(specimen_latlon, nocoords, by = c("USNM.no.", "GRG.no."))
+
+## manually adding lat lon based on locality
+unique(nocoords$Locality)
+
+nocoords$lat[which(nocoords$Locality == "Jefferson Nat'l Forest, 4mi SE Norton, Bark Camp Branch; 920m")] <- 36.879
+nocoords$lon[which(nocoords$Locality == "Jefferson Nat'l Forest, 4mi SE Norton, Bark Camp Branch; 920m")] <- -82.574
+
+nocoords$lat[which(nocoords$Locality == "Old Tyrone Pike, 0.6mi N Mountain Road above Bright Run; 560m")] <- 40.761
+nocoords$lon[which(nocoords$Locality == "Old Tyrone Pike, 0.6mi N Mountain Road above Bright Run; 560m")] <- -78.204
+
+nocoords$lat[which(nocoords$Locality == "Old Tyrone Pike, 0.95mi N Mountain Road above Bright Run; 610m")] <- 40.764
+nocoords$lon[which(nocoords$Locality == "Old Tyrone Pike, 0.95mi N Mountain Road above Bright Run; 610m")] <- -78.198
+
+nocoords$lat[which(nocoords$Locality == "Nicolet Nat'l Forest, North Branch Pine River on FS Rd 2174; 505m")] <- 45.929
+nocoords$lon[which(nocoords$Locality == "Nicolet Nat'l Forest, North Branch Pine River on FS Rd 2174; 505m")] <- -88.861
+
+nocoords$lat[which(nocoords$Locality == "Frenchtown Township; 2 mi SE Kokadjo on S. shore First Roach Lake")] <- 45.617
+nocoords$lon[which(nocoords$Locality == "Frenchtown Township; 2 mi SE Kokadjo on S. shore First Roach Lake")] <- -69.332
+
+specimen_coords <- bind_rows(coords, nocoords)
+
+is.na(specimen_coords$lat)
+
+## manually fix York NB coords for 614261 
+specimen_coords$lat[which(specimen_coords$USNM.no. == "614261")] <- 45.794
+specimen_coords$lon[which(specimen_coords$USNM.no. == "614261")] <- -66.854
+
+
+write.csv(specimen_coords, "data/NMNH_specimen_metadata.csv", row.names = F) 
 
 # Cleaning raw output from LAS X reports ----------------------------------
 

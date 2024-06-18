@@ -212,15 +212,6 @@ ggplot(data = d_sub, aes(y = dblMean, x = pop)) +
     axis.text = element_text(size = 14)
   )
 
-ggplot(data = d_sub, aes(y = dblMean, x = pop)) + 
-  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Location", y = "Luminance (brightness)") +
-  theme_classic() +
-  theme(
-    aspect.ratio = 0.75,
-    text = element_text(size = 16),
-    axis.text = element_text(size = 14)
-  )
 
 ggplot(data = d_sub, aes(y = swMean, x = pop)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
@@ -251,10 +242,16 @@ library(viridis)
 
 lum <- avg_img %>% 
   select(ID, pl_code, dblMean, dblSD, Age, pop, lat, lon) %>% 
-  filter(ID != "612918" )
+  filter(ID != "612918" & Age == "ASY")
 
 lum_wide <- pivot_wider(lum, names_from = pl_code, values_from = c(dblMean, dblSD), names_sep = "_" )
 
+## test for normality
+shapiro.test(lum_wide$dblMean_d) # yes
+shapiro.test(lum_wide$dblMean_b) #yes
+shapiro.test(lum_wide$dblMean_w) #yes
+shapiro.test(lum_wide$dblMean_t) #no
+ggpubr::ggqqplot(lum_wide$dblMean_t)
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
@@ -263,6 +260,7 @@ ggplot(lum_wide)+
   labs(x = "Dorsum Brightness", y = "Throat Brightness")+
   theme_classic()
 
+cor.test(lum_wide$dblMean_d, lum_wide$dblMean_t, method = "spearman")
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
@@ -271,6 +269,9 @@ ggplot(lum_wide)+
   labs(x = "Dorsum Brightness", y = "Belly Brightness")+
   theme_classic()
 
+cor.test(lum_wide$dblMean_d, lum_wide$dblMean_b, method = "pearson")
+
+
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
   scale_color_viridis_c(direction = -1)+
@@ -278,6 +279,7 @@ ggplot(lum_wide)+
   labs(x = "Dorsum Brightness", y = "Wing Spot Brightness")+
   theme_classic()
 
+cor.test(lum_wide$dblMean_d, lum_wide$dblMean_w, method = "spearman")
 
 
 # wing spot area vs length ------------------------------------------------
@@ -293,3 +295,12 @@ ggplot(ws)+
   geom_smooth(aes(x = avg_ws_length, y = area), method = "lm")+
   labs(x = "Average length of wingspot", y = "Wing spot area")+
   theme_classic()
+
+shapiro.test(ws$area) #no
+shapiro.test(ws$avg_ws_length) #yes
+
+cor.test(ws$area, ws$avg_ws_length, method = "spearman")
+# p-value = 1.05e-13
+#   rho 
+# 0.8576262 
+
