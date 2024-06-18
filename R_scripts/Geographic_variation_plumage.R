@@ -250,34 +250,46 @@ print(t_test_result)
 library(viridis)
 
 lum <- avg_img %>% 
-  select(ID, pl_code, dblMean, dblSD, State.Province) %>% 
+  select(ID, pl_code, dblMean, dblSD, Age, pop, lat, lon) %>% 
   filter(ID != "612918" )
 
 lum_wide <- pivot_wider(lum, names_from = pl_code, values_from = c(dblMean, dblSD), names_sep = "_" )
 
-## add lat/lon data
-meta <- read.csv("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data/Genoscape_locations.csv") %>% 
-  select(USNM, lat, lon)
 
-lumwide_meta <- merge(lum_wide, meta, by.x = "ID", by.y = "USNM")
-
-ggplot(lumwide_meta)+
+ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
   labs(x = "Dorsum Brightness", y = "Throat Brightness")+
   theme_classic()
 
-ggplot(lumwide_meta)+
+
+ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
   labs(x = "Dorsum Brightness", y = "Belly Brightness")+
   theme_classic()
 
-ggplot(lumwide_meta)+
+ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
   labs(x = "Dorsum Brightness", y = "Wing Spot Brightness")+
+  theme_classic()
+
+
+
+# wing spot area vs length ------------------------------------------------
+
+ws <- avg_img %>% 
+  select(ID, pl_code, dblMean, dblSD, area, wing.spot.L.mm, wing.spot.R.mm, Age, pop, lat, lon) %>% 
+  filter(ID != "612918" & pl_code == "w") %>% 
+  mutate(avg_ws_length = (wing.spot.L.mm + wing.spot.R.mm)/2)
+
+
+ggplot(ws)+
+  geom_point(aes(x = avg_ws_length, y = area, col = Age))+
+  geom_smooth(aes(x = avg_ws_length, y = area), method = "lm")+
+  labs(x = "Average length of wingspot", y = "Wing spot area")+
   theme_classic()
