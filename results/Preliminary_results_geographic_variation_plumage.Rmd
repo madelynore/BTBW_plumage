@@ -1,0 +1,200 @@
+---
+title: "Preliminary_results_geographic_variation_plumage"
+author: "Ore, MJ."
+date: "2024-06-18"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, error = FALSE, warning = FALSE, message = FALSE)
+```
+
+
+```{r prep data - geographic variation in color, echo = FALSE}
+
+library(tidyverse)
+library(here)
+
+here::i_am("results/Preliminary_results_geographic_variation_plumage.Rmd")
+
+avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv"))
+
+## select only the back 
+dorsum <- avg_img %>% 
+  filter(pl_code %in% c("d"))
+
+# remove individual who's luminance mean is an order of magnitude greater than others
+d_sub <- dorsum %>%
+  filter(ID != "612918" )
+
+#make population names
+d_sub$pop <-paste(d_sub$County, d_sub$State.Province, sep = "_")
+
+## order df by latitude
+d_sub <- arrange(d_sub, lat)
+# Reorder 'pop' based on the order of 'lat'
+d_sub$pop <- factor(d_sub$pop, levels = unique(d_sub$pop))
+
+
+```
+
+# How does brightness of the dorsum vary across populations?
+
+```{r brightness by pop, echo=FALSE}
+
+
+ggplot(data = d_sub, aes(y = dblMean, x = pop)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Location", y = "Luminance (brightness)") +
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+
+##Short wavelength by pop
+
+```{r sw by pop, echo=FALSE}
+
+ggplot(data = d_sub, aes(y = swMean, x = pop)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Location", y = "Short Wavelength Mean") +
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+
+
+# Correlations between body parts - Are dark backed birds darker overall? 
+
+```{r prep df for correlation plots, echo = F}
+
+library(viridis)
+
+## select only brightness for ASY males
+lum <- avg_img %>% 
+  select(ID, pl_code, dblMean, dblSD, area, Age, pop, lat, lon) %>% 
+  filter(ID != "612918" & Age == "ASY")
+
+lum_wide <- pivot_wider(lum, names_from = pl_code, values_from = c(dblMean, dblSD, area), names_sep = "_" )
+
+```
+
+## Dorsum vs throat
+
+```{r d vs t plot, echo=FALSE}
+
+# Perform Spearman's correlation test
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_t, method = "spearman")
+
+# Extract the Spearman's rho (correlation coefficient) and p-value
+rho <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Spearman's rho: %.2f, p-value: %.3f", rho, p_value)
+
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Throat Brightness")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+
+```
+## Dorsum and belly
+
+```{r d vs b plot , echo = F}
+
+
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_b, method = "pearson")
+
+# Extract the Pearson's cor (correlation coefficient) and p-value
+cor <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Belly Brightness")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+
+```
+
+
+## Dorsum and wing spot - do darker birds have whiter wing spots?
+
+```{r d and ws plot, echo = F}
+
+
+# Perform Spearman's correlation test
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_w, method = "spearman")
+
+# Extract the Spearman's rho (correlation coefficient) and p-value
+rho <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Spearman's rho: %.2f, p-value: %.3f", rho, p_value)
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_w), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot Brightness")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+```
+
+
+# Do darker birds have larger wing spots?
+
+```{r dorsum vs wingspot area, echo=FALSE}
+
+shapiro.test(lum_wide$area_w) # yes
+shapiro.test(lum_wide$dblMean_d) # yes
+
+
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$dblMean_d, lum_wide$area_w, method = "pearson")
+
+# Extract the Pearson's cor (correlation coefficient) and p-value
+cor <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
+
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = area_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = area_w), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot Area")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+
+```
