@@ -184,8 +184,7 @@ for (i in 1:length(imgfiles)) {
 # Print the dataframe
 print(allimg)
 
-meta <- read.csv("data_raw/NMNH_specimen_data.csv") %>% 
-  select("USNM.no.", "County", "State.Province")
+meta <- read.csv("data_raw/NMNH_specimen_data.csv") 
 
 rawimg_meta <-  merge(allimg, meta, by.x = "ID", by.y = "USNM.no.")
 
@@ -193,9 +192,12 @@ img_meta <- subset(rawimg_meta, select = -X)
 
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
-avg_img <- img_meta %>% 
+avg_img <- allimg %>% 
   group_by(ID, photo, pl_code) %>% 
-  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area, mean),
-            N = n_distinct(rep), County = County[1], State.Province = State.Province[1])
+  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area | contains("Power") | contains("Freq"), mean),
+            N = n_distinct(rep))
 
-write.csv(avg_img, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
+avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.")
+
+
+write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)

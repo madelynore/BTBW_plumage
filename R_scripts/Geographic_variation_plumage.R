@@ -2,7 +2,7 @@
 
 library(tidyverse)
 
-avgimg <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv")
+avg_img <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv")
 
 
 # Correlation analysis dorsum ----------------------------------------------------
@@ -246,5 +246,38 @@ print(t_test_result)
 
 
 
+# plot correlation between body parts -------------------------------------
+library(viridis)
 
+lum <- avg_img %>% 
+  select(ID, pl_code, dblMean, dblSD, State.Province) %>% 
+  filter(ID != "612918" )
 
+lum_wide <- pivot_wider(lum, names_from = pl_code, values_from = c(dblMean, dblSD), names_sep = "_" )
+
+## add lat/lon data
+meta <- read.csv("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data/Genoscape_locations.csv") %>% 
+  select(USNM, lat, lon)
+
+lumwide_meta <- merge(lum_wide, meta, by.x = "ID", by.y = "USNM")
+
+ggplot(lumwide_meta)+
+  geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Throat Brightness")+
+  theme_classic()
+
+ggplot(lumwide_meta)+
+  geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Belly Brightness")+
+  theme_classic()
+
+ggplot(lumwide_meta)+
+  geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wing Spot Brightness")+
+  theme_classic()
