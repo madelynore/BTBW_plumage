@@ -31,6 +31,56 @@ band_record <- merge(bw2021_rn, bw2022_rn, by = intersect(names(bw2021_rn), name
 
 write.csv(band_record, "data/BTBW_banding_record_2021_22.csv", row.names = F)
 
+
+# editing USNM metadata ---------------------------------------------------
+library(tidyverse)
+
+specimen <- read.csv("data_raw/NMNH_specimen_data.csv")
+
+## 614270 is duplicated, so need to combine
+# Identify duplicated IDs
+duplicated_ids <- specimen %>%
+  group_by(USNM.no., GRG.no.) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+# DataFrame with unique IDs (non-duplicated)
+unique_ids <- anti_join(specimen, duplicated_ids, by = c("USNM.no.", "GRG.no."))
+
+# Process duplicated IDs
+combined_duplicated_ids <- duplicated_ids %>%
+  group_by(USNM.no., GRG.no.) %>%
+  summarise(across(everything(), ~if (all(is.na(.))) NA else .[which.max(!is.na(.))]), .groups = 'drop')
+
+# Combine the DataFrames
+specimen_uniq <- bind_rows(unique_ids, combined_duplicated_ids)
+
+#sort the final DataFrame by ID for better readability
+specimen_uniq <- specimen_uniq %>%
+  arrange(USNM.no., GRG.no.)
+
+## check that each row is a unique ID
+# Count entries per USNM.no.
+entries_per_usnm <- specimen_uniq %>%
+  group_by(USNM.no.) %>%
+  summarise(Entries = n(), .groups = 'drop')
+
+# Check for any USNM.no. with more than one entry
+duplicates <- filter(entries_per_usnm, Entries > 1)
+
+# Print duplicates, if any
+print(duplicates)
+
+
+## combining USNM data with lat/lon from GEA
+
+meta <- read.csv("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data/Genoscape_locations.csv") %>% 
+  select(USNM, pop, Region, lat, lon)
+
+specimen_latlon <- merge(specimen_uniq, meta, by.x = "USNM.no.", by.y = "USNM", all.x = T, all.y = F)
+
+write.csv(specimen_latlon, "data/NMNH_specimen_metadata.csv", row.names = F) 
+
 # Cleaning raw output from LAS X reports ----------------------------------
 
 
@@ -184,9 +234,9 @@ for (i in 1:length(imgfiles)) {
 # Print the dataframe
 print(allimg)
 
-meta <- read.csv("data_raw/NMNH_specimen_data.csv") 
+meta <- read.csv("data/NMNH_specimen_metadata.csv") 
 
-rawimg_meta <-  merge(allimg, meta, by.x = "ID", by.y = "USNM.no.")
+rawimg_meta <-  merge(allimg, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
 
 img_meta <- subset(rawimg_meta, select = -X)
 
@@ -197,7 +247,7 @@ avg_img <- allimg %>%
   summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area | contains("Power") | contains("Freq"), mean),
             N = n_distinct(rep))
 
-avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.")
+avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
 
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
