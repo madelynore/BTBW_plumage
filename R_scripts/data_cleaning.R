@@ -35,7 +35,7 @@ write.csv(band_record, "data/BTBW_banding_record_2021_22.csv", row.names = F)
 # editing USNM metadata ---------------------------------------------------
 library(tidyverse)
 
-specimen <- read.csv("data_raw/NMNH_specimen_data.csv")
+specimen <- read.csv("data_raw/NMNH_specimen_data_from_Box.csv")
 
 ## 614270 is duplicated, so need to combine
 # Identify duplicated IDs
@@ -268,11 +268,30 @@ for (i in 1:length(imgfiles)) {
 # Print the dataframe
 print(allimg)
 
+## clean up some things from this dataframe
+#remove scalebar calculations and "whole"
+# whole was for the comparison between taking 3 square subsets versus the whole area
+notplrows <- c(grep(allimg$pl_code, pattern = "Scale Bar.*"), grep(allimg$pl_code, pattern = "whole.*"))
+
+allimg_rmnotpl_code <- allimg[-notplrows,]
+
+# fix ID that was entered into the mspec creation incorrectly
+allimg_rmnotpl_code$ID[which(allimg_rmnotpl_code$ID == "6129898")] <- "612898"
+
 meta <- read.csv("data/NMNH_specimen_metadata.csv") 
 
-rawimg_meta <-  merge(allimg, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
+#trying to trim whitespace to see if this fixes IDs that are not merging properly
+allimg_rmnotpl_code$ID <- str_trim(allimg_rmnotpl_code$ID)
+meta$USNM.no. <- str_trim(meta$USNM.no.)
+
+rawimg_meta <-  merge(allimg_rmnotpl_code, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
 
 img_meta <- subset(rawimg_meta, select = -X)
+
+# identify IDs missing metadata
+unique(img_meta$ID[which(is.na(img_meta$pop))])
+
+
 
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
