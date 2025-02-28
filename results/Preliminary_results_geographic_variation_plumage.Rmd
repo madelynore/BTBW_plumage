@@ -83,23 +83,41 @@ lum <- avg_img %>%
   select(ID, pl_code, dblMean, dblSD, area, Age, pop, lat, lon) %>% 
   filter(ID != "612918" & Age == "ASY")
 
-lum_wide <- pivot_wider(lum, names_from = pl_code, values_from = c(dblMean, dblSD, area), names_sep = "_" )
+lum_summarized <- lum %>%
+  group_by(ID, Age, pop, lat, lon, pl_code) %>%
+  summarise(
+    dblMean = mean(dblMean),
+    dblSD = mean(dblSD),
+    area = mean(area),
+    .groups = 'drop'
+  )
+
+lum_wide <- lum_summarized %>% 
+  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, area), names_sep = "_" )
+
+
 
 ```
 
 ## Dorsum vs throat
 
 ```{r d vs t plot, echo=FALSE}
+# check for normality
+hist(lum_wide$dblMean_d)
+hist(lum_wide$dblMean_t)
 
-# Perform Spearman's correlation test
-c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_t, method = "spearman")
+shapiro.test(lum_wide$dblMean_d)
+shapiro.test(lum_wide$dblMean_t)
 
-# Extract the Spearman's rho (correlation coefficient) and p-value
-rho <- c$estimate
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_t, method = "pearson")
+
+# Extract the correlation coefficient and p-value
+c_coef <- c$estimate
 p_value <- c$p.value
 
-# Format the text to include rho and p-value, ready to be used in annotations
-text_annotation <- sprintf("Spearman's rho: %.2f, p-value: %.3f", rho, p_value)
+# Format the text to include cor coef and p-value, ready to be used in annotations
+text_annotation <- sprintf("Correlation coefficient: %.2f, p-value: %.3f", rho, p_value)
 
 
 ggplot(lum_wide)+
@@ -113,10 +131,47 @@ ggplot(lum_wide)+
 
 
 ```
+
+## Dorsum vs overwing covert
+
+```{r d vs t plot, echo=FALSE}
+# check for normality
+hist(lum_wide$dblMean_d)
+hist(lum_wide$dblMean_o)
+
+shapiro.test(lum_wide$dblMean_d)
+shapiro.test(lum_wide$dblMean_o)
+
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_o, method = "pearson")
+
+# Extract the correlation coefficient and p-value
+c_coef <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include cor coef and p-value, ready to be used in annotations
+text_annotation <- sprintf("Correlation coefficient: %.2f, p-value: %.3f", rho, p_value)
+
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_o, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wing covert Brightness")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+
+```
+
+
+
 ## Dorsum and belly
 
 ```{r d vs b plot , echo = F}
-
+#check for normality
+hist(lum_wide$dblMean_b)
 
 # Perform Pearson's correlation test
 c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_b, method = "pearson")
@@ -144,17 +199,19 @@ ggplot(lum_wide)+
 ## Dorsum and wing spot - do darker birds have whiter wing spots?
 
 ```{r d and ws plot, echo = F}
+#test for normality
+hist(lum_wide$dblMean_w)
+shapiro.test(lum_wide$dblMean_w)
 
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_w, method = "pearson")
 
-# Perform Spearman's correlation test
-c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_w, method = "spearman")
-
-# Extract the Spearman's rho (correlation coefficient) and p-value
-rho <- c$estimate
+# Extract the Pearson's cor (correlation coefficient) and p-value
+cor <- c$estimate
 p_value <- c$p.value
 
 # Format the text to include rho and p-value, ready to be used in annotations
-text_annotation <- sprintf("Spearman's rho: %.2f, p-value: %.3f", rho, p_value)
+text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
