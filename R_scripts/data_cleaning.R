@@ -37,31 +37,13 @@ library(tidyverse)
 
 specimen <- read.csv("data_raw/NMNH_specimen_data_from_Box.csv")
 
-## 614270 is duplicated, so need to combine
-# Identify duplicated IDs
-duplicated_ids <- specimen %>%
-  group_by(USNM.no., GRG.no.) %>%
-  filter(n() > 1) %>%
-  ungroup()
-
-# DataFrame with unique IDs (non-duplicated)
-unique_ids <- anti_join(specimen, duplicated_ids, by = c("USNM.no.", "GRG.no."))
-
-# Process duplicated IDs
-combined_duplicated_ids <- duplicated_ids %>%
-  group_by(USNM.no., GRG.no.) %>%
-  summarise(across(everything(), ~if (all(is.na(.))) NA else .[which.max(!is.na(.))]), .groups = 'drop')
-
-# Combine the DataFrames
-specimen_uniq <- bind_rows(unique_ids, combined_duplicated_ids)
-
 #sort the final DataFrame by ID for better readability
-specimen_uniq <- specimen_uniq %>%
+specimen_sort <- specimen %>%
   arrange(USNM.no., GRG.no.)
 
 ## check that each row is a unique ID
 # Count entries per USNM.no.
-entries_per_usnm <- specimen_uniq %>%
+entries_per_usnm <- specimen_sort %>%
   group_by(USNM.no.) %>%
   summarise(Entries = n(), .groups = 'drop')
 
@@ -77,14 +59,15 @@ print(duplicates)
 meta <- read.csv("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data/Genoscape_locations.csv") %>% 
   select(USNM, pop, Region, lat, lon)
 
-specimen_latlon <- merge(specimen_uniq, meta, by.x = "USNM.no.", by.y = "USNM", all.x = T, all.y = F)
+specimen_latlon <- merge(specimen_sort, meta, by.x = "USNM.no.", by.y = "USNM", all.x = T, all.y = F)
 
 
-#adding in lat/lon for those missing
+###adding in lat/lon for those missing
 nocoords <- specimen_latlon[is.na(specimen_latlon$lat),]
 
 ## removing them from df
 coords <- anti_join(specimen_latlon, nocoords, by = c("USNM.no.", "GRG.no."))
+
 
 ## manually adding lat lon based on locality
 unique(nocoords$Locality)
@@ -104,9 +87,78 @@ nocoords$lon[which(nocoords$Locality == "Nicolet Nat'l Forest, North Branch Pine
 nocoords$lat[which(nocoords$Locality == "Frenchtown Township; 2 mi SE Kokadjo on S. shore First Roach Lake")] <- 45.617
 nocoords$lon[which(nocoords$Locality == "Frenchtown Township; 2 mi SE Kokadjo on S. shore First Roach Lake")] <- -69.332
 
+nocoords$lat[which(nocoords$Locality ==  "Frenchtown Township; 5.5 mi ESE Kokadjo on S. shore First Roach Lake")] <- 45.617
+nocoords$lon[which(nocoords$Locality ==  "Frenchtown Township; 5.5 mi ESE Kokadjo on S. shore First Roach Lake")] <- -69.332
+
+nocoords$lat[which(nocoords$Locality ==  "Frenchtown Township; east end First Roach Lake")] <- 45.617
+nocoords$lon[which(nocoords$Locality ==  "Frenchtown Township; east end First Roach Lake")] <- -69.332
+
+nocoords$lat[which(nocoords$Locality ==  "Beaver Cave Township, east end of Beaver Cove of Moosehead Lake")] <- 45.54339
+nocoords$lon[which(nocoords$Locality ==  "Beaver Cave Township, east end of Beaver Cove of Moosehead Lake")] <- -69.54654
+
+nocoords$lat[which(nocoords$Locality ==  "State Game Lands No. 33, 2.2 mi W Hwy 322 On Sandy Ridge Road")] <- 40.83201
+nocoords$lon[which(nocoords$Locality ==  "State Game Lands No. 33, 2.2 mi W Hwy 322 On Sandy Ridge Road")] <- -78.14412
+
+nocoords$lat[which(nocoords$Locality ==  "State Game Lands No. 33, 3.6 mi W Hwy 322 On Sandy Ridge Road")] <- 40.83201
+nocoords$lon[which(nocoords$Locality ==  "State Game Lands No. 33, 3.6 mi W Hwy 322 On Sandy Ridge Road")] <- -78.14412
+
+nocoords$lat[which(nocoords$Locality ==  "1.5mi NE Lyman Lake on Rock Run Rd., Susquehannock State Forest; 650m" )] <- 41.72457
+nocoords$lon[which(nocoords$Locality ==  "1.5mi NE Lyman Lake on Rock Run Rd., Susquehannock State Forest; 650m" )] <- -77.75484
+
+nocoords$lat[which(nocoords$Locality ==  "SE Flank of Fawn Lake Mountain, Adirondack State Park; 650m" )] <- 43.71678
+nocoords$lon[which(nocoords$Locality ==  "SE Flank of Fawn Lake Mountain, Adirondack State Park; 650m" )] <- -74.75517
+
+nocoords$lat[which(nocoords$Locality ==  "ca 9mi SW Davis on Red Run (10.5mi W Hwy 32 on Forest Service Road 13), Monongahela Nat'l Forest; 1000m")] <- 39.06175
+nocoords$lon[which(nocoords$Locality ==  "ca 9mi SW Davis on Red Run (10.5mi W Hwy 32 on Forest Service Road 13), Monongahela Nat'l Forest; 1000m")] <- -79.51135
+
+nocoords$lat[which(nocoords$Locality ==  "ca 9mi SW Davis on Red Run (10mi W Hwy 32 on Forest Service Road 13), Monongahela Nat'l Forest; 990m" )] <- 39.06175
+nocoords$lon[which(nocoords$Locality ==  "ca 9mi SW Davis on Red Run (10mi W Hwy 32 on Forest Service Road 13), Monongahela Nat'l Forest; 990m" )] <- -79.51135
+
+nocoords$lat[which(nocoords$Locality ==  "E. Fork Chattooga River at Hwy 107; Sumter Nat'l Forest; 885m" )] <- 35.00284
+nocoords$lon[which(nocoords$Locality ==  "E. Fork Chattooga River at Hwy 107; Sumter Nat'l Forest; 885m" )] <- -83.05467
+
+nocoords$lat[which(nocoords$Locality == "E. Fork Chattooga River at Hwy 107; Sumter Nat'l Forest; 880m" )] <- 35.00284
+nocoords$lon[which(nocoords$Locality == "E. Fork Chattooga River at Hwy 107; Sumter Nat'l Forest; 880m" )] <- -83.05467
+
+nocoords$lat[which(nocoords$Locality == "George Creek, 1mi S Ripshin Lake, Cherokee Nat'l Forest; 1100m" )] <- 36.16526
+nocoords$lon[which(nocoords$Locality == "George Creek, 1mi S Ripshin Lake, Cherokee Nat'l Forest; 1100m" )] <- -82.13095
+
+nocoords$lat[which(nocoords$Locality == "George Creek, 1mi SE Ripshin Lake, Cherokee Nat'l Forest; 1090m" )] <- 36.16526
+nocoords$lon[which(nocoords$Locality == "George Creek, 1mi SE Ripshin Lake, Cherokee Nat'l Forest; 1090m" )] <- -82.13095
+
+nocoords$lat[which(nocoords$Locality == "Right prong Rock Creek; 4mi SE Erwin, Cherokee Nat'l Forest; 960m")] <- 36.13790
+nocoords$lon[which(nocoords$Locality == "Right prong Rock Creek; 4mi SE Erwin, Cherokee Nat'l Forest; 960m")] <- -82.35464
+
+nocoords$lat[which(nocoords$Locality == "Ottawa Nat'l Forest; 0.5mi NE Killdeer Ave on FS Rd 3346")] <- 46.35368
+nocoords$lon[which(nocoords$Locality == "Ottawa Nat'l Forest; 0.5mi NE Killdeer Ave on FS Rd 3346")] <- -88.95335
+
+nocoords$lat[which(nocoords$Locality == "Ottawa Nat'l Forest; 0.5mi E Bela Lake on FS rd 3614" )] <- 46.37799
+nocoords$lon[which(nocoords$Locality == "Ottawa Nat'l Forest; 0.5mi E Bela Lake on FS rd 3614" )] <- -88.91712
+
+## create populations for this group
+nocoords$pop <- paste0(nocoords$State.Province, ".", nocoords$County)
+
+## add region for this group
+nocoords$Region[which(nocoords$State.Province == "VA" | nocoords$State.Province == "SC" |
+                        nocoords$State.Province == "TN" | nocoords$State.Province == "VA" )] <- "South"
+
+nocoords$Region[which(nocoords$State.Province == "PA" | nocoords$State.Province == "WV"  )] <- "Central"
+
+nocoords$Region[which(nocoords$State.Province == "NY")] <- "North Central"
+
+nocoords$Region[which(nocoords$State.Province == "MI" | nocoords$State.Province == "WI")] <- "North West"
+
+nocoords$Region[which(nocoords$State.Province == "ME")] <- "North East"
+
+
 specimen_coords <- bind_rows(coords, nocoords)
 
-is.na(specimen_coords$lat)
+# check no missing coords or population info
+which(is.na(specimen_coords$lat))
+
+which(is.na(specimen_coords$pop))
+
+which(is.na(specimen_coords$Region))
 
 ## manually fix York NB coords for 614261 
 specimen_coords$lat[which(specimen_coords$USNM.no. == "614261")] <- 45.794
