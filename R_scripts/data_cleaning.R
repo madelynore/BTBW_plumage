@@ -369,7 +369,7 @@ unique(img_meta$ID[which(is.na(img_meta$lat))])
 
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
-avg_img <- allimg %>% 
+avg_img <- allimg_rmnotpl_code %>% 
   group_by(ID, photo, pl_code) %>% 
   summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area | contains("Power") | contains("Freq"), mean),
             N = n_distinct(rep))
