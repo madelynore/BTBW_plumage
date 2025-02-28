@@ -112,12 +112,12 @@ shapiro.test(lum_wide$dblMean_t)
 # Perform Pearson's correlation test
 c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_t, method = "pearson")
 
-# Extract the correlation coefficient and p-value
-c_coef <- c$estimate
+# Extract the Pearson's cor (correlation coefficient) and p-value
+cor <- c$estimate
 p_value <- c$p.value
 
-# Format the text to include cor coef and p-value, ready to be used in annotations
-text_annotation <- sprintf("Correlation coefficient: %.2f, p-value: %.3f", rho, p_value)
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
 
 
 ggplot(lum_wide)+
@@ -132,9 +132,9 @@ ggplot(lum_wide)+
 
 ```
 
-## Dorsum vs overwing covert
+## Dorsum vs wing covert
 
-```{r d vs t plot, echo=FALSE}
+```{r d vs o plot, echo=FALSE}
 # check for normality
 hist(lum_wide$dblMean_d)
 hist(lum_wide$dblMean_o)
@@ -145,12 +145,12 @@ shapiro.test(lum_wide$dblMean_o)
 # Perform Pearson's correlation test
 c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_o, method = "pearson")
 
-# Extract the correlation coefficient and p-value
-c_coef <- c$estimate
+# Extract the Pearson's cor (correlation coefficient) and p-value
+cor <- c$estimate
 p_value <- c$p.value
 
-# Format the text to include cor coef and p-value, ready to be used in annotations
-text_annotation <- sprintf("Correlation coefficient: %.2f, p-value: %.3f", rho, p_value)
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
 
 
 ggplot(lum_wide)+

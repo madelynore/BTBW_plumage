@@ -15,14 +15,55 @@ Ore, MJ.
 
 ## Dorsum vs throat
 
-![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20t%20plot-1.png)<!-- -->
-\## Dorsum and belly
+![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20t%20plot-1.png)<!-- -->![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20t%20plot-2.png)<!-- -->
 
-![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20b%20plot%20-1.png)<!-- -->
+    ## 
+    ##  Shapiro-Wilk normality test
+    ## 
+    ## data:  lum_wide$dblMean_d
+    ## W = 0.98476, p-value = 0.4256
+
+    ## 
+    ##  Shapiro-Wilk normality test
+    ## 
+    ## data:  lum_wide$dblMean_t
+    ## W = 0.88969, p-value = 2.868e-06
+
+![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20t%20plot-3.png)<!-- -->
+
+## Dorsum vs wing covert
+
+![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20o%20plot-1.png)<!-- -->![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20o%20plot-2.png)<!-- -->
+
+    ## 
+    ##  Shapiro-Wilk normality test
+    ## 
+    ## data:  lum_wide$dblMean_d
+    ## W = 0.98476, p-value = 0.4256
+
+    ## 
+    ##  Shapiro-Wilk normality test
+    ## 
+    ## data:  lum_wide$dblMean_o
+    ## W = 0.95748, p-value = 0.007313
+
+![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20o%20plot-3.png)<!-- -->
+
+## Dorsum and belly
+
+![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20b%20plot%20-1.png)<!-- -->![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20vs%20b%20plot%20-2.png)<!-- -->
 
 ## Dorsum and wing spot - do darker birds have whiter wing spots?
 
 ![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20and%20ws%20plot-1.png)<!-- -->
+
+    ## 
+    ##  Shapiro-Wilk normality test
+    ## 
+    ## data:  lum_wide$dblMean_w
+    ## W = 0.9772, p-value = 0.1275
+
+![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/d%20and%20ws%20plot-2.png)<!-- -->
 
 # Do darker birds have larger wing spots?
 
@@ -30,12 +71,12 @@ Ore, MJ.
     ##  Shapiro-Wilk normality test
     ## 
     ## data:  lum_wide$area_w
-    ## W = 0.95381, p-value = 0.2843
+    ## W = 0.9892, p-value = 0.6942
 
     ## 
     ##  Shapiro-Wilk normality test
     ## 
     ## data:  lum_wide$dblMean_d
-    ## W = 0.95111, p-value = 0.2656
+    ## W = 0.98476, p-value = 0.4256
 
 ![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/dorsum%20vs%20wingspot%20area-1.png)<!-- -->
