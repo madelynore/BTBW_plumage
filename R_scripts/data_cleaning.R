@@ -56,7 +56,7 @@ print(duplicates)
 
 ## combining USNM data with lat/lon from GEA
 
-meta <- read.csv("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data/Genoscape_locations.csv") %>% 
+meta <- read.csv("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data/Genoscape_locations.csv") %>% 
   select(USNM, pop, Region, lat, lon)
 
 specimen_latlon <- merge(specimen_sort, meta, by.x = "USNM.no.", by.y = "USNM", all.x = T, all.y = F)
@@ -164,6 +164,33 @@ which(is.na(specimen_coords$Region))
 specimen_coords$lat[which(specimen_coords$USNM.no. == "614261")] <- 45.794
 specimen_coords$lon[which(specimen_coords$USNM.no. == "614261")] <- -66.854
 
+
+## add in existing metadata for 613610 - missing for some reason
+grg <- readxl::read_xls("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data_raw/GRG Black-throated Blue Warblers--cumulative 1986-2006.xls") %>% 
+  filter(`USNM #` == "613610") %>% 
+  select(USNM.no. = `USNM #`, Species= "Current Identification", date.d.m.y = "Date Collected",
+         State.Province = "State/Province", County = "County/District", Locality = "Precise Location", 
+         Sex = "Sex: Stage", Weight)
+
+#format date
+grg$date.d.m.y <- as.Date(grg$date.d.m.y, format = "%d %b %Y")
+grg$date.d.m.y <- format(grg$date.d.m.y, "%d-%m-%Y")
+
+# remove g from weight
+grg$Weight <- 10.6
+# change state to state initials + add pop and Region
+grg$State.Province <- "WI"
+grg$pop <- "WI.All"
+grg$Region <- "North West"
+# add manual lat/lon
+grg$lat <- 45.92878
+grg$lon <-  -88.86034
+#reformat sex
+grg$Sex <- "M"
+# update species name
+grg$Species <- "Setophaga caerulescens"
+
+specimen_coordsgrg <- merge(specimen_coords, grg, all = T)
 
 write.csv(specimen_coords, "data/NMNH_specimen_metadata.csv", row.names = F) 
 
@@ -342,6 +369,7 @@ img_meta <- subset(rawimg_meta, select = -X)
 
 # identify IDs missing metadata
 unique(img_meta$ID[which(is.na(img_meta$pop))])
+unique(img_meta$ID[which(is.na(img_meta$lat))])
 
 
 
