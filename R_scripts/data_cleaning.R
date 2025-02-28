@@ -192,7 +192,7 @@ grg$Species <- "Setophaga caerulescens"
 
 specimen_coordsgrg <- merge(specimen_coords, grg, all = T)
 
-write.csv(specimen_coords, "data/NMNH_specimen_metadata.csv", row.names = F) 
+write.csv(specimen_coordsgrg, "data/NMNH_specimen_metadata.csv", row.names = F) 
 
 # Cleaning raw output from LAS X reports ----------------------------------
 
@@ -359,10 +359,6 @@ allimg_rmnotpl_code$ID[which(allimg_rmnotpl_code$ID == "6129898")] <- "612898"
 
 meta <- read.csv("data/NMNH_specimen_metadata.csv") 
 
-#trying to trim whitespace to see if this fixes IDs that are not merging properly
-allimg_rmnotpl_code$ID <- str_trim(allimg_rmnotpl_code$ID)
-meta$USNM.no. <- str_trim(meta$USNM.no.)
-
 rawimg_meta <-  merge(allimg_rmnotpl_code, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
 
 img_meta <- subset(rawimg_meta, select = -X)
@@ -370,8 +366,6 @@ img_meta <- subset(rawimg_meta, select = -X)
 # identify IDs missing metadata
 unique(img_meta$ID[which(is.na(img_meta$pop))])
 unique(img_meta$ID[which(is.na(img_meta$lat))])
-
-
 
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
