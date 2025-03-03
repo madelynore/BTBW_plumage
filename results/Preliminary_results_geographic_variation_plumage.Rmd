@@ -55,15 +55,25 @@ ggplot(data = d_sub, aes(y = dblMean, x = pop)) +
 
 ```
 ```{r brightness by indv, echo=FALSE}
-
+#perform linear regression
 z <- lm(dblMean~lat, data = d_sub, na.action = na.exclude)
-summary(z)
+sum_z <- summary(z)
+
+# Extract the r^2 and p-value
+r2adj <- sum_z$adj.r.squared
+p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ", p-value: " ~ .(sprintf("%.3f", p_value)))
+
 
 ggplot(data = d_sub, aes(x = lat, y = dblMean)) + 
   geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
   labs(x = "Location", y = "Luminance (brightness)") +
   geom_smooth(aes(x = lat, y = dblMean), method = "lm", col = "black")+
   theme_classic() +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme(
     aspect.ratio = 0.75,
     text = element_text(size = 16),
@@ -407,11 +417,17 @@ age_wide <- age_summarized %>%
 
 ```{r wingspot and age, echo=F}
 
-t.test(dblMean_w ~ Age, data = age_wide)
+t <- t.test(dblMean_w ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("p-value: %.3f", pval)
 
 ggplot(data = age_wide, aes(y = dblMean_w, x = Age)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
   labs(x = "Age", y = "Luminance of wingspot (brightness)") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic() +
   theme(
     aspect.ratio = 0.75,
@@ -419,12 +435,18 @@ ggplot(data = age_wide, aes(y = dblMean_w, x = Age)) +
     axis.text = element_text(size = 14)
   )
 
-t.test(area_w ~ Age, data = age_wide)
+t <- t.test(area_w ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("p-value: %.3f", pval)
 
 
 ggplot(data = age_wide, aes(y = area_w, x = Age)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
   labs(x = "Age", y = "Area of wingspot") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic() +
   theme(
     aspect.ratio = 0.75,
@@ -437,12 +459,19 @@ ggplot(data = age_wide, aes(y = area_w, x = Age)) +
 ## Are backs darker in ASY vs SY males
 ```{r dorsum brightness vs age, echo = F}
 
-t.test(dblMean_d ~ Age, data = age_wide)
+t <- t.test(dblMean_d ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("p-value: %.3f", pval)
+
 
 
 ggplot(data = age_wide, aes(y = dblMean_d, x = Age)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
   labs(x = "Age", y = "Dorsum brightness") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic() +
   theme(
     aspect.ratio = 0.75,
