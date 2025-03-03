@@ -213,7 +213,7 @@ text_annotation <- sprintf("Spearman's Rho: %.2f, p-value: %.3f", rho, p_value)
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_o, col = lat))+
   scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_o), method = "lm", col = "black")+
   labs(x = "Dorsum Brightness", y = "Wing covert Brightness")+
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
