@@ -10,6 +10,8 @@ Ore, MJ.
 \##Short wavelength by pop
 
 ![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/sw%20by%20pop-1.png)<!-- -->
+\# short wavelength by indv
+![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/blue%20by%20indv-1.png)<!-- -->
 
 # Correlations between body parts - Are dark backed birds darker overall?
 

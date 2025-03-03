@@ -96,6 +96,35 @@ ggplot(data = d_sub, aes(y = swMean, x = pop)) +
   )
 
 ```
+# short wavelength by indv
+```{r blue by indv, echo=FALSE}
+#perform linear regression
+z <- lm(swMean~lat, data = d_sub, na.action = na.exclude)
+sum_z <- summary(z)
+
+# Extract the r^2 and p-value
+r2adj <- sum_z$adj.r.squared
+p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ", p-value: " ~ .(sprintf("%.3f", p_value)))
+
+
+ggplot(data = d_sub, aes(x = lat, y = swMean)) + 
+  geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Location", y = "Short Wavelength Mean (blue)") +
+  geom_smooth(aes(x = lat, y = swMean), method = "lm", col = "black")+
+  theme_classic() +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+
 
 
 # Correlations between body parts - Are dark backed birds darker overall? 
