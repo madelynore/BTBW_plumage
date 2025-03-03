@@ -54,7 +54,23 @@ ggplot(data = d_sub, aes(y = dblMean, x = pop)) +
   )
 
 ```
+```{r brightness by indv, echo=FALSE}
 
+z <- lm(dblMean~lat, data = d_sub, na.action = na.exclude)
+summary(z)
+
+ggplot(data = d_sub, aes(x = lat, y = dblMean)) + 
+  geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Location", y = "Luminance (brightness)") +
+  geom_smooth(aes(x = lat, y = dblMean), method = "lm", col = "black")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
 ##Short wavelength by pop
 
 ```{r sw by pop, echo=FALSE}
@@ -80,7 +96,7 @@ library(viridis)
 
 ## select only brightness for ASY males
 lum <- avg_img %>% 
-  select(ID, pl_code, dblMean, dblSD, area, Age, pop, lat, lon) %>% 
+  select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon) %>% 
   filter(ID != "612918" & Age == "ASY")
 
 lum_summarized <- lum %>%
@@ -88,12 +104,14 @@ lum_summarized <- lum %>%
   summarise(
     dblMean = mean(dblMean),
     dblSD = mean(dblSD),
+    uvMean = mean(uvMean),
+    uvSD = mean(uvSD),
     area = mean(area),
     .groups = 'drop'
   )
 
 lum_wide <- lum_summarized %>% 
-  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, area), names_sep = "_" )
+  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, uvMean, uvSD, area), names_sep = "_" )
 
 
 
@@ -106,18 +124,18 @@ lum_wide <- lum_summarized %>%
 hist(lum_wide$dblMean_d)
 hist(lum_wide$dblMean_t)
 
-shapiro.test(lum_wide$dblMean_d)
-shapiro.test(lum_wide$dblMean_t)
+shapiro.test(lum_wide$dblMean_d) # yes 
+shapiro.test(lum_wide$dblMean_t) #no
 
 # Perform Pearson's correlation test
-c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_t, method = "pearson")
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_t, method = "spearman")
 
 # Extract the Pearson's cor (correlation coefficient) and p-value
-cor <- c$estimate
+rho <- c$estimate
 p_value <- c$p.value
 
 # Format the text to include rho and p-value, ready to be used in annotations
-text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
+text_annotation <- sprintf("Spearman's Rho: %.2f, p-value: %.3f", rho, p_value)
 
 
 ggplot(lum_wide)+
@@ -139,18 +157,18 @@ ggplot(lum_wide)+
 hist(lum_wide$dblMean_d)
 hist(lum_wide$dblMean_o)
 
-shapiro.test(lum_wide$dblMean_d)
-shapiro.test(lum_wide$dblMean_o)
+shapiro.test(lum_wide$dblMean_d) #yes
+shapiro.test(lum_wide$dblMean_o) #no
 
 # Perform Pearson's correlation test
-c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_o, method = "pearson")
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_o, method = "spearman")
 
 # Extract the Pearson's cor (correlation coefficient) and p-value
-cor <- c$estimate
+rho <- c$estimate
 p_value <- c$p.value
 
 # Format the text to include rho and p-value, ready to be used in annotations
-text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
+text_annotation <- sprintf("Spearman's Rho: %.2f, p-value: %.3f", rho, p_value)
 
 
 ggplot(lum_wide)+
@@ -172,16 +190,17 @@ ggplot(lum_wide)+
 ```{r d vs b plot , echo = F}
 #check for normality
 hist(lum_wide$dblMean_b)
+shapiro.test(lum_wide$dblMean_b) #no
 
 # Perform Pearson's correlation test
-c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_b, method = "pearson")
+c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_b, method = "spearman")
 
 # Extract the Pearson's cor (correlation coefficient) and p-value
-cor <- c$estimate
+rho <- c$estimate
 p_value <- c$p.value
 
 # Format the text to include rho and p-value, ready to be used in annotations
-text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
+text_annotation <- sprintf("Spearman's Rho: %.2f, p-value: %.3f", rho, p_value)
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
@@ -201,7 +220,7 @@ ggplot(lum_wide)+
 ```{r d and ws plot, echo = F}
 #test for normality
 hist(lum_wide$dblMean_w)
-shapiro.test(lum_wide$dblMean_w)
+shapiro.test(lum_wide$dblMean_w) #yes
 
 # Perform Pearson's correlation test
 c <- cor.test(lum_wide$dblMean_d, lum_wide$dblMean_w, method = "pearson")
@@ -252,6 +271,184 @@ ggplot(lum_wide)+
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic()
+
+
+```
+
+#Do brighter/larger wingspots correlate to throat badge or uv in crown?
+
+```{r sex selection, echo=FALSE}
+
+shapiro.test(lum_wide$area_w) # yes
+shapiro.test(lum_wide$dblMean_w) # yes
+shapiro.test(lum_wide$dblMean_t) # no
+shapiro.test(lum_wide$uvMean_c) # yes
+
+hist(lum_wide$area_w) 
+hist(lum_wide$dblMean_w) 
+hist(lum_wide$dblMean_t) 
+hist(lum_wide$uvMean_c) 
+
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$dblMean_t, lum_wide$area_w, method = "spearman")
+
+# Extract the Pearson's cor (correlation coefficient) and p-value
+rho <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Spearman's Rho: %.2f, p-value: %.3f", rho, p_value)
+
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_t, y = area_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_t, y = area_w), method = "lm", col = "black")+
+  labs(x = "Throat Brightness", y = "Wingspot Area")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$dblMean_t, lum_wide$dblMean_w, method = "spearman")
+
+# Extract the Pearson's cor (correlation coefficient) and p-value
+rho <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Spearman's Rho: %.2f, p-value: %.3f", rho, p_value)
+
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_t, y = dblMean_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_t, y = dblMean_w), method = "lm", col = "black")+
+  labs(x = "Throat Brightness", y = "Wingspot Brightness")+
+  xlim(0.025,0.06)+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$dblMean_w, lum_wide$uvMean_c, method = "pearson")
+
+# Extract the Pearson's cor (correlation coefficient) and p-value
+cor <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
+
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_w, y = uvMean_c, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_w, y = uvMean_c), method = "lm", col = "black")+
+  labs(x = "Wingspot Brightness", y = "UV of crown")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$area_w, lum_wide$uvMean_c, method = "pearson")
+
+# Extract the Pearson's cor (correlation coefficient) and p-value
+cor <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
+
+
+ggplot(lum_wide)+
+  geom_point(aes(x = area_w, y = uvMean_c, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = area_w, y = uvMean_c), method = "lm", col = "black")+
+  labs(x = "Wingspot Area", y = "UV of crown")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+
+```
+#Age and Markers
+
+prep data
+```{r prep df for age plots, echo = F}
+
+library(viridis)
+
+## select only brightness for ASY males
+age <- avg_img %>% 
+  select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon) %>% 
+  filter(Age == "ASY" | Age == "SY" & ID != "612918")
+
+age_summarized <- age %>%
+  group_by(ID, Age, pop, lat, lon, pl_code) %>%
+  summarise(
+    dblMean = mean(dblMean),
+    dblSD = mean(dblSD),
+    uvMean = mean(uvMean),
+    uvSD = mean(uvSD),
+    area = mean(area),
+    .groups = 'drop'
+  )
+
+age_wide <- age_summarized %>% 
+  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, uvMean, uvSD, area), names_sep = "_" )
+
+
+```
+
+## Are wing spots brighter or larger in ASY vs SY males
+
+```{r wingspot and age, echo=F}
+
+t.test(dblMean_w ~ Age, data = age_wide)
+
+ggplot(data = age_wide, aes(y = dblMean_w, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Luminance of wingspot (brightness)") +
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+t.test(area_w ~ Age, data = age_wide)
+
+
+ggplot(data = age_wide, aes(y = area_w, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Area of wingspot") +
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+
+## Are backs darker in ASY vs SY males
+```{r dorsum brightness vs age, echo = F}
+
+t.test(dblMean_d ~ Age, data = age_wide)
+
+
+ggplot(data = age_wide, aes(y = dblMean_d, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Dorsum brightness") +
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
 
 
 ```
