@@ -13,18 +13,18 @@ Ore, MJ.
     ## 
     ## Residuals:
     ##        Min         1Q     Median         3Q        Max 
-    ## -0.0261933 -0.0080095  0.0000281  0.0096318  0.0216781 
+    ## -0.0214893 -0.0082713  0.0001099  0.0059726  0.0228861 
     ## 
     ## Coefficients:
     ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 0.0283248  0.0088721   3.193  0.00175 ** 
-    ## lat         0.0009367  0.0002129   4.399 2.18e-05 ***
+    ## (Intercept) 0.0189550  0.0104424   1.815   0.0732 .  
+    ## lat         0.0010708  0.0002543   4.212 6.46e-05 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 0.01115 on 136 degrees of freedom
-    ## Multiple R-squared:  0.1246, Adjusted R-squared:  0.1181 
-    ## F-statistic: 19.35 on 1 and 136 DF,  p-value: 2.178e-05
+    ## Residual standard error: 0.01095 on 82 degrees of freedom
+    ## Multiple R-squared:  0.1778, Adjusted R-squared:  0.1678 
+    ## F-statistic: 17.74 on 1 and 82 DF,  p-value: 6.463e-05
 
 ![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/brightness%20by%20indv-1.png)<!-- -->
 \##Short wavelength by pop

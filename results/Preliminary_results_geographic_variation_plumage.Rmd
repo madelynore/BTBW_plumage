@@ -25,7 +25,7 @@ dorsum <- avg_img %>%
 
 # remove individual who's luminance mean is an order of magnitude greater than others
 d_sub <- dorsum %>%
-  filter(ID != "612918" )
+  filter(ID != "612918" & Age == "ASY")
 
 #make population names
 d_sub$pop <-paste(d_sub$County, d_sub$State.Province, sep = "_")
