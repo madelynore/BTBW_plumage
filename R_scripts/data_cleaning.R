@@ -378,3 +378,44 @@ avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, 
 
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
+
+# make fam file for GWAS --------------------------------------------------
+library(tidyverse)
+
+#read in fam file
+fam <- read.table("data_raw/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_rmrelatedind5_impute4.1_GWAS_bed.fam")
+# make column with just IDs
+fam_id <- fam %>% 
+  separate(V2, into = c("V2", NA), sep = "_", remove = F )
+
+#get phenotype data
+img <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv") %>% 
+  filter(pl_code == "d") %>% 
+  select(ID, lumMean, Age)
+#match ID
+img$ID <- paste0("Z",img$ID)
+
+#merge the two dfs
+fam_img <- merge(fam_id, img, by.x = "V2", by.y = "ID", all.x = F, all.y = F)
+
+head(fam_img)
+# make v6 the phenotype column instead
+fam_img$V6 <- fam_img$lumMean
+fam_img$lumMean <- NULL
+
+#reorder, so IID is first
+fam_ord <- fam_img %>% 
+  select(V1, V2, V3, V4, V5, V6)
+
+write.table(fam_ord, 
+            "data/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_impute4.1_GWAS_bed_n122_allages_lumdorsum.fam",
+            quote = F, col.names = F, row.names = F)
+
+# select only the ASY
+asyfam <- fam_img %>% 
+  filter(Age == "ASY") %>% 
+  select(V1, V2, V3, V4, V5, V6)
+
+write.table(asyfam, 
+            "data/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_impute4.1_GWAS_bed_n75_ASY_lumdorsum.fam",
+            quote = F, col.names = F, row.names = F)
