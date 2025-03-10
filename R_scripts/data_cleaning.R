@@ -192,7 +192,12 @@ grg$Species <- "Setophaga caerulescens"
 
 specimen_coordsgrg <- merge(specimen_coords, grg, all = T)
 
-write.csv(specimen_coordsgrg, "data/NMNH_specimen_metadata.csv", row.names = F) 
+specimen_date <- specimen_coordsgrg %>% 
+  separate(col = date.d.m.y, into = c("Day", "Month", "Year"), sep = "-")
+
+specimen_date$Year[which(specimen_date$Year == "1990")] <- "90"
+
+write.csv(specimen_date, "data/NMNH_specimen_metadata.csv", row.names = F) 
 
 # Cleaning raw output from LAS X reports ----------------------------------
 
@@ -366,6 +371,8 @@ img_meta <- subset(rawimg_meta, select = -X)
 # identify IDs missing metadata
 unique(img_meta$ID[which(is.na(img_meta$pop))])
 unique(img_meta$ID[which(is.na(img_meta$lat))])
+
+img_meta$pl_code[which(img_meta$pl_code == "v")] <- "b"
 
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 

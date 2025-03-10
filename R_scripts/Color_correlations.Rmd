@@ -1,0 +1,152 @@
+---
+title: "Are dark-backed birds darker overall?"
+author: "Ore, MJ."
+date: "2025-03-10"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r prep data - geographic variation in color, echo = FALSE}
+
+library(tidyverse)
+library(here)
+library(viridis)
+
+here::i_am("R_scripts/Color_correlations.Rmd")
+
+avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv"))
+
+## select only brightness for ASY males
+lum <- avg_img %>% 
+  select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon, Year, prepartor) %>% 
+  filter(ID != "612918" & Age == "ASY")
+
+lum_summarized <- lum %>%
+  group_by(ID, Age, pop, lat, lon,Year, prepartor, pl_code) %>%
+  summarise(
+    dblMean = mean(dblMean),
+    dblSD = mean(dblSD),
+    uvMean = mean(uvMean),
+    uvSD = mean(uvSD),
+    area = mean(area),
+    .groups = 'drop'
+  )
+
+lum_wide <- lum_summarized %>% 
+  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, uvMean, uvSD, area), names_sep = "_" )
+
+```
+
+#crown
+
+```{r crown, echo = F}
+library(lmerTest)
+
+# check for normality
+hist(lum_wide$dblMean_d)
+hist(lum_wide$dblMean_c)
+
+z <- lmerTest::lmer(dblMean_c ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+summary(z)
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_c, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_c), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Crown Brightness")+
+  theme_classic()
+
+```
+
+#wingspot
+
+```{r wingspot}
+
+library(lmerTest)
+
+# check for normality
+hist(lum_wide$dblMean_d)
+hist(lum_wide$dblMean_w)
+
+z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+summary(z)
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_w), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot Brightness")+
+  theme_classic()
+
+```
+
+#throat
+
+```{r throat}
+
+library(lmerTest)
+
+# check for normality
+hist(lum_wide$dblMean_d)
+hist(lum_wide$dblMean_t)
+
+z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+summary(z)
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Throat Brightness")+
+  theme_classic()
+
+```
+
+#marginal covert
+
+```{r coverts}
+
+library(lmerTest)
+
+# check for normality
+hist(lum_wide$dblMean_d)
+hist(lum_wide$dblMean_o)
+
+z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+summary(z)
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_o, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_o), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Covert Brightness")+
+  theme_classic()
+
+```
+
+#belly
+
+```{r belly}
+
+library(lmerTest)
+
+# check for normality
+hist(lum_wide$dblMean_d)
+hist(lum_wide$dblMean_b)
+
+z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+summary(z)
+
+ggplot(lum_wide)+
+  geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Belly Brightness")+
+  theme_classic()
+
+```
+
