@@ -1,0 +1,80 @@
+---
+title: "Dorsum_environment"
+author: "Ore, MJ."
+date: "2025-03-11"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r prep data, echo = FALSE}
+
+library(tidyverse)
+library(here)
+library(viridis)
+
+here::i_am("R_scripts/Color_correlations.Rmd")
+
+avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv"))
+
+## select only brightness for ASY males
+lum <- avg_img %>% 
+  dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon, Year, prepartor) %>% 
+  filter(ID != "612918" & Age == "ASY")
+
+lum_summarized <- lum %>%
+  group_by(ID, Age, pop, lat, lon,Year, prepartor, pl_code) %>%
+  summarise(
+    dblMean = mean(dblMean),
+    dblSD = mean(dblSD),
+    uvMean = mean(uvMean),
+    uvSD = mean(uvSD),
+    area = mean(area),
+    .groups = 'drop'
+  )
+
+lum_wide <- lum_summarized %>% 
+  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, uvMean, uvSD, area), names_sep = "_" )
+
+
+# combine w environment data
+env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
+
+
+lum_env <- merge(lum_wide, env)
+
+```
+
+# Build model for env-dorsum correlation
+
+```{r lmm pheno-env, echo = F}
+
+library(lmerTest)
+library(MASS)
+
+# including bio 10 (mean temp warmest quarter), bio18 (mean precip warmest quarter), elev
+
+lumenv_sel <- lum_env %>% 
+  dplyr::select(pop, Year, prepartor, dblMean_d, bio_10, bio_18, srtm)
+
+z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + (1|Year) + (1|prepartor) + (1|pop), data = lumenv_sel, na.action = na.exclude)
+
+summary(z)
+
+norand <- lum_env %>% 
+  dplyr::select(dblMean_d, bio_10, bio_18, srtm)
+# stepwise model selection
+full <- lm(dblMean_d ~(.)^3, data = norand) # includes 3-way interactions
+
+z <- stepAIC(full, direction="both")
+
+summary(z)
+plot(z)
+anova(z)
+logLik(z) # include df
+AIC(z)    # AIC score
+
+
+```

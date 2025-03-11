@@ -10,9 +10,9 @@ library(rgdal)
 # extract data points from each individual's location for each environ --------
 ##extract for specific lat/long
 btbw_samp <- read.csv(file = "~/Documents/Cornell/BTBW geographic coloration/BTBW_plumage/data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv") %>% 
-  dplyr::select(ID, lat, lon) %>% 
+  dplyr::select(ID, lon, lat) %>% 
   group_by(ID) %>% 
-  summarise(lat = mean(lat), lon = mean(lon))
+  summarise(lon = mean(lon), lat = mean(lat))
 
 # Bioclim -----------------------------------------------------------------
 
@@ -46,8 +46,8 @@ biplot(temppca$x[,3:4], temppca$rotation[,3:4], cex = 0.5, las = 1)
 setwd("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/srtm/")
 list.files()
 srtm=raster("srtm.tif")
-
-srtm_btbw<-raster::extract(srtm,btbw_samp[,2:3],fun=mean)
+coord <- btbw_samp[,2:3]
+srtm_btbw<-raster::extract(srtm,coord,fun=mean)
 
 btbw_samp$srtm <- srtm_btbw
 
