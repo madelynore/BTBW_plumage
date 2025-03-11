@@ -50,7 +50,7 @@ library(lmerTest)
 hist(lum_wide$dblMean_d)
 hist(lum_wide$dblMean_c)
 
-z <- lmerTest::lmer(dblMean_c ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_c ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
 
 ggplot(lum_wide)+
@@ -72,7 +72,7 @@ library(lmerTest)
 hist(lum_wide$dblMean_d)
 hist(lum_wide$dblMean_w)
 
-z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
 
 ggplot(lum_wide)+
@@ -94,7 +94,7 @@ library(lmerTest)
 hist(lum_wide$dblMean_d)
 hist(lum_wide$dblMean_t)
 
-z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
 
 ggplot(lum_wide)+
@@ -116,7 +116,7 @@ library(lmerTest)
 hist(lum_wide$dblMean_d)
 hist(lum_wide$dblMean_o)
 
-z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
 
 ggplot(lum_wide)+
@@ -138,7 +138,7 @@ library(lmerTest)
 hist(lum_wide$dblMean_d)
 hist(lum_wide$dblMean_b)
 
-z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
 
 ggplot(lum_wide)+
