@@ -132,14 +132,15 @@ ggplot(data = d_sub, aes(x = lat, y = swMean)) +
 ```{r prep df for correlation plots, echo = F}
 
 library(viridis)
+library(tidyverse)
 
 ## select only brightness for ASY males
 lum <- avg_img %>% 
-  select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon) %>% 
+  dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, Region, lat, lon) %>% 
   filter(ID != "612918" & Age == "ASY")
 
 lum_summarized <- lum %>%
-  group_by(ID, Age, pop, lat, lon, pl_code) %>%
+  group_by(ID, Age, pop, Region, lat, lon, pl_code) %>%
   summarise(
     dblMean = mean(dblMean),
     dblSD = mean(dblSD),
@@ -282,6 +283,37 @@ ggplot(lum_wide)+
 
 ```
 
+# are larger wingspots also brighter? no
+
+```{r wingspot, echo = F}
+
+hist(lum_wide$area_w)
+hist(lum_wide$dblMean_w)
+
+# Perform Pearson's correlation test
+c <- cor.test(lum_wide$area_w, lum_wide$dblMean_w, method = "pearson")
+z <- lm(lum_wide$dblMean_w ~ lum_wide$area_w)
+
+# Extract the Pearson's cor (correlation coefficient) and p-value
+cor <- c$estimate
+p_value <- c$p.value
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("Pearson's cor: %.2f, p-value: %.3f", cor, p_value)
+
+ggplot(lum_wide)+
+  geom_point(aes(x = area_w, y = dblMean_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = area_w, y = dblMean_w), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot Brightness")+
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic()
+
+
+
+```
+
 
 # Do darker birds have larger wing spots?
 
@@ -413,6 +445,72 @@ ggplot(lum_wide)+
 
 
 ```
+
+## Do darker birds in the south have brighter/larger wingspots?
+# they have brighter but NOT larger wingspots
+```{r south dark wingspot, echo = F}
+
+s_lum <- lum_wide %>% 
+  filter(Region == "South")
+
+
+ggplot(s_lum)+
+  geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_w), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot Brightness")+
+  theme_classic()
+
+b <- lm(dblMean_w ~ dblMean_d, data = s_lum)
+summary(b)
+anova(b)
+
+ggplot(s_lum)+
+  geom_point(aes(x = dblMean_d, y = area_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = area_w), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot Area")+
+  theme_classic()
+
+a <- lm(area_w ~ dblMean_d, data = s_lum)
+summary(a)
+anova(a)
+
+```
+
+## Do darker birds in the North have brighter/larger wingspots?
+# they have larger but NOT brighter wingspots - but that's likely bc of age
+```{r north dark wingspot, echo = F}
+
+n_lum <- lum_wide %>% 
+  filter(Region == "North Central" | Region == "North West" | Region == "North East")
+
+
+ggplot(n_lum)+
+  geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_w), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot Brightness")+
+  theme_classic()
+
+b <- lm(dblMean_w ~ dblMean_d, data = n_lum)
+summary(b)
+anova(b)
+
+ggplot(n_lum)+
+  geom_point(aes(x = dblMean_d, y = area_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = area_w), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot Area")+
+  theme_classic()
+
+a <- lm(area_w ~ dblMean_d, data = n_lum)
+summary(a)
+anova(a)
+
+```
+
+
 #Age and Markers
 
 prep data
@@ -510,3 +608,5 @@ ggplot(data = age_wide, aes(y = dblMean_d, x = Age)) +
 
 
 ```
+
+
