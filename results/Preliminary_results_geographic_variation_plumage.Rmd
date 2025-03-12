@@ -54,6 +54,7 @@ ggplot(data = d_sub, aes(y = dblMean, x = pop)) +
   )
 
 ```
+
 ```{r brightness by indv, echo=FALSE}
 #perform linear regression
 z <- lm(dblMean~lat, data = d_sub, na.action = na.exclude)
@@ -69,7 +70,46 @@ text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ",
 
 ggplot(data = d_sub, aes(x = lat, y = dblMean)) + 
   geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Location", y = "Luminance (brightness)") +
+  labs(x = "Latitude", y = "Luminance (brightness)") +
+  geom_smooth(aes(x = lat, y = dblMean), method = "lm", col = "black")+
+  theme_classic() +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+# does this pattern hold for SY birds 
+```{r brightness by indv SY, echo=FALSE}
+d_sy <- dorsum %>%
+  filter(ID != "612918" & Age == "SY")
+
+#make population names
+d_sy$pop <-paste(d_sy$County, d_sy$State.Province, sep = "_")
+
+## order df by latitude
+d_sy <- arrange(d_sy, lat)
+# Reorder 'pop' based on the order of 'lat'
+d_sy$pop <- factor(d_sy$pop, levels = unique(d_sy$pop))
+
+#perform linear regression
+z <- lm(dblMean~lat, data = d_sy, na.action = na.exclude)
+sum_z <- summary(z)
+
+# Extract the r^2 and p-value
+r2adj <- sum_z$adj.r.squared
+p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ", p-value: " ~ .(sprintf("%.3f", p_value)))
+
+
+ggplot(data = d_sy, aes(x = lat, y = dblMean)) + 
+  geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Latitude", y = "Luminance (brightness)") +
   geom_smooth(aes(x = lat, y = dblMean), method = "lm", col = "black")+
   theme_classic() +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
@@ -446,7 +486,7 @@ ggplot(lum_wide)+
 
 ```
 
-## Do darker birds in the south have brighter/larger wingspots?
+## Do darker birds in the south have brighter/larger wingspots? do they have darker throats?
 # they have brighter but NOT larger wingspots
 ```{r south dark wingspot, echo = F}
 
@@ -473,6 +513,18 @@ ggplot(s_lum)+
   theme_classic()
 
 a <- lm(area_w ~ dblMean_d, data = s_lum)
+summary(a)
+anova(a)
+
+
+ggplot(s_lum)+
+  geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Throat Brightness")+
+  theme_classic()
+
+a <- lm(dblMean_t ~ dblMean_d, data = s_lum)
 summary(a)
 anova(a)
 
@@ -505,6 +557,17 @@ ggplot(n_lum)+
   theme_classic()
 
 a <- lm(area_w ~ dblMean_d, data = n_lum)
+summary(a)
+anova(a)
+
+ggplot(n_lum)+
+  geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Throat Brightness")+
+  theme_classic()
+
+a <- lm(dblMean_t ~ dblMean_d, data = n_lum)
 summary(a)
 anova(a)
 
@@ -609,4 +672,28 @@ ggplot(data = age_wide, aes(y = dblMean_d, x = Age)) +
 
 ```
 
+## Are crowns darker in ASY vs SY males
+```{r dorsum brightness vs age, echo = F}
 
+t <- t.test(dblMean_c ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- sprintf("p-value: %.3f", pval)
+
+
+
+ggplot(data = age_wide, aes(y = dblMean_c, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Crown brightness") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+
+```
