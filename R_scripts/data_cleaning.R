@@ -390,7 +390,7 @@ write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_ave
 library(tidyverse)
 
 #read in fam file
-fam <- read.table("data_raw/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_rmrelatedind5_impute4.1_GWAS_bed.fam")
+fam <- read.table("data_raw/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_n122_allages_generatedbyangsd_impute4.1.fam")
 # make column with just IDs
 fam_id <- fam %>% 
   separate(V2, into = c("V2", NA), sep = "_", remove = F )
@@ -398,7 +398,7 @@ fam_id <- fam %>%
 #get phenotype data
 img <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv") %>% 
   filter(pl_code == "d") %>% 
-  select(ID, lumMean, Age)
+  dplyr::select(ID, lumMean, Age)
 #match ID
 img$ID <- paste0("Z",img$ID)
 
@@ -408,14 +408,16 @@ fam_img <- merge(fam_id, img, by.x = "V2", by.y = "ID", all.x = F, all.y = F)
 head(fam_img)
 # make v6 the phenotype column instead
 fam_img$V6 <- fam_img$lumMean
+#change V2 to match V2
+fam_img$V2 <- fam_img$V1
 fam_img$lumMean <- NULL
 
 #reorder, so IID is first
 fam_ord <- fam_img %>% 
-  select(V1, V2, V3, V4, V5, V6)
+  dplyr::select(V1, V2, V3, V4, V5, V6)
 
 write.table(fam_ord, 
-            "data/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_impute4.1_GWAS_bed_n122_allages_lumdorsum.fam",
+            "data/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_n122_allages_generatedbyangsd_impute4.1.fam",
             quote = F, col.names = F, row.names = F)
 
 # select only the ASY
