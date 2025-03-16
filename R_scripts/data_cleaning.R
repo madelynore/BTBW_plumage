@@ -374,6 +374,9 @@ unique(img_meta$ID[which(is.na(img_meta$lat))])
 
 img_meta$pl_code[which(img_meta$pl_code == "v")] <- "b"
 
+#merging WI forest into the rest
+img_meta$pop[which(img_meta$pop == "WI.Forest")] <-  "WI.All"
+
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
 avg_img <- allimg_rmnotpl_code %>% 
@@ -428,3 +431,71 @@ asyfam <- fam_img %>%
 write.table(asyfam, 
             "data/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_impute4.1_GWAS_bed_n75_ASY_lumdorsum.fam",
             quote = F, col.names = F, row.names = F)
+
+
+# prep data to compare sullivan NY  ----------------------------------------------------
+
+library(tidyverse)
+# load file names
+snyfiles <- list.files(path = "data_raw/", pattern = "Sullivan.*Image*")
+
+imgnm <- paste0("data_raw/", snyfiles[1])
+## extract name of the population
+pop_name <- sub(x = snyfiles[1],
+                pattern = "_Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65.*",
+                replacement = "")
+
+#read in file
+sny1 <- read.csv(file = imgnm)
+
+head(sny1)
+
+## change label to more informative labels
+sny1_ID <- sny1 %>% 
+  separate(Label, into = c("ID", "photo", "plumage_patch"), sep = "_")
+
+# separate plumage patch from replicate
+sny1_plid <- sny1_ID %>% 
+  separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
+
+## reviewing how many patches measured
+summary(as.factor(sny1_plid$pl_code))
+
+# add pop name
+sny1_plid$pop <- rep(pop_name, nrow(sny1_plid))
+
+##### second file
+imgnm <- paste0("data_raw/", snyfiles[2])
+## extract name of the population
+pop_name <- sub(x = snyfiles[2],
+                pattern = "_Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65.*",
+                replacement = "")
+
+#read in file
+sny2 <- read.csv(file = imgnm)
+
+head(sny2)
+
+## change label to more informative labels
+sny2_ID <- sny2 %>% 
+  separate(Label, into = c("ID", "photo", "plumage_patch"), sep = "_")
+
+# separate plumage patch from replicate
+sny2_plid <- sny2_ID %>% 
+  separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
+
+## reviewing how many patches measured
+summary(as.factor(sny2_plid$pl_code))
+
+# add pop name
+sny2_plid$pop <- rep(pop_name, nrow(sny2_plid))
+
+
+
+snybothimg <- rbind(sny1_plid, sny2_plid)
+
+avgsny_img <- snybothimg %>% 
+  group_by(ID, photo, pl_code, pop) %>% 
+  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area | contains("Power") | contains("Freq"), mean),
+            N = n_distinct(rep))
+
