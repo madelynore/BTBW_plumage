@@ -32,7 +32,6 @@ band_record <- merge(bw2021_rn, bw2022_rn, by = intersect(names(bw2021_rn), name
 write.csv(band_record, "data/BTBW_banding_record_2021_22.csv", row.names = F)
 
 
-# editing USNM metadata ---------------------------------------------------
 library(tidyverse)
 
 specimen <- read.csv("data_raw/NMNH_specimen_data_from_Box.csv")
@@ -388,6 +387,8 @@ avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, 
 
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
+
+
 
 # make fam file for GWAS --------------------------------------------------
 library(tidyverse)
