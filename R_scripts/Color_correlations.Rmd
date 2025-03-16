@@ -22,8 +22,8 @@ avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_a
 
 ## select only brightness for ASY males
 lum <- avg_img %>% 
-  select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon, Year, prepartor) %>% 
-  filter(ID != "612918" & Age == "ASY")
+  dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon, Year, prepartor) %>% 
+  filter(Age == "ASY")
 
 lum_summarized <- lum %>%
   group_by(ID, Age, pop, lat, lon,Year, prepartor, pl_code) %>%

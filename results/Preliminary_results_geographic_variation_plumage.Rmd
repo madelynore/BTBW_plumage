@@ -25,7 +25,7 @@ dorsum <- avg_img %>%
 
 # remove individual who's luminance mean is an order of magnitude greater than others
 d_sub <- dorsum %>%
-  filter(ID != "612918" & Age == "ASY")
+  filter(Age == "ASY")
 
 #make population names
 d_sub$pop <-paste(d_sub$County, d_sub$State.Province, sep = "_")
@@ -85,7 +85,7 @@ ggplot(data = d_sub, aes(x = lat, y = dblMean)) +
 # does this pattern hold for SY birds 
 ```{r brightness by indv SY, echo=FALSE}
 d_sy <- dorsum %>%
-  filter(ID != "612918" & Age == "SY")
+  filter(Age == "SY")
 
 #make population names
 d_sy$pop <-paste(d_sy$County, d_sy$State.Province, sep = "_")
@@ -177,7 +177,7 @@ library(tidyverse)
 ## select only brightness for ASY males
 lum <- avg_img %>% 
   dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, Region, lat, lon) %>% 
-  filter(ID != "612918" & Age == "ASY")
+  filter(Age == "ASY")
 
 lum_summarized <- lum %>%
   group_by(ID, Age, pop, Region, lat, lon, pl_code) %>%
@@ -673,7 +673,7 @@ ggplot(data = age_wide, aes(y = dblMean_d, x = Age)) +
 ```
 
 ## Are crowns darker in ASY vs SY males
-```{r dorsum brightness vs age, echo = F}
+```{r crown brightness vs age, echo = F}
 
 t <- t.test(dblMean_c ~ Age, data = age_wide)
 

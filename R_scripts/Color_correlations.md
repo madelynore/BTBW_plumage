@@ -9,6 +9,8 @@ Ore, MJ.
 
     ## Warning: package 'readr' was built under R version 4.3.1
 
+    ## Warning: package 'purrr' was built under R version 4.3.3
+
     ## Warning: package 'dplyr' was built under R version 4.3.1
 
     ## Warning: package 'stringr' was built under R version 4.3.1
@@ -20,17 +22,17 @@ Ore, MJ.
     ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
     ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
     ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.0.2     
+    ## ✔ purrr     1.0.4     
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
     ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-    ## here() starts at /Users/madelynore/Documents/Cornell/BTBW geographic coloration/BTBW_plumage
+    ## here() starts at /Users/madelynore/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage
 
     ## Warning: package 'viridis' was built under R version 4.3.1
 
     ## Loading required package: viridisLite
-    ## here() starts at /Users/madelynore/Documents/Cornell/BTBW geographic coloration/BTBW_plumage
+    ## here() starts at /Users/madelynore/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage
 
 \#crown
 
@@ -64,48 +66,43 @@ Ore, MJ.
 
     ## boundary (singular) fit: see help('isSingular')
 
-    ## Warning: Model failed to converge with 2 negative eigenvalues: -9.1e-04
-    ## -3.0e-02
-
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
-    ## Formula: dblMean_c ~ dblMean_d + (dblMean_d | Year) + (dblMean_d | prepartor)
+    ## Formula: dblMean_c ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -419
+    ## REML criterion at convergence: -567.5
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -4.5295 -0.3370  0.0051  0.5347  1.9330 
+    ## -5.3102 -0.4473  0.0456  0.5075  1.8699 
     ## 
     ## Random effects:
-    ##  Groups    Name        Variance  Std.Dev. Corr
-    ##  Year      (Intercept) 0.000e+00 0.000000     
-    ##            dblMean_d   5.463e-03 0.073912  NaN
-    ##  prepartor (Intercept) 0.000e+00 0.000000     
-    ##            dblMean_d   2.163e-03 0.046507  NaN
-    ##  Residual              9.128e-05 0.009554     
-    ## Number of obs: 68, groups:  Year, 7; prepartor, 6
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 3.499e-06 0.001871
+    ##  prepartor (Intercept) 0.000e+00 0.000000
+    ##  Residual              9.707e-05 0.009853
+    ## Number of obs: 91, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
-    ##              Estimate Std. Error        df t value Pr(>|t|)   
-    ## (Intercept)  0.048199   0.008023  4.107419   6.008  0.00355 **
-    ## dblMean_d    0.323616   0.133354 17.050304   2.427  0.02661 * 
+    ##              Estimate Std. Error        df t value Pr(>|t|)    
+    ## (Intercept)  0.041459   0.006177 21.007650   6.712 1.21e-06 ***
+    ## dblMean_d    0.458853   0.092971 24.452803   4.935 4.66e-05 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.946
+    ## dblMean_d -0.979
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 24 rows containing non-finite outside the scale range
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 24 rows containing missing values or values outside the scale range
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/crown-3.png)<!-- -->
@@ -128,7 +125,7 @@ hist(lum_wide$dblMean_w)
 ![](Color_correlations_files/figure-gfm/wingspot-2.png)<!-- -->
 
 ``` r
-z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 ```
 
     ## boundary (singular) fit: see help('isSingular')
@@ -139,34 +136,32 @@ summary(z)
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
-    ## Formula: dblMean_w ~ dblMean_d + (dblMean_d | Year) + (dblMean_d | prepartor)
+    ## Formula: dblMean_w ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -267.8
+    ## REML criterion at convergence: -312
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.64637 -0.47987  0.03535  0.72055  1.71805 
+    ## -2.70104 -0.55696  0.01546  0.74277  1.83954 
     ## 
     ## Random effects:
-    ##  Groups    Name        Variance  Std.Dev.  Corr 
-    ##  Year      (Intercept) 1.246e-10 1.116e-05      
-    ##            dblMean_d   2.585e-08 1.608e-04 -1.00
-    ##  prepartor (Intercept) 4.547e-04 2.132e-02      
-    ##            dblMean_d   3.076e-02 1.754e-01 -1.00
-    ##  Residual              2.187e-03 4.677e-02      
-    ## Number of obs: 84, groups:  Year, 7; prepartor, 6
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 0.000e+00 0.000000
+    ##  prepartor (Intercept) 7.099e-05 0.008426
+    ##  Residual              2.154e-03 0.046413
+    ## Number of obs: 97, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error       df t value Pr(>|t|)    
-    ## (Intercept)  0.49396    0.03009  5.50155  16.415 6.95e-06 ***
-    ## dblMean_d   -0.78240    0.44338 15.08823  -1.765   0.0979 .  
+    ## (Intercept)  0.49311    0.02627 64.56362  18.768   <2e-16 ***
+    ## dblMean_d   -0.74694    0.39652 86.06345  -1.884    0.063 .  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.967
+    ## dblMean_d -0.966
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
@@ -181,10 +176,10 @@ ggplot(lum_wide)+
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 8 rows containing non-finite outside the scale range
+    ## Warning: Removed 11 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 8 rows containing missing values or values outside the scale range
+    ## Warning: Removed 11 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/wingspot-3.png)<!-- -->
@@ -207,47 +202,38 @@ hist(lum_wide$dblMean_t)
 ![](Color_correlations_files/figure-gfm/throat-2.png)<!-- -->
 
 ``` r
-z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
+z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
 ```
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
-    ## Formula: dblMean_t ~ dblMean_d + (dblMean_d | Year) + (dblMean_d | prepartor)
+    ## Formula: dblMean_t ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -549
+    ## REML criterion at convergence: -652.6
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.0159 -0.7271  0.0982  0.5619  3.3990 
+    ## -2.2264 -0.6133  0.0203  0.4848  3.2346 
     ## 
     ## Random effects:
-    ##  Groups    Name        Variance  Std.Dev. Corr 
-    ##  Year      (Intercept) 2.484e-04 0.015762      
-    ##            dblMean_d   2.935e-02 0.171304 -1.00
-    ##  prepartor (Intercept) 6.099e-05 0.007809      
-    ##            dblMean_d   9.022e-03 0.094983 -1.00
-    ##  Residual              4.886e-05 0.006990      
-    ## Number of obs: 81, groups:  Year, 7; prepartor, 6
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 2.303e-05 0.004799
+    ##  prepartor (Intercept) 1.462e-06 0.001209
+    ##  Residual              4.608e-05 0.006789
+    ## Number of obs: 95, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error       df t value Pr(>|t|)  
-    ## (Intercept) 0.023616   0.009771 5.451126   2.417   0.0562 .
-    ## dblMean_d   0.316254   0.125220 6.047212   2.526   0.0446 *
+    ##              Estimate Std. Error        df t value Pr(>|t|)    
+    ## (Intercept)  0.024577   0.005493 62.269048   4.474 3.32e-05 ***
+    ## dblMean_d    0.301059   0.077917 87.485805   3.864 0.000214 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.986
-    ## optimizer (nloptwrap) convergence code: 0 (OK)
-    ## boundary (singular) fit: see help('isSingular')
+    ## dblMean_d -0.924
 
 ``` r
 ggplot(lum_wide)+
@@ -260,10 +246,10 @@ ggplot(lum_wide)+
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 11 rows containing non-finite outside the scale range
+    ## Warning: Removed 13 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 11 rows containing missing values or values outside the scale range
+    ## Warning: Removed 13 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/throat-3.png)<!-- -->
@@ -286,7 +272,7 @@ hist(lum_wide$dblMean_o)
 ![](Color_correlations_files/figure-gfm/coverts-2.png)<!-- -->
 
 ``` r
-z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 ```
 
     ## boundary (singular) fit: see help('isSingular')
@@ -297,34 +283,32 @@ summary(z)
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
-    ## Formula: dblMean_o ~ dblMean_d + (dblMean_d | Year) + (dblMean_d | prepartor)
+    ## Formula: dblMean_o ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -489.7
+    ## REML criterion at convergence: -568.5
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -1.7485 -0.4978 -0.1923  0.5367  3.2625 
+    ## -1.6343 -0.6079 -0.1570  0.5359  2.7489 
     ## 
     ## Random effects:
-    ##  Groups    Name        Variance  Std.Dev.  Corr 
-    ##  Year      (Intercept) 3.406e-04 1.846e-02      
-    ##            dblMean_d   3.342e-02 1.828e-01 -1.00
-    ##  prepartor (Intercept) 1.444e-10 1.202e-05      
-    ##            dblMean_d   4.082e-08 2.020e-04 -1.00
-    ##  Residual              1.059e-04 1.029e-02      
-    ## Number of obs: 81, groups:  Year, 7; prepartor, 6
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 0.0000436 0.006603
+    ##  prepartor (Intercept) 0.0000000 0.000000
+    ##  Residual              0.0001164 0.010789
+    ## Number of obs: 95, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error      df t value Pr(>|t|)   
-    ## (Intercept)  0.02045    0.01143 4.98298   1.789  0.13392   
-    ## dblMean_d    0.75321    0.14982 7.28395   5.027  0.00135 **
+    ##              Estimate Std. Error        df t value Pr(>|t|)    
+    ## (Intercept)  0.021838   0.008398 58.542582   2.601   0.0118 *  
+    ## dblMean_d    0.747181   0.122106 79.867684   6.119  3.3e-08 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.976
+    ## dblMean_d -0.943
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
@@ -339,10 +323,10 @@ ggplot(lum_wide)+
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 11 rows containing non-finite outside the scale range
+    ## Warning: Removed 13 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 11 rows containing missing values or values outside the scale range
+    ## Warning: Removed 13 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/coverts-3.png)<!-- -->
@@ -365,47 +349,38 @@ hist(lum_wide$dblMean_b)
 ![](Color_correlations_files/figure-gfm/belly-2.png)<!-- -->
 
 ``` r
-z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (dblMean_d|Year) + (dblMean_d|prepartor), data = lum_wide, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
+z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
 ```
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
-    ## Formula: dblMean_b ~ dblMean_d + (dblMean_d | Year) + (dblMean_d | prepartor)
+    ## Formula: dblMean_b ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -295.8
+    ## REML criterion at convergence: -355.7
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.2497 -0.5734  0.0206  0.5435  2.8555 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.46203 -0.70039  0.05921  0.52616  2.94922 
     ## 
     ## Random effects:
-    ##  Groups    Name        Variance  Std.Dev. Corr
-    ##  Year      (Intercept) 4.937e-06 0.002222     
-    ##            dblMean_d   1.318e-02 0.114812 1.00
-    ##  prepartor (Intercept) 5.705e-04 0.023884     
-    ##            dblMean_d   5.158e-05 0.007182 1.00
-    ##  Residual              1.369e-03 0.036994     
-    ## Number of obs: 83, groups:  Year, 7; prepartor, 6
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 0.0001378 0.01174 
+    ##  prepartor (Intercept) 0.0004260 0.02064 
+    ##  Residual              0.0011961 0.03458 
+    ## Number of obs: 96, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error       df t value Pr(>|t|)    
-    ## (Intercept)  0.45005    0.02696  5.61057  16.693 5.36e-06 ***
-    ## dblMean_d   -0.46602    0.38592 31.20483  -1.208    0.236    
+    ## (Intercept)  0.46382    0.02605 28.11875  17.806   <2e-16 ***
+    ## dblMean_d   -0.60402    0.36438 36.22810  -1.658    0.106    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.869
-    ## optimizer (nloptwrap) convergence code: 0 (OK)
-    ## boundary (singular) fit: see help('isSingular')
+    ## dblMean_d -0.888
 
 ``` r
 ggplot(lum_wide)+
@@ -418,10 +393,10 @@ ggplot(lum_wide)+
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 9 rows containing non-finite outside the scale range
+    ## Warning: Removed 12 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 9 rows containing missing values or values outside the scale range
+    ## Warning: Removed 12 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/belly-3.png)<!-- -->
