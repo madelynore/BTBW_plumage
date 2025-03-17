@@ -9,7 +9,7 @@ library(rgdal)
 
 # extract data points from each individual's location for each environ --------
 ##extract for specific lat/long
-btbw_samp <- read.csv(file = "~/Documents/Cornell/BTBW geographic coloration/BTBW_plumage/data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv") %>% 
+btbw_samp <- read.csv(file = "~/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage/data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv") %>% 
   dplyr::select(ID, lon, lat) %>% 
   group_by(ID) %>% 
   summarise(lon = mean(lon), lat = mean(lat))
@@ -52,7 +52,7 @@ srtm_btbw<-raster::extract(srtm,coord,fun=mean)
 btbw_samp$srtm <- srtm_btbw
 
 #reset wd
-setwd("~/Documents/Cornell/BTBW geographic coloration/BTBW_plumage/")
+setwd("~/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage/")
 
 write.table(btbw_samp, "data/Env_by_individual_specimen_samples.txt",
             row.names = F, quote = F)

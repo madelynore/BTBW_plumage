@@ -22,7 +22,7 @@ avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_a
 ## select only brightness for ASY males
 lum <- avg_img %>% 
   dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon, Year, prepartor) %>% 
-  filter(ID != "612918" & Age == "ASY")
+  filter(Age == "ASY")
 
 lum_summarized <- lum %>%
   group_by(ID, Age, pop, lat, lon,Year, prepartor, pl_code) %>%
@@ -59,14 +59,14 @@ library(MASS)
 lumenv_sel <- lum_env %>% 
   dplyr::select(pop, Year, prepartor, dblMean_d, bio_10, bio_18, srtm)
 
-z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + (1|Year) + (1|prepartor) + (1|pop), data = lumenv_sel, na.action = na.exclude)
+z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + (dblMean_d|Year) + (dblMean_d|prepartor) + (dblMean_d|pop), data = lumenv_sel, na.action = na.exclude)
 
 summary(z)
 
 norand <- lum_env %>% 
-  dplyr::select(dblMean_d, bio_10, bio_18, srtm)
+  dplyr::select(dblMean_d, bio_10, bio_18, srtm, pop)
 # stepwise model selection
-full <- lm(dblMean_d ~(.)^3, data = norand) # includes 3-way interactions
+full <- lm(dblMean_d ~(.)^4, data = norand) # includes 3-way interactions
 
 z <- stepAIC(full, direction="both")
 

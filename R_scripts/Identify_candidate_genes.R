@@ -8,7 +8,7 @@ pacman::p_load_gh("sahirbhatnagar/manhattanly")
 library(manhattanly)
 library(tidyverse)
 
-gwa <- read.table(file = "data_raw/GWAS_n122_allages_vcf_impute4.1_lumdorsum_lmm_subset.assoc.txt", header = T) 
+gwa <- read.table(file = "data_raw/GWAS_n87_ASY_from_vcf_lumdorsum_lmm_subset.assoc.txt", header = T) 
 
 head(gwa)
 
@@ -47,8 +47,8 @@ library(GenomicRanges)
 # get SNPs above suggestive line and fix to match warbler.gff
 sugSNPs <- gwa_sub[which(gwa_sub$logp > -log10(1e-5)),]
 
-sugSNPs$start <- sugSNPs$BP-40000
-sugSNPs$end <- sugSNPs$BP+40000
+sugSNPs$start <- sugSNPs$BP-20000
+sugSNPs$end <- sugSNPs$BP+20000
 
 sugSNPs$chr <- paste0("chr", sugSNPs$chr)
 
@@ -84,11 +84,11 @@ AutoOutlier_named$RefSeq.Protein.Accession[repeatrunner_condition] <- str_extrac
 head(AutoOutlier_named)
 length(unique(AutoOutlier_named$RefSeq.Protein.Accession))
 
-write.csv(AutoOutlier_named, "data/GWAS_n75_ASY_angsdvcf_outlier_genehits40kb.csv", row.names = F)
+write.csv(AutoOutlier_named, "data/GWAS_n87_ASY_vcf_outlier_genehits20kb.csv", row.names = F)
 
 unique_genehits <- unique(AutoOutlier_named$RefSeq.Protein.Accession)
 
-write.table(unique_genehits, "data/GWAS_n75_ASY_angsdvcf_outlier_unique_genehits40kb.txt", row.names = F, quote = F)
+write.table(unique_genehits, "data/GWAS_n87_ASY_angsdvcf_outlier_unique_genehits20kb.txt", row.names = F, quote = F)
 
 ##Took list of entrez IDs and coverted them to gene names - https://biodbnet-abcc.ncifcrf.gov/db/db2db.php
 ## RefSeq Protein Accession -> Gene Info
@@ -96,10 +96,20 @@ write.table(unique_genehits, "data/GWAS_n75_ASY_angsdvcf_outlier_unique_genehits
 
 
 # looking for melanogenesis genes -----------------------------------------
+# had to remove spaces from col names 
+genehits <- read.table("data/bioDBnet_db2db_n87_ASY_vcf_20kb.txt", header = T)
 
-genehits <- read.csv("data_raw/RefSeq2GeneSymbol_outliers20kb.csv")
+#change locs
 
-ugenesym <- unique(genehits$Gene.Symbol)
+genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100223824")] <- "tspan3"
+genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100217958")] <- "HS3ST1"
+genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100226815")] <- "KLHL3"
+genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100232358")] <- "HS3ST3A1"
+genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100232659")] <- "HS3ST3B1"
+
+
+ugenesym <- unique(genehits$GeneSymbol)
+
 
 melano <- read.csv("data_raw/Melanogenesis_genes_Poelstra_etal_2015_moleco.csv")
 
