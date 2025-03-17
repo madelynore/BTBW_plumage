@@ -1,7 +1,0 @@
-"Chr","source","type","start","end","V6","V7","V8","gene.hit","RefSeq.Protein.Accession"
-"chr9","blastx","protein_match",5800877,5821882,"185","-",".","ID=chr9:hit:8014:3.10.1.58;Name=XP_030144978.1","XP_030144978.1"
-"chr9","blastx","protein_match",5800877,5821882,"266","-",".","ID=chr9:hit:8015:3.10.1.58;Name=XP_030135788.1","XP_030135788.1"
-"chr9","blastx","protein_match",5800877,5821882,"185","-",".","ID=chr9:hit:8016:3.10.1.58;Name=XP_030144979.1","XP_030144979.1"
-"chr9","protein2genome","protein_match",5800877,5821882,"2664","-",".","ID=chr9:hit:8017:3.10.1.58;Name=XP_030144978.1","XP_030144978.1"
-"chr9","protein2genome","protein_match",5800877,5821894,"3584","-",".","ID=chr9:hit:8018:3.10.1.58;Name=XP_030135788.1","XP_030135788.1"
-"chr9","protein2genome","protein_match",5800877,5821882,"2664","-",".","ID=chr9:hit:8019:3.10.1.58;Name=XP_030144979.1","XP_030144979.1"
