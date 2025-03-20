@@ -58,6 +58,7 @@ ggplot(lum_wide)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_c), method = "lm", col = "black")+
   labs(x = "Dorsum Brightness", y = "Crown Brightness")+
+  ylim(0.035, 0.1)+
   theme_classic()
 
 ```
@@ -146,6 +147,7 @@ ggplot(lum_wide)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
   labs(x = "Dorsum Brightness", y = "Belly Brightness")+
+  ylim(0.3,0.6)+
   theme_classic()
 
 ```

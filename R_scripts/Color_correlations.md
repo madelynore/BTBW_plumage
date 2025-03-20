@@ -71,38 +71,38 @@ Ore, MJ.
     ## Formula: dblMean_c ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -567.5
+    ## REML criterion at convergence: -580.1
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -5.3102 -0.4473  0.0456  0.5075  1.8699 
+    ## -5.3045 -0.4525  0.0572  0.5077  1.8672 
     ## 
     ## Random effects:
     ##  Groups    Name        Variance  Std.Dev.
-    ##  Year      (Intercept) 3.499e-06 0.001871
+    ##  Year      (Intercept) 3.283e-06 0.001812
     ##  prepartor (Intercept) 0.000e+00 0.000000
-    ##  Residual              9.707e-05 0.009853
-    ## Number of obs: 91, groups:  Year, 7; prepartor, 6
+    ##  Residual              9.739e-05 0.009869
+    ## Number of obs: 93, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
     ##              Estimate Std. Error        df t value Pr(>|t|)    
-    ## (Intercept)  0.041459   0.006177 21.007650   6.712 1.21e-06 ***
-    ## dblMean_d    0.458853   0.092971 24.452803   4.935 4.66e-05 ***
+    ## (Intercept)  0.041199   0.006025 19.869605   6.838 1.25e-06 ***
+    ## dblMean_d    0.462975   0.091060 23.535618   5.084 3.55e-05 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.979
+    ## dblMean_d -0.978
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## Warning: Removed 16 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## Warning: Removed 16 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/crown-3.png)<!-- -->
@@ -139,29 +139,29 @@ summary(z)
     ## Formula: dblMean_w ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -312
+    ## REML criterion at convergence: -315.3
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.70104 -0.55696  0.01546  0.74277  1.83954 
+    ## -2.71889 -0.61065  0.04433  0.73233  1.84397 
     ## 
     ## Random effects:
     ##  Groups    Name        Variance  Std.Dev.
-    ##  Year      (Intercept) 0.000e+00 0.000000
-    ##  prepartor (Intercept) 7.099e-05 0.008426
-    ##  Residual              2.154e-03 0.046413
-    ## Number of obs: 97, groups:  Year, 7; prepartor, 6
+    ##  Year      (Intercept) 0.0000000 0.000000
+    ##  prepartor (Intercept) 0.0000976 0.009879
+    ##  Residual              0.0021452 0.046316
+    ## Number of obs: 98, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error       df t value Pr(>|t|)    
-    ## (Intercept)  0.49311    0.02627 64.56362  18.768   <2e-16 ***
-    ## dblMean_d   -0.74694    0.39652 86.06345  -1.884    0.063 .  
+    ## (Intercept)  0.49137    0.02634 63.34752  18.656   <2e-16 ***
+    ## dblMean_d   -0.72859    0.39643 88.10820  -1.838   0.0694 .  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.966
+    ## dblMean_d -0.960
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
@@ -176,10 +176,10 @@ ggplot(lum_wide)+
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 11 rows containing non-finite outside the scale range
+    ## Warning: Removed 10 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 11 rows containing missing values or values outside the scale range
+    ## Warning: Removed 10 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/wingspot-3.png)<!-- -->
@@ -211,29 +211,29 @@ summary(z)
     ## Formula: dblMean_t ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -652.6
+    ## REML criterion at convergence: -657.1
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.2264 -0.6133  0.0203  0.4848  3.2346 
+    ## -2.0860 -0.6418  0.0018  0.5797  3.2413 
     ## 
     ## Random effects:
     ##  Groups    Name        Variance  Std.Dev.
-    ##  Year      (Intercept) 2.303e-05 0.004799
-    ##  prepartor (Intercept) 1.462e-06 0.001209
-    ##  Residual              4.608e-05 0.006789
-    ## Number of obs: 95, groups:  Year, 7; prepartor, 6
+    ##  Year      (Intercept) 2.155e-05 0.004642
+    ##  prepartor (Intercept) 1.232e-06 0.001110
+    ##  Residual              4.767e-05 0.006905
+    ## Number of obs: 96, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
     ##              Estimate Std. Error        df t value Pr(>|t|)    
-    ## (Intercept)  0.024577   0.005493 62.269048   4.474 3.32e-05 ***
-    ## dblMean_d    0.301059   0.077917 87.485805   3.864 0.000214 ***
+    ## (Intercept)  0.022705   0.005502 61.655926   4.126 0.000112 ***
+    ## dblMean_d    0.326826   0.078525 86.488494   4.162 7.42e-05 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.924
+    ## dblMean_d -0.929
 
 ``` r
 ggplot(lum_wide)+
@@ -246,10 +246,10 @@ ggplot(lum_wide)+
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 13 rows containing non-finite outside the scale range
+    ## Warning: Removed 12 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 13 rows containing missing values or values outside the scale range
+    ## Warning: Removed 12 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/throat-3.png)<!-- -->
@@ -286,29 +286,29 @@ summary(z)
     ## Formula: dblMean_o ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -568.5
+    ## REML criterion at convergence: -574.3
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -1.6343 -0.6079 -0.1570  0.5359  2.7489 
+    ## -1.6286 -0.6054 -0.1657  0.5464  2.7366 
     ## 
     ## Random effects:
-    ##  Groups    Name        Variance  Std.Dev.
-    ##  Year      (Intercept) 0.0000436 0.006603
-    ##  prepartor (Intercept) 0.0000000 0.000000
-    ##  Residual              0.0001164 0.010789
-    ## Number of obs: 95, groups:  Year, 7; prepartor, 6
+    ##  Groups    Name        Variance Std.Dev.
+    ##  Year      (Intercept) 4.26e-05 0.006527
+    ##  prepartor (Intercept) 0.00e+00 0.000000
+    ##  Residual              1.17e-04 0.010819
+    ## Number of obs: 96, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
     ##              Estimate Std. Error        df t value Pr(>|t|)    
-    ## (Intercept)  0.021838   0.008398 58.542582   2.601   0.0118 *  
-    ## dblMean_d    0.747181   0.122106 79.867684   6.119  3.3e-08 ***
+    ## (Intercept)  0.020959   0.008362 58.041496   2.506    0.015 *  
+    ## dblMean_d    0.759142   0.121772 79.545371   6.234 2.04e-08 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.943
+    ## dblMean_d -0.944
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
@@ -323,10 +323,10 @@ ggplot(lum_wide)+
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 13 rows containing non-finite outside the scale range
+    ## Warning: Removed 12 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 13 rows containing missing values or values outside the scale range
+    ## Warning: Removed 12 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/coverts-3.png)<!-- -->
@@ -358,29 +358,29 @@ summary(z)
     ## Formula: dblMean_b ~ dblMean_d + (1 | Year) + (1 | prepartor)
     ##    Data: lum_wide
     ## 
-    ## REML criterion at convergence: -355.7
+    ## REML criterion at convergence: -360.3
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.46203 -0.70039  0.05921  0.52616  2.94922 
+    ## -2.47783 -0.69798  0.06055  0.54931  2.96276 
     ## 
     ## Random effects:
     ##  Groups    Name        Variance  Std.Dev.
-    ##  Year      (Intercept) 0.0001378 0.01174 
-    ##  prepartor (Intercept) 0.0004260 0.02064 
-    ##  Residual              0.0011961 0.03458 
-    ## Number of obs: 96, groups:  Year, 7; prepartor, 6
+    ##  Year      (Intercept) 0.0001362 0.01167 
+    ##  prepartor (Intercept) 0.0004315 0.02077 
+    ##  Residual              0.0011862 0.03444 
+    ## Number of obs: 97, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error       df t value Pr(>|t|)    
-    ## (Intercept)  0.46382    0.02605 28.11875  17.806   <2e-16 ***
-    ## dblMean_d   -0.60402    0.36438 36.22810  -1.658    0.106    
+    ## (Intercept)  0.46264    0.02588 27.97177   17.87   <2e-16 ***
+    ## dblMean_d   -0.58984    0.36184 36.35462   -1.63    0.112    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##           (Intr)
-    ## dblMean_d -0.888
+    ## dblMean_d -0.886
 
 ``` r
 ggplot(lum_wide)+
@@ -388,15 +388,16 @@ ggplot(lum_wide)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
   labs(x = "Dorsum Brightness", y = "Belly Brightness")+
+  ylim(0.3,0.6)+
   theme_classic()
 ```
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning: Removed 12 rows containing non-finite outside the scale range
+    ## Warning: Removed 11 rows containing non-finite outside the scale range
     ## (`stat_smooth()`).
 
-    ## Warning: Removed 12 rows containing missing values or values outside the scale range
+    ## Warning: Removed 11 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/belly-3.png)<!-- -->
