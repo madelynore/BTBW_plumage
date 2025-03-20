@@ -7,7 +7,7 @@ Ore, MJ.
 
 ![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/brightness%20by%20pop-1.png)<!-- -->
 
-![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/brightness%20by%20indv-1.png)<!-- -->
+![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/brightness%20by%20indv-1.png)<!-- -->![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/brightness%20by%20indv-2.png)<!-- -->
 \# does this pattern hold for SY birds
 ![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/brightness%20by%20indv%20SY-1.png)<!-- -->
 \##Short wavelength by pop
@@ -221,7 +221,7 @@ Ore, MJ.
 
 ## Do darker birds in the North have brighter/larger wingspots?
 
-# they have larger but NOT brighter wingspots - but that’s likely bc of age
+# no
 
 ![](Preliminary_results_geographic_variation_plumage_files/figure-gfm/north%20dark%20wingspot-1.png)<!-- -->
 

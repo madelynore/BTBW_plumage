@@ -81,6 +81,33 @@ ggplot(data = d_sub, aes(x = lat, y = dblMean)) +
     axis.text = element_text(size = 14)
   )
 
+
+z <- lm(lumSD~lumMean, data = d_sub, na.action = na.exclude)
+sum_z <- summary(z)
+
+# Extract the r^2 and p-value
+r2adj <- sum_z$adj.r.squared
+p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ", p-value: " ~ .(sprintf("%.3f", p_value)))
+
+ggplot(data = d_sub, aes(x = lumMean, y = lumSD)) + 
+  geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Lum Mean", y = "Luminance SD (brightness)") +
+  geom_smooth(aes(x = lumMean, y = lumSD), method = "lm", col = "black")+
+  theme_classic() +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  xlim(0.03,0.09)+
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+
+
 ```
 # does this pattern hold for SY birds 
 ```{r brightness by indv SY, echo=FALSE}
@@ -531,7 +558,7 @@ anova(a)
 ```
 
 ## Do darker birds in the North have brighter/larger wingspots?
-# they have larger but NOT brighter wingspots - but that's likely bc of age
+# no
 ```{r north dark wingspot, echo = F}
 
 n_lum <- lum_wide %>% 
@@ -567,9 +594,9 @@ ggplot(n_lum)+
   labs(x = "Dorsum Brightness", y = "Throat Brightness")+
   theme_classic()
 
-a <- lm(dblMean_t ~ dblMean_d, data = n_lum)
-summary(a)
-anova(a)
+t <- lm(dblMean_t ~ dblMean_d, data = n_lum)
+summary(t)
+anova(t)
 
 ```
 
@@ -583,8 +610,8 @@ library(viridis)
 
 ## select only brightness for ASY males
 age <- avg_img %>% 
-  select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon) %>% 
-  filter(Age == "ASY" | Age == "SY" & ID != "612918")
+  dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon) %>% 
+  filter(Age == "ASY" | Age == "SY")
 
 age_summarized <- age %>%
   group_by(ID, Age, pop, lat, lon, pl_code) %>%
