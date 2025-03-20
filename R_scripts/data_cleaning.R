@@ -373,12 +373,17 @@ unique(img_meta$ID[which(is.na(img_meta$lat))])
 
 img_meta$pl_code[which(img_meta$pl_code == "v")] <- "b"
 
+#fixing wrong plcodes
+img_meta$pl_code[which(img_meta$photo == "dorsal" & img_meta$pl_code != "d")] <-  "d"
+
+img_meta$pl_code[which(img_meta$photo == "crown" & img_meta$pl_code != "c")] <- "c"
+
 #merging WI forest into the rest
 img_meta$pop[which(img_meta$pop == "WI.Forest")] <-  "WI.All"
 
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
-avg_img <- allimg_rmnotpl_code %>% 
+avg_img <- img_meta %>% 
   group_by(ID, photo, pl_code) %>% 
   summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area | contains("Power") | contains("Freq"), mean),
             N = n_distinct(rep))
@@ -387,6 +392,35 @@ avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, 
 
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
+
+avgimg_sel <- avgimg_meta %>% 
+  dplyr::select(ID, pl_code, Age, pop, lat, lon, prepartor, lumMean, lumSD, lwMean, lwSD,
+                mwMean, mwSD, swMean, swSD, uvMean, uvSD, dblMean, dblSD, area)
+
+avgimg_summarized <- avgimg_meta %>%
+  group_by(ID, pl_code, Age, pop, lat, lon, prepartor) %>%
+  summarise(
+    lwMean = mean(lwMean),
+    lwSD = mean(lwSD),
+    mwMean = mean(mwMean),
+    mwSD = mean(mwSD),
+    swMean = mean(swMean),
+    swSD = mean(swSD),
+    uvMean = mean(uvMean),
+    uvSD = mean(uvSD),
+    dblMean = mean(dblMean),
+    dblSD = mean(dblSD),
+    area = mean(area),
+    .groups = 'drop'
+  )
+
+avgimg_wide <- avgimg_summarized %>% 
+  pivot_wider(names_from = pl_code, values_from = c(lwMean, lwSD, mwMean, mwSD,
+                                                    swMean, swSD,
+                                                    uvMean, uvSD,
+                                                    dblMean, dblSD, area), names_sep = "_" )
+
+write.csv(avgimg_wide, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
 
 
 
@@ -400,38 +434,40 @@ fam_id <- fam %>%
   separate(V2, into = c("V2", NA), sep = "_", remove = F )
 
 #get phenotype data
-img <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv") %>% 
-  filter(pl_code == "d") %>% 
-  dplyr::select(ID, lumMean, Age)
+img_wide <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_wide.csv"))
+
 #match ID
-img$ID <- paste0("Z",img$ID)
+img_wide$ID <- paste0("Z",img_wide$ID)
 
 #merge the two dfs
-fam_img <- merge(fam_id, img, by.x = "V2", by.y = "ID", all.x = F, all.y = F)
+fam_img <- merge(fam_id, img_wide, by.x = "V2", by.y = "ID", all.x = F, all.y = F) %>% 
+  dplyr::select(V1, V2, Age, V4, V5, dblMean_d, dblMean_c)
 
 head(fam_img)
-# make v6 the phenotype column instead
-fam_img$V6 <- fam_img$lumMean
-#change V2 to match V2
-fam_img$V2 <- fam_img$V1
-fam_img$lumMean <- NULL
 
-#reorder, so IID is first
-fam_ord <- fam_img %>% 
-  dplyr::select(V1, V2, V3, V4, V5, V6)
+fam_img_noNA <- fam_img %>% 
+  filter(!(is.na(fam_img$dblMean_c)) & !(is.na(fam_img$dblMean_d)))
 
-write.table(fam_ord, 
-            "data/BTBW_n144_allages_forGWAS_lumdorsum.fam",
+fam_img_noNA$rand_d <- sample(fam_img_noNA$dblMean_d)
+fam_img_noNA$rand_c <- sample(fam_img_noNA$dblMean_c)
+#fam_img$rand_t <- sample(fam_img$dblMean_t)
+#fam_img$rand_o <- sample(fam_img$dblMean_o)
+
+famcol <- colnames(fam_img_noNA)
+write.table(famcol, "data/BTBW_n137_allages_forGWAS_lum_dc_rand_colnames.txt", quote = F)
+write.table(fam_img_noNA, 
+            "data/BTBW_n137_allages_forGWAS_lum_dc_rand.fam",
             quote = F, col.names = F, row.names = F)
 
 # select only the ASY
 asyfam <- fam_img %>% 
-  filter(Age == "ASY") %>% 
-  dplyr::select(V1, V2, V3, V4, V5, V6)
+  filter(Age == "ASY") 
 
 write.table(asyfam, 
-            "data/BTBW_n87_ASY_forGWAS_lumdorsum.fam",
+            "data/BTBW_n93_ASY_forGWAS_lum_dcto_rand.fam",
             quote = F, col.names = F, row.names = F)
+
+
 
 
 # prep data to compare sullivan NY  ----------------------------------------------------
@@ -499,4 +535,33 @@ avgsny_img <- snybothimg %>%
   group_by(ID, photo, pl_code, pop) %>% 
   summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area | contains("Power") | contains("Freq"), mean),
             N = n_distinct(rep))
+
+
+
+# how many specimens photographed and sequenced? --------------------------
+
+#read in fam file
+fam <- read.table("data_raw/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_rmrelatedind5_impute4.1_GWAS_bed.fam")
+# make column with just IDs
+fam_id <- fam %>% 
+  separate(V2, into = c("V2", NA), sep = "_", remove = F )
+
+meta <- read.csv("data/NMNH_specimen_metadata.csv") %>% 
+  dplyr::select("USNM.no.", "Age")
+
+meta$ID <- paste0("Z", meta$USNM.no.)
+
+fam_meta <- merge(fam_id, meta, by.x = "V2", by.y = "ID", all = F)
+# 156 sequenced and in nmnh specimen data
+
+# which not in the avg_img
+avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv"))
+
+img_ID <- unique(avg_img$ID)
+
+setdiff(fam_meta$USNM.no., img_ID) # 606627 606663 have sequences but no photo data
+missing_IDs <- setdiff(meta$USNM.no., img_ID)
+
+write.table(missing_IDs, file = "data/IDs_w_photos_but_no_measurements.txt", quote = F)
+
 
