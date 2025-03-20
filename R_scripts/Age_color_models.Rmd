@@ -1,0 +1,266 @@
+---
+title: "Age_Color_models"
+author: "Ore, MJ."
+date: "2025-03-20"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+```{r prep data - age differences in color, echo = FALSE}
+
+library(tidyverse)
+library(here)
+library(viridis)
+
+here::i_am("R_scripts/Color_correlations.Rmd")
+
+avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv"))
+
+## select only brightness for ASY males
+age <- avg_img %>% 
+  dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon, Year, prepartor) %>% 
+  filter(Age == "ASY" | Age == "SY")
+
+age_summarized <- age %>%
+  group_by(ID, Age, pop, lat, lon,Year, prepartor, pl_code) %>%
+  summarise(
+    dblMean = mean(dblMean),
+    dblSD = mean(dblSD),
+    uvMean = mean(uvMean),
+    uvSD = mean(uvSD),
+    area = mean(area),
+    .groups = 'drop'
+  )
+
+age_wide <- age_summarized %>% 
+  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, uvMean, uvSD, area), names_sep = "_" )
+
+```
+
+# Crown
+```{r crown, echo=F}
+
+t <- t.test(dblMean_c ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Calculate means and confidence intervals
+summary_stats <- age_wide %>%
+  group_by(Age) %>%
+  summarise(
+    mean = mean(dblMean_c, na.rm = T),
+    stdev = sd(dblMean_c, na.rm = T)
+  )
+
+# Correct usage of sprintf to create the annotation text with standard deviation
+text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
+
+ggplot(data = age_wide, aes(y = dblMean_c, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Mean Luminance of Crown") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+
+# coverts
+
+```{r coverts, echo=F}
+
+t <- t.test(dblMean_o ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Calculate means and confidence intervals
+summary_stats <- age_wide %>%
+  group_by(Age) %>%
+  summarise(
+    mean = mean(dblMean_o, na.rm = T),
+    stdev = sd(dblMean_o, na.rm = T)
+  )
+
+# Correct usage of sprintf to create the annotation text with standard deviation
+text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
+
+ggplot(data = age_wide, aes(y = dblMean_o, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Mean Luminance of marginal coverts") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+
+#throat
+
+```{r throat, echo=F}
+
+t <- t.test(dblMean_t ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Calculate means and confidence intervals
+summary_stats <- age_wide %>%
+  group_by(Age) %>%
+  summarise(
+    mean = mean(dblMean_t, na.rm = T),
+    stdev = sd(dblMean_t, na.rm = T)
+  )
+
+# Correct usage of sprintf to create the annotation text with standard deviation
+text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
+
+ggplot(data = age_wide, aes(y = dblMean_t, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Mean Luminance of Throat") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+
+# dorsum
+```{r dorsum, echo=F}
+t <- t.test(dblMean_d ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Calculate means and confidence intervals
+summary_stats <- age_wide %>%
+  group_by(Age) %>%
+  summarise(
+    mean = mean(dblMean_d, na.rm = T),
+    stdev = sd(dblMean_d, na.rm = T)
+  )
+
+# Correct usage of sprintf to create the annotation text with standard deviation
+text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
+
+
+ggplot(data = age_wide, aes(y = dblMean_d, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Mean Luminance of Dorsum") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+
+```
+
+#belly
+```{r belly, echo=F}
+
+t <- t.test(dblMean_b ~ Age, data = age_wide)
+
+pval <- t$p.value
+# Calculate means and confidence intervals
+summary_stats <- age_wide %>%
+  group_by(Age) %>%
+  summarise(
+    mean = mean(dblMean_b, na.rm = T),
+    stdev = sd(dblMean_b, na.rm = T)
+  )
+
+# Correct usage of sprintf to create the annotation text with standard deviation
+text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
+
+ggplot(data = age_wide, aes(y = dblMean_b, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Mean Luminance of Belly") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+
+```
+
+# wingspot
+```{r wingspot lum, echo=F}
+
+t <- t.test(dblMean_w ~ Age, data = age_wide)
+
+pval <- t$p.value
+
+# Calculate means and confidence intervals
+summary_stats <- age_wide %>%
+  group_by(Age) %>%
+  summarise(
+    mean = mean(dblMean_w, na.rm = T),
+    stdev = sd(dblMean_w, na.rm = T)
+  )
+
+# Correct usage of sprintf to create the annotation text with standard deviation
+text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
+
+ggplot(data = age_wide, aes(y = dblMean_w, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Mean Luminance of wingspot (brightness)") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+```
+
+
+```{r wingspot area}
+
+t <- t.test(area_w ~ Age, data = age_wide)
+
+
+pval <- t$p.value
+# Calculate means and confidence intervals
+summary_stats <- age_wide %>%
+  group_by(Age) %>%
+  summarise(
+    mean = mean(area_w, na.rm = T),
+    stdev = sd(area_w, na.rm = T)
+  )
+
+# Correct usage of sprintf to create the annotation text with standard deviation
+text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
+
+
+ggplot(data = age_wide, aes(y = area_w, x = Age)) + 
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Age", y = "Area of wingspot (mm2)") +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme_classic() +
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
+
+
+```
