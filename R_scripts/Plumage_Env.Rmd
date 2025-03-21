@@ -39,42 +39,147 @@ lum_wide <- lum_summarized %>%
   pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, uvMean, uvSD, area), names_sep = "_" )
 
 
-# combine w environment data
-env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
+# combine w environment data  
+env <- read.table(here("data/EnvClimNA_by_individual_specimen_samples.txt"), header = T)
 
 
 lum_env <- merge(lum_wide, env)
+
+head(lum_env)
+
+
+
+```
+
+## Does location predict color ? 
+
+```{r lat vs dorsum, echo = F}
+
+#perform linear regression
+z <- lm(dblMean_d~lat, data = lum_env, na.action = na.exclude)
+sum_z <- summary(z)
+
+# Extract the r^2 and p-value
+r2adj <- sum_z$adj.r.squared
+p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
+
+# Format the text to include rho and p-value, ready to be used in annotations
+text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ", p-value: " ~ .(sprintf("%.3f", p_value)))
+
+
+ggplot(data = lum_env, aes(x = lat, y = dblMean_d)) + 
+  geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
+  labs(x = "Latitude", y = "Luminance (brightness)") +
+  geom_smooth(aes(x = lat, y = dblMean_d), method = "lm", col = "black")+
+  theme_classic() +
+  annotate("text", x = Inf, y = Inf, label = text_annotation, 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
+  theme(
+    aspect.ratio = 0.75,
+    text = element_text(size = 16),
+    axis.text = element_text(size = 14)
+  )
 
 ```
 
 # Build model for env-dorsum correlation
 
+```{r model performance, echo = F}
+
+library(car)
+library(performance)
+
+lum_sel <- lum_wide %>% 
+  dplyr::select(ID, pop, Year, prepartor, dblMean_d, lat, lon) %>% 
+  na.omit()
+
+lum_env <- merge(lum_sel, env)
+
+z <- lmer(dblMean_d ~ PPT_sm + PPT_sp + Tave_sm + Tave_sp + srtm + lat + (1|Year) + (1|prepartor) + (1|pop), data = lum_env)
+
+check_model(z)
+vif_values <- vif(z)
+
+# Visualizing VIF
+barplot(vif_values, col = "skyblue", main = "Variance Inflation Factor (VIF)")
+
+compare_performance(z)
+
+# Visualizing the model
+plot(z, which = 1, main = "Model Fit")
+
+```
+
+
 ```{r lmm pheno-env, echo = F}
 
 library(lmerTest)
 library(MASS)
+library(MuMIn)
+library(performance)
+
 
 # including bio 10 (mean temp warmest quarter), bio18 (mean precip warmest quarter), elev
 
 lumenv_sel <- lum_env %>% 
-  dplyr::select(pop, Year, prepartor, dblMean_d, bio_10, bio_18, srtm)
+  dplyr::select(pop, Year, prepartor, dblMean_d, bio_10, bio_18, srtm, lat, lon) %>% 
+  na.omit()
 
-z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + (dblMean_d|Year) + (dblMean_d|prepartor) + (dblMean_d|pop), data = lumenv_sel, na.action = na.exclude)
+z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + lat + (1|Year) + (1|prepartor) + (1|pop), data = lumenv_sel)
 
+
+check_model(z)
 summary(z)
 
+dredge(z)
+
 norand <- lum_env %>% 
-  dplyr::select(dblMean_d, bio_10, bio_18, srtm, pop)
+  dplyr::select(dblMean_d, bio_10, bio_18, srtm, lat)
 # stepwise model selection
 full <- lm(dblMean_d ~(.)^4, data = norand) # includes 3-way interactions
 
-z <- stepAIC(full, direction="both")
+z <- stepAIC(z, direction="both")
 
 summary(z)
 plot(z)
 anova(z)
 logLik(z) # include df
 AIC(z)    # AIC score
+
+
+```
+
+```{r lmm climNA pheno-env, echo = F}
+
+library(lmerTest)
+library(MASS)
+library(MuMIn)
+library(performance)
+
+
+# including bio 10 (mean temp warmest quarter), bio18 (mean precip warmest quarter), elev
+
+lumenv_sel <- lum_env %>% 
+  dplyr::select(pop, Year, prepartor, dblMean_d, PPT_sm, PPT_sp, Tave_sm, Tave_sp, srtm, lat, lon) %>% 
+  na.omit()
+
+z <- lmerTest::lmer(dblMean_d ~ PPT_sm + PPT_sp + Tave_sm + Tave_sp + srtm + lat +  (1|pop), data = lumenv_sel)
+
+
+check_model(z)
+summary(z)
+
+dredge(z)
+
+
+```
+
+
+```{r plot}
+
+ggplot(data = lumenv_sel, aes(x = bio_10, y = dblMean_d, color = lat))+
+  geom_point()
+
 
 
 ```
