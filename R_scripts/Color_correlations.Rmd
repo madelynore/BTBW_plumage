@@ -41,10 +41,13 @@ lum_wide <- lum_summarized %>%
 
 ```
 
+
 #crown
 
 ```{r crown, echo = F}
 library(lmerTest)
+library(MuMIn)
+library(sjPlot)
 
 # check for normality
 hist(lum_wide$dblMean_d)
@@ -52,6 +55,9 @@ hist(lum_wide$dblMean_c)
 
 z <- lmerTest::lmer(dblMean_c ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
+
+r.squaredGLMM(z)
+tab_model(z)
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_c, col = lat))+
@@ -68,6 +74,8 @@ ggplot(lum_wide)+
 ```{r wingspot}
 
 library(lmerTest)
+library(MuMIn)
+library(sjPlot)
 
 # check for normality
 hist(lum_wide$dblMean_d)
@@ -75,6 +83,9 @@ hist(lum_wide$dblMean_w)
 
 z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
+
+r.squaredGLMM(z)
+tab_model(z)
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
@@ -90,6 +101,8 @@ ggplot(lum_wide)+
 ```{r throat}
 
 library(lmerTest)
+library(MuMIn)
+library(sjPlot)
 
 # check for normality
 hist(lum_wide$dblMean_d)
@@ -97,6 +110,9 @@ hist(lum_wide$dblMean_t)
 
 z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
+
+r.squaredGLMM(z)
+tab_model(z)
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
@@ -112,6 +128,8 @@ ggplot(lum_wide)+
 ```{r coverts}
 
 library(lmerTest)
+library(MuMIn)
+library(sjPlot)
 
 # check for normality
 hist(lum_wide$dblMean_d)
@@ -119,6 +137,9 @@ hist(lum_wide$dblMean_o)
 
 z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
+
+r.squaredGLMM(z)
+tab_model(z)
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_o, col = lat))+
@@ -134,6 +155,8 @@ ggplot(lum_wide)+
 ```{r belly}
 
 library(lmerTest)
+library(MuMIn)
+library(sjPlot)
 
 # check for normality
 hist(lum_wide$dblMean_d)
@@ -141,6 +164,9 @@ hist(lum_wide$dblMean_b)
 
 z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
 summary(z)
+
+r.squaredGLMM(z)
+tab_model(z)
 
 ggplot(lum_wide)+
   geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
