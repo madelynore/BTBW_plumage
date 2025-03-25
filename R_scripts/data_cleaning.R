@@ -52,11 +52,17 @@ duplicates <- filter(entries_per_usnm, Entries > 1)
 # Print duplicates, if any
 print(duplicates)
 
+#fix wrong ID in metadata -  618610 doesn't even exist
+specimen_sort$USNM.no.[which(specimen_sort$USNM.no. == "618610")] <- "613610"
+
+#add age to missing age class - aged via photos
+specimen_sort$Age[which(specimen_sort$USNM.no. == "608329")] <- "ASY"
+specimen_sort$Age[which(specimen_sort$USNM.no. == "608328")] <- "SY"
 
 ## combining USNM data with lat/lon from GEA
 
 meta <- read.csv("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data/Genoscape_locations.csv") %>% 
-  select(USNM, pop, Region, lat, lon)
+  dplyr::select(USNM, pop, Region, lat, lon)
 
 specimen_latlon <- merge(specimen_sort, meta, by.x = "USNM.no.", by.y = "USNM", all.x = T, all.y = F)
 
@@ -167,7 +173,7 @@ specimen_coords$lon[which(specimen_coords$USNM.no. == "614261")] <- -66.854
 ## add in existing metadata for 613610 - missing for some reason
 grg <- readxl::read_xls("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data_raw/GRG Black-throated Blue Warblers--cumulative 1986-2006.xls") %>% 
   filter(`USNM #` == "613610") %>% 
-  select(USNM.no. = `USNM #`, Species= "Current Identification", date.d.m.y = "Date Collected",
+  dplyr::select(USNM.no. = `USNM #`, Species= "Current Identification", date.d.m.y = "Date Collected",
          State.Province = "State/Province", County = "County/District", Locality = "Precise Location", 
          Sex = "Sex: Stage", Weight)
 
@@ -362,6 +368,7 @@ allimg_rmnotpl_code <- allimg[-notplrows,]
 allimg_rmnotpl_code$ID[which(allimg_rmnotpl_code$ID == "6129898")] <- "612898"
 
 meta <- read.csv("data/NMNH_specimen_metadata.csv") 
+
 
 rawimg_meta <-  merge(allimg_rmnotpl_code, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
 
@@ -564,4 +571,31 @@ missing_IDs <- setdiff(meta$USNM.no., img_ID)
 
 write.table(missing_IDs, file = "data/IDs_w_photos_but_no_measurements.txt", quote = F)
 
+## which photos views are missing
+meta <- read.csv("data/NMNH_specimen_metadata.csv") %>% 
+  dplyr::select("USNM.no.", "Age", "pop")
 
+# all files on harddrive
+img_files <- list.files(path = "/Volumes/G-DRIVE/NMNH specimen photos/all_photos_measured/", pattern = ".*mspec")
+
+img_df <- data.frame(file.path = img_files)
+
+img_df_sep <- img_df %>% 
+  separate(file.path, into = c("ID", "view"), sep = "_", remove = T)
+
+img_df_sep$view <- sub(x = img_df_sep$view, pattern = "\\.mspec", replacement = "")
+
+img_df_wide <- img_df_sep %>%
+  mutate(value = 1) %>%  # Add a column with value 1
+  pivot_wider(names_from = view, values_from = value, values_fill = list(value = 0)) %>% 
+  dplyr::select(-`dorsal copy`, -`side copy`)
+
+img_meta <- merge(meta, img_df_wide, by.x = "USNM.no.", by.y = "ID", all = T)
+
+img_missing <- img_meta %>% 
+  filter(crown == 0 | is.na(crown) |
+           dorsal == 0 | is.na(dorsal) |
+           side == 0 | is.na(side) |
+           ventral == 0 | is.na(ventral))
+
+write.csv(img_missing, "results/images_missing_from_analyses.csv", row.names = F)
