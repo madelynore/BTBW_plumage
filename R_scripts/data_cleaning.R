@@ -356,21 +356,25 @@ img_meta$pl_code[which(img_meta$photo == "crown" & img_meta$pl_code != "c")] <- 
 #merging WI forest into the rest
 img_meta$pop[which(img_meta$pop == "WI.Forest")] <-  "WI.All"
 
+#calculating mm2 area - standardized to 36.5px/mm
+img_meta$area_mm2 <- img_meta$area/(36.5^2)
+
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
 avg_img <- img_meta %>% 
   group_by(ID, photo, pl_code) %>% 
-  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area | contains("Power") | contains("Freq"), mean),
+  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | starts_with("area") | contains("Power") | contains("Freq"), mean),
             N = n_distinct(rep))
 
 avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
+
 
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
 
 avgimg_sel <- avgimg_meta %>% 
   dplyr::select(ID, pl_code, Age, pop, lat, lon, prepartor, lumMean, lumSD, lwMean, lwSD,
-                mwMean, mwSD, swMean, swSD, uvMean, uvSD, dblMean, dblSD, area)
+                mwMean, mwSD, swMean, swSD, uvMean, uvSD, dblMean, dblSD, area, area_mm2)
 
 avgimg_summarized <- avgimg_meta %>%
   group_by(ID, pl_code, Age, pop, lat, lon, prepartor) %>%
@@ -388,6 +392,7 @@ avgimg_summarized <- avgimg_meta %>%
     dblMean = mean(dblMean),
     dblSD = mean(dblSD),
     area = mean(area),
+    area_mm2=mean(area_mm2),
     .groups = 'drop'
   )
 
