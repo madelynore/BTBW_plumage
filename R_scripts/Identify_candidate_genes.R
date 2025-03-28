@@ -54,6 +54,12 @@ sugSNPs$chr <- paste0("chr", sugSNPs$chr)
 
 head(sugSNPs)
 
+regions4fasta <- sugSNPs %>% 
+  dplyr::select(chr, start, end)
+
+write_tsv(regions4fasta, file = "data/suggestive_SNPs_regions_n87_ASY_vcf_20kb.bed",
+            quote = "none", col_names = F)
+  
 warbler.gff<-read.delim("/Users/madelynore/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data/mywagenomev2.1.all.noseq.gff", header=F, comment.char="#") #full gff
 warbler.gff_mrna<-warbler.gff %>% filter (V3=="protein_match") #only keep the mRNA entries since these are the tracks we are interested in
 head(warbler.gff_mrna)
@@ -110,7 +116,8 @@ genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100232659")] <- "HS3ST3B1"
 
 ugenesym <- unique(genehits$GeneSymbol)
 
-
-melano <- read.csv("data_raw/Melanogenesis_genes_Poelstra_etal_2015_moleco.csv")
+write.table(ugenesym, "results/unique_gene_hits_n87_ASY_vcf_20kb.txt", quote = F,
+            row.names = F)
+melano <- read.csv("data_raw/Melanogenesis_genes.csv")
 
 ugenesym[which(ugenesym %in% melano$Melanogenesis_genes)]

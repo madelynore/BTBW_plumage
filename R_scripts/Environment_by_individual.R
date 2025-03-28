@@ -28,7 +28,8 @@ for (i in 1:length(bioclim_files)){
   }
 
 temp <- btbw_samp %>% 
-  dplyr::select(bio_1, bio_2, bio_3, bio_4, bio_5, bio_6, bio_7, bio_8, bio_9, bio_10, bio_11)
+  dplyr::select(bio_1, bio_2, bio_3, bio_4, bio_5, bio_6, bio_7, bio_8, bio_9, bio_10, bio_11,
+                bio_12, bio_13, bio_14, bio_15, bio_16, bio_17, bio_18, bio_19)
 
 v <- cov(temp)
 diag(v)
@@ -39,6 +40,12 @@ biplot(temppca, cex = 0.5, las = 1)
 # Biplot for PC3 and PC4
 biplot(temppca$x[,3:4], temppca$rotation[,3:4], cex = 0.5, las = 1)
 
+cormat <- cor(temp)
+
+length(which(cormat > abs(0.7)))
+dim(cormat)
+
+car::vif(temp)
 
 # ClimateNA -----------------------------------------------------------------
 

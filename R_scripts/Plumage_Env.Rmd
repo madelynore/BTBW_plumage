@@ -40,7 +40,7 @@ lum_wide <- lum_summarized %>%
 
 
 # combine w environment data  
-env <- read.table(here("data/EnvClimNA_by_individual_specimen_samples.txt"), header = T)
+env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
 
 
 lum_env <- merge(lum_wide, env)
@@ -84,7 +84,7 @@ ggplot(data = lum_env, aes(x = lat, y = dblMean_d)) +
 
 # Build model for env-dorsum correlation
 
-```{r model performance, echo = F}
+```{r climNA, echo = F}
 
 library(car)
 library(performance)
@@ -92,6 +92,9 @@ library(performance)
 lum_sel <- lum_wide %>% 
   dplyr::select(ID, pop, Year, prepartor, dblMean_d, lat, lon) %>% 
   na.omit()
+
+# combine w environment data  
+env <- read.table(here("data/EnvClimNA_by_individual_specimen_samples.txt"), header = T)
 
 lum_env <- merge(lum_sel, env)
 
@@ -119,11 +122,15 @@ library(MuMIn)
 library(performance)
 
 
-# including bio 10 (mean temp warmest quarter), bio18 (mean precip warmest quarter), elev
-
-lumenv_sel <- lum_env %>% 
-  dplyr::select(pop, Year, prepartor, dblMean_d, bio_10, bio_18, srtm, lat, lon) %>% 
+lum_sel <- lum_wide %>% 
+  dplyr::select(pop, Year, prepartor, dblMean_d, lat, lon) %>% 
   na.omit()
+
+# combine w environment data  
+env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
+
+lum_env <- merge(lum_sel, env)
+
 
 z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + lat + (1|Year) + (1|prepartor) + (1|pop), data = lumenv_sel)
 
@@ -133,10 +140,27 @@ summary(z)
 
 dredge(z)
 
+#removing random factors and bio8 bc I don't trust it
 norand <- lum_env %>% 
-  dplyr::select(dblMean_d, bio_10, bio_18, srtm, lat)
+  dplyr::select(-pop, -Year, -prepartor, -ID, -bio_8)
 # stepwise model selection
-full <- lm(dblMean_d ~(.)^4, data = norand) # includes 3-way interactions
+options(na.action = "na.fail")
+full <- lm(dblMean_d ~., data = norand) 
+
+#using dredge 
+z <- dredge(full, rank = "AICc")
+print(z)                                  # Model selection table
+print(z[z$delta < 5])                     # Tabulate only models with AIC difference < 5
+Weights(z)                                # AIC weights all models
+Weights(z[z$delta < 5])                   # Include only models with AIC difference < 5
+get.models(z, subset=delta<5)             # Extract the models having AIC difference < 5
+get.models(z, subset = 1)[[1]]            # Extract single best model (yields lm object)
+
+z <- lm(get.models(z, subset = 1)[[1]], data = mydata) # Fit best model
+summary(model.avg(z, subset = delta < 2))              # model averaging
+
+
+
 
 z <- stepAIC(z, direction="both")
 

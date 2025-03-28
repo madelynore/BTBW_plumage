@@ -301,43 +301,16 @@ write.csv(F_measures, "data/feather_measurements.csv", row.names = F)
 # cleaning raw output from micatoolbox ------------------------------------
 
 library(tidyverse)
-# load file names
-imgfiles <- list.files(path = "data_raw/", pattern = "*Image*")
-
-imgnm <- paste0("data_raw/", imgfiles[1])
-## extract name of the population
-pop_name <- sub(x = imgfiles[1],
-                pattern = "_\\d+_Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65.*",
-                replacement = "")
-
-#read in file
-img <- read.csv(file = imgnm)
-
-head(img)
-
-## change label to more informative labels
-img_ID <- img %>% 
-  separate(Label, into = c("ID", "photo", "plumage_patch"), sep = "_")
-
-# separate plumage patch from replicate
-img_plid <- img_ID %>% 
-  separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
-
-## reviewing how many patches measured
-summary(as.factor(img_plid$pl_code))
-
-# add pop name
-img_plid$pop <- rep(pop_name, nrow(img_plid))
 
 # Initialize an empty dataframe
 allimg <- data.frame()
 
 # Load file names
-imgfiles <- list.files(path = "data_raw/", pattern = "*Image*")
+imgfiles <- list.files(path = "data_raw/batch_mspec/", pattern = "*Image*")
 
 # Loop through each file
 for (i in 1:length(imgfiles)) {
-  imgnm <- paste0("data_raw/", imgfiles[i])
+  imgnm <- paste0("data_raw/batch_mspec/", imgfiles[i])
   
   # Read in file
   img <- read.csv(file = imgnm)
@@ -364,11 +337,7 @@ notplrows <- c(grep(allimg$pl_code, pattern = "Scale Bar.*"), grep(allimg$pl_cod
 
 allimg_rmnotpl_code <- allimg[-notplrows,]
 
-# fix ID that was entered into the mspec creation incorrectly
-allimg_rmnotpl_code$ID[which(allimg_rmnotpl_code$ID == "6129898")] <- "612898"
-
 meta <- read.csv("data/NMNH_specimen_metadata.csv") 
-
 
 rawimg_meta <-  merge(allimg_rmnotpl_code, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
 
@@ -378,7 +347,6 @@ img_meta <- subset(rawimg_meta, select = -X)
 unique(img_meta$ID[which(is.na(img_meta$pop))])
 unique(img_meta$ID[which(is.na(img_meta$lat))])
 
-img_meta$pl_code[which(img_meta$pl_code == "v")] <- "b"
 
 #fixing wrong plcodes
 img_meta$pl_code[which(img_meta$photo == "dorsal" & img_meta$pl_code != "d")] <-  "d"
@@ -407,6 +375,8 @@ avgimg_sel <- avgimg_meta %>%
 avgimg_summarized <- avgimg_meta %>%
   group_by(ID, pl_code, Age, pop, lat, lon, prepartor) %>%
   summarise(
+    lumMean = mean(lumMean),
+    lumSD = mean(lumSD),
     lwMean = mean(lwMean),
     lwSD = mean(lwSD),
     mwMean = mean(mwMean),
@@ -422,7 +392,8 @@ avgimg_summarized <- avgimg_meta %>%
   )
 
 avgimg_wide <- avgimg_summarized %>% 
-  pivot_wider(names_from = pl_code, values_from = c(lwMean, lwSD, mwMean, mwSD,
+  pivot_wider(names_from = pl_code, values_from = c(lumMean, lumSD,
+                                                    lwMean, lwSD, mwMean, mwSD,
                                                     swMean, swSD,
                                                     uvMean, uvSD,
                                                     dblMean, dblSD, area), names_sep = "_" )
@@ -441,40 +412,35 @@ fam_id <- fam %>%
   separate(V2, into = c("V2", NA), sep = "_", remove = F )
 
 #get phenotype data
-img_wide <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_wide.csv"))
+img_wide <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv")
 
 #match ID
 img_wide$ID <- paste0("Z",img_wide$ID)
 
 #merge the two dfs
 fam_img <- merge(fam_id, img_wide, by.x = "V2", by.y = "ID", all.x = F, all.y = F) %>% 
-  dplyr::select(V1, V2, Age, V4, V5, dblMean_d, dblMean_c)
+  dplyr::select(V1, V2, Age, V4, V5, dblMean_d)
 
 head(fam_img)
 
-fam_img_noNA <- fam_img %>% 
-  filter(!(is.na(fam_img$dblMean_c)) & !(is.na(fam_img$dblMean_d)))
+fam_img_noNA <- fam_img %>%
+  filter(!(is.na(fam_img$dblMean_d)))
 
 fam_img_noNA$rand_d <- sample(fam_img_noNA$dblMean_d)
-fam_img_noNA$rand_c <- sample(fam_img_noNA$dblMean_c)
-#fam_img$rand_t <- sample(fam_img$dblMean_t)
-#fam_img$rand_o <- sample(fam_img$dblMean_o)
 
 famcol <- colnames(fam_img_noNA)
-write.table(famcol, "data/BTBW_n137_allages_forGWAS_lum_dc_rand_colnames.txt", quote = F)
+write.table(fam_img_noNA, "data/BTBW_n154_allages_forGWAS_lum_d_rand_colnames.txt", quote = F)
 write.table(fam_img_noNA, 
-            "data/BTBW_n137_allages_forGWAS_lum_dc_rand.fam",
+            "data/BTBW_n154_allages_forGWAS_lum_d_rand.fam",
             quote = F, col.names = F, row.names = F)
 
 # select only the ASY
-asyfam <- fam_img %>% 
+asyfam <- fam_img_noNA %>% 
   filter(Age == "ASY") 
 
 write.table(asyfam, 
-            "data/BTBW_n93_ASY_forGWAS_lum_dcto_rand.fam",
+            "data/BTBW_n94_ASY_forGWAS_lum_d_rand.fam",
             quote = F, col.names = F, row.names = F)
-
-
 
 
 # prep data to compare sullivan NY  ----------------------------------------------------
@@ -576,7 +542,7 @@ meta <- read.csv("data/NMNH_specimen_metadata.csv") %>%
   dplyr::select("USNM.no.", "Age", "pop")
 
 # all files on harddrive
-img_files <- list.files(path = "/Volumes/G-DRIVE/NMNH specimen photos/all_photos_measured/", pattern = ".*mspec")
+img_files <- list.files(path = "/Volumes/G-DRIVE/NMNH specimen photos/all_photos_measured/", pattern = ".*mspec$")
 
 img_df <- data.frame(file.path = img_files)
 
@@ -587,8 +553,8 @@ img_df_sep$view <- sub(x = img_df_sep$view, pattern = "\\.mspec", replacement = 
 
 img_df_wide <- img_df_sep %>%
   mutate(value = 1) %>%  # Add a column with value 1
-  pivot_wider(names_from = view, values_from = value, values_fill = list(value = 0)) %>% 
-  dplyr::select(-`dorsal copy`, -`side copy`)
+  pivot_wider(names_from = view, values_from = value, values_fill = list(value = 0))
+
 
 img_meta <- merge(meta, img_df_wide, by.x = "USNM.no.", by.y = "ID", all = T)
 
