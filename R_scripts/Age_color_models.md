@@ -36,47 +36,47 @@ Ore, MJ.
 
 # Crown
 
-    ## Warning: Removed 10 rows containing non-finite outside the scale range
+    ## Warning: Removed 3 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
 
 ![](Age_color_models_files/figure-gfm/crown-1.png)<!-- -->
 
 # coverts
 
-    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## Warning: Removed 5 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
 
 ![](Age_color_models_files/figure-gfm/coverts-1.png)<!-- -->
 
 \#throat
 
-    ## Warning: Removed 14 rows containing non-finite outside the scale range
+    ## Warning: Removed 4 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
 
 ![](Age_color_models_files/figure-gfm/throat-1.png)<!-- -->
 
 # dorsum
 
-    ## Warning: Removed 18 rows containing non-finite outside the scale range
+    ## Warning: Removed 4 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
 
 ![](Age_color_models_files/figure-gfm/dorsum-1.png)<!-- -->
 
 \#belly
 
-    ## Warning: Removed 12 rows containing non-finite outside the scale range
+    ## Warning: Removed 3 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
 
 ![](Age_color_models_files/figure-gfm/belly-1.png)<!-- -->
 
 # wingspot
 
-    ## Warning: Removed 15 rows containing non-finite outside the scale range
+    ## Warning: Removed 3 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
 
 ![](Age_color_models_files/figure-gfm/wingspot%20lum-1.png)<!-- -->
 
-    ## Warning: Removed 15 rows containing non-finite outside the scale range
+    ## Warning: Removed 3 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
 
 ![](Age_color_models_files/figure-gfm/wingspot%20area-1.png)<!-- -->
