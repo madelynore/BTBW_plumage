@@ -306,11 +306,11 @@ library(tidyverse)
 allimg <- data.frame()
 
 # Load file names
-imgfiles <- list.files(path = "data_raw/batch_mspec/", pattern = "*Image*")
+imgfiles <- list.files(path = "data_raw/by_pop_batch_mspec/", pattern = "*Image*")
 
 # Loop through each file
 for (i in 1:length(imgfiles)) {
-  imgnm <- paste0("data_raw/batch_mspec/", imgfiles[i])
+  imgnm <- paste0("data_raw/by_pop_batch_mspec/", imgfiles[i])
   
   # Read in file
   img <- read.csv(file = imgnm)
@@ -329,6 +329,9 @@ for (i in 1:length(imgfiles)) {
 
 # Print the dataframe
 print(allimg)
+
+#confirm number IDs -should be ~187
+length(unique(allimg$ID))
 
 ## clean up some things from this dataframe
 #remove scalebar calculations and "whole"
@@ -368,35 +371,13 @@ avg_img <- img_meta %>%
 
 avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
 
-
-
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
 
 avgimg_sel <- avgimg_meta %>% 
   dplyr::select(ID, pl_code, Age, pop, lat, lon, prepartor, lumMean, lumSD, lwMean, lwSD,
                 mwMean, mwSD, swMean, swSD, uvMean, uvSD, dblMean, dblSD, area, area_mm2)
 
-avgimg_summarized <- avgimg_meta %>%
-  group_by(ID, pl_code, Age, pop, lat, lon, prepartor) %>%
-  summarise(
-    lumMean = mean(lumMean),
-    lumSD = mean(lumSD),
-    lwMean = mean(lwMean),
-    lwSD = mean(lwSD),
-    mwMean = mean(mwMean),
-    mwSD = mean(mwSD),
-    swMean = mean(swMean),
-    swSD = mean(swSD),
-    uvMean = mean(uvMean),
-    uvSD = mean(uvSD),
-    dblMean = mean(dblMean),
-    dblSD = mean(dblSD),
-    area = mean(area),
-    area_mm2=mean(area_mm2),
-    .groups = 'drop'
-  )
-
-avgimg_wide <- avgimg_summarized %>% 
+avgimg_wide <- avgimg_sel %>% 
   pivot_wider(names_from = pl_code, values_from = c(lumMean, lumSD,
                                                     lwMean, lwSD, mwMean, mwSD,
                                                     swMean, swSD,
@@ -404,8 +385,6 @@ avgimg_wide <- avgimg_summarized %>%
                                                     dblMean, dblSD, area), names_sep = "_" )
 
 write.csv(avgimg_wide, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
-
-
 
 # make fam file for GWAS --------------------------------------------------
 library(tidyverse)
