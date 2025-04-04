@@ -340,51 +340,53 @@ notplrows <- c(grep(allimg$pl_code, pattern = "Scale Bar.*"), grep(allimg$pl_cod
 
 allimg_rmnotpl_code <- allimg[-notplrows,]
 
-meta <- read.csv("data/NMNH_specimen_metadata.csv") 
-
-rawimg_meta <-  merge(allimg_rmnotpl_code, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
-
-img_meta <- subset(rawimg_meta, select = -X)
-
-# identify IDs missing metadata
-unique(img_meta$ID[which(is.na(img_meta$pop))])
-unique(img_meta$ID[which(is.na(img_meta$lat))])
-
+allimg_rmrow <- subset(allimg_rmnotpl_code, select = -X)
 
 #fixing wrong plcodes
-img_meta$pl_code[which(img_meta$photo == "dorsal" & img_meta$pl_code != "d")] <-  "d"
+allimg_rmrow$pl_code[which(allimg_rmrow$photo == "dorsal" & allimg_rmrow$pl_code != "d")] <-  "d"
 
-img_meta$pl_code[which(img_meta$photo == "crown" & img_meta$pl_code != "c")] <- "c"
-
-#merging WI forest into the rest
-img_meta$pop[which(img_meta$pop == "WI.Forest")] <-  "WI.All"
+allimg_rmrow$pl_code[which(allimg_rmrow$photo == "crown" & allimg_rmrow$pl_code != "c")] <- "c"
 
 #calculating mm2 area - standardized to 36.5px/mm
-img_meta$area_mm2 <- img_meta$area/(36.5^2)
+allimg_rmrow$area_mm2 <- allimg_rmrow$area/(36.5^2)
+
+## add metadata
+meta <- read.csv("data/NMNH_specimen_metadata.csv") 
+
+#merging WI forest into the rest
+meta$pop[which(meta$pop == "WI.Forest")] <-  "WI.All"
+
+allimg_meta <-  merge(allimg_rmrow, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
+
+# identify IDs missing metadata
+unique(allimg_meta$ID[which(is.na(allimg_meta$pop))])
+unique(allimg_meta$ID[which(is.na(allimg_meta$lat))])
 
 write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
-avg_img <- img_meta %>% 
-  group_by(ID, photo, pl_code) %>% 
-  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | starts_with("area") | contains("Power") | contains("Freq"), mean),
+avg_img <- allimg_rmrow %>% 
+  group_by(ID, pl_code) %>% 
+  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | starts_with("area_mm2") | contains("Power") | contains("Freq"), mean),
             N = n_distinct(rep))
 
 avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
 
-avgimg_sel <- avgimg_meta %>% 
-  dplyr::select(ID, pl_code, Age, pop, lat, lon, prepartor, lumMean, lumSD, lwMean, lwSD,
-                mwMean, mwSD, swMean, swSD, uvMean, uvSD, dblMean, dblSD, area, area_mm2)
+avgimg_sel <- avg_img %>% 
+  dplyr::select(ID, pl_code, lumMean, lumSD, lwMean, lwSD,
+                mwMean, mwSD, swMean, swSD, uvMean, uvSD, dblMean, dblSD, area_mm2)
 
 avgimg_wide <- avgimg_sel %>% 
   pivot_wider(names_from = pl_code, values_from = c(lumMean, lumSD,
                                                     lwMean, lwSD, mwMean, mwSD,
                                                     swMean, swSD,
                                                     uvMean, uvSD,
-                                                    dblMean, dblSD, area), names_sep = "_" )
+                                                    dblMean, dblSD, area_mm2), names_sep = "_" )
 
-write.csv(avgimg_wide, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
+avgimgwide_meta <-  merge(avgimg_wide, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
+
+write.csv(avgimgwide_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
 
 # make fam file for GWAS --------------------------------------------------
 library(tidyverse)
