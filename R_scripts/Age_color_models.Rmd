@@ -249,3 +249,31 @@ ggplot(data = age, aes(y = area_mm2_w, x = Age)) +
 
 
 ```
+
+# make a table of results
+```{r age table, echo=F}
+
+summary_stats <- age %>%
+  group_by(Age) %>%
+  summarise(
+    lumMean_c_mean = mean(lumMean_c, na.rm = T),
+    lumMean_c_sd = sd(lumMean_c, na.rm = T),
+    lumMean_o_mean = mean(lumMean_o, na.rm = T),
+    lumMean_o_sd = sd(lumMean_o, na.rm = T),
+    lumMean_t_mean = mean(lumMean_c, na.rm = T),
+    lumMean_t_sd = sd(lumMean_c, na.rm = T),
+    lumMean_d_mean = mean(lumMean_c, na.rm = T),
+    lumMean_d_sd = sd(lumMean_c, na.rm = T),
+    lumMean_b_mean = mean(lumMean_c, na.rm = T),
+    lumMean_b_sd = sd(lumMean_c, na.rm = T),
+    lumMean_w_mean = mean(lumMean_c, na.rm = T),
+    lumMean_w_sd = sd(lumMean_c, na.rm = T),
+    area_mm2_w_mean = mean(area_mm2_w, na.rm = T),
+    area_mm2_w_sd = sd(area_mm2_w, na.rm = T)
+  )
+
+
+
+
+
+```

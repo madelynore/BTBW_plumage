@@ -80,3 +80,5 @@ Ore, MJ.
     ## (`stat_boxplot()`).
 
 ![](Age_color_models_files/figure-gfm/wingspot%20area-1.png)<!-- -->
+
+# make a table of results
