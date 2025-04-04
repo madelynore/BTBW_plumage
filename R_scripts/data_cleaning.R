@@ -342,7 +342,7 @@ allimg_rmnotpl_code <- allimg[-notplrows,]
 
 meta <- read.csv("data/NMNH_specimen_metadata.csv") 
 
-rawimg_meta <-  merge(allimg_rmnotpl_code, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
+rawimg_meta <-  merge(allimg_rmnotpl_code, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
 img_meta <- subset(rawimg_meta, select = -X)
 
@@ -369,7 +369,7 @@ avg_img <- img_meta %>%
   summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | starts_with("area") | contains("Power") | contains("Freq"), mean),
             N = n_distinct(rep))
 
-avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
+avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
 
