@@ -17,37 +17,13 @@ library(viridis)
 
 here::i_am("R_scripts/Color_correlations.Rmd")
 
-avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv"))
+
+avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
 
 ## select only brightness for ASY males
-lum <- avg_img %>% 
-  dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon, Year, prepartor) %>% 
-  filter(Age == "ASY")
-
-lum_summarized <- lum %>%
-  group_by(ID, Age, pop, lat, lon,Year, prepartor, pl_code) %>%
-  summarise(
-    dblMean = mean(dblMean),
-    dblSD = mean(dblSD),
-    uvMean = mean(uvMean),
-    uvSD = mean(uvSD),
-    area = mean(area),
-    .groups = 'drop'
-  )
-
-lum_wide <- lum_summarized %>% 
-  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, uvMean, uvSD, area), names_sep = "_" )
-
-
-# combine w environment data  
-env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
-
-
-lum_env <- merge(lum_wide, env)
-
-head(lum_env)
-
-
+asy <- avg_img %>% 
+  filter(Age == "ASY", ID != "614283")
+# lum is wrong but need to go back to source files
 
 ```
 
@@ -56,7 +32,7 @@ head(lum_env)
 ```{r lat vs dorsum, echo = F}
 
 #perform linear regression
-z <- lm(dblMean_d~lat, data = lum_env, na.action = na.exclude)
+z <- lm(dblMean_d~lat, data = asy, na.action = na.exclude)
 sum_z <- summary(z)
 
 # Extract the r^2 and p-value
@@ -67,7 +43,7 @@ p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
 text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ", p-value: " ~ .(sprintf("%.3f", p_value)))
 
 
-ggplot(data = lum_env, aes(x = lat, y = dblMean_d)) + 
+ggplot(data = asy, aes(x = lat, y = dblMean_d)) + 
   geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
   labs(x = "Latitude", y = "Luminance (brightness)") +
   geom_smooth(aes(x = lat, y = dblMean_d), method = "lm", col = "black")+
@@ -89,16 +65,13 @@ ggplot(data = lum_env, aes(x = lat, y = dblMean_d)) +
 library(car)
 library(performance)
 
-lum_sel <- lum_wide %>% 
-  dplyr::select(ID, pop, Year, prepartor, dblMean_d, lat, lon) %>% 
-  na.omit()
-
 # combine w environment data  
-env <- read.table(here("data/EnvClimNA_by_individual_specimen_samples.txt"), header = T)
+env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
 
-lum_env <- merge(lum_sel, env)
+lum_env <- merge(asy, env)
 
-z <- lmer(dblMean_d ~ PPT_sm + PPT_sp + Tave_sm + Tave_sp + srtm + lat + (1|Year) + (1|prepartor) + (1|pop), data = lum_env)
+z <- lmer(dblMean_d ~ Tave_sm+ PPT_sm + qscat + ndvi_M + srtm + lat + (1|Year) + (1|prepartor) + (1|pop), data = lum_env)
+
 
 check_model(z)
 vif_values <- vif(z)
@@ -120,25 +93,25 @@ library(lmerTest)
 library(MASS)
 library(MuMIn)
 library(performance)
-
-
-lum_sel <- lum_wide %>% 
-  dplyr::select(pop, Year, prepartor, dblMean_d, lat, lon) %>% 
-  na.omit()
+library(sjPlot)
 
 # combine w environment data  
 env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
 
-lum_env <- merge(lum_sel, env)
+lum_env <- merge(asy, env)
 
 
-z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + lat + (1|Year) + (1|prepartor) + (1|pop), data = lumenv_sel)
+z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + qscat + ndvi_M + lat + 
+                      (1|Year) + (1|prepartor) + (1|pop),
+                    data = lum_env)
 
 
 check_model(z)
 summary(z)
+tab_model(z)
 
-dredge(z)
+
+#dredge(z)
 
 #removing random factors and bio8 bc I don't trust it
 norand <- lum_env %>% 
@@ -201,9 +174,45 @@ dredge(z)
 
 ```{r plot}
 
-ggplot(data = lumenv_sel, aes(x = bio_10, y = dblMean_d, color = lat))+
-  geom_point()
+# combine w environment data  
+env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
 
+lum_env <- merge(asy, env)
 
+ggplot(data = lum_env, aes(x = bio_10, y = dblMean_d, color = lat))+
+  geom_point(size =4)+
+  labs(x = "Mean Temperature of Warmest Quarter", y = "Dorsum brightness")+
+  geom_smooth(aes(x = bio_10, y = dblMean_d), method = "lm", col = "black")+  
+  theme_classic()
+
+z <- lm(dblMean_d~ bio_10, data = lum_env)
+summary(z)
+
+ggplot(data = lum_env, aes(x = ndvi_M, y = dblMean_d, color = lat))+
+  geom_point(size =4)+
+  labs(x = "Max NDVI", y = "Dorsum brightness")+
+  geom_smooth(aes(x = ndvi_M, y = dblMean_d), method = "lm", col = "black")+  
+  theme_classic()
+
+z <- lm(dblMean_d~ ndvi_M, data = lum_env)
+summary(z)
+
+ggplot(data = lum_env, aes(x = bio_18, y = dblMean_d, color = lat))+
+  geom_point(size =4)+
+  labs(x = "Precip of Warmest Quarter", y = "Dorsum brightness")+
+  geom_smooth(aes(x = bio_18, y = dblMean_d), method = "lm", col = "black")+  
+  theme_classic()
+
+z <- lm(dblMean_d~ bio_18, data = lum_env)
+summary(z)
+
+ggplot(data = lum_env, aes(x = srtm, y = dblMean_d, color = lat))+
+  geom_point(size =4)+
+  labs(x = "Elevation", y = "Dorsum brightness")+
+  geom_smooth(aes(x = srtm, y = dblMean_d), method = "lm", col = "black")+  
+  theme_classic()
+
+z <- lm(dblMean_d~ srtm, data = lum_env)
+summary(z)
 
 ```

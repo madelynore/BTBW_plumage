@@ -31,15 +31,6 @@ temp <- btbw_samp %>%
   dplyr::select(bio_1, bio_2, bio_3, bio_4, bio_5, bio_6, bio_7, bio_8, bio_9, bio_10, bio_11,
                 bio_12, bio_13, bio_14, bio_15, bio_16, bio_17, bio_18, bio_19)
 
-v <- cov(temp)
-diag(v)
-temppca <- prcomp( ~ ., data = temp, , na.action = na.exclude, scale.=T)
-
-biplot(temppca, cex = 0.5, las = 1) 
-
-# Biplot for PC3 and PC4
-biplot(temppca$x[,3:4], temppca$rotation[,3:4], cex = 0.5, las = 1)
-
 cormat <- cor(temp)
 
 length(which(cormat > abs(0.7)))
@@ -49,7 +40,6 @@ car::vif(temp)
 
 # ClimateNA -----------------------------------------------------------------
 
-library(climatenaR)
 library(sf)
 
 setwd("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/Normal_1981_2010_bioclim/")
@@ -86,9 +76,7 @@ temppca <- prcomp( ~ ., data = climNAind_nm, , na.action = na.exclude, scale.=T)
 biplot(temppca, cex = 0.5, las = 1) 
 
 # Biplot for PC3 and PC4
-biplot(temppca$x[,3:4], temppca$rotation[,3:4], cex = 0.5, las = 1)
-
-btbw_samp <- cbind(btbw_samp, climNAind_nm)
+biplot(temppca$x[,c(1,3)], temppca$rotation[,c(1,3)], cex = 0.5, las = 1)
 
 # SRTM --------------------------------------------------------------------
 setwd("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/srtm/")
@@ -97,11 +85,34 @@ srtm=raster("srtm.tif")
 coord <- btbw_samp[,2:3]
 srtm_btbw<-raster::extract(srtm,coord,fun=mean)
 
-btbw_samp$srtm <- srtm_btbw
 
+# NDVI --------------------------------------------------------------------
+setwd("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/LandCover/")
+list.files()
+ndvi=raster("ndvimax.tif")
+coord <- btbw_samp[,2:3]
+ndvi_btbw<-raster::extract(ndvi,coord,fun=mean)
+
+
+# surface moisture --------------------------------------------------------
+
+setwd("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/Qscat_SurfaceMoisture/")
+list.files()
+qscat=raster("qscat.tif")
+coord <- btbw_samp[,2:3]
+qscat_btbw<-raster::extract(qscat,coord,fun=mean)
+
+      
+# combine all together ----------------------------------------------------
 #reset wd
 setwd("~/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage/")
 
-write.table(btbw_samp, "data/EnvClimNA_by_individual_specimen_samples.txt",
+#pc1 scores correspond to temp, pc3 to ppt
+btbw_samp$tempPC_climNA <- temppca$x[1]
+btbw_samp$pptPC_climNA <- temppca$x[3]
+
+btbw_env <- cbind(btbw_samp, temp, climNAind_nm, qscat = qscat_btbw, ndvi_M = ndvi_btbw, srtm = srtm_btbw)
+
+write.table(btbw_env, "data/Env_by_individual_specimen_samples.txt",
             row.names = F, quote = F)
 

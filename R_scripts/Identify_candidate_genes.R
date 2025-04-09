@@ -8,34 +8,48 @@ pacman::p_load_gh("sahirbhatnagar/manhattanly")
 library(manhattanly)
 library(tidyverse)
 
-gwa <- read.table(file = "data_raw/GWAS_n87_ASY_from_vcf_lumdorsum_lmm_subset.assoc.txt", header = T) 
+gwa <- read.table(file = "data_raw/GWAS_n94_ASY_vcf_impute_lumdorsum_lmm_subset.assoc.txt", header = T) 
+
+gwa_rand <- read.table(file = "data_raw/GWAS_n94_ASY_vcf_impute_rand_assign_lumdorsum_lmm_subset.assoc.txt", header = T) 
 
 head(gwa)
 
-#fix chrs 1a,4a,z
-gwa_chr <- gwa %>%
-  mutate(chr = case_when(
-    grepl("chr1a", rs) ~ "1a",
-    grepl("chr4a", rs) ~ "4a",
-    grepl("chrz", rs) ~ "z",
-    TRUE ~ as.character(chr)
-  ))
+process_gwa <- function(gwa) {
+  # Fix chromosome names
+  gwa_chr <- gwa %>%
+    mutate(chr = case_when(
+      grepl("chr1a", rs) ~ "1a",
+      grepl("chr4a", rs) ~ "4a",
+      grepl("chrz", rs) ~ "z",
+      TRUE ~ as.character(chr)
+    ))
+  
+  # Calculate -log10(p_wald)
+  gwa_chr <- gwa_chr %>%
+    mutate(logp = -log10(p_wald))
+  
+  # Assign index values for chromosomes
+  gwa_ind <- gwa_chr %>%
+    mutate(index = case_when(
+      chr == "1a" ~ 1.2,
+      chr == "4a" ~ 4.2,
+      chr == "z" ~ 30,
+      TRUE ~ as.numeric(chr)
+    ))
+  
+  # Select relevant columns
+  gwa_sub <- gwa_ind %>%
+    dplyr::select(CHR = index, BP = ps, P = p_wald, logp, pos = ps, chr)
+  
+  return(gwa_sub)
+}
 
-gwa_chr$logp <- -log10(gwa_chr$p_wald)
+gwa_man <- process_gwa(gwa)
 
-gwa_ind <- gwa_chr %>%
-  mutate(index = case_when(
-    chr == "1a" ~ 1.2,
-    chr == "4a" ~ 4.2,
-    chr == "z" ~ 30,
-    TRUE ~ as.numeric(chr)
-  ))
+gwa_rand_man <- process_gwa(gwa_rand)
 
-# select just chr, snp and pwald
-gwa_sub <- gwa_ind %>% 
-  dplyr::select(CHR = index, BP = ps, P = p_wald, logp, pos = ps, chr)
-
-manhattanly(gwa_sub)
+manhattanly(gwa_man)
+manhattanly(gwa_rand_man)
 
 
 # looking for hits with suggestive snps -----------------------------------
