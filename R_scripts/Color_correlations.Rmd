@@ -18,29 +18,38 @@ library(viridis)
 
 here::i_am("R_scripts/Color_correlations.Rmd")
 
-avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv"))
+
+avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
 
 ## select only brightness for ASY males
-lum <- avg_img %>% 
-  dplyr::select(ID, pl_code, dblMean, dblSD, uvMean, uvSD, area, Age, pop, lat, lon, Year, prepartor) %>% 
+asy <- avg_img %>% 
   filter(Age == "ASY")
 
-lum_summarized <- lum %>%
-  group_by(ID, Age, pop, lat, lon,Year, prepartor, pl_code) %>%
-  summarise(
-    dblMean = mean(dblMean),
-    dblSD = mean(dblSD),
-    uvMean = mean(uvMean),
-    uvSD = mean(uvSD),
-    area = mean(area),
-    .groups = 'drop'
-  )
+```
+How do luminance and shortwavelength correlate
+```{r sw vs lum, echo =F }
 
-lum_wide <- lum_summarized %>% 
-  pivot_wider(names_from = pl_code, values_from = c(dblMean, dblSD, uvMean, uvSD, area), names_sep = "_" )
+lumsw <- asy %>% 
+  dplyr::select(starts_with("lumMean"), starts_with("swMean"))
+
+# Extract unique letters from column names
+letters <- gsub(".*_", "", names(lumsw)[grepl("lumMean_", names(lumsw))])
+
+# Calculate correlations for matching columns
+correlations <- sapply(letters, function(letter) {
+  lum_col <- paste0("lumMean_", letter)
+  sw_col <- paste0("swMean_", letter)
+  cor(lumsw[[lum_col]], lumsw[[sw_col]], use = "complete.obs")
+})
+
+# Convert to a data frame
+correlation_df <- data.frame(
+  Letter = letters,
+  Correlation = correlations
+)
+
 
 ```
-
 
 #crown
 
@@ -50,16 +59,16 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(lum_wide$dblMean_d)
-hist(lum_wide$dblMean_c)
+hist(asy$dblMean_d)
+hist(asy$dblMean_c)
 
-z <- lmerTest::lmer(dblMean_c ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_c ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
-ggplot(lum_wide)+
+ggplot(asy)+
   geom_point(aes(x = dblMean_d, y = dblMean_c, col = lat))+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_c), method = "lm", col = "black")+
@@ -78,20 +87,35 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(lum_wide$dblMean_d)
-hist(lum_wide$dblMean_w)
+hist(asy$dblMean_d)
+hist(asy$dblMean_w)
 
-z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
-ggplot(lum_wide)+
+ggplot(asy)+
   geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_w), method = "lm", col = "black")+
   labs(x = "Dorsum Brightness", y = "Wingspot Brightness")+
+  theme_classic()
+
+
+
+z <- lmerTest::lmer(dblMean_w ~ area_mm2_c + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(z)
+
+r.squaredGLMM(z)
+tab_model(z)
+
+ggplot(asy)+
+  geom_point(aes(x = dblMean_d, y = area_mm2_c, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = dblMean_d, y = area_mm2_c), method = "lm", col = "black")+
+  labs(x = "Dorsum Brightness", y = "Wingspot area (mm2)")+
   theme_classic()
 
 ```
@@ -105,16 +129,16 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(lum_wide$dblMean_d)
-hist(lum_wide$dblMean_t)
+hist(asy$dblMean_d)
+hist(asy$dblMean_t)
 
-z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
-ggplot(lum_wide)+
+ggplot(asy)+
   geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
@@ -132,16 +156,16 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(lum_wide$dblMean_d)
-hist(lum_wide$dblMean_o)
+hist(asy$dblMean_d)
+hist(asy$dblMean_o)
 
-z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
-ggplot(lum_wide)+
+ggplot(asy)+
   geom_point(aes(x = dblMean_d, y = dblMean_o, col = lat))+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_o), method = "lm", col = "black")+
@@ -159,16 +183,16 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(lum_wide$dblMean_d)
-hist(lum_wide$dblMean_b)
+hist(asy$dblMean_d)
+hist(asy$dblMean_b)
 
-z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (1|Year) + (1|prepartor), data = lum_wide, na.action = na.exclude) 
+z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
-ggplot(lum_wide)+
+ggplot(asy)+
   geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+

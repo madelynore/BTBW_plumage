@@ -256,24 +256,54 @@ ggplot(data = age, aes(y = area_mm2_w, x = Age)) +
 summary_stats <- age %>%
   group_by(Age) %>%
   summarise(
-    lumMean_c_mean = mean(lumMean_c, na.rm = T),
-    lumMean_c_sd = sd(lumMean_c, na.rm = T),
-    lumMean_o_mean = mean(lumMean_o, na.rm = T),
-    lumMean_o_sd = sd(lumMean_o, na.rm = T),
-    lumMean_t_mean = mean(lumMean_c, na.rm = T),
-    lumMean_t_sd = sd(lumMean_c, na.rm = T),
-    lumMean_d_mean = mean(lumMean_c, na.rm = T),
-    lumMean_d_sd = sd(lumMean_c, na.rm = T),
-    lumMean_b_mean = mean(lumMean_c, na.rm = T),
-    lumMean_b_sd = sd(lumMean_c, na.rm = T),
-    lumMean_w_mean = mean(lumMean_c, na.rm = T),
-    lumMean_w_sd = sd(lumMean_c, na.rm = T),
-    area_mm2_w_mean = mean(area_mm2_w, na.rm = T),
-    area_mm2_w_sd = sd(area_mm2_w, na.rm = T)
+    lum_b = paste0(signif(mean(lumMean_b, na.rm = T), digits = 3), 
+                   " (±",
+                   signif(mean(lumSD_b, na.rm = T), digits=2), ")"),
+    lum_c = paste0(signif(mean(lumMean_c, na.rm = T), digits = 3), 
+                   " (±",
+                   signif(mean(lumSD_c, na.rm = T), digits=2), ")"),
+    lum_d = paste0(signif(mean(lumMean_d, na.rm = T), digits = 3), 
+                   " (±",
+                   signif(mean(lumSD_d, na.rm = T), digits=2), ")"),
+    lum_o = paste0(signif(mean(lumMean_o, na.rm = T), digits = 3), 
+                   " (±",
+                   signif(mean(lumSD_o, na.rm = T), digits=2), ")"),
+    lum_t = paste0(signif(mean(lumMean_t, na.rm = T), digits = 3), 
+                   " (±",
+                   signif(mean(lumSD_t, na.rm = T), digits=2), ")"),
+    lum_w = paste0(signif(mean(lumMean_w, na.rm = T), digits = 3), 
+                   " (±",
+                   signif(mean(lumSD_w, na.rm = T), digits=2), ")"),
+    area_mm2_w = paste0(signif(mean(area_mm2_w, na.rm = T), digits = 3), 
+                   " (±",
+                   signif(sd(area_mm2_w, na.rm = T), digits=2), ")"),
   )
 
 
+sum_stats <- as.data.frame(t(summary_stats))
+# Set the first row as column names
+colnames(sum_stats) <- sum_stats[1, ]
+
+# Remove the first row (now redundant)
+sum_stats <- sum_stats[-1, ]
 
 
+# get t.test pvals
+# get df with just relevant variables
+age_sel <- age %>% 
+  dplyr::select(Age, lumMean_b, lumMean_c, lumMean_d, lumMean_o, lumMean_t, lumMean_w, area_mm2_w)
+# Split the data by group
+grouped_age <- split(age_sel, age_sel$Age)
+
+# Run t-tests for each variable (excluding the group column)
+variables <- names(age_sel)[names(age_sel) != "Age"]
+p_values <- sapply(variables, function(var) {
+  t.test(grouped_age$ASY[[var]], grouped_age$SY[[var]])$p.value
+})
+
+
+sumstats_p <- cbind(sum_stats, p = signif(p_values, digits =3))
+
+sumstats_p
 
 ```
