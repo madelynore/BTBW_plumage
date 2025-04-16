@@ -32,6 +32,9 @@ band_record <- merge(bw2021_rn, bw2022_rn, by = intersect(names(bw2021_rn), name
 write.csv(band_record, "data/BTBW_banding_record_2021_22.csv", row.names = F)
 
 
+# specimen metadata -------------------------------------------------------
+
+
 library(tidyverse)
 
 specimen <- read.csv("data_raw/NMNH_specimen_data_from_Box.csv")
@@ -202,7 +205,13 @@ specimen_date <- specimen_coordsgrg %>%
 
 specimen_date$Year[which(specimen_date$Year == "1990")] <- "90"
 
-write.csv(specimen_date, "data/NMNH_specimen_metadata.csv", row.names = F) 
+## add tarsus measurements
+tarsus <- read.csv("data_raw/Tarsometatarsus.csv") %>% 
+  dplyr::select(USNM.no., Tarsometatarsus)
+
+specimen_tar <- merge(specimen_date, tarsus, all.x = T)
+
+write.csv(specimen_tar, "data/NMNH_specimen_metadata.csv", row.names = F) 
 
 # Cleaning raw output from LAS X reports ----------------------------------
 
@@ -362,31 +371,95 @@ allimg_meta <-  merge(allimg_rmrow, meta, by.x = "ID", by.y = "USNM.no.", all.x 
 unique(allimg_meta$ID[which(is.na(allimg_meta$pop))])
 unique(allimg_meta$ID[which(is.na(allimg_meta$lat))])
 
-write.csv(img_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
+write.csv(allimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
-avg_img <- allimg_rmrow %>% 
-  group_by(ID, pl_code) %>% 
-  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | starts_with("area_mm2") | contains("Power") | contains("Freq"), mean),
-            N = n_distinct(rep))
+avg_img <- allimg_rmrow %>%
+  group_by(ID, pl_code) %>%
+  summarise(
+    across(
+      c(lumMean, lumSD, lwMean, lwSD,
+        mwMean, mwSD, swMean, swSD, uvMean, uvSD, dblMean, dblSD, area_mm2),
+      ~ mean(.x, na.rm = TRUE)  # Calculate the mean, ignoring NA values
+    )
+  )
 
 avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
 
-avgimg_sel <- avg_img %>% 
-  dplyr::select(ID, pl_code, lumMean, lumSD, lwMean, lwSD,
-                mwMean, mwSD, swMean, swSD, uvMean, uvSD, dblMean, dblSD, area_mm2)
-
-avgimg_wide <- avgimg_sel %>% 
+avgimg_wide <- avg_img %>% 
   pivot_wider(names_from = pl_code, values_from = c(lumMean, lumSD,
                                                     lwMean, lwSD, mwMean, mwSD,
                                                     swMean, swSD,
                                                     uvMean, uvSD,
                                                     dblMean, dblSD, area_mm2), names_sep = "_" )
 
-avgimgwide_meta <-  merge(avgimg_wide, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
+#calculate PC scores for color of each patch - see PCA.R for plots
+dorsum <- avgimg_wide %>% 
+  dplyr::select(ID, ends_with("_d"), -lumSD_d,-lumMean_d, -area_mm2_d) %>% 
+  na.omit()
+
+d_pca <- prcomp(~ ., data = dorsum[-1])
+
+dorsum_pc <- data.frame(ID = dorsum$ID, PC1_d = predict(d_pca)[,1])
+
+crown <- avgimg_wide %>% 
+  dplyr::select(ID, ends_with("_c"), -lumSD_c,-lumMean_c, -area_mm2_c) %>% 
+  na.omit()
+
+c_pca <- prcomp(~ ., data = crown[-1])
+
+crown_pc <- data.frame(ID = crown$ID, PC1_c = predict(c_pca)[,1])
+
+dcpc <- merge(dorsum_pc, crown_pc, all = T)
+
+covert <- avgimg_wide %>% 
+  dplyr::select(ID, ends_with("_o"), -lumSD_o,-lumMean_o, -area_mm2_o) %>% 
+  na.omit()
+
+o_pca <- prcomp(~ ., data = covert[-1])
+
+covert_pc <- data.frame(ID = covert$ID, PC1_o = predict(o_pca)[,1])
+
+dcopc <- merge(dcpc, covert_pc, all = T)
+
+belly <- avgimg_wide %>% 
+  dplyr::select(ID, ends_with("_b"), -lumSD_b,-lumMean_b, -area_mm2_b) %>% 
+  na.omit()
+
+b_pca <- prcomp(~ ., data = belly[-1])
+
+belly_pc <- data.frame(ID = belly$ID, PC1_b = predict(b_pca)[,1])
+
+dcobpc <- merge(dcopc, belly_pc, all = T)
+
+throat <- avgimg_wide %>% 
+  dplyr::select(ID, ends_with("_t"), -lumSD_t,-lumMean_t, -area_mm2_t) %>% 
+  na.omit()
+
+t_pca <- prcomp(~ ., data = throat[-1])
+
+throat_pc <- data.frame(ID = throat$ID, PC1_t = predict(t_pca)[,1])
+
+dcobtpc <- merge(dcobpc, throat_pc, all = T)
+
+wingspot <- avgimg_wide %>% 
+  dplyr::select(ID, ends_with("_w"), -lumSD_w,-lumMean_w, -area_mm2_w) %>% 
+  na.omit()
+
+w_pca <- prcomp(~ ., data = wingspot[-1])
+
+wingspot_pc <- data.frame(ID = wingspot$ID, PC1_w = predict(w_pca)[,1])
+
+allplpc <- merge(dcobtpc, wingspot_pc, all = T)
+
+#merge wide img with pcscores and meta data
+avgimgwide_pc <- merge(avgimg_wide, allplpc, all = T)
+
+avgimgwide_meta <-  merge(avgimgwide_pc, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
 write.csv(avgimgwide_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
+
 
 # make fam file for GWAS --------------------------------------------------
 library(tidyverse)
