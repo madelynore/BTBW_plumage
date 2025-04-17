@@ -439,7 +439,8 @@ throat <- avgimg_wide %>%
 
 t_pca <- prcomp(~ ., data = throat[-1])
 
-throat_pc <- data.frame(ID = throat$ID, PC1_t = predict(t_pca)[,1])
+#flipping orientation so that darkest are smaller values and lightest are larger values
+throat_pc <- data.frame(ID = throat$ID, PC1_t = predict(t_pca)[,1]*-1)
 
 dcobtpc <- merge(dcobpc, throat_pc, all = T)
 
@@ -449,7 +450,8 @@ wingspot <- avgimg_wide %>%
 
 w_pca <- prcomp(~ ., data = wingspot[-1])
 
-wingspot_pc <- data.frame(ID = wingspot$ID, PC1_w = predict(w_pca)[,1])
+#flipping orientation so that darkest are smaller values and lightest are larger values
+wingspot_pc <- data.frame(ID = wingspot$ID, PC1_w = predict(w_pca)[,1]*-1)
 
 allplpc <- merge(dcobtpc, wingspot_pc, all = T)
 
@@ -460,6 +462,13 @@ avgimgwide_meta <-  merge(avgimgwide_pc, meta, by.x = "ID", by.y = "USNM.no.", a
 
 write.csv(avgimgwide_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
 
+# confirming that smaller PC scores == darker colors
+plot(avgimgwide_meta$lumMean_d, avgimgwide_meta$PC1_d)
+plot(avgimgwide_meta$lumMean_c, avgimgwide_meta$PC1_c)
+plot(avgimgwide_meta$lumMean_o, avgimgwide_meta$PC1_o)
+plot(avgimgwide_meta$lumMean_b, avgimgwide_meta$PC1_b)
+plot(avgimgwide_meta$lumMean_t, avgimgwide_meta$PC1_t)
+plot(avgimgwide_meta$lumMean_w, avgimgwide_meta$PC1_w)
 
 # make fam file for GWAS --------------------------------------------------
 library(tidyverse)
