@@ -48,8 +48,8 @@ gwa_man <- process_gwa(gwa)
 
 gwa_rand_man <- process_gwa(gwa_rand)
 
-manhattanly(gwa_man)
-manhattanly(gwa_rand_man)
+manhattanly(gwa_man, genomewideline = -log10(1e-07))
+manhattanly(gwa_rand_man, genomewideline = -log10(1e-07))
 
 
 # looking for hits with suggestive snps -----------------------------------
@@ -71,7 +71,7 @@ head(sugSNPs)
 regions4fasta <- sugSNPs %>% 
   dplyr::select(chr, start, end)
 
-write_tsv(regions4fasta, file = "data/suggestive_SNPs_regions_n87_ASY_vcf_20kb.bed",
+write_tsv(regions4fasta, file = "data/suggestive_SNPs_regions_n94_ASY_vcf_20kb.bed",
             quote = "none", col_names = F)
   
 warbler.gff<-read.delim("/Users/madelynore/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data/mywagenomev2.1.all.noseq.gff", header=F, comment.char="#") #full gff
@@ -104,11 +104,11 @@ AutoOutlier_named$RefSeq.Protein.Accession[repeatrunner_condition] <- str_extrac
 head(AutoOutlier_named)
 length(unique(AutoOutlier_named$RefSeq.Protein.Accession))
 
-write.csv(AutoOutlier_named, "data/GWAS_n87_ASY_vcf_outlier_genehits20kb.csv", row.names = F)
+write.csv(AutoOutlier_named, "data/GWAS_n94_ASY_vcf_outlier_genehits20kb.csv", row.names = F)
 
 unique_genehits <- unique(AutoOutlier_named$RefSeq.Protein.Accession)
 
-write.table(unique_genehits, "data/GWAS_n87_ASY_angsdvcf_outlier_unique_genehits20kb.txt", row.names = F, quote = F)
+write.table(unique_genehits, "data/GWAS_n94_ASY_vcf_outlier_unique_genehits20kb.txt", row.names = F, quote = F)
 
 ##Took list of entrez IDs and coverted them to gene names - https://biodbnet-abcc.ncifcrf.gov/db/db2db.php
 ## RefSeq Protein Accession -> Gene Info
@@ -117,20 +117,20 @@ write.table(unique_genehits, "data/GWAS_n87_ASY_angsdvcf_outlier_unique_genehits
 
 # looking for melanogenesis genes -----------------------------------------
 # had to remove spaces from col names 
-genehits <- read.table("data/bioDBnet_db2db_n87_ASY_vcf_20kb.txt", header = T)
+genehits <- read_table(file = "data/bioDBnet_db2db_n94_ASY_vcf_20kb.txt")
 
 #change locs
 
-genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100223824")] <- "tspan3"
-genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100217958")] <- "HS3ST1"
-genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100226815")] <- "KLHL3"
-genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100232358")] <- "HS3ST3A1"
-genehits$GeneSymbol[which(genehits$GeneSymbol == "LOC100232659")] <- "HS3ST3B1"
+genehits$Gene_Symbol[which(genehits$Gene_Symbol == "LOC100217789")] <- "H0Z2B2"
+genehits$Gene_Symbol[which(genehits$Gene_Symbol == "LOC100228345")] <- "H0Z2B2"
+genehits$Gene_Symbol[which(genehits$Gene_Symbol == "LOC100218724")] <- "H0Z2B2"
+genehits$Gene_Symbol[which(genehits$Gene_Symbol == "LOC100224575")] <- "NT5C1B"
+genehits$Gene_Symbol[which(genehits$Gene_Symbol == "LOC100229613")] <- "NT5C1A"
 
 
-ugenesym <- unique(genehits$GeneSymbol)
+ugenesym <- unique(genehits$Gene_Symbol)
 
-write.table(ugenesym, "results/unique_gene_hits_n87_ASY_vcf_20kb.txt", quote = F,
+write.table(ugenesym, "results/unique_gene_hits_n94_ASY_vcf_20kb.txt", quote = F,
             row.names = F)
 melano <- read.csv("data_raw/Melanogenesis_genes.csv")
 
