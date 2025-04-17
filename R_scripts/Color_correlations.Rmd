@@ -25,6 +25,8 @@ avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_a
 asy <- avg_img %>% 
   filter(Age == "ASY")
 
+
+
 ```
 How do luminance and shortwavelength correlate
 ```{r sw vs lum, echo =F }
@@ -59,21 +61,20 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(asy$dblMean_d)
-hist(asy$dblMean_c)
+hist(asy$PC1_d)
+hist(asy$PC1_c)
 
-z <- lmerTest::lmer(dblMean_c ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+z <- lmerTest::lmer(PC1_c ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = dblMean_d, y = dblMean_c, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_c, col = lat))+
   scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = dblMean_d, y = dblMean_c), method = "lm", col = "black")+
-  labs(x = "Dorsum Brightness", y = "Crown Brightness")+
-  ylim(0.035, 0.1)+
+  geom_smooth(aes(x = PC1_d, y = PC1_c), method = "lm", col = "black")+
+  labs(x = "Dorsum PC1", y = "Crown PC1")+
   theme_classic()
 
 ```
@@ -87,35 +88,35 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(asy$dblMean_d)
-hist(asy$dblMean_w)
+hist(asy$PC1_d)
+hist(asy$PC1_w)
 
-z <- lmerTest::lmer(dblMean_w ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+z <- lmerTest::lmer(PC1_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = dblMean_d, y = dblMean_w, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_w, col = lat))+
   scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = dblMean_d, y = dblMean_w), method = "lm", col = "black")+
-  labs(x = "Dorsum Brightness", y = "Wingspot Brightness")+
+  geom_smooth(aes(x = PC1_d, y = PC1_w), method = "lm", col = "black")+
+  labs(x = "Dorsum PC1", y = "Wingspot PC1")+
   theme_classic()
 
 
 
-z <- lmerTest::lmer(dblMean_w ~ area_mm2_c + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+z <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = dblMean_d, y = area_mm2_c, col = lat))+
+  geom_point(aes(x = PC1_d, y = area_mm2_w, col = lat))+
   scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = dblMean_d, y = area_mm2_c), method = "lm", col = "black")+
-  labs(x = "Dorsum Brightness", y = "Wingspot area (mm2)")+
+  geom_smooth(aes(x = PC1_d, y = area_mm2_w), method = "lm", col = "black")+
+  labs(x = "Dorsum PC1", y = "Wingspot area (mm2)")+
   theme_classic()
 
 ```
@@ -129,20 +130,20 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(asy$dblMean_d)
-hist(asy$dblMean_t)
+hist(asy$PC1_d)
+hist(asy$PC1_t)
 
-z <- lmerTest::lmer(dblMean_t ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+z <- lmerTest::lmer(PC1_t ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = dblMean_d, y = dblMean_t, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_t, col = lat))+
   scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = dblMean_d, y = dblMean_t), method = "lm", col = "black")+
-  labs(x = "Dorsum Brightness", y = "Throat Brightness")+
+  geom_smooth(aes(x = PC1_d, y = PC1_t), method = "lm", col = "black")+
+  labs(x = "Dorsum PC1", y = "Throat PC1")+
   theme_classic()
 
 ```
@@ -156,20 +157,20 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(asy$dblMean_d)
-hist(asy$dblMean_o)
+hist(asy$PC1_d)
+hist(asy$PC1_o)
 
-z <- lmerTest::lmer(dblMean_o ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+z <- lmerTest::lmer(PC1_o ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = dblMean_d, y = dblMean_o, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_o, col = lat))+
   scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = dblMean_d, y = dblMean_o), method = "lm", col = "black")+
-  labs(x = "Dorsum Brightness", y = "Covert Brightness")+
+  geom_smooth(aes(x = PC1_d, y = PC1_o), method = "lm", col = "black")+
+  labs(x = "Dorsum PC1", y = "Covert PC1")+
   theme_classic()
 
 ```
@@ -183,22 +184,130 @@ library(MuMIn)
 library(sjPlot)
 
 # check for normality
-hist(asy$dblMean_d)
-hist(asy$dblMean_b)
+hist(asy$PC1_d)
+hist(asy$PC1_b)
 
-z <- lmerTest::lmer(dblMean_b ~ dblMean_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+z <- lmerTest::lmer(PC1_b ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)
 
 r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = dblMean_d, y = dblMean_b, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_b, col = lat))+
   scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = dblMean_d, y = dblMean_b), method = "lm", col = "black")+
-  labs(x = "Dorsum Brightness", y = "Belly Brightness")+
+  geom_smooth(aes(x = PC1_d, y = PC1_b), method = "lm", col = "black")+
+  labs(x = "Dorsum PC1", y = "Belly PC1")+
   ylim(0.3,0.6)+
   theme_classic()
 
 ```
 
+#throat vs wingspot
+
+```{r throat v wingspot}
+
+library(lmerTest)
+library(MuMIn)
+library(sjPlot)
+
+# check for normality
+hist(asy$PC1_t)
+hist(asy$PC1_w)
+
+z <- lmerTest::lmer(PC1_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(z)
+
+r.squaredGLMM(z)
+tab_model(z)
+
+ggplot(asy)+
+  geom_point(aes(x = PC1_t, y = PC1_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = PC1_t, y = PC1_w), method = "lm", col = "black")+
+  labs(x = "Throat PC1", y = "Wingspot PC1")+
+  theme_classic()
+
+
+
+z <- lmerTest::lmer(area_mm2_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(z)
+
+r.squaredGLMM(z)
+tab_model(z)
+
+ggplot(asy)+
+  geom_point(aes(x = PC1_t, y = area_mm2_w, col = lat))+
+  scale_color_viridis_c(direction = -1)+
+  geom_smooth(aes(x = PC1_t, y = area_mm2_w), method = "lm", col = "black")+
+  labs(x = "Throat PC1", y = "Wingspot area (mm2)")+
+  theme_classic()
+
+```
+
+# make a table of results
+```{r color model table, echo=F}
+
+library(lmerTest)
+library(MuMIn)
+
+
+cd <- lmerTest::lmer(PC1_c ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
+                       na.action = na.exclude)
+wd <- lmerTest::lmer(PC1_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
+                      na.action = na.exclude)  
+wad <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
+                        na.action = na.exclude)
+td <- lmerTest::lmer(PC1_t ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
+                       na.action = na.exclude)
+od <- lmerTest::lmer(PC1_o ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
+                       na.action = na.exclude) 
+bd <- lmerTest::lmer(PC1_b ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
+                       na.action = na.exclude) 
+wt <- lmerTest::lmer(PC1_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, 
+                       na.action = na.exclude)
+wat <- lmerTest::lmer(area_mm2_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, 
+                        na.action = na.exclude) 
+models <- c(cd, wd, wad, td, od, bd, wt, wat)
+
+# Initialize an empty data frame to store results
+results <- data.frame(
+  Response = character(),
+  Explanatory = character(),
+  P_value = numeric(),
+  R2m = numeric(),
+  stringsAsFactors = FALSE
+)
+
+# Loop through each model
+for (model_name in 1:length(models)) {
+  model <- models[[model_name]]
+  
+  # Extract response variable
+  response <- as.character(formula(model)[[2]])
+  
+  # Extract explanatory variables
+  explanatory <- paste(as.character(formula(model)[[3]]), collapse = " + ")
+  
+  # Extract p-value for the first fixed effect
+  summary_model <- summary(model)
+  p_value <- summary_model$coefficients[2, "Pr(>|t|)"]  # Adjust index for the variable of interest
+  
+  # Extract marginal R² (R2m)
+  r_squared <- MuMIn::r.squaredGLMM(model)
+  R2m <- r_squared[1]  # Marginal R²
+  
+  # Add results to the data frame
+  results <- rbind(results, data.frame(
+    Response = response,
+    Explanatory = explanatory,
+    P_value = p_value,
+    R2m = R2m,
+    stringsAsFactors = FALSE
+  ))
+}
+
+# View the results
+print(results)
+
+ ```

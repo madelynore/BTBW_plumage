@@ -22,8 +22,13 @@ avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_a
 
 ## select only brightness for ASY males
 asy <- avg_img %>% 
-  filter(Age == "ASY", ID != "614283")
-# lum is wrong but need to go back to source files
+  filter(Age == "ASY")
+
+
+# combine w environment data  
+env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
+
+lum_env <- merge(asy, env) 
 
 ```
 
@@ -65,10 +70,6 @@ ggplot(data = asy, aes(x = lat, y = dblMean_d)) +
 library(car)
 library(performance)
 
-# combine w environment data  
-env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
-
-lum_env <- merge(asy, env)
 
 z <- lmer(dblMean_d ~ Tave_sm+ PPT_sm + qscat + ndvi_M + srtm + lat + (1|Year) + (1|prepartor) + (1|pop), data = lum_env)
 
@@ -95,15 +96,10 @@ library(MuMIn)
 library(performance)
 library(sjPlot)
 
-# combine w environment data  
-env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
-
-lum_env <- merge(asy, env)
-
 
 z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + qscat + ndvi_M + lat + 
                       (1|Year) + (1|prepartor) + (1|pop),
-                    data = lum_env)
+                    data = lum_env, na.action = "na.omit")
 
 
 check_model(z)
@@ -115,9 +111,9 @@ tab_model(z)
 
 #removing random factors and bio8 bc I don't trust it
 norand <- lum_env %>% 
-  dplyr::select(-pop, -Year, -prepartor, -ID, -bio_8)
+  dplyr::select(dblMean_d, bio_10, bio_18, srtm, qscat, ndvi_M, lat) %>% 
+  na.omit()
 # stepwise model selection
-options(na.action = "na.fail")
 full <- lm(dblMean_d ~., data = norand) 
 
 #using dredge 
@@ -129,8 +125,8 @@ Weights(z[z$delta < 5])                   # Include only models with AIC differe
 get.models(z, subset=delta<5)             # Extract the models having AIC difference < 5
 get.models(z, subset = 1)[[1]]            # Extract single best model (yields lm object)
 
-z <- lm(get.models(z, subset = 1)[[1]], data = mydata) # Fit best model
-summary(model.avg(z, subset = delta < 2))              # model averaging
+t <- lm(get.models(z, subset = 1)[[1]], data = norand) # Fit best model
+summary(model.avg(t, subset = delta < 2))              # model averaging
 
 
 
@@ -146,31 +142,62 @@ AIC(z)    # AIC score
 
 ```
 
-```{r lmm climNA pheno-env, echo = F}
+```{r random forest pheno-env, echo = F}
 
-library(lmerTest)
-library(MASS)
-library(MuMIn)
-library(performance)
+library(randomForest)
 
 
-# including bio 10 (mean temp warmest quarter), bio18 (mean precip warmest quarter), elev
+model <- dblMean_d ~ bio_10 + bio_18 + srtm + qscat + ndvi_M + lat
 
-lumenv_sel <- lum_env %>% 
-  dplyr::select(pop, Year, prepartor, dblMean_d, PPT_sm, PPT_sp, Tave_sm, Tave_sp, srtm, lat, lon) %>% 
-  na.omit()
-
-z <- lmerTest::lmer(dblMean_d ~ PPT_sm + PPT_sp + Tave_sm + Tave_sp + srtm + lat +  (1|pop), data = lumenv_sel)
-
-
-check_model(z)
-summary(z)
-
-dredge(z)
+rf1 <- randomForest(model, data = norand)
+rf2 <- randomForest(model, data = norand)
+importance(rf1)
+varImpPlot(rf1)
+varImpPlot(rf2)
 
 
 ```
 
+## Generalized Additive Model
+
+```{r GAM, echo = F}
+
+library(mgcv)
+library(itsadug)
+
+lum_sel <- lum_env %>% 
+  dplyr::select(dblMean_d, bio_10, bio_18, srtm, qscat, ndvi_M, lat, lon, Year,
+                prepartor) %>% 
+  na.omit()
+mod2d <- gam(dblMean_d ~ s(lat)+ s(lon)+ s(lon, lat),
+             data = lum_sel, method = "REML")
+mod2dY <- gam(dblMean_d ~ s(lon, lat, by = Year),
+             data = lum_sel, method = "REML")
+mod2d_sep <- gam(dblMean_d ~ s(lon) + s(lat),
+             data = lum_sel, method = "REML")
+te <- gam(dblMean_d ~ s(lon, lat) + s(bio_10) + ti(lat, bio_10) + s(srtm) + Year, 
+             data = lum_sel, method = "REML")
+tpe <- gam(dblMean_d ~ s(lon, lat) + s(bio_10)+ ti(bio_10, lat) + s(bio_18) + s(srtm) ,
+             data = lum_sel, method = "REML")
+tpemn <- gam(dblMean_d ~ s(lon, lat) + bio_10 + bio_18 + qscat + ndvi_M + srtm ,
+             data = lum_sel, method = "REML")
+temn <- gam(dblMean_d ~ s(lon, lat) + bio_10 + qscat + ndvi_M + srtm ,
+             data = lum_sel, method = "REML")
+mn <- gam(dblMean_d ~ s(lon, lat) + qscat + ndvi_M,
+             data = lum_sel, method = "REML")
+
+
+aicsc <- AIC(basic,te,tpe,temn, tpemn)
+aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
+
+gam.check(model)
+coef(model)
+summary(model)
+
+plot_smooth(model)
+
+vis.gam(x = te, view = c("lat", "srtm"), plot.type = "persp", se =2)
+```
 
 ```{r plot}
 
@@ -179,10 +206,10 @@ env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = 
 
 lum_env <- merge(asy, env)
 
-ggplot(data = lum_env, aes(x = bio_10, y = dblMean_d, color = lat))+
+ggplot(data = lum_env, aes(x = bio_10, y = PC1_d, color = lat))+
   geom_point(size =4)+
-  labs(x = "Mean Temperature of Warmest Quarter", y = "Dorsum brightness")+
-  geom_smooth(aes(x = bio_10, y = dblMean_d), method = "lm", col = "black")+  
+  labs(x = "Mean Temperature of Warmest Quarter", y = "PC1 Dorsum")+
+  geom_smooth(aes(x = bio_10, y = PC1_d), method = "lm", col = "black")+  
   theme_classic()
 
 z <- lm(dblMean_d~ bio_10, data = lum_env)
@@ -206,6 +233,15 @@ ggplot(data = lum_env, aes(x = bio_18, y = dblMean_d, color = lat))+
 z <- lm(dblMean_d~ bio_18, data = lum_env)
 summary(z)
 
+ggplot(data = lum_env, aes(x = qscat, y = dblMean_d, color = lat))+
+  geom_point(size =4)+
+  labs(x = "Surface Moisture", y = "Dorsum brightness")+
+  geom_smooth(aes(x = qscat, y = dblMean_d), method = "lm", col = "black")+  
+  theme_classic()
+
+z <- lm(dblMean_d~ qscat, data = lum_env, na.action = "na.omit")
+summary(z)
+
 ggplot(data = lum_env, aes(x = srtm, y = dblMean_d, color = lat))+
   geom_point(size =4)+
   labs(x = "Elevation", y = "Dorsum brightness")+
@@ -214,5 +250,44 @@ ggplot(data = lum_env, aes(x = srtm, y = dblMean_d, color = lat))+
 
 z <- lm(dblMean_d~ srtm, data = lum_env)
 summary(z)
+
+
+```
+
+# morphometric data
+```{r pca morpho}
+
+morpho <- lum_env %>% 
+  dplyr::select(ID, weight.g, wing.R.mm, tail.mm, bill.depth.mm, 
+                bill.culmen.mm, bill.nares.mm, bill.width.mm, Tarsometatarsus) 
+morphoIDs <- morpho$ID
+morpho <- morpho[,-1]
+morphopca <- prcomp( ~ , data = morpho, , na.action = na.exclude, scale.=T)
+
+biplot(morphopca, cex = 0.5, las = 1) 
+
+pcscores <- data.frame(ID = morphoIDs, 
+                       PC1 = morphopca$x[,1], PC2 = morphopca$x[,2], 
+                  PC3 = morphopca$x[,3], PC4 = morphopca$x[,4])
+
+lum_pc <- merge(lum_env, pcscores, all = T)
+
+ggplot(data = lum_pc, aes(x = lat, y = PC2))+
+  geom_point()+
+  theme_classic()
+
+ggplot(data = lum_pc, aes(x = bio_10, y = PC1, color = lat))+
+  geom_point()+
+  theme_classic()
+
+ggplot(data = lum_pc, aes(x = srtm, y = PC2, color = lat))+
+  geom_point()+
+  theme_classic()
+
+ggplot(data = lum_env, aes(x = wing.spot.L.mm, y = area_mm2_w ))+
+  geom_point()+
+  theme_classic()
+
+cor.test(x=lum_env$wing.spot.L.mm, y=lum_env$area_mm2_w, method = "pearson")
 
 ```
