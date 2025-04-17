@@ -42,41 +42,40 @@ car::vif(temp)
 
 library(sf)
 
-setwd("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/Normal_1981_2010_bioclim/")
+setwd("~/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage/data_raw/monthly_bioclim_normal_1971_2000/")
 
-file <- "Normal_1981_2010_Tave_sm.tif"
-setwd("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/Normal_1981_2010_bioclim/")
-list.files()
-PPT_sm=raster("Normal_1981_2010_PPT_sm.tif")
-PPT_sp=raster("Normal_1981_2010_PPT_sp.tif")
-Tave_sm=raster("Normal_1981_2010_Tave_sm.tif")
-Tave_sp=raster("Normal_1981_2010_Tave_sp.tif")
-
-##Combine rasters into one stack
-climNA=stack(PPT_sm, PPT_sp,Tave_sm, Tave_sp)
-
+#load in one file for CRS
+PPT06 <- raster("PPT06.tif")
 coords <- btbw_samp[,2:3]
 # Convert the coordinates to a SpatialPoints object
 coordwgs <- SpatialPoints(coords, proj4string = CRS("+proj=longlat +datum=WGS84"))
 
 # Transform the coordinates to match the raster CRS (if necessary)
-coordclimNAcrs <- spTransform(coordwgs, crs(PPT_sm))
+coordclimNAcrs <- spTransform(coordwgs, crs(PPT06))
 
-# Extract values from the raster
-climNA_ind <- raster::extract(x = climNA, y = coordclimNAcrs, method = "bilinear", fun = mean)
+#make list of all climna files
+climna_files <- list.files(pattern = "")
 
-climNAind_nm <- as.data.frame(climNA_ind) %>% 
-  rename(PPT_sm = bigfile...varname..1, PPT_sp = bigfile...varname..2 ,
-         Tave_sm = bigfile...varname..3, Tave_sp = bigfile...varname..4)
+## create a loop to make climNA df
+for (i in 1:length(climna_files)){
+  climname <- sub(climna_files, pattern=".tif", replacement = "")[i]
+  clim <- raster(climna_files[i])
+  climNA <- raster::extract(x = clim, y = coordclimNAcrs, method = "bilinear", fun = mean)
+  btbw_samp[[climname]] <- climNA
+}
 
-v <- cov(climNAind_nm)
-diag(v)
-temppca <- prcomp( ~ ., data = climNAind_nm, , na.action = na.exclude, scale.=T)
 
-biplot(temppca, cex = 0.5, las = 1) 
+climna_sum <- btbw_samp %>%
+  group_by(ID) %>%
+  summarise(
+    PPT_br = mean(c_across(starts_with("PPT")), na.rm = TRUE),
+    Rad_br = mean(c_across(starts_with("Rad")), na.rm = TRUE),
+    RH_br = mean(c_across(starts_with("RH")), na.rm = TRUE),
+    Tave_br = mean(c_across(starts_with("Tave")), na.rm = TRUE),
+    Tmax_br = max(c_across(starts_with("Tmax")), na.rm = TRUE),
+    Tmin_br = min(c_across(starts_with("Tmin")), na.rm = TRUE)
+  )
 
-# Biplot for PC3 and PC4
-biplot(temppca$x[,c(1,3)], temppca$rotation[,c(1,3)], cex = 0.5, las = 1)
 
 # SRTM --------------------------------------------------------------------
 setwd("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/srtm/")
@@ -107,9 +106,6 @@ qscat_btbw<-raster::extract(qscat,coord,fun=mean)
 #reset wd
 setwd("~/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage/")
 
-#pc1 scores correspond to temp, pc3 to ppt
-btbw_samp$tempPC_climNA <- temppca$x[1]
-btbw_samp$pptPC_climNA <- temppca$x[3]
 
 btbw_env <- cbind(btbw_samp, temp, climNAind_nm, qscat = qscat_btbw, ndvi_M = ndvi_btbw, srtm = srtm_btbw)
 
