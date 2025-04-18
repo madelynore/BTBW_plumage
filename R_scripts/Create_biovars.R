@@ -1,3 +1,5 @@
+## NOTE: ClimateNAr only works on Windows
+
 library(ClimateNAr)
 library(tidyverse)
 
