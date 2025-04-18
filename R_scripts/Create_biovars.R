@@ -5,7 +5,7 @@ library(tidyverse)
 
 # extract data points from each individual's location for each environ --------
 ##extract for specific lat/long
-btbw_samp <- read.table(file = "data/Env_by_individual_specimen_samples.txt", col.names = T)
+btbw_samp <- read.table(file = "data/Env_by_individual_specimen_samples.txt")
 
 #change first row to colnames and remove duplicated ID col
 colnames(btbw_samp) <- btbw_samp[1,]
@@ -22,3 +22,6 @@ var <- c("Tave08")
 period <- c(1987, 1988, 1989, 1990, 1991, 1992, 1993, 1995)
 
 test <- ClimateNAr(inputFile = csv, periodList = period, varList = var, outDir = "data_raw/ClimateNArdl/")
+
+
+

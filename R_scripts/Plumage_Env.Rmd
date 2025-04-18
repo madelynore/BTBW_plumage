@@ -37,7 +37,7 @@ lum_env <- merge(asy, env)
 ```{r lat vs dorsum, echo = F}
 
 #perform linear regression
-z <- lm(dblMean_d~lat, data = asy, na.action = na.exclude)
+z <- lm(PC1_d~lat, data = asy, na.action = na.exclude)
 sum_z <- summary(z)
 
 # Extract the r^2 and p-value
@@ -48,10 +48,10 @@ p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
 text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ", p-value: " ~ .(sprintf("%.3f", p_value)))
 
 
-ggplot(data = asy, aes(x = lat, y = dblMean_d)) + 
+ggplot(data = asy, aes(x = lat, y = PC1_d)) + 
   geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
   labs(x = "Latitude", y = "Luminance (brightness)") +
-  geom_smooth(aes(x = lat, y = dblMean_d), method = "lm", col = "black")+
+  geom_smooth(aes(x = lat, y = PC1_d), method = "lm", col = "black")+
   theme_classic() +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
@@ -65,29 +65,6 @@ ggplot(data = asy, aes(x = lat, y = dblMean_d)) +
 
 # Build model for env-dorsum correlation
 
-```{r climNA, echo = F}
-
-library(car)
-library(performance)
-
-
-z <- lmer(dblMean_d ~ Tave_sm+ PPT_sm + qscat + ndvi_M + srtm + lat + (1|Year) + (1|prepartor) + (1|pop), data = lum_env)
-
-
-check_model(z)
-vif_values <- vif(z)
-
-# Visualizing VIF
-barplot(vif_values, col = "skyblue", main = "Variance Inflation Factor (VIF)")
-
-compare_performance(z)
-
-# Visualizing the model
-plot(z, which = 1, main = "Model Fit")
-
-```
-
-
 ```{r lmm pheno-env, echo = F}
 
 library(lmerTest)
@@ -97,7 +74,7 @@ library(performance)
 library(sjPlot)
 
 
-z <- lmerTest::lmer(dblMean_d ~ bio_10 + bio_18 + srtm + qscat + ndvi_M + lat + 
+z <- lmerTest::lmer(PC1_d ~ bio_10 + bio_18 + srtm + qscat + ndvi_M + lat + 
                       (1|Year) + (1|prepartor) + (1|pop),
                     data = lum_env, na.action = "na.omit")
 
@@ -111,10 +88,10 @@ tab_model(z)
 
 #removing random factors and bio8 bc I don't trust it
 norand <- lum_env %>% 
-  dplyr::select(dblMean_d, bio_10, bio_18, srtm, qscat, ndvi_M, lat) %>% 
+  dplyr::select(PC1_d, bio_10, bio_18, srtm, qscat, ndvi_M, lat) %>% 
   na.omit()
 # stepwise model selection
-full <- lm(dblMean_d ~., data = norand) 
+full <- lm(PC1_d ~., data = norand) 
 
 #using dredge 
 z <- dredge(full, rank = "AICc")
@@ -146,14 +123,24 @@ AIC(z)    # AIC score
 
 library(randomForest)
 
+norand <- lum_env %>% 
+  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, Tmin_br, Tmax_br, Rad_br, srtm, qscat, ndvi_M, lat) %>% 
+  na.omit()
 
-model <- dblMean_d ~ bio_10 + bio_18 + srtm + qscat + ndvi_M + lat
+model <- PC1_d ~ PPT_br + RH_br + Tave_br + Tmin_br + Tmax_br + Rad_br + srtm + qscat + ndvi_M + lat
 
-rf1 <- randomForest(model, data = norand)
-rf2 <- randomForest(model, data = norand)
+rf1 <- randomForest(model, data = norand,
+              ntreeTry=500,
+               mtryStart=4, 
+               stepFactor=1.5,
+               improve=0.01,
+               trace=FALSE #don't show real-time progress
+               )
+which.min(rf1$mse)
+sqrt(rf1$mse[which.min(rf1$mse)])
+plot(rf1)
 importance(rf1)
 varImpPlot(rf1)
-varImpPlot(rf2)
 
 
 ```
@@ -165,30 +152,54 @@ varImpPlot(rf2)
 library(mgcv)
 library(itsadug)
 
-lum_sel <- lum_env %>% 
-  dplyr::select(dblMean_d, bio_10, bio_18, srtm, qscat, ndvi_M, lat, lon, Year,
-                prepartor) %>% 
+lum_sel <-  lum_env %>% 
+  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, Tmin_br, Tmax_br, 
+                Rad_br, srtm, qscat, ndvi_M, lat, lon, Year, prepartor) %>% 
   na.omit()
-mod2d <- gam(dblMean_d ~ s(lat)+ s(lon)+ s(lon, lat),
+
+
+# test for linear relationship
+
+env <- c("PPT_br", "RH_br", "Tave_br", "Tmin_br", "Tmax_br", "Rad_br", "srtm", 
+         "qscat", "ndvi_M", "lat", "lon", "Year")
+
+for (i in 1:length(env)) {
+  envvar <- env[i]
+  linear_model <- gam(PC1_d ~ lum_sel %>% pull(envvar), data = lum_sel)
+  smooth_model <- gam(PC1_d ~ lum_sel %>% pull(envvar), data = lum_sel)
+  aicsc <- AIC(linear_model, smooth_model)
+  aicsc$env <- rep(envvar, nrow(aicsc))
+  aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
+  print(aicsc)
+}
+## all perform equally well as linear or smoothed... 
+
+linear_model_s1 <- gam(PC1_d ~ Tave_br, data = lum_sel)
+smooth_model_s1 <- gam(PC1_d ~ s(Tave_br), data = lum_sel)
+
+ggplot(lum_sel, aes(x = Tave_br, y = PC1_d)) + geom_point() +
+    geom_line(colour = "red", size = 1.2, aes(y = fitted(linear_model_s1))) +
+    geom_line(colour = "blue", size = 1.2, aes(y = fitted(smooth_model_s1))) +
+    theme_bw()
+
+mod2dY <- gam(PC1_d ~ s(lon, lat, by = Year),
              data = lum_sel, method = "REML")
-mod2dY <- gam(dblMean_d ~ s(lon, lat, by = Year),
+te <- gam(PC1_d ~ s(lon, lat) + Tave_br + ti(lat, Tave_br) + s(srtm) + Year, 
              data = lum_sel, method = "REML")
-mod2d_sep <- gam(dblMean_d ~ s(lon) + s(lat),
+tpe <- gam(PC1_d ~ s(lon, lat) + s(Tave_br)+ ti(Tave_br, lat) + s(PPT_br) + s(srtm) ,
              data = lum_sel, method = "REML")
-te <- gam(dblMean_d ~ s(lon, lat) + s(bio_10) + ti(lat, bio_10) + s(srtm) + Year, 
+tpemny <- gam(PC1_d ~ s(lon, lat) + s(Tave_br) + s(PPT_br) +
+                s(RH_br) + s(Rad_br) + s(qscat) + s(ndvi_M) + s(srtm),
              data = lum_sel, method = "REML")
-tpe <- gam(dblMean_d ~ s(lon, lat) + s(bio_10)+ ti(bio_10, lat) + s(bio_18) + s(srtm) ,
+thre <- gam(PC1_d ~ s(lon, lat) + s(Tave_br) + s(RH_br) + s(Rad_br) + s(srtm) ,
              data = lum_sel, method = "REML")
-tpemn <- gam(dblMean_d ~ s(lon, lat) + bio_10 + bio_18 + qscat + ndvi_M + srtm ,
-             data = lum_sel, method = "REML")
-temn <- gam(dblMean_d ~ s(lon, lat) + bio_10 + qscat + ndvi_M + srtm ,
-             data = lum_sel, method = "REML")
-mn <- gam(dblMean_d ~ s(lon, lat) + qscat + ndvi_M,
+hr <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Rad_br),
              data = lum_sel, method = "REML")
 
 
-aicsc <- AIC(basic,te,tpe,temn, tpemn)
+aicsc <- AIC(mod2dY, te,tpe,tpemny, thre, hr)
 aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
+aicsc
 
 gam.check(model)
 coef(model)
@@ -209,46 +220,56 @@ lum_env <- merge(asy, env)
 ggplot(data = lum_env, aes(x = bio_10, y = PC1_d, color = lat))+
   geom_point(size =4)+
   labs(x = "Mean Temperature of Warmest Quarter", y = "PC1 Dorsum")+
-  geom_smooth(aes(x = bio_10, y = PC1_d), method = "lm", col = "black")+  
+  geom_line(aes(y = fitted(te)), colour = "red", size = 1.2)
   theme_classic()
 
-z <- lm(dblMean_d~ bio_10, data = lum_env)
+z <- lm(PC1_d~ bio_10, data = lum_env)
 summary(z)
 
-ggplot(data = lum_env, aes(x = ndvi_M, y = dblMean_d, color = lat))+
+ggplot(data = lum_env, aes(x = lat, y = bio_10, color = PC1_d))+
+  geom_point(size=4, position = "jitter")+
+  labs(x = "Latitude", y = "Mean Temperature of Warmest Quarter")+
+  theme_classic()
+
+ggplot(data = lum_env, aes(x = PC1_d, y = lat, color = bio_10))+
+  geom_point(size=4, position = "jitter")+
+  labs(x = "Dorsum PC1", y = "Latitude")+
+  theme_classic()
+
+ggplot(data = lum_env, aes(x = ndvi_M, y = PC1_d, color = lat))+
   geom_point(size =4)+
   labs(x = "Max NDVI", y = "Dorsum brightness")+
-  geom_smooth(aes(x = ndvi_M, y = dblMean_d), method = "lm", col = "black")+  
+  geom_smooth(aes(x = ndvi_M, y = PC1_d), method = "lm", col = "black")+  
   theme_classic()
 
-z <- lm(dblMean_d~ ndvi_M, data = lum_env)
+z <- lm(PC1_d~ ndvi_M, data = lum_env)
 summary(z)
 
-ggplot(data = lum_env, aes(x = bio_18, y = dblMean_d, color = lat))+
+ggplot(data = lum_env, aes(x = bio_18, y = PC1_d, color = lat))+
   geom_point(size =4)+
   labs(x = "Precip of Warmest Quarter", y = "Dorsum brightness")+
-  geom_smooth(aes(x = bio_18, y = dblMean_d), method = "lm", col = "black")+  
+  geom_smooth(aes(x = bio_18, y = PC1_d), method = "lm", col = "black")+  
   theme_classic()
 
-z <- lm(dblMean_d~ bio_18, data = lum_env)
+z <- lm(PC1_d~ bio_18, data = lum_env)
 summary(z)
 
-ggplot(data = lum_env, aes(x = qscat, y = dblMean_d, color = lat))+
+ggplot(data = lum_env, aes(x = qscat, y = PC1_d, color = lat))+
   geom_point(size =4)+
   labs(x = "Surface Moisture", y = "Dorsum brightness")+
-  geom_smooth(aes(x = qscat, y = dblMean_d), method = "lm", col = "black")+  
+  geom_smooth(aes(x = qscat, y = PC1_d), method = "lm", col = "black")+  
   theme_classic()
 
-z <- lm(dblMean_d~ qscat, data = lum_env, na.action = "na.omit")
+z <- lm(PC1_d~ qscat, data = lum_env, na.action = "na.omit")
 summary(z)
 
-ggplot(data = lum_env, aes(x = srtm, y = dblMean_d, color = lat))+
+ggplot(data = lum_env, aes(x = srtm, y = PC1_d, color = lat))+
   geom_point(size =4)+
   labs(x = "Elevation", y = "Dorsum brightness")+
-  geom_smooth(aes(x = srtm, y = dblMean_d), method = "lm", col = "black")+  
+  geom_smooth(aes(x = srtm, y = PC1_d), method = "lm", col = "black")+  
   theme_classic()
 
-z <- lm(dblMean_d~ srtm, data = lum_env)
+z <- lm(PC1_d~ srtm, data = lum_env)
 summary(z)
 
 
@@ -262,7 +283,7 @@ morpho <- lum_env %>%
                 bill.culmen.mm, bill.nares.mm, bill.width.mm, Tarsometatarsus) 
 morphoIDs <- morpho$ID
 morpho <- morpho[,-1]
-morphopca <- prcomp( ~ , data = morpho, , na.action = na.exclude, scale.=T)
+morphopca <- prcomp( ~ ., data = morpho, , na.action = na.exclude, scale.=T)
 
 biplot(morphopca, cex = 0.5, las = 1) 
 
