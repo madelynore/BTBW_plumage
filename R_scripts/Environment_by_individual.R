@@ -108,5 +108,5 @@ setwd("~/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage/")
 btbw_env <- cbind(btbw_samp, climna_sum, qscat = qscat_btbw, ndvi_M = ndvi_btbw, srtm = srtm_btbw)
 
 write.table(btbw_env, "data/Env_by_individual_specimen_samples.txt",
-            row.names = F, quote = F)
+            row.names = F, quote = F, col.names = T)
 
