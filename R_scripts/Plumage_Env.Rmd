@@ -26,7 +26,8 @@ asy <- avg_img %>%
 
 
 # combine w environment data  
-env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
+env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T) %>% 
+  dplyr::select(-Year)
 
 lum_env <- merge(asy, env) 
 
@@ -34,7 +35,7 @@ lum_env <- merge(asy, env)
 
 ## Does location predict color ? 
 
-```{r lat vs dorsum, echo = F}
+```{r spatio-temporal fit, echo = F}
 
 #perform linear regression
 z <- lm(PC1_d~lat, data = asy, na.action = na.exclude)
@@ -61,6 +62,25 @@ ggplot(data = asy, aes(x = lat, y = PC1_d)) +
     axis.text = element_text(size = 14)
   )
 
+
+## spatio-temporal fit
+mod2dp <- gamm(PC1_d ~ s(lon, lat), random = list(pop = ~1), 
+                data = lum_sel)
+mod2d_randpopY <- gamm( PC1_d ~ s(lon, lat, by = Year), random = list(pop = ~1), 
+                        data = lum_sel )
+mod2dY <- gamm( PC1_d ~ s(lon, lat) + Year, random = list(pop = ~1), 
+                data = lum_sel )
+modlatY <- gamm( PC1_d ~ lat + Year, random = list(pop = ~1), 
+                   data = lum_sel )
+modY <- gamm( PC1_d ~ Year, random = list(pop = ~1), 
+              data = lum_sel )
+modnull <- gamm( PC1_d ~ 1, random = list(pop = ~1), 
+                 data = lum_sel )
+
+aicsc <- AIC(mod2dp$lme ,mod2d_randpopY$lme, mod2dY$lme, modlatY$lme, modY$lme, modnull$lme)
+aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
+aicsc
+
 ```
 
 # Build model for env-dorsum correlation
@@ -74,8 +94,8 @@ library(performance)
 library(sjPlot)
 
 
-z <- lmerTest::lmer(PC1_d ~ bio_10 + bio_18 + srtm + qscat + ndvi_M + lat + 
-                      (1|Year) + (1|prepartor) + (1|pop),
+z <- lmerTest::lmer(PC1_d ~ PPT_br + RH_br + Tave_br + Rad_br + srtm + 
+                      qscat + ndvi_M + Year + (1|prepartor) + (1|pop),
                     data = lum_env, na.action = "na.omit")
 
 
@@ -86,20 +106,19 @@ tab_model(z)
 
 #dredge(z)
 
-#removing random factors and bio8 bc I don't trust it
 norand <- lum_env %>% 
-  dplyr::select(PC1_d, bio_10, bio_18, srtm, qscat, ndvi_M, lat) %>% 
+  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, Rad_br, srtm, qscat, ndvi_M, lat, Year) %>% 
   na.omit()
 # stepwise model selection
-full <- lm(PC1_d ~., data = norand) 
+full <- lm(PC1_d ~., data = norand, na.action = "na.fail") 
 
 #using dredge 
 z <- dredge(full, rank = "AICc")
 print(z)                                  # Model selection table
-print(z[z$delta < 5])                     # Tabulate only models with AIC difference < 5
+bestmods <- z[z$delta < 5]                    # Tabulate only models with AIC difference < 5
 Weights(z)                                # AIC weights all models
 Weights(z[z$delta < 5])                   # Include only models with AIC difference < 5
-get.models(z, subset=delta<5)             # Extract the models having AIC difference < 5
+get.models(z, subset=delta<5)  # Extract the models having AIC difference < 5
 get.models(z, subset = 1)[[1]]            # Extract single best model (yields lm object)
 
 t <- lm(get.models(z, subset = 1)[[1]], data = norand) # Fit best model
@@ -108,13 +127,13 @@ summary(model.avg(t, subset = delta < 2))              # model averaging
 
 
 
-z <- stepAIC(z, direction="both")
+z <- stepAIC(full, direction="both")
 
 summary(z)
 plot(z)
 anova(z)
 logLik(z) # include df
-AIC(z)    # AIC score
+AIC(z)     # AIC score
 
 
 ```
@@ -124,10 +143,10 @@ AIC(z)    # AIC score
 library(randomForest)
 
 norand <- lum_env %>% 
-  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, Tmin_br, Tmax_br, Rad_br, srtm, qscat, ndvi_M, lat) %>% 
+  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, Rad_br, srtm, qscat, ndvi_M, lat) %>% 
   na.omit()
 
-model <- PC1_d ~ PPT_br + RH_br + Tave_br + Tmin_br + Tmax_br + Rad_br + srtm + qscat + ndvi_M + lat
+model <- PC1_d ~ PPT_br + RH_br + Tave_br + Rad_br + srtm + qscat + ndvi_M + lat
 
 rf1 <- randomForest(model, data = norand,
               ntreeTry=500,
@@ -139,7 +158,7 @@ rf1 <- randomForest(model, data = norand,
 which.min(rf1$mse)
 sqrt(rf1$mse[which.min(rf1$mse)])
 plot(rf1)
-importance(rf1)
+randomForest::importance(rf1)
 varImpPlot(rf1)
 
 
@@ -153,20 +172,19 @@ library(mgcv)
 library(itsadug)
 
 lum_sel <-  lum_env %>% 
-  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, Tmin_br, Tmax_br, 
-                Rad_br, srtm, qscat, ndvi_M, lat, lon, Year, prepartor) %>% 
+  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, srtm, qscat, ndvi_M, 
+                lat, lon, Year, prepartor, pop) %>% 
   na.omit()
-
 
 # test for linear relationship
 
-env <- c("PPT_br", "RH_br", "Tave_br", "Tmin_br", "Tmax_br", "Rad_br", "srtm", 
-         "qscat", "ndvi_M", "lat", "lon", "Year")
+env <- c("PPT_br", "RH_br", "Tave_br", "srtm", 
+         "qscat", "ndvi_M", "lat", "lon")
 
 for (i in 1:length(env)) {
   envvar <- env[i]
   linear_model <- gam(PC1_d ~ lum_sel %>% pull(envvar), data = lum_sel)
-  smooth_model <- gam(PC1_d ~ lum_sel %>% pull(envvar), data = lum_sel)
+  smooth_model <- gam(PC1_d ~ s(lum_sel %>% pull(envvar)), data = lum_sel)
   aicsc <- AIC(linear_model, smooth_model)
   aicsc$env <- rep(envvar, nrow(aicsc))
   aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
@@ -176,28 +194,57 @@ for (i in 1:length(env)) {
 
 linear_model_s1 <- gam(PC1_d ~ Tave_br, data = lum_sel)
 smooth_model_s1 <- gam(PC1_d ~ s(Tave_br), data = lum_sel)
-
+#testing fit
 ggplot(lum_sel, aes(x = Tave_br, y = PC1_d)) + geom_point() +
     geom_line(colour = "red", size = 1.2, aes(y = fitted(linear_model_s1))) +
     geom_line(colour = "blue", size = 1.2, aes(y = fitted(smooth_model_s1))) +
     theme_bw()
 
-mod2dY <- gam(PC1_d ~ s(lon, lat, by = Year),
+linear_model_s1 <- gam(PC1_d ~ srtm, data = lum_sel)
+smooth_model_s1 <- gam(PC1_d ~ s(srtm), data = lum_sel)
+#testing fit
+ggplot(lum_sel, aes(x = srtm, y = PC1_d)) + geom_point() +
+    geom_line(colour = "red", size = 1.2, aes(y = fitted(linear_model_s1))) +
+    geom_line(colour = "blue", size = 1.2, aes(y = fitted(smooth_model_s1))) +
+    theme_bw()
+
+## spatio-temporal fit
+mod2dp <- gamm(PC1_d ~ s(lon, lat), random = list(pop = ~1), 
+                data = lum_sel)
+mod2d_randpopY <- gamm( PC1_d ~ s(lon, lat, by = Year), random = list(pop = ~1), 
+                        data = lum_sel )
+mod2dY <- gamm( PC1_d ~ s(lon, lat) + Year, random = list(pop = ~1), 
+                data = lum_sel )
+modlatY <- gamm( PC1_d ~ lat + Year, random = list(pop = ~1), 
+                   data = lum_sel )
+modY <- gamm( PC1_d ~ Year, random = list(pop = ~1), 
+              data = lum_sel )
+modnull <- gamm( PC1_d ~ 1, random = list(pop = ~1), 
+                 data = lum_sel )
+
+aicsc <- AIC(mod2dp$lme ,mod2d_randpopY$lme, mod2dY$lme, modlatY$lme, modY$lme, modnull$lme)
+aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
+aicsc
+
+ 
+full <- gamm(PC1_d ~ s(lon, lat) + Year + s(PPT_br) + s(RH_br) + s(Tave_br) + 
+               s(srtm) + s(qscat) + s(ndvi_M), 
+          random = list(pop = ~1), data = lum_sel, method = "REML")
+te <-  gamm(PC1_d ~ s(lon, lat) + Tave_br + ti(lat, Tave_br) + srtm + Year, 
+            random = list(pop = ~1), data = lum_sel, method = "REML")
+tpe <-  gamm(PC1_d ~ s(lon, lat) + s(Tave_br)+ ti(Tave_br, lat) + PPT_br + srtm,
              data = lum_sel, method = "REML")
-te <- gam(PC1_d ~ s(lon, lat) + Tave_br + ti(lat, Tave_br) + s(srtm) + Year, 
-             data = lum_sel, method = "REML")
-tpe <- gam(PC1_d ~ s(lon, lat) + s(Tave_br)+ ti(Tave_br, lat) + s(PPT_br) + s(srtm) ,
-             data = lum_sel, method = "REML")
-tpemny <- gam(PC1_d ~ s(lon, lat) + s(Tave_br) + s(PPT_br) +
+tpemny <-  gamm(PC1_d ~ s(lon, lat) + s(Tave_br) + s(PPT_br) +
                 s(RH_br) + s(Rad_br) + s(qscat) + s(ndvi_M) + s(srtm),
              data = lum_sel, method = "REML")
-thre <- gam(PC1_d ~ s(lon, lat) + s(Tave_br) + s(RH_br) + s(Rad_br) + s(srtm) ,
+thre <-  gamm(PC1_d ~ s(lon, lat) + s(Tave_br) + s(RH_br) + s(Rad_br) + s(srtm) ,
+             data = lum_sel,random = list(pop = ~1), method = "REML")
+hr <-  gamm(PC1_d ~ s(lon, lat) + s(RH_br) + s(Rad_br),
              data = lum_sel, method = "REML")
-hr <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Rad_br),
+hr <-  gamm(PC1_d ~ RH_br + Rad_br,
              data = lum_sel, method = "REML")
 
-
-aicsc <- AIC(mod2dY, te,tpe,tpemny, thre, hr)
+aicsc <- AIC(mod2dY$gam, te,tpe,tpemny, thre, hr)
 aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
 aicsc
 
@@ -212,10 +259,6 @@ vis.gam(x = te, view = c("lat", "srtm"), plot.type = "persp", se =2)
 
 ```{r plot}
 
-# combine w environment data  
-env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
-
-lum_env <- merge(asy, env)
 
 ggplot(data = lum_env, aes(x = bio_10, y = PC1_d, color = lat))+
   geom_point(size =4)+
@@ -226,6 +269,7 @@ ggplot(data = lum_env, aes(x = bio_10, y = PC1_d, color = lat))+
 z <- lm(PC1_d~ bio_10, data = lum_env)
 summary(z)
 
+  
 ggplot(data = lum_env, aes(x = lat, y = bio_10, color = PC1_d))+
   geom_point(size=4, position = "jitter")+
   labs(x = "Latitude", y = "Mean Temperature of Warmest Quarter")+
@@ -273,6 +317,28 @@ z <- lm(PC1_d~ srtm, data = lum_env)
 summary(z)
 
 
+ggplot(data = lum_env, aes(x = Tave08_molt, y = PC1_d, color = lat))+
+  geom_point(size = 4)+
+  labs(x = "Mean Temperature in August during molt", y = "PC1 Dorsum")+
+  geom_smooth(aes(x = Tave08_molt, y = PC1_d), method = "lm", col = "black")+  
+  theme_classic()
+
+molt <- lm(PC1_d~ Tave08_molt, data = lum_env)
+summary(molt)
+
+ggplot(data = lum_env, aes(x = Tave_br, y = PC1_d, color = lat))+
+  geom_point(size = 4)+
+  labs(x = "Mean Temperature during breeding", y = "PC1 Dorsum")+
+  geom_smooth(aes(x = Tave_br, y = PC1_d), method = "lm", col = "black")+  
+  theme_classic()
+
+br <- lm(PC1_d~ Tave_br, data = lum_env)
+summary(br)
+
+ggplot(data = lum_env, aes(x = Rad_br, y = PC1_d, color = lat))+
+  geom_point(size =4)+
+  labs(x = "Solar Radiation", y = "PC1 Dorsum")+
+  theme_classic()
 ```
 
 # morphometric data
