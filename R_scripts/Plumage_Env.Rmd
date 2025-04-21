@@ -107,7 +107,7 @@ tab_model(z)
 #dredge(z)
 
 norand <- lum_env %>% 
-  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, Rad_br, srtm, qscat, ndvi_M, lat, Year) %>% 
+  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, srtm, qscat, ndvi_M, lat, Year) %>% 
   na.omit()
 # stepwise model selection
 full <- lm(PC1_d ~., data = norand, na.action = "na.fail") 
@@ -143,10 +143,10 @@ AIC(z)     # AIC score
 library(randomForest)
 
 norand <- lum_env %>% 
-  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, Rad_br, srtm, qscat, ndvi_M, lat) %>% 
+  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, srtm, qscat, ndvi_M) %>% 
   na.omit()
 
-model <- PC1_d ~ PPT_br + RH_br + Tave_br + Rad_br + srtm + qscat + ndvi_M + lat
+model <- PC1_d ~ PPT_br + RH_br + Tave_br + srtm + qscat + ndvi_M
 
 rf1 <- randomForest(model, data = norand,
               ntreeTry=500,
@@ -208,6 +208,7 @@ ggplot(lum_sel, aes(x = srtm, y = PC1_d)) + geom_point() +
     geom_line(colour = "blue", size = 1.2, aes(y = fitted(smooth_model_s1))) +
     theme_bw()
 
+
 ## spatio-temporal fit
 mod2dp <- gamm(PC1_d ~ s(lon, lat), random = list(pop = ~1), 
                 data = lum_sel)
@@ -226,25 +227,27 @@ aicsc <- AIC(mod2dp$lme ,mod2d_randpopY$lme, mod2dY$lme, modlatY$lme, modY$lme, 
 aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
 aicsc
 
- 
-full <- gamm(PC1_d ~ s(lon, lat) + Year + s(PPT_br) + s(RH_br) + s(Tave_br) + 
+# running each variable separately and then choosing which to add to model based on AIC
+full <- gamm(PC1_d ~ s(lon, lat) + Year + s(PPT_br) + s(RH_br) + ti(Tave_br, lat) +
                s(srtm) + s(qscat) + s(ndvi_M), 
           random = list(pop = ~1), data = lum_sel, method = "REML")
-te <-  gamm(PC1_d ~ s(lon, lat) + Tave_br + ti(lat, Tave_br) + srtm + Year, 
-            random = list(pop = ~1), data = lum_sel, method = "REML")
-tpe <-  gamm(PC1_d ~ s(lon, lat) + s(Tave_br)+ ti(Tave_br, lat) + PPT_br + srtm,
-             data = lum_sel, method = "REML")
-tpemny <-  gamm(PC1_d ~ s(lon, lat) + s(Tave_br) + s(PPT_br) +
-                s(RH_br) + s(Rad_br) + s(qscat) + s(ndvi_M) + s(srtm),
-             data = lum_sel, method = "REML")
-thre <-  gamm(PC1_d ~ s(lon, lat) + s(Tave_br) + s(RH_br) + s(Rad_br) + s(srtm) ,
-             data = lum_sel,random = list(pop = ~1), method = "REML")
-hr <-  gamm(PC1_d ~ s(lon, lat) + s(RH_br) + s(Rad_br),
-             data = lum_sel, method = "REML")
-hr <-  gamm(PC1_d ~ RH_br + Rad_br,
-             data = lum_sel, method = "REML")
+tave <- gamm(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat),  
+          random = list(pop = ~1), data = lum_sel, method = "REML")
+ppt <- gamm(PC1_d ~ s(lon, lat) + Year + s(PPT_br),  
+          random = list(pop = ~1), data = lum_sel, method = "REML")
+rh <- gamm(PC1_d ~ s(lon, lat) + Year + s(RH_br),  
+          random = list(pop = ~1), data = lum_sel, method = "REML")
+srtm <- gamm(PC1_d ~ s(lon, lat) + Year + s(srtm),  
+          random = list(pop = ~1), data = lum_sel, method = "REML")
+qscat <- gamm(PC1_d ~ s(lon, lat) + Year + s(qscat),  
+          random = list(pop = ~1), data = lum_sel, method = "REML")
+ndvi <- gamm(PC1_d ~ s(lon, lat) + Year + s(ndvi_M),  
+          random = list(pop = ~1), data = lum_sel, method = "REML")
 
-aicsc <- AIC(mod2dY$gam, te,tpe,tpemny, thre, hr)
+te <- gam(PC1_d ~ s(lon, lat) + Year + ti(Tave_br, lat) + s(srtm),
+          data = lum_sel, method = "REML")
+
+aicsc <- AIC(mod2dY$lme, tave$lme, ppt$lme, rh$lme, srtm$lme, qscat$lme, ndvi$lme, te)
 aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
 aicsc
 
@@ -254,7 +257,7 @@ summary(model)
 
 plot_smooth(model)
 
-vis.gam(x = te, view = c("lat", "srtm"), plot.type = "persp", se =2)
+vis.gam(x = tave$gam, view = c("lat", "Tave_br"), plot.type = "persp", se =2, type = "response")
 ```
 
 ```{r plot}
@@ -263,7 +266,7 @@ vis.gam(x = te, view = c("lat", "srtm"), plot.type = "persp", se =2)
 ggplot(data = lum_env, aes(x = bio_10, y = PC1_d, color = lat))+
   geom_point(size =4)+
   labs(x = "Mean Temperature of Warmest Quarter", y = "PC1 Dorsum")+
-  geom_line(aes(y = fitted(te)), colour = "red", size = 1.2)
+  geom_line(aes(y = fitted(te)), colour = "red", size = 1.2)+
   theme_classic()
 
 z <- lm(PC1_d~ bio_10, data = lum_env)
