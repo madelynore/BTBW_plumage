@@ -305,4 +305,6 @@ sumstats_p <- cbind(sum_stats, p = signif(p_values, digits =3))
 
 sumstats_p
 
+write.csv(sumstats_p, here("results/Age_color_models_table.csv"), row.names = T)
+
 ```

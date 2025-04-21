@@ -310,4 +310,6 @@ for (model_name in 1:length(models)) {
 # View the results
 print(results)
 
+write.csv(results, file = here("results/Color_lmm_model_results.csv"), row.names = F)
+
  ```
