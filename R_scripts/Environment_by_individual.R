@@ -149,7 +149,7 @@ biona <- merge(btbw_samp, climna_sum, all= T)
 
 bionamolt <- merge(biona, idy_all, all = T)
 
-btbw_env <- cbind(btbw_samp, climna_sum, qscat = qscat_btbw, ndvi_M = ndvi_btbw, srtm = srtm_btbw)
+btbw_env <- cbind(bionamolt, qscat = qscat_btbw, ndvi_M = ndvi_btbw, srtm = srtm_btbw)
 
 write.table(btbw_env, "data/Env_by_individual_specimen_samples.txt",
             row.names = F, quote = F, col.names = T)
