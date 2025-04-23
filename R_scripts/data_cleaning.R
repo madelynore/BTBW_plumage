@@ -487,19 +487,17 @@ img_wide$ID <- paste0("Z",img_wide$ID)
 
 #merge the two dfs
 fam_img <- merge(fam_id, img_wide, by.x = "V2", by.y = "ID", all.x = F, all.y = F) %>% 
-  dplyr::select(V1, V2, Age, V4, V5, dblMean_d)
+  dplyr::select(V1, V2, Age, V4, V5, PC1_d)
 
 head(fam_img)
 
 fam_img_noNA <- fam_img %>%
-  filter(!(is.na(fam_img$dblMean_d)))
+  filter(!(is.na(fam_img$PC1_d)))
 
-fam_img_noNA$rand_d <- sample(fam_img_noNA$dblMean_d)
+fam_img_noNA$rand_d <- sample(fam_img_noNA$PC1_d)
 
 famcol <- colnames(fam_img_noNA)
-write.table(fam_img_noNA, "data/BTBW_n154_allages_forGWAS_lum_d_rand_colnames.txt", quote = F)
-write.table(fam_img_noNA, 
-            "data/BTBW_n154_allages_forGWAS_lum_d_rand.fam",
+write.table(fam_img_noNA, "data/BTBW_n155_allages_forGWAS_PC1_d_rand.fam",
             quote = F, col.names = F, row.names = F)
 
 # select only the ASY
@@ -507,7 +505,7 @@ asyfam <- fam_img_noNA %>%
   filter(Age == "ASY") 
 
 write.table(asyfam, 
-            "data/BTBW_n94_ASY_forGWAS_lum_d_rand.fam",
+            "data/BTBW_n95_ASY_forGWAS_PC1_d_rand.fam",
             quote = F, col.names = F, row.names = F)
 
 
