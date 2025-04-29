@@ -163,7 +163,7 @@ lum_sel <- lum_env %>%
 
 options(na.action = "na.fail")
 
-z <- lmerTest::lmer(PC1_d ~ PPT_br + RH_br + Tave_br*lat + srtm + 
+z <- lmerTest::lmer(PC1_d ~ PPT_br + RH_br + Tave_br + lat + srtm + 
                       ndvi_M + (1|Year) + (1|prepartor),
                     data = lum_sel, REML = T) 
 
@@ -261,7 +261,7 @@ ggplot(lum_sel, aes(x = srtm, y = PC1_d)) + geom_point() +
 
 
 # running each variable separately and then choosing which to add to model based on AIC
-full <- gam(PC1_d ~ s(lon, lat) + Year +s(RH_br) + s(Tave_br) + s(Rad_br)+
+full <- gam(PC1_d ~ s(lon, lat) +s(RH_br) + s(Tave_br) + s(Rad_br)+
                 + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
             data = lum_sel, method = "REML")
 nospace <- gamm(PC1_d ~ Year + s(RH_br) + s(Tave_br) + s(Rad_br)+
