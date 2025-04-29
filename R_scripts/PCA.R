@@ -62,7 +62,7 @@ library(tidyverse)
 library(RcppCNPy)
 library(here)
 
-C <- as.matrix(read.table("data_raw/btbw_n94_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.covMat"))
+C <- as.matrix(read.table("btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.covMat"))
 # Plot PCA plot
 ## get eigenvalues + vectors
 e <- eigen(C, symmetric = T)
@@ -83,15 +83,15 @@ head(tab)
 print(prop.expl[1:4])
 
 plot(x = tab$EV1, y = tab$EV2)
-
+plot_done()
 #  bind to relevant metadata -------------------------------------------------------------------------
 #determine which ids to keep from metadata
-fam <- read.table("data/BTBW_n94_ASY_forGWAS_lum_d_rand.fam") %>% 
+fam <- read.table("BTBW_n95_ASY_forGWAS_PC1_d_rand.fam") %>% 
   select(ID = V2, lumMean_d = V6)
 
 tabfam <- cbind(fam, tab)
 
-meta <- read.csv("data/NMNH_specimen_metadata.csv")
+meta <- read.csv("NMNH_specimen_metadata.csv")
 meta$seqID <- paste0("Z", meta$USNM.no.)
 
 tab2 <- merge(tabfam, meta, by.x = "ID", by.y = "seqID", all.x = T, all.y = F)
@@ -105,6 +105,7 @@ ggplot(tab2, aes(x = EV1, y = EV2, color = lat, shape = Region))+
   xlab(paste0("PC1 (", pc1perc ,"% explained)")) +
   ylab(paste0("PC2 (", pc2perc,"% explained)")) +
   #lims(y=c(0,0.075))+
+  title("cov matrix ASY n95")+
   theme_classic()+
   theme(
     text = element_text(size = 24),          # Overall text size
@@ -112,14 +113,14 @@ ggplot(tab2, aes(x = EV1, y = EV2, color = lat, shape = Region))+
     axis.title = element_text(size = 20),    # Axis title
     plot.title = element_text(size = 20)     # Plot title
   )
-
+plot_done()
 #looks good, using pc scores to account for population structure
 
 pccov <- tab2 %>% 
   dplyr::select(EV1, EV2, EV3)
 
 
-write.table(pccov, file = "data/PCscores_btbw_n94_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.cov",
+write.table(pccov, file = "PCscores_btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.cov",
             quote = F, row.names = F, col.names = F)
 
 
@@ -135,7 +136,7 @@ avg_img <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop
 
 ## select only brightness for ASY males
 asy <- avg_img %>% 
-  filter(Age == "ASY", ID != "614283")
+  filter(Age == "ASY")
 
 #filtering for just dorsum measures, removing lum bc redundant with dbl and area bc it's not relevant for this patch
 dorsum <- avg_img %>% 
@@ -165,6 +166,7 @@ t_pca <- prcomp(~ ., data = throat)
 screeplot(t_pca, type="lines")
 
 ggbiplot(t_pca, choices = c(1,2))+
+  ylim(c(-2,2)) +
   theme_classic()
 
 throat_pcs <- cbind(throat, predict(t_pca))

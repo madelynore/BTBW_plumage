@@ -22,7 +22,8 @@ avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_a
 
 ## select only brightness for ASY males
 asy <- avg_img %>% 
-  filter(Age == "ASY") 
+  filter(Age == "ASY") %>% 
+  dplyr::select(ID, PC1_d, pop)
 
 
 # combine w environment data  
@@ -31,7 +32,7 @@ env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = 
 
 lum_env <- merge(asy, env) 
 
-#set year as a factor 
+
 
 
 ```
@@ -73,38 +74,41 @@ lum_noNA <- lum_env %>%
   filter(!is.na(PC1_d))
 
 ## spatio-temporal fit
-mod2dp <- gamm(PC1_d ~ s(lon, lat), random = list(Region = ~1), 
+mod2d <- gam(PC1_d ~ s(lon, lat), 
                 data = lum_noNA)
-mod2d_randpopY <- gamm( PC1_d ~ s(lon, lat, by = Year), random = list(Region = ~1), 
-                        data = lum_noNA )
 mod2dY <- gam( PC1_d ~ s(lon, lat, by = Year), 
                 data = lum_noNA )
+mod2dYY <- gam( PC1_d ~ s(lon, lat, by = Year) + Year,
+               data = lum_noNA)
 mod2dY_nopop <- gam( PC1_d ~ s(lon, lat) + Year, method = "REML",
                    data = lum_noNA) 
-modnull <- lmerTest::lmer(PC1_d ~ 1 + (1|Region),
+modnull <- lm(PC1_d ~ 1, data = lum_noNA) 
+modlmlatY <- lmerTest::lmer(PC1_d ~ lat + (1|Year) + (1|prepartor),
                     data = lum_noNA, REML = T) 
-modlatY <- lmerTest::lmer(PC1_d ~ lat + (1|Year) + (1|prepartor),
+modlmlatY_nopop <- lmerTest::lmer(PC1_d ~ lat + Year + (1|prepartor),
                     data = lum_noNA, REML = T) 
-modlatY_nopop <- lmerTest::lmer(PC1_d ~ lat + Year + (1|prepartor),
-                    data = lum_noNA, REML = T) 
-modY <- lmerTest::lmer(PC1_d ~ Year + (1|Region),
+modlmY <- lmerTest::lmer(PC1_d ~ Year + (1|Region),
                     data = lum_noNA, REML = T) 
 
 
-aicsc <- AICc(mod2dp$lme ,mod2d_randpopY$lme, mod2dY, mod2dY_nopop, 
-              modnull, modlatY, modlatY_nopop, modY)
+aicsc <- AICc(mod2d ,mod2dY, mod2dYY, mod2dY_nopop, 
+              modnull, modlmlatY, modlmlatY_nopop, modlmY)
 aicsc$deltaic <- aicsc$AIC - min(aicsc$AIC)
-aicsc$weights <- Weights(AICc(mod2dp$lme ,mod2d_randpopY$lme, mod2dY, mod2dY_nopop, 
-              modnull, modlatY, modlatY_nopop, modY))
+aicsc$weights <- Weights(AICc(mod2d ,mod2dY, mod2dYY, mod2dY_nopop, 
+              modnull, modlmlatY, modlmlatY_nopop, modlmY))
 
-mod_names <- c("mod2dp" ,"mod2d_randpopY", "mod2dY", "mod2dY_nopop", 
-              "modnull", "modlatY", "modlatY_nopop", "modY")
+mod_names <- c("mod2d", "mod2dY", "mod2dYY", "mod2dY_nopop", 
+              "modnull", "modlmlatY", "modlmlatY_nopop", "modlmY")
 # Extract formulas as a character vector
 aicsc$formulas <- lapply(mod_names, function(model_name) {
   model <- get(model_name)  # Retrieve the model object by name
   paste(deparse(formula(model)), collapse = " ")  # Convert the formula to a single string
 }) 
-
+# Extract edf as a character vector
+aicsc$formulas <- lapply(mod_names, function(model_name) {
+  model <- get(model_name)  # Retrieve the model object by name
+  paste(deparse(formula(model)), collapse = " ")  # Convert the formula to a single string
+}) 
 aicsc_r <- aicsc %>%
   mutate(
     MarginalR2 = sapply(mod_names, function(model_name) {
@@ -219,8 +223,8 @@ library(mgcv)
 library(itsadug)
 
 lum_sel <-  lum_env %>% 
-  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, srtm, ndvi_M, 
-                lat, lon, Year, prepartor, Region) %>% 
+  dplyr::select(PC1_d, PPT_br, RH_br, Rad_br, Tave_br, Tave08_molt, srtm, ndvi_M, 
+                lat, lon, Year, pop) %>% 
   na.omit()
 
 # test for linear relationship
@@ -239,10 +243,10 @@ for (i in 1:length(env)) {
 }
 ## all perform equally well as linear or smoothed... 
 
-linear_model_s1 <- gam(PC1_d ~ Tave_br, data = lum_sel)
-smooth_model_s1 <- gam(PC1_d ~ s(Tave_br), data = lum_sel)
+linear_model_s1 <- gam(PC1_d ~ Tave08_molt, data = lum_sel)
+smooth_model_s1 <- gam(PC1_d ~ s(Tave08_molt, k=20), data = lum_sel)
 #testing fit
-ggplot(lum_sel, aes(x = Tave_br, y = PC1_d)) + geom_point() +
+ggplot(lum_sel, aes(x = Tave08_molt, y = PC1_d)) + geom_point() +
     geom_line(colour = "red", size = 1.2, aes(y = fitted(linear_model_s1))) +
     geom_line(colour = "blue", size = 1.2, aes(y = fitted(smooth_model_s1))) +
     theme_bw()
@@ -257,56 +261,70 @@ ggplot(lum_sel, aes(x = srtm, y = PC1_d)) + geom_point() +
 
 
 # running each variable separately and then choosing which to add to model based on AIC
-full <- gamm(PC1_d ~ s(lon, lat) +s(RH_br) + s(Tave_br) + ti(Tave_br, lat) +
-               Year + PPT_br + srtm + ndvi_M, 
-          random = list(Region = ~1), data = lum_sel, method = "REML")
+full <- gam(PC1_d ~ s(lon, lat) + Year +s(RH_br) + s(Tave_br) + s(Rad_br)+
+                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
+            data = lum_sel, method = "REML")
+nospace <- gamm(PC1_d ~ Year + s(RH_br) + s(Tave_br) + s(Rad_br)+
+                + s(PPT_br) + s(srtm) + s(ndvi_M), random = list(pop = ~1),
+                select = T, 
+            data = lum_sel, method = "REML")
+nolatlon_norand <- gam(PC1_d ~ Year + s(RH_br) + s(Tave_br) + s(Rad_br)+
+                + s(PPT_br) + s(srtm) + s(ndvi_M),
+                select = T, 
+            data = lum_sel, method = "REML")
 latlon <-gam( PC1_d ~ s(lon, lat, k = 20) + Year, 
                 data = lum_sel, method = "REML" )
 modnull <- lmerTest::lmer(PC1_d ~ 1 + (1|Region),
                     data = lum_noNA, REML = T) 
 tave <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat),
             data = lum_sel, method = "REML")
-ppt <- gam(PC1_d ~ s(lon, lat) + Year + PPT_br,  
+ppt <- gam(PC1_d ~ s(lon, lat) + Year + s(PPT_br),  
            data = lum_sel, method = "REML")
 rh <- gam(PC1_d ~ s(lon, lat) + Year + s(RH_br),  
           data = lum_sel, method = "REML")
-srtm <- gam(PC1_d ~ s(lon, lat) + Year + srtm,  
+srtm <- gam(PC1_d ~ s(lon, lat) + Year + s(srtm),  
           data = lum_sel, method = "REML")
-ndvi <- gam(PC1_d ~ s(lon, lat) + Year + ndvi_M,  
+ndvi <- gam(PC1_d ~ s(lon, lat) + Year + s(ndvi_M),  
           data = lum_sel, method = "REML")
 
-aicsc <- AIC(full, modnull, latlon, tave, ppt, rh, srtm, ndvi)
+aicsc <- AIC(full,nospace, modnull, latlon, tave, ppt, rh, srtm, ndvi)
 aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
 aicsc
 
 
-trpe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) + srtm + s(RH_br) + PPT_br,
+trpe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) + 
+              s(srtm) + s(RH_br) + s(PPT_br),
           data = lum_sel, method = "REML")
-tnoXrpe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + srtm + s(RH_br) + PPT_br,
+tnoXrpe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + s(srtm) + 
+                 s(RH_br) + s(PPT_br),
           data = lum_sel, method = "REML")
-tnoXe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + srtm ,
+tnoXe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + s(srtm) ,
           data = lum_sel, method = "REML")
-tre <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) + srtm + s(RH_br),
+tre <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) +
+             s(srtm) + s(RH_br),
           data = lum_sel, method = "REML")
-te <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) + srtm,
+te <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) + s(srtm),
+          data = lum_sel, method = "REML")
+tXp <- gam(PC1_d ~ Year + s(Tave_br) + s(PPT_br) + ti(Tave_br, PPT_br) + s(srtm),
           data = lum_sel, method = "REML")
 tXr <- gam(PC1_d ~ s(lon, lat) + Year +s(Tave_br) + s(RH_br) +ti(Tave_br, RH_br),
           data = lum_sel, method = "REML")
-lmter <- lmerTest::lmer(PC1_d ~ lat + RH_br + srtm + Tave_br + (1 | Year) + (1 | prepartor),
+lmter <- lmerTest::lmer(PC1_d ~ lat + RH_br + srtm + Tave_br + 
+                          (1 | Year),
                     data = lum_sel, REML = T) 
 
-#check model
-gam.check(te) 
-coef(te)
-summary(te)
-
-
-vis.gam(x = tave$gam, view = c("lat", "Tave_br"), plot.type = "persp", se =2, type = "response")
+# #check model
+# gam.check(te) 
+# coef(te)
+# summary(te)
+# 
+# 
+# vis.gam(x = tave$gam, view = c("lat", "Tave_br"), plot.type = "persp", se =2, type = "response")
 
 #run model selection and make table
-aicsc <- AICc(latlon, full, trpe, tnoXrpe, tnoXe, tre, te, tXr, lmter)
+aicsc <- AICc(latlon, full, nospace)#, trpe, tnoXrpe, tnoXe, tre, te, tXr, lmter)
 aicsc$deltaic <- aicsc$AIC - min(aicsc$AIC)
-aicsc$weights <- Weights(AICc(latlon, full, trpe, tnoXrpe, tnoXe, tre, te, tXr, lmter))
+aicsc$weights <- Weights(AICc(latlon, full, nospace))#, trpe, tnoXrpe, tnoXe, tre, te, tXr, lmter))
 
 # Extract formulas as a character vector
 aicsc$formulas <- sapply(rownames(aicsc), function(model_name) {

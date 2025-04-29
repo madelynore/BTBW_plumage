@@ -1,6 +1,6 @@
 ## plotting GWAS results
 
-# plotting with manhattan package
+# plotting with manhattan package - for log10 pval
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load_gh("sahirbhatnagar/manhattanly")
@@ -52,6 +52,40 @@ manhattanly(gwa_man, genomewideline = -log10(1e-07))
 manhattanly(gwa_rand_man, genomewideline = -log10(1e-07))
 
 
+# LRT from angsd-asso -----------------------------------------------------
+
+lrt <- read.table("data/Btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.asso2.lrt")
+#fix col names as headers
+colnames(lrt) <- lrt[1,]
+lrt <- lrt[-1,]
+
+process_lrt <- function(lrt) {
+  lrt$chr <- sub(pattern = "^chr", replacement = "", lrt$Chromosome)
+  # Assign index values for chromosomes
+  lrt_ind <- lrt %>%
+    mutate(chr = case_when(
+      chr == "1a" ~ 1.2,
+      chr == "4a" ~ 4.2,
+      chr == "z" ~ 30,
+      TRUE ~ as.numeric(chr)
+    ))
+  
+  lrt_ind$Position <- as.numeric(lrt_ind$Position)
+  lrt_ind$LRT <- as.numeric(lrt_ind$LRT)
+  
+  # Select relevant columns
+  lrt_sub <- lrt_ind %>%
+    dplyr::select(CHR = chr, BP = Position, LRT, Chromosome)
+  
+  return(lrt_sub)
+}
+
+lrt_man <- process_lrt(lrt)
+
+manhattanly(lrt_man)
+
+fastman::fastman(lrt_man, chr = "CHR", bp = "BP", p = "LRT",logp = F, sortchr = F, maxP = max(lrt_man$LRT), 
+        speedup=T, col="rgbs",cex=0.5,xlab="Chromosome",ylab="LRT",cex.axis = 1)
 # looking for hits with suggestive snps -----------------------------------
 
 # BiocManager::install("GenomicRanges")
