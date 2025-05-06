@@ -97,14 +97,17 @@ summary(z)
 r.squaredGLMM(z)
 tab_model(z)
 
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_w, col = lat))+
+dVw <- ggplot(asy)+
+  geom_point(aes(x = PC1_d, y = PC1_w, col = lat), size = 6)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = PC1_w), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Wingspot PC1")+
-  theme_classic()
+  theme_classic()+
+  theme(text=element_text(size=20))  
 
+dVw
 
+ggsave(plot = dVw, here("results/WingspotVSDorsum_plot.png"), dpi = 600, width = 8, height = 6)
 
 z <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 summary(z)

@@ -22,18 +22,14 @@ avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_a
 
 ## select only brightness for ASY males
 asy <- avg_img %>% 
-  filter(Age == "ASY") %>% 
-  dplyr::select(ID, PC1_d, pop)
-
+  filter(Age == "ASY") 
 
 # combine w environment data  
 env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T) %>% 
   dplyr::select(-Year)
 
-lum_env <- merge(asy, env) 
-
-
-
+lum_env <- merge(asy, env) %>% 
+  filter(!is.na(PC1_d))
 
 ```
 
@@ -70,45 +66,38 @@ ggplot(data = asy, aes(x = lat, y = PC1_d)) +
     axis.text = element_text(size = 14)
   )
 
-lum_noNA <- lum_env %>% 
-  filter(!is.na(PC1_d))
 
 ## spatio-temporal fit
 mod2d <- gam(PC1_d ~ s(lon, lat), 
-                data = lum_noNA)
-mod2dY <- gam( PC1_d ~ s(lon, lat, by = Year), 
-                data = lum_noNA )
+                data = lum_env)
+mod2dbyY <- gam( PC1_d ~ s(lon, lat, by = Year), 
+                data = lum_env)
 mod2dYY <- gam( PC1_d ~ s(lon, lat, by = Year) + Year,
-               data = lum_noNA)
-mod2dY_nopop <- gam( PC1_d ~ s(lon, lat) + Year, method = "REML",
-                   data = lum_noNA) 
-modnull <- lm(PC1_d ~ 1, data = lum_noNA) 
-modlmlatY <- lmerTest::lmer(PC1_d ~ lat + (1|Year) + (1|prepartor),
-                    data = lum_noNA, REML = T) 
-modlmlatY_nopop <- lmerTest::lmer(PC1_d ~ lat + Year + (1|prepartor),
-                    data = lum_noNA, REML = T) 
-modlmY <- lmerTest::lmer(PC1_d ~ Year + (1|Region),
-                    data = lum_noNA, REML = T) 
+               data = lum_env)
+mod2dY <- gam( PC1_d ~ s(lon, lat) + Year, method = "REML",
+                   data = lum_env) 
+modnull <- lm(PC1_d ~ 1, data = lum_env) 
+modlmlat_randY <- lmerTest::lmer(PC1_d ~ lat + (1|Year) + (1|prepartor),
+                    data = lum_env, REML = T) 
+modlmlatY <- lmerTest::lmer(PC1_d ~ lat + Year + (1|prepartor),
+                    data = lum_env, REML = T) 
+modlmY <- lm(PC1_d ~ Year, data = lum_env, REML = T) 
 
 
-aicsc <- AICc(mod2d ,mod2dY, mod2dYY, mod2dY_nopop, 
-              modnull, modlmlatY, modlmlatY_nopop, modlmY)
+aicsc <- AICc(mod2d ,mod2dbyY, mod2dYY, mod2dY,
+              modnull, modlmlat_randY, modlmlatY, modlmY)
 aicsc$deltaic <- aicsc$AIC - min(aicsc$AIC)
-aicsc$weights <- Weights(AICc(mod2d ,mod2dY, mod2dYY, mod2dY_nopop, 
-              modnull, modlmlatY, modlmlatY_nopop, modlmY))
+aicsc$weights <- Weights(AICc(mod2d ,mod2dbyY, mod2dYY, mod2dY, 
+              modnull, modlmlat_randY, modlmlatY,modlmY))
 
-mod_names <- c("mod2d", "mod2dY", "mod2dYY", "mod2dY_nopop", 
-              "modnull", "modlmlatY", "modlmlatY_nopop", "modlmY")
+mod_names <- c("mod2d" ,"mod2dbyY", "mod2dYY", "mod2dY", 
+              "modnull", "modlmlat_randY", "modlmlatY", "modlmY")
 # Extract formulas as a character vector
 aicsc$formulas <- lapply(mod_names, function(model_name) {
   model <- get(model_name)  # Retrieve the model object by name
   paste(deparse(formula(model)), collapse = " ")  # Convert the formula to a single string
 }) 
-# Extract edf as a character vector
-aicsc$formulas <- lapply(mod_names, function(model_name) {
-  model <- get(model_name)  # Retrieve the model object by name
-  paste(deparse(formula(model)), collapse = " ")  # Convert the formula to a single string
-}) 
+
 aicsc_r <- aicsc %>%
   mutate(
     MarginalR2 = sapply(mod_names, function(model_name) {
@@ -139,11 +128,12 @@ aicsc_r$ConditionalR2 <- signif(aicsc_r$ConditionalR2, digits = 2)
 
 
 model_results <- aicsc_r %>% 
-  arrange(deltaic)
+  arrange(deltaic) %>% 
+  dplyr::select(formulas, everything()) 
 
 model_results
 
-write.csv(model_results, here("results/spatiotemp_model_selection_table.csv"))
+write.csv(model_results, here("results/spatiotemp_model_selection_table.csv"), row.names = F)
 
 ```
 
@@ -157,15 +147,12 @@ library(MuMIn)
 library(performance)
 library(sjPlot)
 
-lum_sel <- lum_env %>% 
-  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, srtm, ndvi_M, Year, lat, prepartor) %>% 
-  na.omit()
 
 options(na.action = "na.fail")
 
-z <- lmerTest::lmer(PC1_d ~ PPT_br + RH_br + Tave_br + lat + srtm + 
+z <- lmerTest::lmer(PC1_d ~ PPT_br + RH_br + Tave_br + lat + lon + srtm + 
                       ndvi_M + (1|Year) + (1|prepartor),
-                    data = lum_sel, REML = T) 
+                    data = lum_env, REML = T) 
 
 
 
@@ -183,8 +170,8 @@ Weights(ms2[ms2$delta < 5])                   # Include only models with AIC dif
 get.models(ms2, subset=delta<5)  # Extract the models having AIC difference < 5
 get.models(ms2, subset = 1)[[1]]            # Extract single best model (yields lm object)
 
-lmter <- lm(get.models(ms2, subset = 1)[[1]], data = norand) # Fit best model
-summary(model.avg(t, subset = delta < 2))              # model averaging
+lmter <- lm(get.models(ms2, subset = 1)[[1]], data = lum_env) # Fit best model
+summary(model.avg(ms2, subset = delta < 2))              # model averaging
 
 
 ```
@@ -193,13 +180,10 @@ summary(model.avg(t, subset = delta < 2))              # model averaging
 
 library(randomForest)
 
-norand <- lum_env %>% 
-  dplyr::select(PC1_d, PPT_br, RH_br, Tave_br, srtm, ndvi_M) %>% 
-  na.omit()
 
-model <- PC1_d ~ PPT_br + RH_br + Tave_br + srtm  + ndvi_M
+model <- PC1_d ~ PPT_br + RH_br + Tave08_molt + srtm  + ndvi_M + lat
 
-rf1 <- randomForest(model, data = norand,
+rf1 <- randomForest(model, data = lum_env,
               ntreeTry=500,
                mtryStart=4, 
                stepFactor=1.5,
@@ -222,219 +206,150 @@ varImpPlot(rf1)
 library(mgcv)
 library(itsadug)
 
-lum_sel <-  lum_env %>% 
-  dplyr::select(PC1_d, PPT_br, RH_br, Rad_br, Tave_br, Tave08_molt, srtm, ndvi_M, 
-                lat, lon, Year, pop) %>% 
-  na.omit()
-
-# test for linear relationship
-
-env <- c("PPT_br", "RH_br", "Tave_br", "srtm", 
-         "ndvi_M", "lat", "lon")
-
-for (i in 1:length(env)) {
-  envvar <- env[i]
-  linear_model <- gam(PC1_d ~ lum_sel %>% pull(envvar), data = lum_sel)
-  smooth_model <- gam(PC1_d ~ s(lum_sel %>% pull(envvar)), data = lum_sel)
-  aicsc <- AICc(linear_model, smooth_model)
-  aicsc$env <- rep(envvar, nrow(aicsc))
-  aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
-  print(aicsc)
-}
-## all perform equally well as linear or smoothed... 
-
-linear_model_s1 <- gam(PC1_d ~ Tave08_molt, data = lum_sel)
-smooth_model_s1 <- gam(PC1_d ~ s(Tave08_molt, k=20), data = lum_sel)
-#testing fit
-ggplot(lum_sel, aes(x = Tave08_molt, y = PC1_d)) + geom_point() +
-    geom_line(colour = "red", size = 1.2, aes(y = fitted(linear_model_s1))) +
-    geom_line(colour = "blue", size = 1.2, aes(y = fitted(smooth_model_s1))) +
-    theme_bw()
-
-linear_model_s1 <- gam(PC1_d ~ srtm, data = lum_sel)
-smooth_model_s1 <- gam(PC1_d ~ s(srtm), data = lum_sel)
-#testing fit
-ggplot(lum_sel, aes(x = srtm, y = PC1_d)) + geom_point() +
-    geom_line(colour = "red", size = 1.2, aes(y = fitted(linear_model_s1))) +
-    geom_line(colour = "blue", size = 1.2, aes(y = fitted(smooth_model_s1))) +
-    theme_bw()
-
-
-# running each variable separately and then choosing which to add to model based on AIC
-full <- gam(PC1_d ~ s(lon, lat) +s(RH_br) + s(Tave_br) + s(Rad_br)+
+mod2dY <- gam( PC1_d ~ s(lon, lat) + Year, method = "REML",
+                   data = lum_env) 
+full <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
                 + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
-            data = lum_sel, method = "REML")
-nospace <- gamm(PC1_d ~ Year + s(RH_br) + s(Tave_br) + s(Rad_br)+
+            data = lum_env, method = "REML") 
+nospace <- gamm(PC1_d ~ Year + s(RH_br) + s(Tave_br) +
                 + s(PPT_br) + s(srtm) + s(ndvi_M), random = list(pop = ~1),
                 select = T, 
-            data = lum_sel, method = "REML")
-nolatlon_norand <- gam(PC1_d ~ Year + s(RH_br) + s(Tave_br) + s(Rad_br)+
-                + s(PPT_br) + s(srtm) + s(ndvi_M),
-                select = T, 
-            data = lum_sel, method = "REML")
-latlon <-gam( PC1_d ~ s(lon, lat, k = 20) + Year, 
-                data = lum_sel, method = "REML" )
-modnull <- lmerTest::lmer(PC1_d ~ 1 + (1|Region),
-                    data = lum_noNA, REML = T) 
-tave <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat),
-            data = lum_sel, method = "REML")
-ppt <- gam(PC1_d ~ s(lon, lat) + Year + s(PPT_br),  
-           data = lum_sel, method = "REML")
-rh <- gam(PC1_d ~ s(lon, lat) + Year + s(RH_br),  
-          data = lum_sel, method = "REML")
-srtm <- gam(PC1_d ~ s(lon, lat) + Year + s(srtm),  
-          data = lum_sel, method = "REML")
-ndvi <- gam(PC1_d ~ s(lon, lat) + Year + s(ndvi_M),  
-          data = lum_sel, method = "REML")
+            data = lum_env, method = "REML")
 
-aicsc <- AIC(full,nospace, modnull, latlon, tave, ppt, rh, srtm, ndvi)
-aicsc$delaic <- aicsc$AIC - min(aicsc$AIC)
-aicsc
+## make table with results
+
+# Extract summary
+full_summary <- summary(full)
+
+# Convert smooth terms to a data frame
+full_smooth <- as.data.frame(full_summary$s.table)
+full_smooth <- cbind(Term = rownames(full_smooth), full_smooth)
+rownames(full_smooth) <- NULL
+#convert params to df
+full_param <- as.data.frame(full_summary$p.table) %>% 
+  rename(`p-value` = `Pr(>|t|)`)
+full_param <- cbind(Term = rownames(full_param), full_param)
+rownames(full_param) <- NULL
+#combine and name
+full_table <- merge(full_smooth, full_param, all = T)
+full_table$model_name <- rep("Full", nrow(full_table))
+
+# Extract summary
+spt_summary <- summary(mod2dY)
+
+# Convert smooth terms to a data frame
+spt_table <- as.data.frame(spt_summary$s.table)
+spt_table <- cbind(Term = rownames(spt_table), spt_table)
+rownames(spt_table) <- NULL
+#convert params to df
+param_table <- as.data.frame(spt_summary$p.table) %>% 
+  rename(`p-value` = `Pr(>|t|)`)
+param_table <- cbind(Term = rownames(param_table), param_table)
+rownames(param_table) <- NULL
+#combine and name
+spt_param <- merge(spt_table, param_table, all = T)
+spt_param$model_name <- rep("Spatiotemporal", nrow(spt_param))
 
 
-trpe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) + 
-              s(srtm) + s(RH_br) + s(PPT_br),
-          data = lum_sel, method = "REML")
-tnoXrpe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + s(srtm) + 
-                 s(RH_br) + s(PPT_br),
-          data = lum_sel, method = "REML")
-tnoXe <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + s(srtm) ,
-          data = lum_sel, method = "REML")
-tre <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) +
-             s(srtm) + s(RH_br),
-          data = lum_sel, method = "REML")
-te <- gam(PC1_d ~ s(lon, lat) + Year + s(Tave_br) + ti(Tave_br, lat) + s(srtm),
-          data = lum_sel, method = "REML")
-tXp <- gam(PC1_d ~ Year + s(Tave_br) + s(PPT_br) + ti(Tave_br, PPT_br) + s(srtm),
-          data = lum_sel, method = "REML")
-tXr <- gam(PC1_d ~ s(lon, lat) + Year +s(Tave_br) + s(RH_br) +ti(Tave_br, RH_br),
-          data = lum_sel, method = "REML")
-lmter <- lmerTest::lmer(PC1_d ~ lat + RH_br + srtm + Tave_br + 
-                          (1 | Year),
-                    data = lum_sel, REML = T) 
+spt_full <- merge(spt_param, full_table, all = T) %>% 
+  dplyr::arrange(desc(model_name)) %>%  
+  dplyr::select(model_name, everything()) %>% 
+  mutate(across(where(is.numeric), ~ round(., 2)))
 
-# #check model
-# gam.check(te) 
-# coef(te)
-# summary(te)
-# 
-# 
-# vis.gam(x = tave$gam, view = c("lat", "Tave_br"), plot.type = "persp", se =2, type = "response")
+spt_full$`p-value`[which(spt_full$`p-value` < 0.001)] <- "<0.001"
+spt_full
 
-#run model selection and make table
-aicsc <- AICc(latlon, full, nospace)#, trpe, tnoXrpe, tnoXe, tre, te, tXr, lmter)
-aicsc$deltaic <- aicsc$AIC - min(aicsc$AIC)
-aicsc$weights <- Weights(AICc(latlon, full, nospace))#, trpe, tnoXrpe, tnoXe, tre, te, tXr, lmter))
-
-# Extract formulas as a character vector
-aicsc$formulas <- sapply(rownames(aicsc), function(model_name) {
-  model <- get(model_name)  # Retrieve the model object by name
-  paste(deparse(formula(model)), collapse = " ")  # Convert the formula to a single string
-})
-
-aicsc$MarginalR2 <- rep(NA,nrow(aicsc))
-aicsc$ConditionalR2 <- rep(NA,nrow(aicsc))
-
-aicsc$MarginalR2[which(rownames(aicsc) == "lmter")] <-  round(r.squaredGLMM(lmter)[1], digits = 2)
-aicsc$ConditionalR2[which(rownames(aicsc) == "lmter")] <-  round(r.squaredGLMM(lmter)[2], digits = 2)
-
-aicsc$df <- round(aicsc$df, digits = 2)
-aicsc$AICc <- round(aicsc$AICc, digits = 2)
-aicsc$deltaic <- round(aicsc$deltaic, digits = 2)
-aicsc$weights <- signif(aicsc$weights, digits = 2)
-
-model_results <- aicsc %>% 
-  arrange(deltaic)
-
-model_results
-
-write.csv(model_results, here("results/env_model_selection_table.csv"))
+write.csv(spt_full, here("results/Env_gam_model_results.csv"), row.names = F)
 ```
 
 
 
 ```{r plot}
+library(tidyverse)
+library(patchwork)
+library(viridis)
+
+srtm_fit <- data.frame(
+  srtm = seq(min(lum_env$srtm), max(lum_env$srtm), length.out = 100),
+  lat = mean(lum_env$lat),
+  lon = mean(lum_env$lon),
+  RH_br = mean(lum_env$RH_br),
+  Tave_br = mean(lum_env$Tave_br),
+  PPT_br = mean(lum_env$PPT_br),
+  ndvi_M = mean(lum_env$ndvi_M)
+)
+
+predictions <- predict(full, newdata = srtm_fit, se.fit = TRUE)
+
+# Add predictions and confidence intervals to the new data frame
+srtm_fit$PC1_d_pred <- predictions$fit
+srtm_fit$lower_CI <- predictions$fit - 1.96 * predictions$se.fit  # 95% lower bound
+srtm_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bound
+
+elev <- ggplot(data = lum_env, aes(x = srtm, y = PC1_d, color = lat)) +
+  geom_point(size = 4) +  # Observed data
+  scale_color_viridis_c(direction = -1)+
+  geom_line(data = srtm_fit, aes(x = srtm, y = PC1_d_pred), size = 1, color = "black") +  
+  geom_ribbon(data = srtm_fit, aes(x = srtm, ymin = lower_CI, ymax = upper_CI),
+              alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
+  labs(x = "Elevation", y = "PC1 Dorsum") +
+  theme_classic()+
+  theme(text=element_text(size=24))  
 
 
-ggplot(data = lum_env, aes(x = bio_10, y = PC1_d, color = lat))+
-  geom_point(size =4)+
-  labs(x = "Mean Temperature of Warmest Quarter", y = "PC1 Dorsum")+
-  geom_line(aes(y = fitted(te)), colour = "red", size = 1.2)+
-  theme_classic()
+tave_fit <- data.frame(
+  srtm = mean(lum_env$srtm),
+  lat = mean(lum_env$lat),
+  lon = mean(lum_env$lon),
+  RH_br = mean(lum_env$RH_br),
+  Tave_br = seq(min(lum_env$Tave_br), max(lum_env$Tave_br), length.out = 100),
+  PPT_br = mean(lum_env$PPT_br),
+  ndvi_M = mean(lum_env$ndvi_M)
+)
 
-z <- lm(PC1_d~ bio_10, data = lum_env)
-summary(z)
+predictions <- predict(full, newdata = tave_fit, se.fit = TRUE)
 
-  
-ggplot(data = lum_env, aes(x = lat, y = bio_10, color = PC1_d))+
-  geom_point(size=4, position = "jitter")+
-  labs(x = "Latitude", y = "Mean Temperature of Warmest Quarter")+
-  theme_classic()
+# Add predictions and confidence intervals to the new data frame
+tave_fit$PC1_d_pred <- predictions$fit
+tave_fit$lower_CI <- predictions$fit - 1.96 * predictions$se.fit  # 95% lower bound
+tave_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bound
 
-ggplot(data = lum_env, aes(x = PC1_d, y = lat, color = bio_10))+
-  geom_point(size=4, position = "jitter")+
-  labs(x = "Dorsum PC1", y = "Latitude")+
-  theme_classic()
-
-ggplot(data = lum_env, aes(x = ndvi_M, y = PC1_d, color = lat))+
-  geom_point(size =4)+
-  labs(x = "Max NDVI", y = "Dorsum brightness")+
-  geom_smooth(aes(x = ndvi_M, y = PC1_d), method = "lm", col = "black")+  
-  theme_classic()
-
-z <- lm(PC1_d~ ndvi_M, data = lum_env)
-summary(z)
-
-ggplot(data = lum_env, aes(x = bio_18, y = PC1_d, color = lat))+
-  geom_point(size =4)+
-  labs(x = "Precip of Warmest Quarter", y = "Dorsum brightness")+
-  geom_smooth(aes(x = bio_18, y = PC1_d), method = "lm", col = "black")+  
-  theme_classic()
-
-z <- lm(PC1_d~ bio_18, data = lum_env)
-summary(z)
-
-ggplot(data = lum_env, aes(x = qscat, y = PC1_d, color = lat))+
-  geom_point(size =4)+
-  labs(x = "Surface Moisture", y = "Dorsum brightness")+
-  geom_smooth(aes(x = qscat, y = PC1_d), method = "lm", col = "black")+  
-  theme_classic()
-
-z <- lm(PC1_d~ qscat, data = lum_env, na.action = "na.omit")
-summary(z)
-
-ggplot(data = lum_env, aes(x = srtm, y = PC1_d, color = lat))+
-  geom_point(size =4)+
-  labs(x = "Elevation", y = "Dorsum brightness")+
-  geom_smooth(aes(x = srtm, y = PC1_d), method = "lm", col = "black")+  
-  theme_classic()
-
-z <- lm(PC1_d~ srtm, data = lum_env)
-summary(z)
-
-
-ggplot(data = lum_env, aes(x = Tave08_molt, y = PC1_d, color = lat))+
+temp <- ggplot(data = lum_env, aes(x = Tave08_molt, y = PC1_d, color = lat))+
   geom_point(size = 4)+
-  labs(x = "Mean Temperature in August during molt", y = "PC1 Dorsum")+
-  geom_smooth(aes(x = Tave08_molt, y = PC1_d), method = "lm", col = "black")+  
-  theme_classic()
+  scale_color_viridis_c(direction = -1)+
+  labs(x = "Mean Temperature during molt", y = "PC1 Dorsum")+
+  geom_line(data = tave_fit, aes(x = Tave_br, y = PC1_d_pred, color = lat), size = 1) +  
+  geom_ribbon(data = tave_fit, aes(x = Tave_br, ymin = lower_CI, ymax = upper_CI),
+              alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
+  guides(color = "none") +
+  theme_classic()+
+  theme(text=element_text(size=24))  
 
-molt <- lm(PC1_d~ Tave08_molt, data = lum_env)
-summary(molt)
 
-ggplot(data = lum_env, aes(x = Tave_br, y = PC1_d, color = lat))+
+
+
+latplot <- ggplot(data = lum_env, aes(x = lat, y = PC1_d, color = lat))+
   geom_point(size = 4)+
-  labs(x = "Mean Temperature during breeding", y = "PC1 Dorsum")+
-  geom_smooth(aes(x = Tave_br, y = PC1_d), method = "lm", col = "black")+  
-  theme_classic()
+  scale_x_reverse()+
+  scale_color_viridis_c(direction = -1)+
+  labs(x = "Latitude", y = "PC1 Dorsum")+
+  guides(color = "none") +
+  geom_smooth(aes(x = lat, y = PC1_d), method = "lm", col = "black")+
+  theme_classic()+
+  theme(text=element_text(size=24))  
 
-br <- lm(PC1_d~ Tave_br, data = lum_env)
-summary(br)
+# Combine plots into 1 row and 3 columns with labels
+env_plots <- (latplot + temp + elev) +
+  plot_annotation(tag_levels = "A")+  # Adds labels A, B, C
+  plot_layout(axis_titles = "collect")
 
-ggplot(data = lum_env, aes(x = Rad_br, y = PC1_d, color = lat))+
-  geom_point(size =4)+
-  labs(x = "Solar Radiation", y = "PC1 Dorsum")+
-  theme_classic()
+env_plots
+
+ggsave(here("results/top_env_plots.png"), plot = env_plots, width = 24, height = 8, dpi = 600)
+
+
+
+
 ```
 
 # morphometric data
@@ -458,6 +373,13 @@ lum_pc <- merge(lum_env, pcscores, all = T)
 ggplot(data = lum_pc, aes(x = lat, y = PC2))+
   geom_point()+
   theme_classic()
+
+ggplot(data = lum_pc, aes(x = lat, y = Tarsometatarsus))+
+  geom_point()+
+  theme_classic()
+
+tarso <- lm(Tarsometatarsus ~ lat, data = lum_pc, na.action = "na.omit")
+summary(tarso)
 
 ggplot(data = lum_pc, aes(x = bio_10, y = PC1, color = lat))+
   geom_point()+
