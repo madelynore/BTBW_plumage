@@ -262,7 +262,68 @@ spt_full
 write.csv(spt_full, here("results/Env_gam_model_results.csv"), row.names = F)
 ```
 
+## GAM vs other plumage patches
 
+```{r other gams}
+library(mgcv)
+
+belly <- gam(PC1_b ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
+                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
+            data = lum_env, method = "REML", na.action = "na.omit") 
+summary(belly)
+
+crown <- gam(PC1_c ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
+                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
+            data = lum_env, method = "REML", na.action = "na.omit") 
+summary(crown)
+
+covert <- gam(PC1_o ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
+                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
+            data = lum_env, method = "REML", na.action = "na.omit") 
+summary(covert)
+
+throat <- gam(PC1_t ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
+                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
+            data = lum_env, method = "REML", na.action = "na.omit") 
+summary(throat)
+
+wspot <- gam(PC1_w ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
+                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
+            data = lum_env, method = "REML", na.action = "na.omit") 
+summary(wspot)
+
+
+
+
+```
+
+```{r table env vs plumage}
+library(dplyr)
+
+pl_gams <- list(belly = belly, crown = crown, covert = covert, throat =  throat, wspot = wspot)
+
+# Extract smooth and parametric terms for each GAM
+gam_tables <- lapply(pl_gams, function(model) {
+  # Get the summary of the model
+  model_summary <- summary(model)
+  
+  # Extract smooth terms
+  smooth_terms <- as.data.frame(model_summary$s.table)
+  smooth_terms <- cbind(Term = rownames(smooth_terms), smooth_terms)
+  rownames(smooth_terms) <- NULL
+
+  return(smooth_terms)
+})
+
+
+combined_gam <- bind_rows(gam_tables, .id = "Model")%>% 
+ mutate(across(where(is.numeric), ~ ifelse(. < 0.001, format(., scientific = TRUE, digits = 3),
+                                           round(., 2))))
+
+
+write.csv(combined_gam, here("results/GAM_for_other_pl_patches.csv"), row.names = F)
+
+```
 
 ```{r plot}
 library(tidyverse)
@@ -347,8 +408,30 @@ env_plots
 
 ggsave(here("results/top_env_plots.png"), plot = env_plots, width = 24, height = 8, dpi = 600)
 
+```
 
+#relationship between latitude and environment
 
+```{env and lat}
+
+ggplot(data = lum_env, aes(x = srtm, y = PPT_br, color = lat))+
+  geom_point(size = 6)+
+  theme_classic()
+ggplot(data = lum_env, aes(x = srtm, y = Tave_br, color = lat))+
+  geom_point(size = 6)+
+  theme_classic()
+ggplot(data = lum_env, aes(x = lat, y = PPT_br, color = lat))+
+  geom_point(size = 6)+
+  theme_classic()
+ggplot(data = lum_env, aes(x = lat, y = RH_br, color = lat))+
+  geom_point(size = 6)+
+  theme_classic()
+
+latppt <- lm(PPT_br~lat, data = lum_env)
+latelev <- lm(srtm~lat, data = lum_env)
+lattemp <- lm(Tave_br~lat, data = lum_env)
+latrh <- lm(RH_br~lat, data = lum_env)
+latndvi <- lm(ndvi_M~lat, data = lum_env)
 
 ```
 

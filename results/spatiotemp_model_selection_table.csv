@@ -1,0 +1,9 @@
+Dependent Variable,formulas,df,AICc,deltaic,weights,MarginalR2,ConditionalR2
+Dorsum PC1,"PC1_d ~ s(lon, lat, by = Year)",23.39,-501.85,0,0.32,NA,NA
+,"PC1_d ~ s(lon, lat, by = Year) + Year",23.39,-501.85,0,0.32,NA,NA
+,"PC1_d ~ s(lon, lat)",22.65,-501.83,0.02,0.31,NA,NA
+,"PC1_d ~ s(lon, lat) + Year",12.08,-498.4,3.45,0.056,NA,NA
+,PC1_d ~ lat + (1 | Year) + (1 | prepartor),5,-469.51,32.34,3.00E-08,0.11,0.43
+,PC1_d ~ Year,3,-462.56,39.29,9.30E-10,NA,NA
+,PC1_d ~ 1,2,-449.44,52.41,1.30E-12,NA,NA
+,PC1_d ~ lat + Year + (1 | prepartor),5,-444.75,57.1,1.30E-13,0.27,0.29

@@ -248,6 +248,27 @@ ggplot(asy)+
 
 ```
 
+# wingspot vs other plumage patches
+
+```{r wingspot v}
+
+crown <- lmerTest::lmer(PC1_c ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(crown)
+
+covert <- lmerTest::lmer(PC1_o ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(covert)
+
+belly <- lmerTest::lmer(PC1_b ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(belly)
+
+throat <- lmerTest::lmer(PC1_t ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(throat)
+
+tvc <- lmerTest::lmer(PC1_t ~ PC1_o + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(tvc)
+
+```
+
 # make a table of results
 ```{r color model table, echo=F}
 
