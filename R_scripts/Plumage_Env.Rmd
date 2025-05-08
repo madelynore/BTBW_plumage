@@ -199,73 +199,14 @@ varImpPlot(rf1)
 
 ```
 
-## Generalized Additive Model
+## GAMs
 
-```{r GAM, echo = F}
-
+```{r env GAM}
 library(mgcv)
-library(itsadug)
 
-mod2dY <- gam( PC1_d ~ s(lon, lat) + Year, method = "REML",
-                   data = lum_env) 
-full <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
+dorsum <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
                 + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
             data = lum_env, method = "REML") 
-nospace <- gamm(PC1_d ~ Year + s(RH_br) + s(Tave_br) +
-                + s(PPT_br) + s(srtm) + s(ndvi_M), random = list(pop = ~1),
-                select = T, 
-            data = lum_env, method = "REML")
-
-## make table with results
-
-# Extract summary
-full_summary <- summary(full)
-
-# Convert smooth terms to a data frame
-full_smooth <- as.data.frame(full_summary$s.table)
-full_smooth <- cbind(Term = rownames(full_smooth), full_smooth)
-rownames(full_smooth) <- NULL
-#convert params to df
-full_param <- as.data.frame(full_summary$p.table) %>% 
-  rename(`p-value` = `Pr(>|t|)`)
-full_param <- cbind(Term = rownames(full_param), full_param)
-rownames(full_param) <- NULL
-#combine and name
-full_table <- merge(full_smooth, full_param, all = T)
-full_table$model_name <- rep("Full", nrow(full_table))
-
-# Extract summary
-spt_summary <- summary(mod2dY)
-
-# Convert smooth terms to a data frame
-spt_table <- as.data.frame(spt_summary$s.table)
-spt_table <- cbind(Term = rownames(spt_table), spt_table)
-rownames(spt_table) <- NULL
-#convert params to df
-param_table <- as.data.frame(spt_summary$p.table) %>% 
-  rename(`p-value` = `Pr(>|t|)`)
-param_table <- cbind(Term = rownames(param_table), param_table)
-rownames(param_table) <- NULL
-#combine and name
-spt_param <- merge(spt_table, param_table, all = T)
-spt_param$model_name <- rep("Spatiotemporal", nrow(spt_param))
-
-
-spt_full <- merge(spt_param, full_table, all = T) %>% 
-  dplyr::arrange(desc(model_name)) %>%  
-  dplyr::select(model_name, everything()) %>% 
-  mutate(across(where(is.numeric), ~ round(., 2)))
-
-spt_full$`p-value`[which(spt_full$`p-value` < 0.001)] <- "<0.001"
-spt_full
-
-write.csv(spt_full, here("results/Env_gam_model_results.csv"), row.names = F)
-```
-
-## GAM vs other plumage patches
-
-```{r other gams}
-library(mgcv)
 
 belly <- gam(PC1_b ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
                 + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
@@ -300,7 +241,7 @@ summary(wspot)
 ```{r table env vs plumage}
 library(dplyr)
 
-pl_gams <- list(belly = belly, crown = crown, covert = covert, throat =  throat, wspot = wspot)
+pl_gams <- list(dorsum = dorsum, belly = belly, covert = covert, crown = crown, throat =  throat, wspot = wspot)
 
 # Extract smooth and parametric terms for each GAM
 gam_tables <- lapply(pl_gams, function(model) {
@@ -320,8 +261,7 @@ combined_gam <- bind_rows(gam_tables, .id = "Model")%>%
  mutate(across(where(is.numeric), ~ ifelse(. < 0.001, format(., scientific = TRUE, digits = 3),
                                            round(., 2))))
 
-
-write.csv(combined_gam, here("results/GAM_for_other_pl_patches.csv"), row.names = F)
+write.csv(combined_gam, here("results/Env_GAM_pl_patches.csv"), row.names = F)
 
 ```
 

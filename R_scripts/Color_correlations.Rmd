@@ -275,24 +275,28 @@ summary(tvc)
 library(lmerTest)
 library(MuMIn)
 
-
+#association with dorsum
 cd <- lmerTest::lmer(PC1_c ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
                        na.action = na.exclude)
-wd <- lmerTest::lmer(PC1_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
-                      na.action = na.exclude)  
-wad <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
-                        na.action = na.exclude)
 td <- lmerTest::lmer(PC1_t ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
                        na.action = na.exclude)
 od <- lmerTest::lmer(PC1_o ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
                        na.action = na.exclude) 
 bd <- lmerTest::lmer(PC1_b ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
                        na.action = na.exclude) 
-wt <- lmerTest::lmer(PC1_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, 
-                       na.action = na.exclude)
-wat <- lmerTest::lmer(area_mm2_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, 
-                        na.action = na.exclude) 
-models <- c(cd, wd, wad, td, od, bd, wt, wat)
+#associations with wing spot color
+cwpc <- lmerTest::lmer(PC1_c ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+owpc <- lmerTest::lmer(PC1_o ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+bwpc <- lmerTest::lmer(PC1_b ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+dwpc <- lmerTest::lmer(PC1_d ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
+twpc <- lmerTest::lmer(PC1_t ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+#association with wing spot area
+cwa <- lmerTest::lmer(PC1_c ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
+owa <- lmerTest::lmer(PC1_o ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
+bwa <- lmerTest::lmer(PC1_b ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
+dwa <- lmerTest::lmer(PC1_d ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
+twa <- lmerTest::lmer(PC1_t ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+models <- c(cd, od, bd, td, cwpc, owpc, bwpc, dwpc, twpc, cwa, owa, bwa, dwa, twa)
 
 # Initialize an empty data frame to store results
 results <- data.frame(
@@ -313,27 +317,49 @@ for (model_name in 1:length(models)) {
   # Extract explanatory variables
   explanatory <- paste(as.character(formula(model)[[3]]), collapse = " + ")
   
-  # Extract p-value for the first fixed effect
-  summary_model <- summary(model)
-  p_value <- summary_model$coefficients[2, "Pr(>|t|)"]  # Adjust index for the variable of interest
-  
   # Extract marginal R² (R2m)
   r_squared <- MuMIn::r.squaredGLMM(model)
   R2m <- r_squared[1]  # Marginal R²
+  
+  # Extract p-value for the first fixed effect
+  summary_model <- summary(model)
+  p_value <- summary_model$coefficients[2, "Pr(>|t|)"]  # Adjust index for the variable of interest
   
   # Add results to the data frame
   results <- rbind(results, data.frame(
     Response = response,
     Explanatory = explanatory,
-    P_value = p_value,
     R2m = R2m,
+    P_value = p_value,
     stringsAsFactors = FALSE
   ))
 }
 
+results_rounded <- results %>% 
+   mutate(across(where(is.numeric), ~ ifelse(. < 0.001, format(., scientific = TRUE, digits = 3),
+                                           round(., 3))))
+#change names for table presentation
+pcnames <- c(
+  "PC1_c" = "Crown PC1",
+  "PC1_o" = "Covert PC1",
+  "PC1_b" = "Belly PC1",
+  "PC1_d" = "Dorsum PC1",
+  "PC1_t" = "Throat PC1",
+  "PC1_w" = "Wing spot PC1"
+)
+
+formnames <- c(
+  "+ + PC1_d + (1 | Year) + (1 | prepartor)" = "~Dorsum PC1 + (1|Year) + (1|preparator)",
+  "+ + PC1_w + (1 | Year) + (1 | prepartor)" = "~Wing spot PC1 + (1|Year) + (1|preparator)",
+  "+ + area_mm2_w + (1 | Year) + (1 | prepartor)" = "~Wing spot area + (1|Year) + (1|preparator)"
+)
+
+results_rnm <- results_rounded %>%
+  mutate(Response = recode(Response, !!!pcnames)) %>% 
+  mutate(Explanatory = recode(Explanatory, !!!formnames))
 # View the results
-print(results)
+print(results_rnm)
 
-write.csv(results, file = here("results/Color_lmm_model_results.csv"), row.names = F)
+write.csv(results_rnm, file = here("results/Color_lmm_model_results.csv"), row.names = F)
 
- ```
+```

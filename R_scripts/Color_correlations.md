@@ -408,12 +408,15 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </table>
 
 ``` r
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_w, col = lat))+
+dVw <- ggplot(asy)+
+  geom_point(aes(x = PC1_d, y = PC1_w, col = lat), size = 6)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = PC1_w), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Wingspot PC1")+
-  theme_classic()
+  theme_classic()+
+  theme(text=element_text(size=20))  
+
+dVw
 ```
 
     ## `geom_smooth()` using formula = 'y ~ x'
@@ -425,6 +428,16 @@ ggplot(asy)+
     ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/wingspot-3.png)<!-- -->
+
+``` r
+ggsave(plot = dVw, here("results/WingspotVSDorsum_plot.png"), dpi = 600, width = 8, height = 6)
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+    ## Warning: Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).
+    ## Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
 
 ``` r
 z <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
@@ -1590,6 +1603,188 @@ ggplot(asy)+
 
 ![](Color_correlations_files/figure-gfm/throat%20v%20wingspot-4.png)<!-- -->
 
+# wingspot vs other plumage patches
+
+``` r
+crown <- lmerTest::lmer(PC1_c ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+```
+
+    ## boundary (singular) fit: see help('isSingular')
+
+``` r
+summary(crown)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: PC1_c ~ PC1_w + (1 | Year) + (1 | prepartor)
+    ##    Data: asy
+    ## 
+    ## REML criterion at convergence: -433.2
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.53331 -0.64077 -0.02601  0.60197  2.56322 
+    ## 
+    ## Random effects:
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 0.0001626 0.01275 
+    ##  prepartor (Intercept) 0.0000000 0.00000 
+    ##  Residual              0.0009112 0.03019 
+    ## Number of obs: 109, groups:  Year, 7; prepartor, 6
+    ## 
+    ## Fixed effects:
+    ##               Estimate Std. Error         df t value Pr(>|t|)  
+    ## (Intercept)   0.008985   0.006179   8.074660   1.454   0.1837  
+    ## PC1_w        -0.056472   0.030542 103.440369  -1.849   0.0673 .
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##       (Intr)
+    ## PC1_w -0.371
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
+
+``` r
+covert <- lmerTest::lmer(PC1_o ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+```
+
+    ## boundary (singular) fit: see help('isSingular')
+
+``` r
+summary(covert)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: PC1_o ~ PC1_w + (1 | Year) + (1 | prepartor)
+    ##    Data: asy
+    ## 
+    ## REML criterion at convergence: -426.2
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.8580 -0.6908 -0.1054  0.4375  2.7095 
+    ## 
+    ## Random effects:
+    ##  Groups    Name        Variance  Std.Dev. 
+    ##  Year      (Intercept) 3.354e-04 1.832e-02
+    ##  prepartor (Intercept) 3.145e-13 5.608e-07
+    ##  Residual              9.828e-04 3.135e-02
+    ## Number of obs: 110, groups:  Year, 7; prepartor, 6
+    ## 
+    ## Fixed effects:
+    ##               Estimate Std. Error         df t value Pr(>|t|)
+    ## (Intercept)  -0.013217   0.008033   7.114031  -1.645    0.143
+    ## PC1_w        -0.025490   0.030797 103.365867  -0.828    0.410
+    ## 
+    ## Correlation of Fixed Effects:
+    ##       (Intr)
+    ## PC1_w -0.291
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
+
+``` r
+belly <- lmerTest::lmer(PC1_b ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(belly)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: PC1_b ~ PC1_w + (1 | Year) + (1 | prepartor)
+    ##    Data: asy
+    ## 
+    ## REML criterion at convergence: -249.7
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.1416 -0.6034  0.1324  0.6020  2.8653 
+    ## 
+    ## Random effects:
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 0.0001697 0.01303 
+    ##  prepartor (Intercept) 0.0018168 0.04262 
+    ##  Residual              0.0052762 0.07264 
+    ## Number of obs: 111, groups:  Year, 7; prepartor, 6
+    ## 
+    ## Fixed effects:
+    ##              Estimate Std. Error        df t value Pr(>|t|)
+    ## (Intercept) 4.722e-03  2.416e-02 2.811e+00   0.195    0.858
+    ## PC1_w       1.025e-01  7.166e-02 1.038e+02   1.431    0.155
+    ## 
+    ## Correlation of Fixed Effects:
+    ##       (Intr)
+    ## PC1_w -0.256
+
+``` r
+throat <- lmerTest::lmer(PC1_t ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(throat)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: PC1_t ~ PC1_w + (1 | Year) + (1 | prepartor)
+    ##    Data: asy
+    ## 
+    ## REML criterion at convergence: -539.7
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.91821 -0.75205  0.09299  0.73877  1.84039 
+    ## 
+    ## Random effects:
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 1.298e-04 0.011393
+    ##  prepartor (Intercept) 4.815e-06 0.002194
+    ##  Residual              3.406e-04 0.018454
+    ## Number of obs: 110, groups:  Year, 7; prepartor, 6
+    ## 
+    ## Fixed effects:
+    ##               Estimate Std. Error         df t value Pr(>|t|)  
+    ## (Intercept)   0.000556   0.005116   7.593923   0.109   0.9163  
+    ## PC1_w        -0.034306   0.018365 103.624795  -1.868   0.0646 .
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##       (Intr)
+    ## PC1_w -0.280
+
+``` r
+tvc <- lmerTest::lmer(PC1_t ~ PC1_o + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
+summary(tvc)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: PC1_t ~ PC1_o + (1 | Year) + (1 | prepartor)
+    ##    Data: asy
+    ## 
+    ## REML criterion at convergence: -576.9
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.3006 -0.7445  0.1498  0.6702  2.0681 
+    ## 
+    ## Random effects:
+    ##  Groups    Name        Variance  Std.Dev.
+    ##  Year      (Intercept) 1.949e-05 0.004414
+    ##  prepartor (Intercept) 1.034e-05 0.003215
+    ##  Residual              2.338e-04 0.015290
+    ## Number of obs: 108, groups:  Year, 7; prepartor, 6
+    ## 
+    ## Fixed effects:
+    ##              Estimate Std. Error        df t value Pr(>|t|)    
+    ## (Intercept)  0.003646   0.003010  4.312537   1.211    0.288    
+    ## PC1_o        0.378261   0.045394 91.826444   8.333 7.37e-13 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##       (Intr)
+    ## PC1_o 0.211
+
 # make a table of results
 
     ## boundary (singular) fit: see help('isSingular')
@@ -1598,13 +1793,35 @@ ggplot(asy)+
     ## boundary (singular) fit: see help('isSingular')
     ## boundary (singular) fit: see help('isSingular')
     ## boundary (singular) fit: see help('isSingular')
+    ## boundary (singular) fit: see help('isSingular')
 
-    ##     Response                              Explanatory      P_value         R2m
-    ## 1      PC1_c + + PC1_d + (1 | Year) + (1 | prepartor) 5.693240e-07 0.207770244
-    ## 2      PC1_w + + PC1_d + (1 | Year) + (1 | prepartor) 6.057590e-03 0.066184422
-    ## 3 area_mm2_w + + PC1_d + (1 | Year) + (1 | prepartor) 6.693957e-01 0.001462646
-    ## 4      PC1_t + + PC1_d + (1 | Year) + (1 | prepartor) 8.667564e-04 0.112465857
-    ## 5      PC1_o + + PC1_d + (1 | Year) + (1 | prepartor) 2.671333e-07 0.258795812
-    ## 6      PC1_b + + PC1_d + (1 | Year) + (1 | prepartor) 2.902830e-01 0.010271721
-    ## 7      PC1_w + + PC1_t + (1 | Year) + (1 | prepartor) 4.741474e-02 0.036569254
-    ## 8 area_mm2_w + + PC1_t + (1 | Year) + (1 | prepartor) 5.715700e-01 0.002595674
+    ##    Response                                   Explanatory      P_value
+    ## 1     PC1_c      + + PC1_d + (1 | Year) + (1 | prepartor) 5.693240e-07
+    ## 2     PC1_o      + + PC1_d + (1 | Year) + (1 | prepartor) 2.671333e-07
+    ## 3     PC1_b      + + PC1_d + (1 | Year) + (1 | prepartor) 2.902830e-01
+    ## 4     PC1_t      + + PC1_d + (1 | Year) + (1 | prepartor) 8.667564e-04
+    ## 5     PC1_c      + + PC1_w + (1 | Year) + (1 | prepartor) 6.731598e-02
+    ## 6     PC1_o      + + PC1_w + (1 | Year) + (1 | prepartor) 4.097528e-01
+    ## 7     PC1_b      + + PC1_w + (1 | Year) + (1 | prepartor) 1.554054e-01
+    ## 8     PC1_d      + + PC1_w + (1 | Year) + (1 | prepartor) 9.299282e-03
+    ## 9     PC1_t      + + PC1_w + (1 | Year) + (1 | prepartor) 6.458662e-02
+    ## 10    PC1_c + + area_mm2_w + (1 | Year) + (1 | prepartor) 9.055215e-01
+    ## 11    PC1_o + + area_mm2_w + (1 | Year) + (1 | prepartor) 4.730336e-01
+    ## 12    PC1_b + + area_mm2_w + (1 | Year) + (1 | prepartor) 6.602048e-01
+    ## 13    PC1_d + + area_mm2_w + (1 | Year) + (1 | prepartor) 8.234511e-01
+    ## 14    PC1_t + + area_mm2_w + (1 | Year) + (1 | prepartor) 7.073917e-01
+    ##             R2m
+    ## 1  0.2077702439
+    ## 2  0.2587958119
+    ## 3  0.0102717210
+    ## 4  0.1124658573
+    ## 5  0.0271374534
+    ## 6  0.0048353499
+    ## 7  0.0139669734
+    ## 8  0.0342779664
+    ## 9  0.0235186721
+    ## 10 0.0001134963
+    ## 11 0.0037817310
+    ## 12 0.0015746543
+    ## 13 0.0002539083
+    ## 14 0.0010252290
