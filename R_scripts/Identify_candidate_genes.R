@@ -54,7 +54,7 @@ manhattanly(gwa_rand_man, genomewideline = -log10(1e-07))
 
 # LRT from angsd-asso -----------------------------------------------------
 
-lrt <- read.table("data/Btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.asso2.lrt")
+lrt <- read.table("data/Btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400_asso6.lrt0.rol_win")
 #fix col names as headers
 colnames(lrt) <- lrt[1,]
 lrt <- lrt[-1,]
@@ -70,22 +70,24 @@ process_lrt <- function(lrt) {
       TRUE ~ as.numeric(chr)
     ))
   
-  lrt_ind$Position <- as.numeric(lrt_ind$Position)
-  lrt_ind$LRT <- as.numeric(lrt_ind$LRT)
+  lrt_ind$win_mid <- as.numeric(lrt_ind$win_mid)
+  lrt_ind$LRT_median <- as.numeric(lrt_ind$LRT_median)
   
   # Select relevant columns
   lrt_sub <- lrt_ind %>%
-    dplyr::select(CHR = chr, BP = Position, LRT, Chromosome)
+    dplyr::select(CHR = chr, BP = win_mid, LRT_median, Chromosome)
   
   return(lrt_sub)
 }
 
 lrt_man <- process_lrt(lrt)
 
-manhattanly(lrt_man)
+fastman::fastman(lrt_man, chr = "CHR", bp = "BP", p = "LRT_median",logp = F, sortchr = T, maxP = max(lrt_man$LRT_median), 
+        speedup=T, col="rgbs",cex=0.5,xlab="Chromosome",ylab="median LRT",cex.axis = 1)
 
-fastman::fastman(lrt_man, chr = "CHR", bp = "BP", p = "LRT",logp = F, sortchr = F, maxP = max(lrt_man$LRT), 
-        speedup=T, col="rgbs",cex=0.5,xlab="Chromosome",ylab="LRT",cex.axis = 1)
+threshold <- fread("data/LRT_threshold_0.00001_median.tsv")
+
+significant <- lrt_man[lrt_man$LRT_median>threshold$LRT_median,]
 # looking for hits with suggestive snps -----------------------------------
 
 # BiocManager::install("GenomicRanges")

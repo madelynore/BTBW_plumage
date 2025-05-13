@@ -1,5 +1,5 @@
 ---
-title: "Dorsum_environment"
+title: "Plumage_environment"
 author: "Ore, MJ."
 date: "2025-03-11"
 output: rmarkdown::github_document
@@ -137,7 +137,7 @@ write.csv(model_results, here("results/spatiotemp_model_selection_table.csv"), r
 
 ```
 
-# Build model for env-dorsum correlation
+# Build model for env-mantle correlation
 
 ```{r lmm pheno-env, echo = F}
 
@@ -204,7 +204,7 @@ varImpPlot(rf1)
 ```{r env GAM}
 library(mgcv)
 
-dorsum <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
+mantle <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
                 + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
             data = lum_env, method = "REML") 
 
@@ -241,7 +241,7 @@ summary(wspot)
 ```{r table env vs plumage}
 library(dplyr)
 
-pl_gams <- list(dorsum = dorsum, belly = belly, covert = covert, crown = crown, throat =  throat, wspot = wspot)
+pl_gams <- list(mantle = mantle, belly = belly, covert = covert, crown = crown, throat =  throat, wspot = wspot)
 
 # Extract smooth and parametric terms for each GAM
 gam_tables <- lapply(pl_gams, function(model) {
@@ -280,7 +280,7 @@ srtm_fit <- data.frame(
   ndvi_M = mean(lum_env$ndvi_M)
 )
 
-predictions <- predict(full, newdata = srtm_fit, se.fit = TRUE)
+predictions <- predict(mantle, newdata = srtm_fit, se.fit = TRUE)
 
 # Add predictions and confidence intervals to the new data frame
 srtm_fit$PC1_d_pred <- predictions$fit
@@ -293,7 +293,7 @@ elev <- ggplot(data = lum_env, aes(x = srtm, y = PC1_d, color = lat)) +
   geom_line(data = srtm_fit, aes(x = srtm, y = PC1_d_pred), size = 1, color = "black") +  
   geom_ribbon(data = srtm_fit, aes(x = srtm, ymin = lower_CI, ymax = upper_CI),
               alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
-  labs(x = "Elevation", y = "PC1 Dorsum") +
+  labs(x = "Elevation", y = "PC1 Mantle") +
   theme_classic()+
   theme(text=element_text(size=24))  
 
@@ -308,7 +308,7 @@ tave_fit <- data.frame(
   ndvi_M = mean(lum_env$ndvi_M)
 )
 
-predictions <- predict(full, newdata = tave_fit, se.fit = TRUE)
+predictions <- predict(mantle, newdata = tave_fit, se.fit = TRUE)
 
 # Add predictions and confidence intervals to the new data frame
 tave_fit$PC1_d_pred <- predictions$fit
@@ -318,7 +318,7 @@ tave_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bo
 temp <- ggplot(data = lum_env, aes(x = Tave08_molt, y = PC1_d, color = lat))+
   geom_point(size = 4)+
   scale_color_viridis_c(direction = -1)+
-  labs(x = "Mean Temperature during molt", y = "PC1 Dorsum")+
+  labs(x = "Mean Temperature during molt", y = "PC1 Mantle")+
   geom_line(data = tave_fit, aes(x = Tave_br, y = PC1_d_pred, color = lat), size = 1) +  
   geom_ribbon(data = tave_fit, aes(x = Tave_br, ymin = lower_CI, ymax = upper_CI),
               alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
@@ -333,7 +333,7 @@ latplot <- ggplot(data = lum_env, aes(x = lat, y = PC1_d, color = lat))+
   geom_point(size = 4)+
   scale_x_reverse()+
   scale_color_viridis_c(direction = -1)+
-  labs(x = "Latitude", y = "PC1 Dorsum")+
+  labs(x = "Latitude", y = "PC1 Mantle")+
   guides(color = "none") +
   geom_smooth(aes(x = lat, y = PC1_d), method = "lm", col = "black")+
   theme_classic()+
