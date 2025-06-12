@@ -1,9 +1,15 @@
-"Response","Explanatory","P_value","R2m"
-"PC1_c","+ + PC1_d + (1 | Year) + (1 | prepartor)",5.69323953148145e-07,0.20777024388963
-"PC1_w","+ + PC1_d + (1 | Year) + (1 | prepartor)",0.00605759009440928,0.0661844223197478
-"area_mm2_w","+ + PC1_d + (1 | Year) + (1 | prepartor)",0.669395696945477,0.00146264611942478
-"PC1_t","+ + PC1_d + (1 | Year) + (1 | prepartor)",0.000866756383604784,0.112465857273815
-"PC1_o","+ + PC1_d + (1 | Year) + (1 | prepartor)",2.67133296454753e-07,0.258795811919082
-"PC1_b","+ + PC1_d + (1 | Year) + (1 | prepartor)",0.290283012555939,0.0102717210165572
-"PC1_w","+ + PC1_t + (1 | Year) + (1 | prepartor)",0.0474147438855893,0.0365692538924612
-"area_mm2_w","+ + PC1_t + (1 | Year) + (1 | prepartor)",0.571570043629981,0.00259567438389223
+"Response","Explanatory","R2m","P_value"
+"Crown PC1","~Dorsum PC1 + (1|Year) + (1|preparator)","0.208","5.69e-07"
+"Covert PC1","~Dorsum PC1 + (1|Year) + (1|preparator)","0.259","2.67e-07"
+"Belly PC1","~Dorsum PC1 + (1|Year) + (1|preparator)","0.01","0.29"
+"Throat PC1","~Dorsum PC1 + (1|Year) + (1|preparator)","0.112","8.67e-04"
+"Crown PC1","~Wing spot PC1 + (1|Year) + (1|preparator)","0.027","0.067"
+"Covert PC1","~Wing spot PC1 + (1|Year) + (1|preparator)","0.005","0.41"
+"Belly PC1","~Wing spot PC1 + (1|Year) + (1|preparator)","0.014","0.155"
+"Dorsum PC1","~Wing spot PC1 + (1|Year) + (1|preparator)","0.034","0.009"
+"Throat PC1","~Wing spot PC1 + (1|Year) + (1|preparator)","0.024","0.065"
+"Crown PC1","~Wing spot area + (1|Year) + (1|preparator)","1.13e-04","0.906"
+"Covert PC1","~Wing spot area + (1|Year) + (1|preparator)","0.004","0.473"
+"Belly PC1","~Wing spot area + (1|Year) + (1|preparator)","0.002","0.66"
+"Dorsum PC1","~Wing spot area + (1|Year) + (1|preparator)","2.54e-04","0.823"
+"Throat PC1","~Wing spot area + (1|Year) + (1|preparator)","0.001","0.707"

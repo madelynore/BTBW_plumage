@@ -631,3 +631,16 @@ img_missing <- img_meta %>%
            ventral == 0 | is.na(ventral))
 
 write.csv(img_missing, "results/images_missing_from_analyses.csv", row.names = F)
+
+
+# Make NGSadmix file ------------------------------------------------------
+
+k2 <- read.table("data_raw/NGS_admix_K2_from_GEA.txt")
+
+k2$ID <- rownames(k2)
+
+fam <- read.table("data/BTBW_n95_ASY_forGWAS_PC1_d_rand.fam") %>% 
+  select(ID = V2)
+
+k2_pl <- merge(k2, fam, all.y = T)
+
