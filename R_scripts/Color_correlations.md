@@ -3,74 +3,11 @@ Are dark-backed birds darker overall?
 Ore, MJ.
 2025-03-10
 
-    ## Warning: package 'ggplot2' was built under R version 4.3.1
-
-    ## Warning: package 'tidyr' was built under R version 4.3.1
-
-    ## Warning: package 'readr' was built under R version 4.3.1
-
-    ## Warning: package 'purrr' was built under R version 4.3.3
-
-    ## Warning: package 'dplyr' was built under R version 4.3.1
-
-    ## Warning: package 'stringr' was built under R version 4.3.1
-
-    ## Warning: package 'lubridate' was built under R version 4.3.3
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.0.4     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-    ## here() starts at /Users/madelynore/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage
-
-    ## Warning: package 'viridis' was built under R version 4.3.1
-
-    ## Loading required package: viridisLite
-    ## here() starts at /Users/madelynore/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage
-
 How do luminance and shortwavelength correlate
 
 \#crown
 
-    ## Loading required package: lme4
-
-    ## Warning: package 'lme4' was built under R version 4.3.3
-
-    ## Loading required package: Matrix
-
-    ## Warning: package 'Matrix' was built under R version 4.3.1
-
-    ## 
-    ## Attaching package: 'Matrix'
-
-    ## The following objects are masked from 'package:tidyr':
-    ## 
-    ##     expand, pack, unpack
-
-    ## 
-    ## Attaching package: 'lmerTest'
-
-    ## The following object is masked from 'package:lme4':
-    ## 
-    ##     lmer
-
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     step
-
-    ## Warning: package 'MuMIn' was built under R version 4.3.3
-
-    ## Warning: package 'sjPlot' was built under R version 4.3.3
-
 ![](Color_correlations_files/figure-gfm/crown-1.png)<!-- -->![](Color_correlations_files/figure-gfm/crown-2.png)<!-- -->
-
-    ## boundary (singular) fit: see help('isSingular')
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -107,153 +44,199 @@ How do luminance and shortwavelength correlate
     ## [1,] 0.2077702 0.2077702
 
 <table style="border-collapse:collapse; border:none;">
+
 <tr>
+
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+
  
 </th>
+
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+
 PC1_c
 </th>
+
 </tr>
+
 <tr>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+
 Predictors
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 Estimates
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 CI
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 p
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 (Intercept)
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.01
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.00 – 0.01
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>0.022</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 PC1 d
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.46
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.29 – 0.63
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>\<0.001</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+
 Random Effects
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 σ<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 7
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 6
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+
 Observations
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+
 109
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.208 / NA
 </td>
+
 </tr>
+
 </table>
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 4 rows containing non-finite outside the scale range
-    ## (`stat_smooth()`).
-
-    ## Warning: Removed 4 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/crown-3.png)<!-- -->
 
 \#wingspot
 
-``` r
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
-
-# check for normality
-hist(asy$PC1_d)
-```
-
-![](Color_correlations_files/figure-gfm/wingspot-1.png)<!-- -->
-
-``` r
-hist(asy$PC1_w)
-```
-
-![](Color_correlations_files/figure-gfm/wingspot-2.png)<!-- -->
-
-``` r
-z <- lmerTest::lmer(PC1_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
-summary(z)
-```
+![](Color_correlations_files/figure-gfm/wingspot-1.png)<!-- -->![](Color_correlations_files/figure-gfm/wingspot-2.png)<!-- -->
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -286,168 +269,199 @@ summary(z)
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
-``` r
-r.squaredGLMM(z)
-```
-
     ##             R2m      R2c
     ## [1,] 0.06618442 0.118381
 
-``` r
-tab_model(z)
-```
-
 <table style="border-collapse:collapse; border:none;">
+
 <tr>
+
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+
  
 </th>
+
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+
 PC1_w
 </th>
+
 </tr>
+
 <tr>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+
 Predictors
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 Estimates
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 CI
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 p
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 (Intercept)
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.07
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.04 – 0.10
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>\<0.001</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 PC1 d
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.81
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -1.38 – -0.24
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>0.006</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+
 Random Effects
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 σ<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.01
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 7
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 6
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+
 Observations
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+
 112
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.070 / NA
 </td>
+
 </tr>
+
 </table>
 
-``` r
-dVw <- ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_w, col = lat), size = 6)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_w), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Wingspot PC1")+
-  theme_classic()+
-  theme(text=element_text(size=20))  
-
-dVw
-```
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 1 row containing non-finite outside the scale range
-    ## (`stat_smooth()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
 ![](Color_correlations_files/figure-gfm/wingspot-3.png)<!-- -->
-
-``` r
-ggsave(plot = dVw, here("results/WingspotVSDorsum_plot.png"), dpi = 600, width = 8, height = 6)
-```
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).
-    ## Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-``` r
-z <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
-summary(z)
-```
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -480,174 +494,203 @@ summary(z)
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
-``` r
-r.squaredGLMM(z)
-```
-
     ##              R2m       R2c
     ## [1,] 0.001462646 0.1909201
 
-``` r
-tab_model(z)
-```
-
 <table style="border-collapse:collapse; border:none;">
+
 <tr>
+
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+
  
 </th>
+
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+
 area_mm2_w
 </th>
+
 </tr>
+
 <tr>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+
 Predictors
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 Estimates
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 CI
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 p
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 (Intercept)
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 46.34
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 39.95 – 52.72
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>\<0.001</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 PC1 d
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -15.64
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -88.07 – 56.79
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.669
 </td>
+
 </tr>
+
 <tr>
+
 <td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+
 Random Effects
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 σ<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 139.38
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 32.64
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-ICC
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.19
-</td>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 7
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 6
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+
 Observations
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+
 112
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.001 / 0.191
+
+0.002 / NA
 </td>
+
 </tr>
+
 </table>
-
-``` r
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = area_mm2_w, col = lat))+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = area_mm2_w), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Wingspot area (mm2)")+
-  theme_classic()
-```
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 1 row containing non-finite outside the scale range (`stat_smooth()`).
-    ## Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/wingspot-4.png)<!-- -->
 
 \#throat
 
-``` r
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
-
-# check for normality
-hist(asy$PC1_d)
-```
-
-![](Color_correlations_files/figure-gfm/throat-1.png)<!-- -->
-
-``` r
-hist(asy$PC1_t)
-```
-
-![](Color_correlations_files/figure-gfm/throat-2.png)<!-- -->
-
-``` r
-z <- lmerTest::lmer(PC1_t ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-```
+![](Color_correlations_files/figure-gfm/throat-1.png)<!-- -->![](Color_correlations_files/figure-gfm/throat-2.png)<!-- -->
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -678,181 +721,215 @@ summary(z)
     ##       (Intr)
     ## PC1_d 0.095
 
-``` r
-r.squaredGLMM(z)
-```
-
     ##            R2m      R2c
     ## [1,] 0.1124659 0.360979
 
-``` r
-tab_model(z)
-```
-
 <table style="border-collapse:collapse; border:none;">
+
 <tr>
+
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+
  
 </th>
+
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+
 PC1_t
 </th>
+
 </tr>
+
 <tr>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+
 Predictors
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 Estimates
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 CI
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 p
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 (Intercept)
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.00
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.01 – 0.01
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.939
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 PC1 d
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.23
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.10 – 0.36
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>0.001</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+
 Random Effects
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 σ<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 ICC
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.28
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 7
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 6
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+
 Observations
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+
 110
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.112 / 0.361
 </td>
+
 </tr>
+
 </table>
-
-``` r
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_t, col = lat))+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_t), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Throat PC1")+
-  theme_classic()
-```
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 3 rows containing non-finite outside the scale range
-    ## (`stat_smooth()`).
-
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/throat-3.png)<!-- -->
 
 \#marginal covert
 
-``` r
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
-
-# check for normality
-hist(asy$PC1_d)
-```
-
-![](Color_correlations_files/figure-gfm/coverts-1.png)<!-- -->
-
-``` r
-hist(asy$PC1_o)
-```
-
-![](Color_correlations_files/figure-gfm/coverts-2.png)<!-- -->
-
-``` r
-z <- lmerTest::lmer(PC1_o ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
-summary(z)
-```
+![](Color_correlations_files/figure-gfm/coverts-1.png)<!-- -->![](Color_correlations_files/figure-gfm/coverts-2.png)<!-- -->
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -885,169 +962,203 @@ summary(z)
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
-``` r
-r.squaredGLMM(z)
-```
-
     ##            R2m       R2c
     ## [1,] 0.2587958 0.4182977
 
-``` r
-tab_model(z)
-```
-
 <table style="border-collapse:collapse; border:none;">
+
 <tr>
+
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+
  
 </th>
+
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+
 PC1_o
 </th>
+
 </tr>
+
 <tr>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+
 Predictors
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 Estimates
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 CI
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 p
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 (Intercept)
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.01
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.02 – 0.00
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.078
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 PC1 d
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.58
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.37 – 0.79
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>\<0.001</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+
 Random Effects
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 σ<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 7
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 6
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+
 Observations
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+
 110
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.308 / NA
 </td>
+
 </tr>
+
 </table>
-
-``` r
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_o, col = lat))+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_o), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Covert PC1")+
-  theme_classic()
-```
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 3 rows containing non-finite outside the scale range
-    ## (`stat_smooth()`).
-
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/coverts-3.png)<!-- -->
 
 \#belly
 
-``` r
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
-
-# check for normality
-hist(asy$PC1_d)
-```
-
-![](Color_correlations_files/figure-gfm/belly-1.png)<!-- -->
-
-``` r
-hist(asy$PC1_b)
-```
-
-![](Color_correlations_files/figure-gfm/belly-2.png)<!-- -->
-
-``` r
-z <- lmerTest::lmer(PC1_b ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-```
+![](Color_correlations_files/figure-gfm/belly-1.png)<!-- -->![](Color_correlations_files/figure-gfm/belly-2.png)<!-- -->
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -1076,182 +1187,215 @@ summary(z)
     ##       (Intr)
     ## PC1_d 0.112
 
-``` r
-r.squaredGLMM(z)
-```
-
     ##             R2m       R2c
     ## [1,] 0.01027172 0.2943256
 
-``` r
-tab_model(z)
-```
-
 <table style="border-collapse:collapse; border:none;">
+
 <tr>
+
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+
  
 </th>
+
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+
 PC1_b
 </th>
+
 </tr>
+
 <tr>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+
 Predictors
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 Estimates
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 CI
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 p
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 (Intercept)
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.01
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.03 – 0.06
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.609
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 PC1 d
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.27
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.78 – 0.23
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.287
 </td>
+
 </tr>
+
 <tr>
+
 <td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+
 Random Effects
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 σ<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.01
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 ICC
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.29
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 7
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 6
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+
 Observations
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+
 111
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.010 / 0.294
 </td>
+
 </tr>
+
 </table>
-
-``` r
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_b, col = lat))+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_b), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Belly PC1")+
-  ylim(0.3,0.6)+
-  theme_classic()
-```
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 113 rows containing non-finite outside the scale range
-    ## (`stat_smooth()`).
-
-    ## Warning: Removed 113 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/belly-3.png)<!-- -->
 
 \#throat vs wingspot
 
-``` r
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
-
-# check for normality
-hist(asy$PC1_t)
-```
-
-![](Color_correlations_files/figure-gfm/throat%20v%20wingspot-1.png)<!-- -->
-
-``` r
-hist(asy$PC1_w)
-```
-
-![](Color_correlations_files/figure-gfm/throat%20v%20wingspot-2.png)<!-- -->
-
-``` r
-z <- lmerTest::lmer(PC1_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
-summary(z)
-```
+![](Color_correlations_files/figure-gfm/throat%20v%20wingspot-1.png)<!-- -->![](Color_correlations_files/figure-gfm/throat%20v%20wingspot-2.png)<!-- -->
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -1262,19 +1406,19 @@ summary(z)
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.75103 -0.67981  0.01409  0.75942  1.75553 
+    ## -2.75103 -0.67981  0.01409  0.75943  1.75553 
     ## 
     ## Random effects:
-    ##  Groups    Name        Variance  Std.Dev.
-    ##  Year      (Intercept) 2.623e-05 0.005122
-    ##  prepartor (Intercept) 0.000e+00 0.000000
-    ##  Residual              9.431e-03 0.097113
+    ##  Groups    Name        Variance  Std.Dev. 
+    ##  Year      (Intercept) 2.623e-05 5.121e-03
+    ##  prepartor (Intercept) 1.971e-12 1.404e-06
+    ##  Residual              9.431e-03 9.711e-02
     ## Number of obs: 110, groups:  Year, 7; prepartor, 6
     ## 
     ## Fixed effects:
     ##              Estimate Std. Error        df t value Pr(>|t|)    
-    ## (Intercept)  0.075522   0.009593  6.200281   7.872 0.000189 ***
-    ## PC1_t       -0.875917   0.432759 60.160010  -2.024 0.047415 *  
+    ## (Intercept)  0.075522   0.009593  6.199864   7.872 0.000189 ***
+    ## PC1_t       -0.875917   0.432759 60.157966  -2.024 0.047415 *  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
@@ -1284,155 +1428,199 @@ summary(z)
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
-``` r
-r.squaredGLMM(z)
-```
-
     ##             R2m        R2c
-    ## [1,] 0.03656925 0.03924166
-
-``` r
-tab_model(z)
-```
+    ## [1,] 0.03656925 0.03924117
 
 <table style="border-collapse:collapse; border:none;">
+
 <tr>
+
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+
  
 </th>
+
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+
 PC1_w
 </th>
+
 </tr>
+
 <tr>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+
 Predictors
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 Estimates
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 CI
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 p
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 (Intercept)
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.08
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.06 – 0.09
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>\<0.001</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 PC1 t
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -0.88
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -1.73 – -0.02
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>0.046</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+
 Random Effects
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 σ<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.01
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 7
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 6
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+
 Observations
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+
 110
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.037 / NA
 </td>
+
 </tr>
+
 </table>
 
-``` r
-ggplot(asy)+
-  geom_point(aes(x = PC1_t, y = PC1_w, col = lat))+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_t, y = PC1_w), method = "lm", col = "black")+
-  labs(x = "Throat PC1", y = "Wingspot PC1")+
-  theme_classic()
-```
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 3 rows containing non-finite outside the scale range
-    ## (`stat_smooth()`).
-
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
 ![](Color_correlations_files/figure-gfm/throat%20v%20wingspot-3.png)<!-- -->
-
-``` r
-z <- lmerTest::lmer(area_mm2_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
-summary(z)
-```
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -1465,155 +1653,201 @@ summary(z)
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
-``` r
-r.squaredGLMM(z)
-```
-
     ##              R2m       R2c
     ## [1,] 0.002595674 0.1962694
 
-``` r
-tab_model(z)
-```
-
 <table style="border-collapse:collapse; border:none;">
+
 <tr>
+
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+
  
 </th>
+
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+
 area_mm2_w
 </th>
+
 </tr>
+
 <tr>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+
 Predictors
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 Estimates
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 CI
 </td>
+
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+
 p
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 (Intercept)
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 46.55
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 40.11 – 53.00
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 <strong>\<0.001</strong>
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+
 PC1 t
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -31.18
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 -140.11 – 77.75
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+
 0.572
 </td>
+
 </tr>
+
 <tr>
+
 <td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+
 Random Effects
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 σ<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 140.81
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.00
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 τ<sub>00</sub> <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 33.93
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>Year</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 7
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 N <sub>prepartor</sub>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 6
 </td>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+
 Observations
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+
 110
 </td>
+
 </tr>
+
 <tr>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
+
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+
 0.003 / NA
 </td>
+
 </tr>
+
 </table>
-
-``` r
-ggplot(asy)+
-  geom_point(aes(x = PC1_t, y = area_mm2_w, col = lat))+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_t, y = area_mm2_w), method = "lm", col = "black")+
-  labs(x = "Throat PC1", y = "Wingspot area (mm2)")+
-  theme_classic()
-```
-
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 3 rows containing non-finite outside the scale range (`stat_smooth()`).
-    ## Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
 
 ![](Color_correlations_files/figure-gfm/throat%20v%20wingspot-4.png)<!-- -->
 
 # wingspot vs other plumage patches
-
-``` r
-crown <- lmerTest::lmer(PC1_c ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
-summary(crown)
-```
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -1646,16 +1880,6 @@ summary(crown)
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
-``` r
-covert <- lmerTest::lmer(PC1_o ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-```
-
-    ## boundary (singular) fit: see help('isSingular')
-
-``` r
-summary(covert)
-```
-
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
     ## Formula: PC1_o ~ PC1_w + (1 | Year) + (1 | prepartor)
@@ -1685,11 +1909,6 @@ summary(covert)
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
-``` r
-belly <- lmerTest::lmer(PC1_b ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(belly)
-```
-
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
     ## Formula: PC1_b ~ PC1_w + (1 | Year) + (1 | prepartor)
@@ -1716,11 +1935,6 @@ summary(belly)
     ## Correlation of Fixed Effects:
     ##       (Intr)
     ## PC1_w -0.256
-
-``` r
-throat <- lmerTest::lmer(PC1_t ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(throat)
-```
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -1750,11 +1964,6 @@ summary(throat)
     ## Correlation of Fixed Effects:
     ##       (Intr)
     ## PC1_w -0.280
-
-``` r
-tvc <- lmerTest::lmer(PC1_t ~ PC1_o + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(tvc)
-```
 
     ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
     ## lmerModLmerTest]
@@ -1787,41 +1996,18 @@ summary(tvc)
 
 # make a table of results
 
-    ## boundary (singular) fit: see help('isSingular')
-    ## boundary (singular) fit: see help('isSingular')
-    ## boundary (singular) fit: see help('isSingular')
-    ## boundary (singular) fit: see help('isSingular')
-    ## boundary (singular) fit: see help('isSingular')
-    ## boundary (singular) fit: see help('isSingular')
-    ## boundary (singular) fit: see help('isSingular')
-
-    ##    Response                                   Explanatory      P_value
-    ## 1     PC1_c      + + PC1_d + (1 | Year) + (1 | prepartor) 5.693240e-07
-    ## 2     PC1_o      + + PC1_d + (1 | Year) + (1 | prepartor) 2.671333e-07
-    ## 3     PC1_b      + + PC1_d + (1 | Year) + (1 | prepartor) 2.902830e-01
-    ## 4     PC1_t      + + PC1_d + (1 | Year) + (1 | prepartor) 8.667564e-04
-    ## 5     PC1_c      + + PC1_w + (1 | Year) + (1 | prepartor) 6.731598e-02
-    ## 6     PC1_o      + + PC1_w + (1 | Year) + (1 | prepartor) 4.097528e-01
-    ## 7     PC1_b      + + PC1_w + (1 | Year) + (1 | prepartor) 1.554054e-01
-    ## 8     PC1_d      + + PC1_w + (1 | Year) + (1 | prepartor) 9.299282e-03
-    ## 9     PC1_t      + + PC1_w + (1 | Year) + (1 | prepartor) 6.458662e-02
-    ## 10    PC1_c + + area_mm2_w + (1 | Year) + (1 | prepartor) 9.055215e-01
-    ## 11    PC1_o + + area_mm2_w + (1 | Year) + (1 | prepartor) 4.730336e-01
-    ## 12    PC1_b + + area_mm2_w + (1 | Year) + (1 | prepartor) 6.602048e-01
-    ## 13    PC1_d + + area_mm2_w + (1 | Year) + (1 | prepartor) 8.234511e-01
-    ## 14    PC1_t + + area_mm2_w + (1 | Year) + (1 | prepartor) 7.073917e-01
-    ##             R2m
-    ## 1  0.2077702439
-    ## 2  0.2587958119
-    ## 3  0.0102717210
-    ## 4  0.1124658573
-    ## 5  0.0271374534
-    ## 6  0.0048353499
-    ## 7  0.0139669734
-    ## 8  0.0342779664
-    ## 9  0.0235186721
-    ## 10 0.0001134963
-    ## 11 0.0037817310
-    ## 12 0.0015746543
-    ## 13 0.0002539083
-    ## 14 0.0010252290
+    ##      Response                                 Explanatory      R2m  P_value
+    ## 1   Crown PC1     ~Dorsum PC1 + (1|Year) + (1|preparator)    0.208 5.69e-07
+    ## 2  Covert PC1     ~Dorsum PC1 + (1|Year) + (1|preparator)    0.259 2.67e-07
+    ## 3   Belly PC1     ~Dorsum PC1 + (1|Year) + (1|preparator)     0.01     0.29
+    ## 4  Throat PC1     ~Dorsum PC1 + (1|Year) + (1|preparator)    0.112 8.67e-04
+    ## 5   Crown PC1  ~Wing spot PC1 + (1|Year) + (1|preparator)    0.027    0.067
+    ## 6  Covert PC1  ~Wing spot PC1 + (1|Year) + (1|preparator)    0.005     0.41
+    ## 7   Belly PC1  ~Wing spot PC1 + (1|Year) + (1|preparator)    0.014    0.155
+    ## 8  Dorsum PC1  ~Wing spot PC1 + (1|Year) + (1|preparator)    0.034    0.009
+    ## 9  Throat PC1  ~Wing spot PC1 + (1|Year) + (1|preparator)    0.024    0.065
+    ## 10  Crown PC1 ~Wing spot area + (1|Year) + (1|preparator) 1.13e-04    0.906
+    ## 11 Covert PC1 ~Wing spot area + (1|Year) + (1|preparator)    0.004    0.473
+    ## 12  Belly PC1 ~Wing spot area + (1|Year) + (1|preparator)    0.002     0.66
+    ## 13 Dorsum PC1 ~Wing spot area + (1|Year) + (1|preparator) 2.54e-04    0.823
+    ## 14 Throat PC1 ~Wing spot area + (1|Year) + (1|preparator)    0.001    0.707

@@ -6,15 +6,20 @@ output: rmarkdown::github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = F, warning = F, message = F)
+# load libraries
+library(tidyverse)
+library(here)
+library(viridis)
+library(ggpubr)
+library(lmerTest)
+library(MuMIn)
+library(sjPlot)
+
 ```
 
 
 ```{r prep data - geographic variation in color, echo = FALSE}
-
-library(tidyverse)
-library(here)
-library(viridis)
 
 here::i_am("R_scripts/Color_correlations.Rmd")
 
@@ -56,9 +61,7 @@ correlation_df <- data.frame(
 #crown
 
 ```{r crown, echo = F}
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
+
 
 # check for normality
 hist(asy$PC1_d)
@@ -71,21 +74,25 @@ r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_c, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_c, col = lat), size = 4)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = PC1_c), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Crown PC1")+
-  theme_classic()
+  theme_classic2()+
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 18),
+    axis.title = element_text(size = 20),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 18),
+    plot.title = element_text(size = 18)
+  )
 
 ```
 
 #wingspot
 
 ```{r wingspot}
-
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
 
 # check for normality
 hist(asy$PC1_d)
@@ -98,12 +105,19 @@ r.squaredGLMM(z)
 tab_model(z)
 
 dVw <- ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_w, col = lat), size = 6)+
+  geom_point(aes(x = PC1_d, y = PC1_w, col = lat), size = 4)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = PC1_w), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Wingspot PC1")+
-  theme_classic()+
-  theme(text=element_text(size=20))  
+  theme_classic2()+
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 18),
+    axis.title = element_text(size = 20),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 18),
+    plot.title = element_text(size = 18)
+  )
 
 dVw
 
@@ -116,11 +130,19 @@ r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = area_mm2_w, col = lat))+
+  geom_point(aes(x = PC1_d, y = area_mm2_w, col = lat), size = 4)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = area_mm2_w), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Wingspot area (mm2)")+
-  theme_classic()
+  theme_classic2()+
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 18),
+    axis.title = element_text(size = 20),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 18),
+    plot.title = element_text(size = 18)
+  )
 
 ```
 
@@ -128,9 +150,6 @@ ggplot(asy)+
 
 ```{r throat}
 
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
 
 # check for normality
 hist(asy$PC1_d)
@@ -143,11 +162,19 @@ r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_t, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_t, col = lat), size = 4)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = PC1_t), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Throat PC1")+
-  theme_classic()
+  theme_classic2()+
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 18),
+    axis.title = element_text(size = 20),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 18),
+    plot.title = element_text(size = 18)
+  )
 
 ```
 
@@ -155,9 +182,6 @@ ggplot(asy)+
 
 ```{r coverts}
 
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
 
 # check for normality
 hist(asy$PC1_d)
@@ -170,11 +194,19 @@ r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_o, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_o, col = lat), size = 4)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = PC1_o), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Covert PC1")+
-  theme_classic()
+  theme_classic2()+
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 18),
+    axis.title = element_text(size = 20),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 18),
+    plot.title = element_text(size = 18)
+  )
 
 ```
 
@@ -182,9 +214,6 @@ ggplot(asy)+
 
 ```{r belly}
 
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
 
 # check for normality
 hist(asy$PC1_d)
@@ -197,11 +226,19 @@ r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_b, col = lat))+
+  geom_point(aes(x = PC1_d, y = PC1_b, col = lat), size = 4)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = PC1_b), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Belly PC1")+
-  theme_classic()
+  theme_classic2()+
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 18),
+    axis.title = element_text(size = 20),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 18),
+    plot.title = element_text(size = 18)
+  )
 
 ```
 
@@ -209,9 +246,6 @@ ggplot(asy)+
 
 ```{r throat v wingspot}
 
-library(lmerTest)
-library(MuMIn)
-library(sjPlot)
 
 # check for normality
 hist(asy$PC1_t)
@@ -224,11 +258,19 @@ r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = PC1_t, y = PC1_w, col = lat))+
+  geom_point(aes(x = PC1_t, y = PC1_w, col = lat), size = 4)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_t, y = PC1_w), method = "lm", col = "black")+
   labs(x = "Throat PC1", y = "Wingspot PC1")+
-  theme_classic()
+  theme_classic2()+
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 18),
+    axis.title = element_text(size = 20),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 18),
+    plot.title = element_text(size = 18)
+  )
 
 
 
@@ -239,11 +281,19 @@ r.squaredGLMM(z)
 tab_model(z)
 
 ggplot(asy)+
-  geom_point(aes(x = PC1_t, y = area_mm2_w, col = lat))+
+  geom_point(aes(x = PC1_t, y = area_mm2_w, col = lat), size = 4)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_t, y = area_mm2_w), method = "lm", col = "black")+
   labs(x = "Throat PC1", y = "Wingspot area (mm2)")+
-  theme_classic()
+  theme_classic2()+
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 18),
+    axis.title = element_text(size = 20),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 18),
+    plot.title = element_text(size = 18)
+  )
 
 ```
 
@@ -270,9 +320,6 @@ summary(tvc)
 
 # make a table of results
 ```{r color model table, echo=F}
-
-library(lmerTest)
-library(MuMIn)
 
 #association with dorsum
 cd <- lmerTest::lmer(PC1_c ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
