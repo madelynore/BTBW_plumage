@@ -201,7 +201,6 @@ ggplot(asy)+
   scale_color_viridis_c(direction = -1)+
   geom_smooth(aes(x = PC1_d, y = PC1_b), method = "lm", col = "black")+
   labs(x = "Dorsum PC1", y = "Belly PC1")+
-  ylim(0.3,0.6)+
   theme_classic()
 
 ```

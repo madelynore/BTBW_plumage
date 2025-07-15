@@ -17,9 +17,9 @@ btbw_climna <- btbw_samp %>%
 write.csv(btbw_climna, "data/BTBW_specimen_coords.csv", row.names = F)
 
 csv <- "data/BTBW_specimen_coords.csv"
-var <- c("Tave08")
+var <- c("Tave06", "Tave07", "Tave08")
 
-period <- c(1987, 1988, 1989, 1990, 1991, 1992, 1993, 1995)
+period <- c(1987, 1988, 1989, 1990, 1991, 1992, 1993, 1995) # 1961:1990
 
 test <- ClimateNAr(inputFile = csv, periodList = period, varList = var, outDir = "data_raw/ClimateNArdl/")
 
