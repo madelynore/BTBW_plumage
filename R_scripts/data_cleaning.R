@@ -172,46 +172,17 @@ which(is.na(specimen_coords$Region))
 specimen_coords$lat[which(specimen_coords$USNM.no. == "614261")] <- 45.794
 specimen_coords$lon[which(specimen_coords$USNM.no. == "614261")] <- -66.854
 
-
-## add in existing metadata for 613610 - missing for some reason
-grg <- readxl::read_xls("~/Documents/Cornell/Coding/BTBW/BTBW_DNA/data_raw/GRG Black-throated Blue Warblers--cumulative 1986-2006.xls") %>% 
-  filter(`USNM #` == "613610") %>% 
-  dplyr::select(USNM.no. = `USNM #`, Species= "Current Identification", date.d.m.y = "Date Collected",
-         State.Province = "State/Province", County = "County/District", Locality = "Precise Location", 
-         Sex = "Sex: Stage", Weight)
-
-#format date
-grg$date.d.m.y <- as.Date(grg$date.d.m.y, format = "%d %b %Y")
-grg$date.d.m.y <- format(grg$date.d.m.y, "%d-%m-%Y")
-
-# remove g from weight
-grg$Weight <- 10.6
-# change state to state initials + add pop and Region
-grg$State.Province <- "WI"
-grg$pop <- "WI.All"
-grg$Region <- "North West"
-# add manual lat/lon
-grg$lat <- 45.92878
-grg$lon <-  -88.86034
-#reformat sex
-grg$Sex <- "M"
-# update species name
-grg$Species <- "Setophaga caerulescens"
-
-specimen_coordsgrg <- merge(specimen_coords, grg, all = T)
-
-specimen_date <- specimen_coordsgrg %>% 
-  separate(col = date.d.m.y, into = c("Day", "Month", "Year"), sep = "-")
-
-specimen_date$Year[which(specimen_date$Year == "1990")] <- "90"
-
 ## add tarsus measurements
 tarsus <- read.csv("data_raw/Tarsometatarsus.csv") %>% 
   dplyr::select(USNM.no., Tarsometatarsus)
 
-specimen_tar <- merge(specimen_date, tarsus, all.x = T)
+specimen_tar <- merge(specimen_coords, tarsus, all.x = T)
 
-write.csv(specimen_tar, "data/NMNH_specimen_metadata.csv", row.names = F) 
+## make column for Year
+specimen_yr <- specimen_tar %>% 
+  separate(date.d.m.y, into = c("Day", "Month", "Year"), sep = "-", remove = F)
+
+write.csv(specimen_yr, "data/NMNH_specimen_metadata.csv", row.names = F) 
 
 # Cleaning raw output from LAS X reports ----------------------------------
 
