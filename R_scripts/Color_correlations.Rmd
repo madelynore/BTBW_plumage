@@ -330,6 +330,8 @@ od <- lmerTest::lmer(PC1_o ~ PC1_d + (1|Year) + (1|prepartor), data = asy,
                        na.action = na.exclude) 
 bd <- lmerTest::lmer(PC1_b ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
                        na.action = na.exclude) 
+ws <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
+                       na.action = na.exclude) 
 #associations with wing spot color
 cwpc <- lmerTest::lmer(PC1_c ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
 owpc <- lmerTest::lmer(PC1_o ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
@@ -342,7 +344,7 @@ owa <- lmerTest::lmer(PC1_o ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy,
 bwa <- lmerTest::lmer(PC1_b ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
 dwa <- lmerTest::lmer(PC1_d ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
 twa <- lmerTest::lmer(PC1_t ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-models <- c(cd, od, bd, td, cwpc, owpc, bwpc, dwpc, twpc, cwa, owa, bwa, dwa, twa)
+models <- c(cd, od, bd, td, ws, cwpc, owpc, bwpc, dwpc, twpc, cwa, owa, bwa, dwa, twa)
 
 # Initialize an empty data frame to store results
 results <- data.frame(
@@ -382,8 +384,9 @@ for (model_name in 1:length(models)) {
 }
 
 results_rounded <- results %>% 
-   mutate(across(where(is.numeric), ~ ifelse(. < 0.001, format(., scientific = TRUE, digits = 3),
-                                           round(., 3))))
+   mutate(across(where(is.numeric), ~ ifelse(. < 0.001, 
+                                           sprintf("%.2e", .),  # scientific notation
+                                           sprintf("%.2g", .)))) # 3 sig figs
 #change names for table presentation
 pcnames <- c(
   "PC1_c" = "Crown PC1",
@@ -391,13 +394,14 @@ pcnames <- c(
   "PC1_b" = "Belly PC1",
   "PC1_d" = "Dorsum PC1",
   "PC1_t" = "Throat PC1",
-  "PC1_w" = "Wing spot PC1"
+  "PC1_w" = "Wing spot PC1",
+  "area_mm2_w" = "Wing spot area (mm²)"
 )
 
 formnames <- c(
-  "+ + PC1_d + (1 | Year) + (1 | prepartor)" = "~Dorsum PC1 + (1|Year) + (1|preparator)",
-  "+ + PC1_w + (1 | Year) + (1 | prepartor)" = "~Wing spot PC1 + (1|Year) + (1|preparator)",
-  "+ + area_mm2_w + (1 | Year) + (1 | prepartor)" = "~Wing spot area + (1|Year) + (1|preparator)"
+  "+ + PC1_d + (1 | Year) + (1 | prepartor)" = "Fixed effect: Dorsum PC1, Random effect: Year, preparator",
+  "+ + PC1_w + (1 | Year) + (1 | prepartor)" = "Fixed effect: Wing spot PC1, Random effect: Year, preparator",
+  "+ + area_mm2_w + (1 | Year) + (1 | prepartor)" = "Fixed effect: Wing spot area (mm²), Random effect: Year, preparator"
 )
 
 results_rnm <- results_rounded %>%

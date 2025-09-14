@@ -615,3 +615,12 @@ fam <- read.table("data/BTBW_n95_ASY_forGWAS_PC1_d_rand.fam") %>%
 
 k2_pl <- merge(k2, fam, all.y = T)
 
+
+# clean up keratin table --------------------------------------------------
+library(tidyverse)
+
+kgenes <- read.csv("data_raw/Keratin_related_genes.csv")
+
+kgenes_u <- distinct(kgenes, Gene.Symbol, .keep_all = T)
+
+write.csv(kgenes_u, "data/Keratin_related_genes.csv", row.names = F)
