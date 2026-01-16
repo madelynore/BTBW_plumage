@@ -526,3 +526,73 @@ ggplot(data = lum_env, aes(x = wing.spot.L.mm, y = area_mm2_w ))+
 cor.test(x=lum_env$wing.spot.L.mm, y=lum_env$area_mm2_w, method = "pearson")
 
 ```
+
+## GAM with molt year
+
+```{r prep data molt, echo = FALSE}
+
+library(tidyverse)
+library(here)
+library(viridis)
+
+here::i_am("R_scripts/Color_correlations.Rmd")
+
+
+avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
+
+## select only brightness for ASY males
+asy <- avg_img %>% 
+  filter(Age == "ASY") 
+
+# combine w environment data  
+env <- read.csv(here("data/Env_by_individual_moltyear.csv")) %>% 
+  dplyr::select(-Year)
+
+otherenv <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T) %>% 
+  dplyr::select(ID, ndvi_M, srtm)
+
+lum_env <- merge(asy, env) %>% 
+  filter(!is.na(PC1_d))
+
+asy_env <- merge(lum_env, otherenv, by.x = "USNM.no.", by.y = "ID", all.x = T)
+
+```
+
+
+```{r molt env GAM}
+library(mgcv)
+
+mantle <- gam(PC1_d ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
+                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+            data = asy_env, method = "REML") 
+summary(mantle)
+
+belly <- gam(PC1_b ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
+                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+            data = asy_env, method = "REML", na.action = "na.omit") 
+summary(belly)
+
+crown <- gam(PC1_c ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
+                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+            data = asy_env, method = "REML", na.action = "na.omit") 
+summary(crown)
+
+covert <- gam(PC1_o ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
+                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+            data = asy_env, method = "REML", na.action = "na.omit") 
+summary(covert)
+
+throat <- gam(PC1_t ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
+                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+            data = asy_env, method = "REML", na.action = "na.omit") 
+summary(throat)
+
+wspot <- gam(PC1_w ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
+                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+            data = asy_env, method = "REML", na.action = "na.omit") 
+summary(wspot)
+
+
+
+
+```
