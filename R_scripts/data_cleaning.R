@@ -624,3 +624,15 @@ kgenes <- read.csv("data_raw/Keratin_related_genes.csv")
 kgenes_u <- distinct(kgenes, Gene.Symbol, .keep_all = T)
 
 write.csv(kgenes_u, "data/Keratin_related_genes.csv", row.names = F)
+
+
+
+# make table of samples for supplement ------------------------------------
+library(tidyverse)
+meta <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv") 
+
+supptable <- meta %>% 
+  dplyr::select(ID, GRG.no., Species, date.d.m.y, Locality, County, State.Province, Collector,
+                prepartor, Sex, Age, Latitude = lat, Longitude = lon)
+
+write.table(supptable, file = "results/Supplemental_table_samples_photo.csv", row.names = F)
