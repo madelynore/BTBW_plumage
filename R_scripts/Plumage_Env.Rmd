@@ -14,6 +14,8 @@ library(viridis)
 library(mgcv)
 library(lmerTest)
 library(MuMIn)
+library(patchwork)
+
 ```
 
 ```{r prep data, echo = FALSE}
@@ -135,72 +137,9 @@ write.csv(model_results, here("results/spatiotemp_model_selection_table.csv"), r
 
 ```
 
-# Build model for env-mantle correlation
-
-```{r lmm pheno-env, echo = F}
-
-library(lmerTest)
-library(MASS)
-library(MuMIn)
-library(performance)
-library(sjPlot)
-
-
-options(na.action = "na.fail")
-
-z <- lmerTest::lmer(PC1_d ~ PPT_br + RH_br + Tave_br + lat + lon + srtm + 
-                      ndvi_M + (1|Year) + (1|prepartor),
-                    data = lum_env, REML = T) 
-
-
-
-check_model(z)
-summary(z)
-tab_model(z)
-
-# Model selection: ranking by AICc using ML
-ms2 <- dredge(z, trace = TRUE, rank = "AICc", REML = F)
-
-print(ms2)                                  # Model selection table
-bestmods <- ms2[ms2$delta < 5]                    # Tabulate only models with AIC difference < 5
-Weights(ms2)                                # AIC weights all models
-Weights(ms2[ms2$delta < 5])                   # Include only models with AIC difference < 5
-get.models(ms2, subset=delta<5)  # Extract the models having AIC difference < 5
-get.models(ms2, subset = 1)[[1]]            # Extract single best model (yields lm object)
-
-lmter <- lm(get.models(ms2, subset = 1)[[1]], data = lum_env) # Fit best model
-summary(model.avg(ms2, subset = delta < 2))              # model averaging
-
-
-```
-
-```{r random forest pheno-env, echo = F}
-
-library(randomForest)
-
-
-model <- PC1_d ~ PPT_br + RH_br + Tave08_molt + srtm  + ndvi_M + lat
-
-rf1 <- randomForest(model, data = lum_env,
-              ntreeTry=500,
-               mtryStart=4, 
-               stepFactor=1.5,
-               improve=0.01,
-               trace=FALSE #don't show real-time progress
-               )
-which.min(rf1$mse)
-sqrt(rf1$mse[which.min(rf1$mse)])
-plot(rf1)
-randomForest::importance(rf1)
-varImpPlot(rf1)
-
-
-```
-
 ## GAMs
 
 ```{r env GAM}
-library(mgcv)
 
 mantle <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
                 + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
@@ -264,9 +203,6 @@ write.csv(combined_gam, here("results/Env_GAM_pl_patches.csv"), row.names = F)
 ```
 
 ```{r plot}
-library(tidyverse)
-library(patchwork)
-library(viridis)
 
 srtm_fit <- data.frame(
   srtm = seq(min(lum_env$srtm), max(lum_env$srtm), length.out = 100),
@@ -316,7 +252,7 @@ tave_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bo
 temp <- ggplot(data = lum_env, aes(x = Tave08_molt, y = PC1_d, color = lat))+
   geom_point(size = 4)+
   scale_color_viridis_c(direction = -1)+
-  labs(x = "Mean Temperature during molt", y = "PC1 Mantle")+
+  labs(x = "Mean Temperature", y = "PC1 Mantle")+
   geom_line(data = tave_fit, aes(x = Tave_br, y = PC1_d_pred, color = lat), size = 1) +  
   geom_ribbon(data = tave_fit, aes(x = Tave_br, ymin = lower_CI, ymax = upper_CI),
               alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
@@ -347,250 +283,4 @@ env_plots
 ggsave(here("results/top_env_plots.png"), plot = env_plots, width = 24, height = 8, dpi = 600)
 
 ```
-```{r glogers rule fig}
 
-
-library(tidyverse)
-library(patchwork)
-library(viridis)
-
-srtm_fit <- data.frame(
-  srtm = seq(min(lum_env$srtm), max(lum_env$srtm), length.out = 100),
-  lat = mean(lum_env$lat),
-  lon = mean(lum_env$lon),
-  RH_br = mean(lum_env$RH_br),
-  Tave_br = mean(lum_env$Tave_br),
-  PPT_br = mean(lum_env$PPT_br),
-  ndvi_M = mean(lum_env$ndvi_M)
-)
-
-predictions <- predict(mantle, newdata = srtm_fit, se.fit = TRUE)
-
-# Add predictions and confidence intervals to the new data frame
-srtm_fit$PC1_d_pred <- predictions$fit
-srtm_fit$lower_CI <- predictions$fit - 1.96 * predictions$se.fit  # 95% lower bound
-srtm_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bound
-
-elev <- ggplot(data = lum_env, aes(x = srtm, y = PC1_d, color = lat)) +
-  geom_point(size = 4) +  # Observed data
-  scale_color_viridis_c(direction = -1)+
-  geom_line(data = srtm_fit, aes(x = srtm, y = PC1_d_pred), size = 1, color = "black") +  
-  geom_ribbon(data = srtm_fit, aes(x = srtm, ymin = lower_CI, ymax = upper_CI),
-              alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
-  labs(x = "Elevation (m)", y = "PC1 Mantle") +
-  theme_classic()+
-  theme(text=element_text(size=24))  
-
-
-tave_fit <- data.frame(
-  srtm = mean(lum_env$srtm),
-  lat = mean(lum_env$lat),
-  lon = mean(lum_env$lon),
-  RH_br = mean(lum_env$RH_br),
-  Tave_br = seq(min(lum_env$Tave_br), max(lum_env$Tave_br), length.out = 100),
-  PPT_br = mean(lum_env$PPT_br),
-  ndvi_M = mean(lum_env$ndvi_M)
-)
-
-predictions <- predict(mantle, newdata = tave_fit, se.fit = TRUE)
-
-# Add predictions and confidence intervals to the new data frame
-tave_fit$PC1_d_pred <- predictions$fit
-tave_fit$lower_CI <- predictions$fit - 1.96 * predictions$se.fit  # 95% lower bound
-tave_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bound
-
-temp <- ggplot(data = lum_env, aes(x = Tave08_molt, y = PC1_d, color = lat))+
-  geom_point(size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  labs(x = "Mean Temperature during molt", y = "PC1 Mantle")+
-  geom_line(data = tave_fit, aes(x = Tave_br, y = PC1_d_pred, color = lat), size = 1) +  
-  geom_ribbon(data = tave_fit, aes(x = Tave_br, ymin = lower_CI, ymax = upper_CI),
-              alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
-  guides(color = "none") +
-  theme_classic()+
-  theme(text=element_text(size=24))  
-
-
-PPT_fit <- data.frame(
-  srtm = mean(lum_env$srtm),
-  lat = mean(lum_env$lat),
-  lon = mean(lum_env$lon),
-  RH_br = mean(lum_env$RH_br),
-  Tave_br = mean(lum_env$Tave_br),
-  PPT_br = seq(min(lum_env$PPT_br), max(lum_env$PPT_br), length.out = 100),
-  ndvi_M = mean(lum_env$ndvi_M)
-)
-
-predictions <- predict(mantle, newdata = PPT_fit, se.fit = TRUE)
-
-# Add predictions and confidence intervals to the new data frame
-PPT_fit$PC1_d_pred <- predictions$fit
-PPT_fit$lower_CI <- predictions$fit - 1.96 * predictions$se.fit  # 95% lower bound
-PPT_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bound
-
-PPT <- ggplot(data = lum_env, aes(x = PPT_br, y = PC1_d, color = lat))+
-  geom_point(size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  labs(x = "Precipitation (mm)", y = "PC1 Mantle")+
-  geom_line(data = PPT_fit, aes(x = PPT_br, y = PC1_d_pred, color = lat), size = 1) +  
-  geom_ribbon(data = PPT_fit, aes(x = PPT_br, ymin = lower_CI, ymax = upper_CI),
-              alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
-  guides(color = "none") +
-  theme_classic()+
-  theme(text=element_text(size=24))  
-
-
-
-# Combine plots into 1 row and 3 columns with labels
-glrule_plots <- (temp + PPT) +
-  plot_layout(axis_titles = "collect")
-
-glruleelev_plots
-
-ggsave(here("results/glogersrule_env_plots.png"), plot = glrule_plots, width = 21, height = 8, dpi = 600)
-
-
-
-ggsave(here("results/Elev_env_plots.png"), plot = elev, width = 9, height = 8, dpi = 600)
-
-
-```
-#relationship between latitude and environment
-
-```{env and lat}
-
-ggplot(data = lum_env, aes(x = srtm, y = PPT_br, color = lat))+
-  geom_point(size = 6)+
-  theme_classic()
-ggplot(data = lum_env, aes(x = srtm, y = Tave_br, color = lat))+
-  geom_point(size = 6)+
-  theme_classic()
-ggplot(data = lum_env, aes(x = lat, y = PPT_br, color = lat))+
-  geom_point(size = 6)+
-  theme_classic()
-ggplot(data = lum_env, aes(x = lat, y = RH_br, color = lat))+
-  geom_point(size = 6)+
-  theme_classic()
-
-latppt <- lm(PPT_br~lat, data = lum_env)
-latelev <- lm(srtm~lat, data = lum_env)
-lattemp <- lm(Tave_br~lat, data = lum_env)
-latrh <- lm(RH_br~lat, data = lum_env)
-latndvi <- lm(ndvi_M~lat, data = lum_env)
-
-```
-
-# morphometric data
-```{r pca morpho}
-
-morpho <- lum_env %>% 
-  dplyr::select(ID, weight.g, wing.R.mm, tail.mm, bill.depth.mm, 
-                bill.culmen.mm, bill.nares.mm, bill.width.mm, Tarsometatarsus) 
-morphoIDs <- morpho$ID
-morpho <- morpho[,-1]
-morphopca <- prcomp( ~ ., data = morpho, , na.action = na.exclude, scale.=T)
-
-biplot(morphopca, cex = 0.5, las = 1) 
-
-pcscores <- data.frame(ID = morphoIDs, 
-                       PC1 = morphopca$x[,1], PC2 = morphopca$x[,2], 
-                  PC3 = morphopca$x[,3], PC4 = morphopca$x[,4])
-
-lum_pc <- merge(lum_env, pcscores, all = T)
-
-ggplot(data = lum_pc, aes(x = lat, y = PC2))+
-  geom_point()+
-  theme_classic()
-
-ggplot(data = lum_pc, aes(x = lat, y = Tarsometatarsus))+
-  geom_point()+
-  theme_classic()
-
-tarso <- lm(Tarsometatarsus ~ lat, data = lum_pc, na.action = "na.omit")
-summary(tarso)
-
-ggplot(data = lum_pc, aes(x = bio_10, y = PC1, color = lat))+
-  geom_point()+
-  theme_classic()
-
-ggplot(data = lum_pc, aes(x = srtm, y = PC2, color = lat))+
-  geom_point()+
-  theme_classic()
-
-ggplot(data = lum_env, aes(x = wing.spot.L.mm, y = area_mm2_w ))+
-  geom_point()+
-  theme_classic()
-
-cor.test(x=lum_env$wing.spot.L.mm, y=lum_env$area_mm2_w, method = "pearson")
-
-```
-
-## GAM with molt year
-
-```{r prep data molt, echo = FALSE}
-
-library(tidyverse)
-library(here)
-library(viridis)
-
-here::i_am("R_scripts/Color_correlations.Rmd")
-
-
-avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
-
-## select only brightness for ASY males
-asy <- avg_img %>% 
-  filter(Age == "ASY") 
-
-# combine w environment data  
-env <- read.csv(here("data/Env_by_individual_moltyear.csv")) %>% 
-  dplyr::select(-Year)
-
-otherenv <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T) %>% 
-  dplyr::select(ID, ndvi_M, srtm)
-
-lum_env <- merge(asy, env) %>% 
-  filter(!is.na(PC1_d))
-
-asy_env <- merge(lum_env, otherenv, by.x = "USNM.no.", by.y = "ID", all.x = T)
-
-```
-
-
-```{r molt env GAM}
-library(mgcv)
-
-mantle <- gam(PC1_d ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
-                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
-            data = asy_env, method = "REML") 
-summary(mantle)
-
-belly <- gam(PC1_b ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
-                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
-            data = asy_env, method = "REML", na.action = "na.omit") 
-summary(belly)
-
-crown <- gam(PC1_c ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
-                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
-            data = asy_env, method = "REML", na.action = "na.omit") 
-summary(crown)
-
-covert <- gam(PC1_o ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
-                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
-            data = asy_env, method = "REML", na.action = "na.omit") 
-summary(covert)
-
-throat <- gam(PC1_t ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
-                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
-            data = asy_env, method = "REML", na.action = "na.omit") 
-summary(throat)
-
-wspot <- gam(PC1_w ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
-                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
-            data = asy_env, method = "REML", na.action = "na.omit") 
-summary(wspot)
-
-
-
-
-```
