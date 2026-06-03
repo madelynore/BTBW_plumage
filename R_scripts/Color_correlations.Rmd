@@ -33,267 +33,67 @@ asy <- avg_img %>%
 
 
 ```
-How do luminance and shortwavelength correlate
-```{r sw vs lum, echo =F }
 
-lumsw <- asy %>% 
-  dplyr::select(starts_with("lumMean"), starts_with("swMean"))
+# define comparisons
 
-# Extract unique letters from column names
-letters <- gsub(".*_", "", names(lumsw)[grepl("lumMean_", names(lumsw))])
+```{r define comparisons, echo = F}
 
-# Calculate correlations for matching columns
-correlations <- sapply(letters, function(letter) {
-  lum_col <- paste0("lumMean_", letter)
-  sw_col <- paste0("swMean_", letter)
-  cor(lumsw[[lum_col]], lumsw[[sw_col]], use = "complete.obs")
-})
-
-# Convert to a data frame
-correlation_df <- data.frame(
-  Letter = letters,
-  Correlation = correlations
+comparisons <- list(
+  list(x = "PC1_d", y = "PC1_c",      xlab = "Dorsum PC1",  ylab = "Crown PC1"),
+  list(x = "PC1_d", y = "PC1_w",      xlab = "Dorsum PC1",  ylab = "Wingspot PC1"),
+  list(x = "PC1_d", y = "area_mm2_w", xlab = "Dorsum PC1",  ylab = "Wingspot area (mm²)"),
+  list(x = "PC1_d", y = "PC1_t",      xlab = "Dorsum PC1",  ylab = "Throat PC1"),
+  list(x = "PC1_d", y = "PC1_o",      xlab = "Dorsum PC1",  ylab = "Covert PC1"),
+  list(x = "PC1_d", y = "PC1_b",      xlab = "Dorsum PC1",  ylab = "Belly PC1"),
+  list(x = "PC1_t", y = "PC1_w",      xlab = "Throat PC1",  ylab = "Wingspot PC1"),
+  list(x = "PC1_t", y = "area_mm2_w", xlab = "Throat PC1",  ylab = "Wingspot area (mm²)")
 )
 
-
-```
-
-#crown
-
-```{r crown, echo = F}
-
-
-# check for normality
-hist(asy$PC1_d)
-hist(asy$PC1_c)
-
-z <- lmerTest::lmer(PC1_c ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-
-r.squaredGLMM(z)
-tab_model(z)
-
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_c, col = lat), size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_c), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Crown PC1")+
-  theme_classic2()+
+plot_theme <- theme_classic2() +
   theme(
-    strip.text = element_text(size = 16),
-    axis.text = element_text(size = 18),
-    axis.title = element_text(size = 20),
-    legend.text = element_text(size = 16),
-    legend.title = element_text(size = 18),
-    plot.title = element_text(size = 18)
+    strip.text    = element_text(size = 16),
+    axis.text     = element_text(size = 18),
+    axis.title    = element_text(size = 20),
+    legend.text   = element_text(size = 16),
+    legend.title  = element_text(size = 18),
+    plot.title    = element_text(size = 18)
   )
 
 ```
 
-#wingspot
+# normality checks
 
-```{r wingspot}
+```{r normality, echo = F}
 
-# check for normality
-hist(asy$PC1_d)
-hist(asy$PC1_w)
+vars_to_check <- unique(unlist(lapply(comparisons, function(cmp) c(cmp$x, cmp$y))))
 
-z <- lmerTest::lmer(PC1_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-
-r.squaredGLMM(z)
-tab_model(z)
-
-dVw <- ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_w, col = lat), size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_w), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Wingspot PC1")+
-  theme_classic2()+
-  theme(
-    strip.text = element_text(size = 16),
-    axis.text = element_text(size = 18),
-    axis.title = element_text(size = 20),
-    legend.text = element_text(size = 16),
-    legend.title = element_text(size = 18),
-    plot.title = element_text(size = 18)
-  )
-
-dVw
-
-ggsave(plot = dVw, here("results/WingspotVSDorsum_plot.png"), dpi = 600, width = 8, height = 6)
-
-z <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-
-r.squaredGLMM(z)
-tab_model(z)
-
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = area_mm2_w, col = lat), size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = area_mm2_w), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Wingspot area (mm2)")+
-  theme_classic2()+
-  theme(
-    strip.text = element_text(size = 16),
-    axis.text = element_text(size = 18),
-    axis.title = element_text(size = 20),
-    legend.text = element_text(size = 16),
-    legend.title = element_text(size = 18),
-    plot.title = element_text(size = 18)
-  )
+for (v in vars_to_check) {
+  hist(asy[[v]], main = v, xlab = v)
+}
 
 ```
 
-#throat
+# correlation models and plots
 
-```{r throat}
+```{r correlation models and plots, echo = F}
 
+for (cmp in comparisons) {
+  cat("\n\n###", cmp$xlab, "vs", cmp$ylab, "\n\n")
 
-# check for normality
-hist(asy$PC1_d)
-hist(asy$PC1_t)
+  fmla <- as.formula(paste(cmp$y, "~", cmp$x, "+ (1|Year) + (1|prepartor)"))
+  z <- lmerTest::lmer(fmla, data = asy, na.action = na.exclude)
+  print(summary(z))
+  print(r.squaredGLMM(z))
+  print(tab_model(z))
 
-z <- lmerTest::lmer(PC1_t ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-
-r.squaredGLMM(z)
-tab_model(z)
-
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_t, col = lat), size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_t), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Throat PC1")+
-  theme_classic2()+
-  theme(
-    strip.text = element_text(size = 16),
-    axis.text = element_text(size = 18),
-    axis.title = element_text(size = 20),
-    legend.text = element_text(size = 16),
-    legend.title = element_text(size = 18),
-    plot.title = element_text(size = 18)
-  )
-
-```
-
-#marginal covert
-
-```{r coverts}
-
-
-# check for normality
-hist(asy$PC1_d)
-hist(asy$PC1_o)
-
-z <- lmerTest::lmer(PC1_o ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-
-r.squaredGLMM(z)
-tab_model(z)
-
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_o, col = lat), size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_o), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Covert PC1")+
-  theme_classic2()+
-  theme(
-    strip.text = element_text(size = 16),
-    axis.text = element_text(size = 18),
-    axis.title = element_text(size = 20),
-    legend.text = element_text(size = 16),
-    legend.title = element_text(size = 18),
-    plot.title = element_text(size = 18)
-  )
-
-```
-
-#belly
-
-```{r belly}
-
-
-# check for normality
-hist(asy$PC1_d)
-hist(asy$PC1_b)
-
-z <- lmerTest::lmer(PC1_b ~ PC1_d + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-
-r.squaredGLMM(z)
-tab_model(z)
-
-ggplot(asy)+
-  geom_point(aes(x = PC1_d, y = PC1_b, col = lat), size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_d, y = PC1_b), method = "lm", col = "black")+
-  labs(x = "Dorsum PC1", y = "Belly PC1")+
-  theme_classic2()+
-  theme(
-    strip.text = element_text(size = 16),
-    axis.text = element_text(size = 18),
-    axis.title = element_text(size = 20),
-    legend.text = element_text(size = 16),
-    legend.title = element_text(size = 18),
-    plot.title = element_text(size = 18)
-  )
-
-```
-
-#throat vs wingspot
-
-```{r throat v wingspot}
-
-
-# check for normality
-hist(asy$PC1_t)
-hist(asy$PC1_w)
-
-z <- lmerTest::lmer(PC1_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-
-r.squaredGLMM(z)
-tab_model(z)
-
-ggplot(asy)+
-  geom_point(aes(x = PC1_t, y = PC1_w, col = lat), size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_t, y = PC1_w), method = "lm", col = "black")+
-  labs(x = "Throat PC1", y = "Wingspot PC1")+
-  theme_classic2()+
-  theme(
-    strip.text = element_text(size = 16),
-    axis.text = element_text(size = 18),
-    axis.title = element_text(size = 20),
-    legend.text = element_text(size = 16),
-    legend.title = element_text(size = 18),
-    plot.title = element_text(size = 18)
-  )
-
-
-
-z <- lmerTest::lmer(area_mm2_w ~ PC1_t + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(z)
-
-r.squaredGLMM(z)
-tab_model(z)
-
-ggplot(asy)+
-  geom_point(aes(x = PC1_t, y = area_mm2_w, col = lat), size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  geom_smooth(aes(x = PC1_t, y = area_mm2_w), method = "lm", col = "black")+
-  labs(x = "Throat PC1", y = "Wingspot area (mm2)")+
-  theme_classic2()+
-  theme(
-    strip.text = element_text(size = 16),
-    axis.text = element_text(size = 18),
-    axis.title = element_text(size = 20),
-    legend.text = element_text(size = 16),
-    legend.title = element_text(size = 18),
-    plot.title = element_text(size = 18)
-  )
+  p <- ggplot(asy) +
+    geom_point(aes(x = .data[[cmp$x]], y = .data[[cmp$y]], col = lat), size = 4) +
+    scale_color_viridis_c(direction = -1) +
+    geom_smooth(aes(x = .data[[cmp$x]], y = .data[[cmp$y]]), method = "lm", col = "black") +
+    labs(x = cmp$xlab, y = cmp$ylab) +
+    plot_theme
+  print(p)
+}
 
 ```
 
