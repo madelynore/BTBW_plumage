@@ -7,13 +7,16 @@ output: rmarkdown::github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r prep data, echo = FALSE}
 
 library(tidyverse)
 library(here)
 library(viridis)
+library(mgcv)
+library(lmerTest)
+library(MuMIn)
+```
+
+```{r prep data, echo = FALSE}
 
 here::i_am("R_scripts/Color_correlations.Rmd")
 
@@ -37,10 +40,6 @@ lum_env <- merge(asy, env) %>%
 
 ```{r spatio-temporal fit, echo = F}
 
-library(mgcv)
-library(lmerTest)
-library(MuMIn)
-
 #perform linear regression
 z <- lm(PC1_d~lat, data = asy, na.action = na.exclude)
 sum_z <- summary(z)
@@ -50,12 +49,13 @@ r2adj <- sum_z$adj.r.squared
 p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
 
 # Format the text to include rho and p-value, ready to be used in annotations
-text_annotation <- bquote("Adjusted R"^2 ~ ": " ~ .(sprintf("%.2f", r2adj)) ~ ", p-value: " ~ .(sprintf("%.3f", p_value)))
+text_annotation <- paste0("Adjusted R² = ", sprintf("%.2f", r2adj), 
+                          ", p = ", sprintf("%.3f", p_value))
 
 
 ggplot(data = asy, aes(x = lat, y = PC1_d)) + 
   geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Latitude", y = "Luminance (brightness)") +
+  labs(x = "Latitude", y = "PC1 mantle") +
   geom_smooth(aes(x = lat, y = PC1_d), method = "lm", col = "black")+
   theme_classic() +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
@@ -77,21 +77,19 @@ mod2dYY <- gam( PC1_d ~ s(lon, lat, by = Year) + Year,
 mod2dY <- gam( PC1_d ~ s(lon, lat) + Year, method = "REML",
                    data = lum_env) 
 modnull <- lm(PC1_d ~ 1, data = lum_env) 
-modlmlat_randY <- lmerTest::lmer(PC1_d ~ lat + (1|Year) + (1|prepartor),
-                    data = lum_env, REML = T) 
-modlmlatY <- lmerTest::lmer(PC1_d ~ lat + Year + (1|prepartor),
+modlmlat_randY <- lmerTest::lmer(PC1_d ~ lat + (1|Year),
                     data = lum_env, REML = T) 
 modlmY <- lm(PC1_d ~ Year, data = lum_env, REML = T) 
 
 
 aicsc <- AICc(mod2d ,mod2dbyY, mod2dYY, mod2dY,
-              modnull, modlmlat_randY, modlmlatY, modlmY)
+              modnull, modlmlat_randY, modlmY)
 aicsc$deltaic <- aicsc$AIC - min(aicsc$AIC)
 aicsc$weights <- Weights(AICc(mod2d ,mod2dbyY, mod2dYY, mod2dY, 
-              modnull, modlmlat_randY, modlmlatY,modlmY))
+              modnull, modlmlat_randY,modlmY))
 
 mod_names <- c("mod2d" ,"mod2dbyY", "mod2dYY", "mod2dY", 
-              "modnull", "modlmlat_randY", "modlmlatY", "modlmY")
+              "modnull", "modlmlat_randY", "modlmY")
 # Extract formulas as a character vector
 aicsc$formulas <- lapply(mod_names, function(model_name) {
   model <- get(model_name)  # Retrieve the model object by name
@@ -562,33 +560,33 @@ asy_env <- merge(lum_env, otherenv, by.x = "USNM.no.", by.y = "ID", all.x = T)
 ```{r molt env GAM}
 library(mgcv)
 
-mantle <- gam(PC1_d ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
-                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+mantle <- gam(PC1_d ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
+                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
             data = asy_env, method = "REML") 
 summary(mantle)
 
-belly <- gam(PC1_b ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
-                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+belly <- gam(PC1_b ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
+                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
             data = asy_env, method = "REML", na.action = "na.omit") 
 summary(belly)
 
-crown <- gam(PC1_c ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
-                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+crown <- gam(PC1_c ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
+                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
             data = asy_env, method = "REML", na.action = "na.omit") 
 summary(crown)
 
-covert <- gam(PC1_o ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
-                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+covert <- gam(PC1_o ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
+                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
             data = asy_env, method = "REML", na.action = "na.omit") 
 summary(covert)
 
-throat <- gam(PC1_t ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
-                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+throat <- gam(PC1_t ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
+                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
             data = asy_env, method = "REML", na.action = "na.omit") 
 summary(throat)
 
-wspot <- gam(PC1_w ~ s(lon, lat) + s(RH08_molt) + s(Tave08_molt) +
-                + s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
+wspot <- gam(PC1_w ~ s(lat, lon) + s(RH08_molt) + s(Tave08_molt) +
+                s(PPT08_molt) + s(srtm) + s(ndvi_M), select = T, 
             data = asy_env, method = "REML", na.action = "na.omit") 
 summary(wspot)
 
