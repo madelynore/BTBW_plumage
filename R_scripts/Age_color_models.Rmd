@@ -87,8 +87,7 @@ ggplot(data = age, aes(y = PC1_o, x = Age)) +
 
 ```
 
-#throat
-
+# throat
 ```{r throat, echo=F}
 
 t <- t.test(PC1_t ~ Age, data = age, na.action = "na.omit")
@@ -151,7 +150,7 @@ ggplot(data = age, aes(y = PC1_d, x = Age)) +
 
 ```
 
-#belly
+# belly
 ```{r belly, echo=F}
 
 t <- t.test(PC1_b ~ Age, data = age, na.action = "na.omit")

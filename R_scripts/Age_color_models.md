@@ -3,35 +3,22 @@ Age_Color_models
 Ore, MJ.
 2025-03-20
 
-    ## Warning: package 'ggplot2' was built under R version 4.3.1
-
-    ## Warning: package 'tidyr' was built under R version 4.3.1
-
-    ## Warning: package 'readr' was built under R version 4.3.1
-
-    ## Warning: package 'purrr' was built under R version 4.3.3
-
-    ## Warning: package 'dplyr' was built under R version 4.3.1
-
-    ## Warning: package 'stringr' was built under R version 4.3.1
-
-    ## Warning: package 'lubridate' was built under R version 4.3.3
+    ## Warning: package 'dplyr' was built under R version 4.5.2
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+    ## ✔ dplyr     1.2.1     ✔ readr     2.1.5
+    ## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+    ## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
     ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.0.4     
+    ## ✔ purrr     1.2.0     
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
     ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
     ## here() starts at /Users/madelynore/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage
-
-    ## Warning: package 'viridis' was built under R version 4.3.1
-
+    ## 
     ## Loading required package: viridisLite
+    ## 
     ## here() starts at /Users/madelynore/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage
 
 # Crown
@@ -48,7 +35,7 @@ Ore, MJ.
 
 ![](Age_color_models_files/figure-gfm/coverts-1.png)<!-- -->
 
-\#throat
+# throat
 
     ## Warning: Removed 4 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
@@ -62,7 +49,7 @@ Ore, MJ.
 
 ![](Age_color_models_files/figure-gfm/dorsum-1.png)<!-- -->
 
-\#belly
+# belly
 
     ## Warning: Removed 3 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
