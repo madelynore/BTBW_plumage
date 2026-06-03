@@ -10,11 +10,8 @@ knitr::opts_chunk$set(echo = F, warning = F, message = F)
 # load libraries
 library(tidyverse)
 library(here)
-library(viridis)
-library(ggpubr)
 library(lmerTest)
 library(MuMIn)
-library(sjPlot)
 
 ```
 
@@ -30,35 +27,6 @@ avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_a
 asy <- avg_img %>% 
   filter(Age == "ASY")
 
-
-
-```
-
-# define comparisons
-
-```{r define comparisons, echo = F}
-
-comparisons <- list(
-  list(x = "PC1_d", y = "PC1_c",      xlab = "Dorsum PC1",  ylab = "Crown PC1"),
-  list(x = "PC1_d", y = "PC1_w",      xlab = "Dorsum PC1",  ylab = "Wingspot PC1"),
-  list(x = "PC1_d", y = "area_mm2_w", xlab = "Dorsum PC1",  ylab = "Wingspot area (mm²)"),
-  list(x = "PC1_d", y = "PC1_t",      xlab = "Dorsum PC1",  ylab = "Throat PC1"),
-  list(x = "PC1_d", y = "PC1_o",      xlab = "Dorsum PC1",  ylab = "Covert PC1"),
-  list(x = "PC1_d", y = "PC1_b",      xlab = "Dorsum PC1",  ylab = "Belly PC1"),
-  list(x = "PC1_t", y = "PC1_w",      xlab = "Throat PC1",  ylab = "Wingspot PC1"),
-  list(x = "PC1_t", y = "area_mm2_w", xlab = "Throat PC1",  ylab = "Wingspot area (mm²)")
-)
-
-plot_theme <- theme_classic2() +
-  theme(
-    strip.text    = element_text(size = 16),
-    axis.text     = element_text(size = 18),
-    axis.title    = element_text(size = 20),
-    legend.text   = element_text(size = 16),
-    legend.title  = element_text(size = 18),
-    plot.title    = element_text(size = 18)
-  )
-
 ```
 
 # normality checks
@@ -73,115 +41,37 @@ for (v in vars_to_check) {
 
 ```
 
-# correlation models and plots
-
-```{r correlation models and plots, echo = F}
-
-for (cmp in comparisons) {
-  cat("\n\n###", cmp$xlab, "vs", cmp$ylab, "\n\n")
-
-  fmla <- as.formula(paste(cmp$y, "~", cmp$x, "+ (1|Year) + (1|prepartor)"))
-  z <- lmerTest::lmer(fmla, data = asy, na.action = na.exclude)
-  print(summary(z))
-  print(r.squaredGLMM(z))
-  print(tab_model(z))
-
-  p <- ggplot(asy) +
-    geom_point(aes(x = .data[[cmp$x]], y = .data[[cmp$y]], col = lat), size = 4) +
-    scale_color_viridis_c(direction = -1) +
-    geom_smooth(aes(x = .data[[cmp$x]], y = .data[[cmp$y]]), method = "lm", col = "black") +
-    labs(x = cmp$xlab, y = cmp$ylab) +
-    plot_theme
-  print(p)
-}
-
-```
-
-# wingspot vs other plumage patches
-
-```{r wingspot v}
-
-crown <- lmerTest::lmer(PC1_c ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(crown)
-
-covert <- lmerTest::lmer(PC1_o ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(covert)
-
-belly <- lmerTest::lmer(PC1_b ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(belly)
-
-throat <- lmerTest::lmer(PC1_t ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(throat)
-
-tvc <- lmerTest::lmer(PC1_t ~ PC1_o + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-summary(tvc)
-
-```
 
 # make a table of results
 ```{r color model table, echo=F}
 
-#association with dorsum
-cd <- lmerTest::lmer(PC1_c ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
-                       na.action = na.exclude)
-td <- lmerTest::lmer(PC1_t ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
-                       na.action = na.exclude)
-od <- lmerTest::lmer(PC1_o ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
-                       na.action = na.exclude) 
-bd <- lmerTest::lmer(PC1_b ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
-                       na.action = na.exclude) 
-ws <- lmerTest::lmer(area_mm2_w ~ PC1_d + (1|Year) + (1|prepartor), data = asy, 
-                       na.action = na.exclude) 
-#associations with wing spot color
-cwpc <- lmerTest::lmer(PC1_c ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-owpc <- lmerTest::lmer(PC1_o ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-bwpc <- lmerTest::lmer(PC1_b ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-dwpc <- lmerTest::lmer(PC1_d ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
-twpc <- lmerTest::lmer(PC1_t ~ PC1_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-#association with wing spot area
-cwa <- lmerTest::lmer(PC1_c ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
-owa <- lmerTest::lmer(PC1_o ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
-bwa <- lmerTest::lmer(PC1_b ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
-dwa <- lmerTest::lmer(PC1_d ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude)
-twa <- lmerTest::lmer(PC1_t ~ area_mm2_w + (1|Year) + (1|prepartor), data = asy, na.action = na.exclude) 
-models <- c(cd, od, bd, td, ws, cwpc, owpc, bwpc, dwpc, twpc, cwa, owa, bwa, dwa, twa)
-
-# Initialize an empty data frame to store results
-results <- data.frame(
-  Response = character(),
-  Explanatory = character(),
-  P_value = numeric(),
-  R2m = numeric(),
-  stringsAsFactors = FALSE
+# response ~ predictor pairs
+model_specs <- list(
+  # association with mantle
+  c("PC1_c", "PC1_d"), c("PC1_t", "PC1_d"), c("PC1_o", "PC1_d"),
+  c("PC1_b", "PC1_d"), c("area_mm2_w", "PC1_d"),
+  # associations with wing spot color
+  c("PC1_c", "PC1_w"), c("PC1_o", "PC1_w"), c("PC1_b", "PC1_w"),
+  c("PC1_d", "PC1_w"), c("PC1_t", "PC1_w"),
+  # association with wing spot area
+  c("PC1_c", "area_mm2_w"), c("PC1_o", "area_mm2_w"), c("PC1_b", "area_mm2_w"),
+  c("PC1_d", "area_mm2_w"), c("PC1_t", "area_mm2_w")
 )
 
-# Loop through each model
-for (model_name in 1:length(models)) {
-  model <- models[[model_name]]
+# Fit all models and extract results in one pipeline
+results <- do.call(rbind, lapply(model_specs, function(spec) {
+  response    <- spec[1]
+  explanatory <- spec[2]
   
-  # Extract response variable
-  response <- as.character(formula(model)[[2]])
+  fml   <- as.formula(paste(response, "~", explanatory, "+ (1|Year)"))
+  model <- lmerTest::lmer(fml, data = asy, na.action = na.exclude)
   
-  # Extract explanatory variables
-  explanatory <- paste(as.character(formula(model)[[3]]), collapse = " + ")
+  R2m     <- MuMIn::r.squaredGLMM(model)[1]
+  p_value <- summary(model)$coefficients[2, "Pr(>|t|)"]
   
-  # Extract marginal R² (R2m)
-  r_squared <- MuMIn::r.squaredGLMM(model)
-  R2m <- r_squared[1]  # Marginal R²
-  
-  # Extract p-value for the first fixed effect
-  summary_model <- summary(model)
-  p_value <- summary_model$coefficients[2, "Pr(>|t|)"]  # Adjust index for the variable of interest
-  
-  # Add results to the data frame
-  results <- rbind(results, data.frame(
-    Response = response,
-    Explanatory = explanatory,
-    R2m = R2m,
-    P_value = p_value,
-    stringsAsFactors = FALSE
-  ))
-}
+  data.frame(Response = response, Explanatory = explanatory,
+             R2m = R2m, P_value = p_value, stringsAsFactors = FALSE)
+}))
 
 results_rounded <- results %>% 
    mutate(across(where(is.numeric), ~ ifelse(. < 0.001, 
@@ -192,16 +82,16 @@ pcnames <- c(
   "PC1_c" = "Crown PC1",
   "PC1_o" = "Covert PC1",
   "PC1_b" = "Belly PC1",
-  "PC1_d" = "Dorsum PC1",
+  "PC1_d" = "Mantle PC1",
   "PC1_t" = "Throat PC1",
   "PC1_w" = "Wing spot PC1",
   "area_mm2_w" = "Wing spot area (mm²)"
 )
 
 formnames <- c(
-  "+ + PC1_d + (1 | Year) + (1 | prepartor)" = "Fixed effect: Dorsum PC1, Random effect: Year, preparator",
-  "+ + PC1_w + (1 | Year) + (1 | prepartor)" = "Fixed effect: Wing spot PC1, Random effect: Year, preparator",
-  "+ + area_mm2_w + (1 | Year) + (1 | prepartor)" = "Fixed effect: Wing spot area (mm²), Random effect: Year, preparator"
+  "PC1_d" = "Fixed effect: Dorsum PC1, Random effect: Year",
+  "PC1_w" = "Fixed effect: Wing spot PC1, Random effect: Year",
+  "area_mm2_w" = "Fixed effect: Wing spot area (mm²), Random effect: Year"
 )
 
 results_rnm <- results_rounded %>%
