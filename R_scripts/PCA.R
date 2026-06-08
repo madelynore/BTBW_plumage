@@ -190,22 +190,6 @@ covert_pcs <- cbind(covert, predict(o_pca))
 
 plot(covert_pcs$dblMean_o, covert_pcs$PC1)
 
-#filtering for just belly measures, removing lum bc redundant with dbl and area bc it's not relevant for this patch
-belly <- asy %>% 
-  dplyr::select(ends_with("_b"), -lumSD_b,-lumMean_b, -area_mm2_b, -PC1_b) %>% 
-  na.omit()
-
-
-b_pca <- prcomp(~ ., data = belly)
-
-screeplot(b_pca, type="lines")
-
-bplot <- ggbiplot(b_pca, choices = c(1,2))+
-  theme_classic()
-
-belly_pcs <- cbind(belly, predict(b_pca))
-
-plot(belly_pcs$dblMean_b, belly_pcs$PC1)
 
 #filtering for just crown measures, removing lum bc redundant with dbl and area bc it's not relevant for this patch
 crown <- asy %>% 
@@ -260,7 +244,6 @@ fix_biplot <- function(p, title = NULL) {
 }
 
 # Apply to each plot
-bplot <- fix_biplot(ggbiplot(b_pca, choices = c(1,2)))
 oplot <- fix_biplot(ggbiplot(o_pca, choices = c(1,2)))
 cplot <- fix_biplot(ggbiplot(c_pca, choices = c(1,2)))
 dplot <- fix_biplot(ggbiplot(d_pca, choices = c(1,2)))
@@ -268,7 +251,7 @@ tplot <- fix_biplot(ggbiplot(t_pca, choices = c(1,2)))
 wplot <- fix_biplot(ggbiplot(w_pca, choices = c(1,2)))
 
 # Combine
-pcaplots <- bplot + oplot + cplot + dplot + tplot + wplot +
+pcaplots <- oplot + cplot + dplot + tplot + wplot +
   plot_layout(ncol = 2) +
   plot_annotation(tag_levels = 'A')
 
