@@ -199,6 +199,7 @@ threshold <- fread("data/LRT_threshold_0.00001.tsv")
 
 threshLRTgw <- quantile(threshold$LRT, probs = 0.999)
 
+
 # in the top percentile of LRT scores
 threshLRTsug <- quantile(lrt_man$LRT, probs = 0.9999)
 
