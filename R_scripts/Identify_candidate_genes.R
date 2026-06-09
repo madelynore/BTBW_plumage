@@ -1,7 +1,5 @@
 ## plotting GWAS results
 
-# plotting with manhattan package - for log10 pval
-
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load_gh("sahirbhatnagar/manhattanly")
 
@@ -10,74 +8,9 @@ library(qqman)
 library(tidyverse)
 library(data.table)
 
-gwa <- read.table(file = "data_raw/GWAS_n95_ASY_gatk_fromvcf_dorsumPC_lmm_subset.assoc.txt", header = T) 
-
-gwa_rand <- read.table(file = "data_raw/GWAS_n95_ASY_gatk_fromvcf_impute_rand_assign_dorsumPC_lmm_subset.assoc.txt", header = T) 
-
-head(gwa)
-
-process_gwa <- function(gwa) {
-  #no scaffolds
-  gwa_filt <- gwa[!grepl("scaffold", gwa$rs, ignore.case = TRUE), ]
-  
-  # Fix chromosome names
-  gwa_chr <- gwa_filt %>%
-    mutate(chr = case_when(
-      grepl("chr1a", rs) ~ "1a",
-      grepl("chr4a", rs) ~ "4a",
-      grepl("chrz", rs) ~ "z",
-      TRUE ~ as.character(chr)
-    ))
-  
-  # Calculate -log10(p_wald)
-  gwa_chr <- gwa_chr %>%
-    mutate(logp = -log10(p_wald))
-  
-  # Assign index values for chromosomes
-  gwa_ind <- gwa_chr %>%
-    mutate(index = case_when(
-      chr == "1a" ~ 1.2,
-      chr == "4a" ~ 4.2,
-      chr == "z" ~ 30,
-      TRUE ~ as.numeric(chr)
-    ))
-  
-  gwa_ind$SNP <- sub(gwa_ind$rs, pattern = ":", replacement = "_")
-  
-  # Select relevant columns
-  gwa_sub <- gwa_ind %>%
-    dplyr::select(CHR = index, BP = ps, P = p_wald, logp, pos = ps, SNP, chr)
-  
-  return(gwa_sub)
-}
-
-gwa_man <- process_gwa(gwa)
-
-gwa_rand_man <- process_gwa(gwa_rand)
-
-png(file = "results/GEMMA_gwas_manhattan_n95_ASY.png", width = 1500, height = 400)
-manhattan(gwa_man, chr = "CHR", bp = "BP", snp = "SNP", p = "P", logp=T,
-          cex.axis = 2, cex.lab = 2)
-dev.off()
-
-png(file = "results/GEMMA_highlighted_gwas_manhattan_n95_ASY.png", width = 1500, height = 400)
-# Highlight by SNP names
-manhattan(gwa_man, chr = "CHR", bp = "BP", snp = "SNP", p = "P", logp=T,
-          cex.axis = 2, cex.lab = 2, 
-          highlight = gemma_relevantSNPS,
-          highlightCol = "red",
-          cex.highlight = 8, cex.annotate = 1.8)
-dev.off()
-
-
-manhattanly(gwa_rand_man, genomewideline = -log10(1e-07))
-
-fastman::fastman(gwa_man, chr = "CHR", bp = "BP", p = "P",logp = T, sortchr = T, maxP = max(gwa_man$logp), 
-                 ylim = c(min(gwa_man$logp), max(gwa_man$logp)), 
-                 speedup=F, col="rgbs",cex=0.5,xlab="Chromosome",ylab="-log10(p)",cex.axis = 1)
-
-
 # GEMMA BSLMM PIP ---------------------------------------------------------
+
+#code adapted from Erica Robertson (with permission)
 fileprefix <- "BSLMM_GWAS_n95_ASY_gatk_fromvcf_impute_PC1dorsum"
 hypfile <- paste0("data_raw/", fileprefix,".hyp.txt")
 hyp.params<-read.table(hypfile,header=T)
@@ -224,46 +157,6 @@ for (i in thresholds) {
        col = "steelblue")
   }
 
-pip$CHR <- sub(pip$rs, pattern = ":[0-9].*", replacement = "")
-pip_chrfix <- pip %>% 
-  filter(!grepl("scaffold", CHR) & !grepl("mito", CHR)) %>% 
-  mutate(chr = case_when(
-    CHR == "chr1a" ~ 1.2,
-    CHR == "chr4a" ~ 4.2,
-    CHR == "chrz" ~ 30,
-    TRUE ~ chr
-  ))
-
-
-pip_ord <- pip_chrfix %>%
-  mutate(chr_factor = factor(CHR, levels = gtools::mixedsort(unique(CHR))),  # Convert chr to a factor for better handling
-         color = ifelse(as.numeric(chr_factor) %% 2 == 0, "black", "gray70")) %>%  # Alternating color: black for even, gray for odd
-      arrange(chr_factor, rs) 
-
-pip_nonzero <- pip_ord[pip_ord$gamma > 0,]
-pip_nonzero$color2 <- pip_nonzero$color
-pip_nonzero$color2[pip_nonzero$rs == "chr1:23602616"] <- "green"
-
-plot_chrs <- ggplot(pip_nonzero, aes(x = 1:nrow(pip_nonzero), y = gamma, color = color2)) +
-  geom_point() +
-  scale_color_identity() +  # Use the actual color values in the data
-  geom_hline(yintercept = 0.01, color = "blue")+
-  geom_text(data = subset(pip_nonzero, rs == "chr1:23602616"),
-            aes(x = 1:nrow(subset(pip_nonzero, rs == "chr1:23602616")),
-                label = "PLA1A", y = gamma),
-            vjust = -0.5, size = 3, color = "black") +
-  labs(x = "Genomic Position", y = "log10(PIP)", title = "") +
-  scale_y_log10() +
-  theme_classic() + theme(axis.title.x = element_text(size = 18), axis.title.y = element_text(size = 18)) +
-  theme(axis.text.x = element_blank())  # Hide x-axis text since it is just row order
-
-jpeg("results/PIP_PC1_dorsum_bslmm.jpeg", width = 2000, height = 1000, res = 175)
-plot_chrs
-dev.off()
-
-manhattan(pip_nonzero, chr = "chr", bp = "ps", snp = "rs", p = "gamma", logp=T, 
-          cex.axis = 2, cex.label = 4, annotatePval = 0.01)
-
 
 
 
@@ -300,121 +193,15 @@ process_lrt <- function(lrt_df) {
 
 lrt_man <- process_lrt(lrt)
 
-png(file = "results/Asso_gwas_manhattan_n95_ASY.png", width = 1000, height = 400)
-manhattan(lrt_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
-          cex.axis = 2, cex.label = 4, genomewideline = F, suggestiveline = F)
-dev.off()
-
-png(file = "results/Asso_highlighted_gwas_manhattan_n95_ASY.png", width = 1500, height = 400)
-manhattan(lrt_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
-          cex.axis = 2, cex.label = 2, genomewideline = F, suggestiveline = F, 
-          highlight = asso_relevantSNPs)
-dev.off()
-
-
-pdf(file = "results/Asso_lrt_manhattan_n95_ASY.pdf", width = 12, height = 8)
-fastman::fastman(lrt_man, chr = "CHR", bp = "BP", p = "LRT",logp = F, sortchr = T, maxP = max(lrt_man$LRT), 
-        speedup=T, col="rgbs",cex=0.5,xlab="Chromosome",ylab="LRT",cex.axis = 1)
-dev.off()
-
-quantile(lrt_man$LRT, probs = 0.9999)
-
+## determine threshold for sig snps
+# LRT null distribution threshold
 threshold <- fread("data/LRT_threshold_0.00001.tsv") 
 
-thresh_man <- process_lrt(threshold)
-fastman::fastman(thresh_man, chr = "CHR", bp = "BP", p = "LRT",logp = F, sortchr = T, maxP = max(lrt_man$LRT), 
-                 speedup=T, col="rgbs",cex=0.5,xlab="Chromosome",ylab="LRT",cex.axis = 1)
-#this looks weird... nothing below 5?
-
-threshLRT <- quantile(threshold$LRT, probs = 0.999)
-significant <- lrt_man$SNP[lrt_man$LRT>threshLRT]
-
-
-png(file = "results/Asso_gwas_manhattan_n95_ASY_nullLRT0.001_highlighted.png", width = 1000, height = 400)
-manhattan(lrt_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
-          highlight = significant,
-          cex.axis = 2, cex.label = 4, genomewideline = F, suggestiveline = F)
-dev.off()
-
 threshLRTgw <- quantile(threshold$LRT, probs = 0.999)
-significant <- lrt_man$SNP[lrt_man$LRT>threshLRT]
 
+# in the top percentile of LRT scores
 threshLRTsug <- quantile(lrt_man$LRT, probs = 0.9999)
-significant <- lrt_man$SNP[lrt_man$LRT>threshLRT]
 
-png(file = "results/Asso_gwas_manhattan_n95_ASY_LRT0.0001_lines.png", width = 1000, height = 400)
-manhattan(lrt_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
-          cex.axis = 2, cex.label = 4, genomewideline = threshLRTgw, suggestiveline = threshLRTsug)
-dev.off()
-
-gene <- c("CAPN3", "GNA11", "GNAI1", "GNAI2",  "GNAI3")
-genesnploc <- ugenehits_detailed[ugenehits_detailed$Gene.Symbol %in% gene,]
-
-genesnp <- unique(ugenehits_detailed$unique_SNPs[ugenehits_detailed$Gene.Symbol %in% gene])
-
-png(file = "results/Asso_gwas_manhattan_n95_ASY_colorgenes_highlighted.png", width = 1000, height = 400)
-manhattan(lrt_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
-          highlight = genesnp,
-          cex.axis = 2, cex.label = 4, genomewideline = threshLRTgw, suggestiveline = threshLRTsug)
-dev.off()
-
-
-gene <- c("CAPN3", "GNA11", "GNAI1", "GNAI2",  "GNAI3", "GNA11", "GNAO1", 
-          "GNAT1", "GNAT2", "GNAT3", "GNAZ", 
-          "MGAT4A", "MGAT4B", "SLC25A17")
-
-genesnp <- ugenehits_detailed[ugenehits_detailed$Gene.Symbol %in% gene,] %>% 
-  select(Gene.Symbol, SNP = unique_SNPs)
-
-
-# LRT angsd-asso no cov ---------------------------------------------------
-
-lrt_nocov <- read.table("data_raw/Btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400_asso2Nocov.lrt0.gz")
-#fix col names as headers
-colnames(lrt_nocov) <- lrt_nocov[1,]
-lrt_nocov <- lrt_nocov[-1,] %>% 
-  filter(!str_detect(Chromosome, "scaffold"), !str_detect(Chromosome, "mito"))
-
-process_lrt <- function(lrt_df) {
-  lrt_df$chr <- sub(pattern = "^chr", replacement = "", lrt_df$Chromosome)
-  # Assign index values for chromosomes
-  lrt_ind <- lrt_df %>%
-    mutate(chr = case_when(
-      chr == "1a" ~ 1.2,
-      chr == "4a" ~ 4.2,
-      chr == "z" ~ 30,
-      TRUE ~ as.numeric(chr)
-    ))
-  
-  lrt_ind$Position <- as.numeric(lrt_ind$Position)
-  lrt_ind$LRT <- as.numeric(lrt_ind$LRT) 
-  
-  # Select relevant columns
-  lrt_sub <- lrt_ind %>%
-    dplyr::select(CHR = chr, BP = Position, LRT, Chromosome) %>% 
-    unite(SNP, c(Chromosome, BP), sep = "_", remove = F) %>% 
-    filter(LRT > -999)
-  
-  return(lrt_sub)
-}
-
-lrt_nocov_man <- process_lrt(lrt_nocov)
-
-png(file = "results/Asso_nocov_gwas_manhattan_n95_ASY.png", width = 1000, height = 400)
-manhattan(lrt_nocov_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
-          cex.axis = 2, cex.label = 4, genomewideline = F, suggestiveline = F)
-dev.off()
-
-
-quantile(lrt_nocov_man$LRT, probs = 0.9999)
-
-significant <- lrt_nocov_man$SNP[lrt_nocov_man$LRT>threshold$LRT]
-
-png(file = "results/Asso_nocov_gwas_manhattan_n95_ASY_highlighted.png", width = 1000, height = 400)
-manhattan(lrt_nocov_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
-          highlight = significant,
-          cex.axis = 2, cex.label = 4, genomewideline = F, suggestiveline = F)
-dev.off()
 
 # looking for hits with suggestive snps -----------------------------------
 
@@ -423,11 +210,6 @@ library(tidyverse)
 library(GenomicRanges)
 
 # get SNPs above suggestive line and fix to match warbler.gff
-sugSNPsgemma <- gwa_man %>%
-  filter(logp >= -log10(1e-5)) %>%
-  mutate(source = "GEMMA",
-           chr = paste0("chr", chr))
-
 sugSNPsbslmm <- pip %>%
   filter(gamma >= 0.01) %>%        # <- fixed missing parenthesis
   mutate(chr = sub(x = rs, pattern = ":[0-9].*", replacement = ""),
@@ -445,17 +227,11 @@ sugSNPsasso <- lrt_man %>%
   dplyr::rename(chr = Chromosome) %>% 
   mutate(source = "ANGSD-asso")
 
-sugSNPsasso_nocov <- lrt_nocov_man %>%       # assuming this is the no-cov model df
-  filter(LRT >= quantile(LRT, probs = 0.9999)) %>%
-  dplyr::rename(chr = Chromosome) %>% 
-  mutate(source = "ANGSD-asso-nocov")
 
 # Join
 sugSNPsall <- bind_rows(
-  sugSNPsgemma,
   sugSNPsbslmm,
-  sugSNPsasso,
-  sugSNPsasso_nocov
+  sugSNPsasso
 ) 
 
 dupSNPs <- sugSNPsall[duplicated(sugSNPsall$SNP) | duplicated(sugSNPsall$SNP, fromLast = TRUE), ]
@@ -479,6 +255,7 @@ dupSNPs_merged <- dupSNPs %>%   # replace dup_df with your dataframe
     P     = coalesce(na.omit(P)[1], NA_real_),
     logp  = coalesce(na.omit(logp)[1], NA_real_),
     gamma = coalesce(na.omit(gamma)[1], NA_real_),
+    beta = coalesce(na.omit(beta)[1], NA_real_),
     
     # LRT: prefer ANGSD-asso if present, else take first non-NA
     LRT   = if (any(source == "ANGSD-asso" & !is.na(LRT))) {
@@ -615,3 +392,130 @@ asso_relevantSNPs <- unique(c(ugenehits_detailed$unique_SNPs[which(ugenehits_det
 
 gemma_relevantSNPS<- unique(c(ugenehits_detailed$unique_SNPs[which(ugenehits_detailed$Gene.Symbol %in% melano$Melanogenesis_genes & ugenehits_detailed$unique_sources == "GEMMA")], 
                               ugenehits_detailed$unique_SNPs[which(ugenehits_detailed$Gene.Symbol %in% ugene_keratin  & ugenehits_detailed$unique_sources == "GEMMA")]))
+
+
+
+# compare to climate linked lists ----------------------------------------------
+
+ugenehits_detailed <- read.csv("results/Unique_gene_hits_n95_ASY_allmethods.csv")
+
+#env genes
+env <- read.table("data_raw/Candidate_Genes_JustChickenGO_Renamed.Grouped.txt", 
+                    sep = "\t", header = T)
+
+envSNP <- ugenehits_detailed[which(ugenehits_detailed$Gene.Symbol %in% env$gene),]
+
+# angsd-asso identified genes 
+asso_env <- envSNP[which(envSNP$unique_sources == "ANGSD-asso"),]
+asso_func <- merge(asso_env, env, by.x = "Gene.Symbol", by.y = "gene")
+
+
+# make table for paper ----------------------------------------------------
+
+ugenehits_detailed <- ugenehits_detailed[-which(ugenehits_detailed$Gene.Symbol == "-"),]
+
+write.csv(ugenehits_detailed, "results/Unique_gene_hits_n95_ASY_allmethods.csv", row.names = F)
+
+melano <- read.csv("data_raw/Melanogenesis_genes.csv")
+
+melanoSNP <- merge(ugenehits_detailed, melano, by.x = "Gene.Symbol", by.y = "Melanogenesis_genes",
+                   all= F)
+
+ugenehits_detailed <- read.csv("results/Unique_gene_hits_n95_ASY_allmethods.csv")
+
+#env genes
+env <- read.table("data_raw/Candidate_Genes_JustChickenGO_Renamed.Grouped.txt", 
+                  sep = "\t", header = T)
+
+envSNP <- merge(ugenehits_detailed, env, by.x = "Gene.Symbol", by.y = "gene",
+                all= F)
+
+#all candidates
+cands <- merge(melanoSNP, envSNP, all = T)
+
+#add in LRT/pip score
+scores <- sugSNPsall %>% 
+  select(SNP, source, gamma, LRT)
+
+candscores <- merge(scores, cands,
+                    by.x = c("SNP", "source"),
+                    by.y = c("unique_SNPs", "unique_sources")
+                    )
+
+cand_tbl <- candscores %>% 
+  select(SNP, Gene.Symbol, Detection.method = source, gamma, LRT,
+         FunctionList, Citation) %>% 
+  filter(Detection.method == "ANGSD-asso" | Detection.method == "BSLMM")
+
+
+write.csv(cand_tbl, "results/Candidate_genes_table.csv", row.names = F)
+
+# Plot Pip ----------------------------------------------------------------
+
+pip$CHR <- sub(pip$rs, pattern = ":[0-9].*", replacement = "")
+pip_chrfix <- pip %>% 
+  filter(!grepl("scaffold", CHR) & !grepl("mito", CHR)) %>% 
+  mutate(chr = case_when(
+    CHR == "chr1a" ~ 1.2,
+    CHR == "chr4a" ~ 4.2,
+    CHR == "chrz" ~ 30,
+    TRUE ~ chr
+  ))
+
+
+pip_ord <- pip_chrfix %>%
+  mutate(chr_factor = factor(CHR, levels = gtools::mixedsort(unique(CHR))),  # Convert chr to a factor for better handling
+         color = ifelse(as.numeric(chr_factor) %% 2 == 0, "black", "gray70")) %>%  # Alternating color: black for even, gray for odd
+  arrange(chr_factor, rs) 
+
+pip_nonzero <- pip_ord[pip_ord$gamma > 0,]
+pip_nonzero$color2 <- pip_nonzero$color
+pip_nonzero$color2[pip_nonzero$rs == "chr1:23602616"] <- "green"
+
+plot_chrs <- ggplot(pip_nonzero, aes(x = 1:nrow(pip_nonzero), y = gamma, color = color2)) +
+  geom_point() +
+  scale_color_identity() +  # Use the actual color values in the data
+  geom_hline(yintercept = 0.01, color = "blue")+
+  geom_text(data = subset(pip_nonzero, rs == "chr1:23602616"),
+            aes(x = 1:nrow(subset(pip_nonzero, rs == "chr1:23602616")),
+                label = "PLA1A", y = gamma),
+            vjust = -0.5, size = 3, color = "black") +
+  labs(x = "Genomic Position", y = "log10(PIP)", title = "") +
+  scale_y_log10() +
+  theme_classic() + theme(axis.title.x = element_text(size = 18), axis.title.y = element_text(size = 18)) +
+  theme(axis.text.x = element_blank())  # Hide x-axis text since it is just row order
+
+jpeg("results/PIP_PC1_dorsum_bslmm.jpeg", width = 2000, height = 1000, res = 175)
+plot_chrs
+dev.off()
+
+manhattan(pip_nonzero, chr = "chr", bp = "ps", snp = "rs", p = "gamma", logp=T, 
+          cex.axis = 2, cex.label = 4, annotatePval = 0.01)
+
+
+
+# Plot asso ---------------------------------------------------------------
+
+png(file = "results/Asso_gwas_manhattan_n95_ASY_LRT0.0001_lines.png", width = 1000, height = 400)
+manhattan(lrt_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
+          cex.axis = 2, cex.label = 4, genomewideline = threshLRTgw, suggestiveline = threshLRTsug)
+dev.off()
+
+gene <- c("CAPN3", "GNA11", "GNAI1", "GNAI2",  "GNAI3")
+genesnploc <- ugenehits_detailed[ugenehits_detailed$Gene.Symbol %in% gene,]
+
+genesnp <- unique(ugenehits_detailed$unique_SNPs[ugenehits_detailed$Gene.Symbol %in% gene])
+
+png(file = "results/Asso_gwas_manhattan_n95_ASY_colorgenes_highlighted.png", width = 1000, height = 400)
+manhattan(lrt_man, chr = "CHR", bp = "BP", snp = "SNP", p = "LRT", logp=F, 
+          highlight = genesnp,
+          cex.axis = 2, cex.label = 4, genomewideline = threshLRTgw, suggestiveline = threshLRTsug)
+dev.off()
+
+
+gene <- c("CAPN3", "GNA11", "GNAI1", "GNAI2",  "GNAI3", "GNA11", "GNAO1", 
+          "GNAT1", "GNAT2", "GNAT3", "GNAZ", 
+          "MGAT4A", "MGAT4B", "SLC25A17")
+
+genesnp <- ugenehits_detailed[ugenehits_detailed$Gene.Symbol %in% gene,] %>% 
+  select(Gene.Symbol, SNP = unique_SNPs)
