@@ -145,10 +145,6 @@ mantle <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
                 + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
             data = lum_env, method = "REML") 
 
-belly <- gam(PC1_b ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
-                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
-            data = lum_env, method = "REML", na.action = "na.omit") 
-summary(belly)
 
 crown <- gam(PC1_c ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
                 + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
