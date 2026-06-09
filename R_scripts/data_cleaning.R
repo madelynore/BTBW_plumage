@@ -1,7 +1,5 @@
 ##Data cleaning for plumage project
 
-
-
 # combining banding records for 2021 and 2022 -----------------------------
 library(tidyverse)
 
@@ -276,8 +274,6 @@ F_measures$perc_clear <- F_measures$`clear segment`/F_measures$sum_length
 write.csv(F_measures, "data/feather_measurements.csv", row.names = F)
 
 
-
-
 # cleaning raw output from micatoolbox ------------------------------------
 
 library(tidyverse)
@@ -343,7 +339,7 @@ unique(allimg_meta$ID[which(is.na(allimg_meta$pop))])
 unique(allimg_meta$ID[which(is.na(allimg_meta$lat))])
 
 write.csv(allimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
-
+allimg_meta <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv")
 avg_img <- allimg_rmrow %>%
   group_by(ID, pl_code) %>%
   summarise(
@@ -357,6 +353,7 @@ avg_img <- allimg_rmrow %>%
 avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
 write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
+avgimg_meta <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv")
 
 avgimg_wide <- avg_img %>% 
   pivot_wider(names_from = pl_code, values_from = c(lumMean, lumSD,
@@ -372,6 +369,15 @@ dorsum <- avgimg_wide %>%
 
 d_pca <- prcomp(~ ., data = dorsum[-1])
 
+
+d_biplot <- ggbiplot::ggbiplot(d_pca,
+                   varname.size = 4,
+                   varname.color = "red")+ 
+  theme_classic()
+ggplot2::ggsave(filename = "results/Mantle_biplot.png", plot = d_biplot,
+                width = 8, height = 6)
+
+
 dorsum_pc <- data.frame(ID = dorsum$ID, PC1_d = predict(d_pca)[,1])
 
 crown <- avgimg_wide %>% 
@@ -379,7 +385,12 @@ crown <- avgimg_wide %>%
   na.omit()
 
 c_pca <- prcomp(~ ., data = crown[-1])
-
+c_biplot <- ggbiplot::ggbiplot(c_pca,
+                               varname.size = 4,
+                               varname.color = "red")+ 
+  theme_classic()
+ggplot2::ggsave(filename = "results/Crown_biplot.png", plot = c_biplot,
+                width = 8, height = 6)
 crown_pc <- data.frame(ID = crown$ID, PC1_c = predict(c_pca)[,1])
 
 dcpc <- merge(dorsum_pc, crown_pc, all = T)
@@ -389,6 +400,12 @@ covert <- avgimg_wide %>%
   na.omit()
 
 o_pca <- prcomp(~ ., data = covert[-1])
+o_biplot <- ggbiplot::ggbiplot(o_pca,
+                               varname.size = 4,
+                               varname.color = "red")+ 
+  theme_classic()
+ggplot2::ggsave(filename = "results/Covert_biplot.png", plot = o_biplot,
+                width = 8, height = 6)
 
 covert_pc <- data.frame(ID = covert$ID, PC1_o = predict(o_pca)[,1])
 
@@ -399,6 +416,12 @@ belly <- avgimg_wide %>%
   na.omit()
 
 b_pca <- prcomp(~ ., data = belly[-1])
+b_biplot <- ggbiplot::ggbiplot(b_pca,
+                               varname.size = 4,
+                               varname.color = "red")+ 
+  theme_classic()
+ggplot2::ggsave(filename = "results/Belly_biplot.png", plot = b_biplot,
+                width = 8, height = 6)
 
 belly_pc <- data.frame(ID = belly$ID, PC1_b = predict(b_pca)[,1])
 
@@ -409,6 +432,12 @@ throat <- avgimg_wide %>%
   na.omit()
 
 t_pca <- prcomp(~ ., data = throat[-1])
+t_biplot <- ggbiplot::ggbiplot(t_pca,
+                               varname.size = 4,
+                               varname.color = "red")+ 
+  theme_classic()
+ggplot2::ggsave(filename = "results/Throat_biplot.png", plot = t_biplot,
+                width = 8, height = 6)
 
 #flipping orientation so that darkest are smaller values and lightest are larger values
 throat_pc <- data.frame(ID = throat$ID, PC1_t = predict(t_pca)[,1]*-1)
@@ -420,6 +449,13 @@ wingspot <- avgimg_wide %>%
   na.omit()
 
 w_pca <- prcomp(~ ., data = wingspot[-1])
+w_biplot <- ggbiplot::ggbiplot(w_pca,
+                               varname.size = 4,
+                               varname.color = "red")+ 
+  theme_classic()
+ggplot2::ggsave(filename = "results/Wingspot_biplot.png", plot = w_biplot,
+                width = 8, height = 6)
+
 
 #flipping orientation so that darkest are smaller values and lightest are larger values
 wingspot_pc <- data.frame(ID = wingspot$ID, PC1_w = predict(w_pca)[,1]*-1)
@@ -429,7 +465,7 @@ allplpc <- merge(dcobtpc, wingspot_pc, all = T)
 #merge wide img with pcscores and meta data
 avgimgwide_pc <- merge(avgimg_wide, allplpc, all = T)
 
-avgimgwide_meta <-  merge(avgimgwide_pc, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
+avgimgwide_meta <-  merge(avgimgwide_pc, meta, all.x = T, all.y = T)
 
 write.csv(avgimgwide_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
 
@@ -468,8 +504,6 @@ fam_img_noNA <- fam_img %>%
 fam_img_noNA$rand_d <- sample(fam_img_noNA$PC1_d)
 
 famcol <- colnames(fam_img_noNA)
-write.table(fam_img_noNA, "data/BTBW_n155_allages_forGWAS_PC1_d_rand.fam",
-            quote = F, col.names = F, row.names = F)
 
 # select only the ASY
 asyfam <- fam_img_noNA %>% 
@@ -478,131 +512,6 @@ asyfam <- fam_img_noNA %>%
 write.table(asyfam, 
             "data/BTBW_n95_ASY_forGWAS_PC1_d_rand.fam",
             quote = F, col.names = F, row.names = F)
-
-
-# prep data to compare sullivan NY  ----------------------------------------------------
-
-library(tidyverse)
-# load file names
-snyfiles <- list.files(path = "data_raw/", pattern = "Sullivan.*Image*")
-
-imgnm <- paste0("data_raw/", snyfiles[1])
-## extract name of the population
-pop_name <- sub(x = snyfiles[1],
-                pattern = "_Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65.*",
-                replacement = "")
-
-#read in file
-sny1 <- read.csv(file = imgnm)
-
-head(sny1)
-
-## change label to more informative labels
-sny1_ID <- sny1 %>% 
-  separate(Label, into = c("ID", "photo", "plumage_patch"), sep = "_")
-
-# separate plumage patch from replicate
-sny1_plid <- sny1_ID %>% 
-  separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
-
-## reviewing how many patches measured
-summary(as.factor(sny1_plid$pl_code))
-
-# add pop name
-sny1_plid$pop <- rep(pop_name, nrow(sny1_plid))
-
-##### second file
-imgnm <- paste0("data_raw/", snyfiles[2])
-## extract name of the population
-pop_name <- sub(x = snyfiles[2],
-                pattern = "_Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65.*",
-                replacement = "")
-
-#read in file
-sny2 <- read.csv(file = imgnm)
-
-head(sny2)
-
-## change label to more informative labels
-sny2_ID <- sny2 %>% 
-  separate(Label, into = c("ID", "photo", "plumage_patch"), sep = "_")
-
-# separate plumage patch from replicate
-sny2_plid <- sny2_ID %>% 
-  separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
-
-## reviewing how many patches measured
-summary(as.factor(sny2_plid$pl_code))
-
-# add pop name
-sny2_plid$pop <- rep(pop_name, nrow(sny2_plid))
-
-
-
-snybothimg <- rbind(sny1_plid, sny2_plid)
-
-avgsny_img <- snybothimg %>% 
-  group_by(ID, photo, pl_code, pop) %>% 
-  summarise(across(starts_with("lum") | starts_with("lw") | starts_with("mw") | starts_with("sw") | starts_with("uv") | starts_with("dbl") | area | contains("Power") | contains("Freq"), mean),
-            N = n_distinct(rep))
-
-
-
-# how many specimens photographed and sequenced? --------------------------
-
-#read in fam file
-fam <- read.table("data_raw/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_rmrelatedind5_impute4.1_GWAS_bed.fam")
-# make column with just IDs
-fam_id <- fam %>% 
-  separate(V2, into = c("V2", NA), sep = "_", remove = F )
-
-meta <- read.csv("data/NMNH_specimen_metadata.csv") %>% 
-  dplyr::select("USNM.no.", "Age")
-
-meta$ID <- paste0("Z", meta$USNM.no.)
-
-fam_meta <- merge(fam_id, meta, by.x = "V2", by.y = "ID", all = F)
-# 156 sequenced and in nmnh specimen data
-
-# which not in the avg_img
-avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv"))
-
-img_ID <- unique(avg_img$ID)
-
-setdiff(fam_meta$USNM.no., img_ID) # 606627 606663 have sequences but no photo data
-missing_IDs <- setdiff(meta$USNM.no., img_ID)
-
-write.table(missing_IDs, file = "data/IDs_w_photos_but_no_measurements.txt", quote = F)
-
-## which photos views are missing
-meta <- read.csv("data/NMNH_specimen_metadata.csv") %>% 
-  dplyr::select("USNM.no.", "Age", "pop")
-
-# all files on harddrive
-img_files <- list.files(path = "/Volumes/G-DRIVE/NMNH specimen photos/all_photos_measured/", pattern = ".*mspec$")
-
-img_df <- data.frame(file.path = img_files)
-
-img_df_sep <- img_df %>% 
-  separate(file.path, into = c("ID", "view"), sep = "_", remove = T)
-
-img_df_sep$view <- sub(x = img_df_sep$view, pattern = "\\.mspec", replacement = "")
-
-img_df_wide <- img_df_sep %>%
-  mutate(value = 1) %>%  # Add a column with value 1
-  pivot_wider(names_from = view, values_from = value, values_fill = list(value = 0))
-
-
-img_meta <- merge(meta, img_df_wide, by.x = "USNM.no.", by.y = "ID", all = T)
-
-img_missing <- img_meta %>% 
-  filter(crown == 0 | is.na(crown) |
-           dorsal == 0 | is.na(dorsal) |
-           side == 0 | is.na(side) |
-           ventral == 0 | is.na(ventral))
-
-write.csv(img_missing, "results/images_missing_from_analyses.csv", row.names = F)
-
 
 # Make NGSadmix file ------------------------------------------------------
 
