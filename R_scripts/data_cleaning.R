@@ -513,17 +513,6 @@ write.table(asyfam,
             "data/BTBW_n95_ASY_forGWAS_PC1_d_rand.fam",
             quote = F, col.names = F, row.names = F)
 
-# Make NGSadmix file ------------------------------------------------------
-
-k2 <- read.table("data_raw/NGS_admix_K2_from_GEA.txt")
-
-k2$ID <- rownames(k2)
-
-fam <- read.table("data/BTBW_n95_ASY_forGWAS_PC1_d_rand.fam") %>% 
-  select(ID = V2)
-
-k2_pl <- merge(k2, fam, all.y = T)
-
 
 # clean up keratin table --------------------------------------------------
 library(tidyverse)
