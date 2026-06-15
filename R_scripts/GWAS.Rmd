@@ -1,0 +1,66 @@
+---
+title: "GWAS"
+author: "Ore, MJ."
+date: "2026-06-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{bash genocall}
+
+prefix="btbw_n95_ASY_gatk_maxmiss20_minQ30_maf05_ds2x_minInd66_maxd400"
+
+#calculate genotype probabilities and covariance matrix
+angsd -bam $j  -P 8 -ref ref/mywagenomev2.1.fa -anc ref/mywagenomev2.1.fa \
+        -uniqueOnly 1 -remove_bads 1 -trim 0 -C 50 -baq 1 \
+        -maxDepth 400 -doGlf 2 -doIBS 2 -makeMatrix 1 -doCov 1 -doPlink 2 \
+        -minMapQ 33 -minQ 30 -minInd 66 -doCounts 1 \
+        -GL 2 -doMajorMinor 1 -doMaf 1 -skipTriallelic 1 -dobcf 1 \
+        -SNP_pval 1e-6 -doGeno 3 -doPost 1  -minMaf 0.05 -out $prefix
+        
+# impute missing data using beagle
+java -Xmx42g -jar /programs/beagle4/beagle4.jar gt=$prefix.recode.vcf nthreads=6 out=$prefix impute=true >& ASY_beagle.log &
+
+
+```
+
+
+## GEMMA BSLMM
+
+```{bash vcf}
+
+#make plinks
+vcftools --gzvcf $prefix.vcf.gz --plink --out $prefix &
+# make bed
+/programs/plink-1.9-x86_64-beta7/plink --file $prefix --chr-set 31 --make-bed --out $prefix
+
+# confirm that fam file made in R has the correct order of IDs as the new plink files
+# Compare the first columns directly
+diff <(awk '{print $1}' BTBW_n95_ASY_forGWAS_PC1_d_rand.fam) <(awk '{print $1}' $prefix.fam)
+
+# change names of fam files with phenotype to match format of the rest of the plink files
+cp BTBW_n95_ASY_forGWAS_PC1_d_rand.fam $prefix.fam
+
+# run gemma distance matrix
+gemma -bfile $prefix -gk 1 -miss 1 -maf 0 -r2 1 -hwe 0 -o GWAS_n95_ASY_fromvcf_impute
+
+#run bslmm from gemma
+gemma -bfile $prefix.impute -k /workdir/mjo234/GWAS/output/GWAS_n95_ASY_gatk_fromvcf_impute.cXX.txt -n 1 -w 500000 -s 5000000 -bslmm 1 -o BSLMM_GWAS_n95_ASY_gatk_fromvcf_impute_PC1dorsum
+
+```
+
+## ANGSD-asso
+
+```{bash angsd}
+
+#run angsd -doAsso
+/programs/angsd0.930/angsd/angsd -beagle $prefix.beagle.gz \
+-fai ref/mywagenomev2.1.fa.fai \
+-P 2 -doMaf 4 -doAsso 5 \
+-yQuant BTBW_n95_ASY_forGWAS_PC1_d.txt -cov PC1scores_btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.cov \
+-out ${prefix}_PC1cov_asso5
+
+```
