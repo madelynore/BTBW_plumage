@@ -3,6 +3,8 @@
 
 -------------------------------------------------------------
 
+![BTBW_illustrations](results/Figure1_illustrations.png)
+
 ### Overview: 
 Within-species plumage variation allows us to investigate how the environment, 
 feather structure, and genes together produce visible differences in appearance.
