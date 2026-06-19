@@ -28,12 +28,12 @@ revealing how genes, structure, and natural selection interact to shape wild pop
 
 ### Relationship between plumage and genotype
 
-[PCA_genomics.R](R_script/PCA_genomics.R): generates PCA based on a covariance matrix output from ANGSD to correct for relatedness in -doAsso
+[PCA_genomics.R](R_scripts/PCA_genomics.R): generates PCA based on a covariance matrix output from ANGSD to correct for relatedness in -doAsso
 
 [GWAS.Rmd](R_scripts/GWAS.md): runs GEMMA BSLMM and ANGSD-asso
 
-[LRT_rolling_window.R](R_script/LRT_rolling_window.R): calculates the median LRT score for a null distribution
+[LRT_rolling_window.R](R_scripts/LRT_rolling_window.R): calculates the median LRT score for a null distribution
     LRT permutation array created based on scripts found [here](https://github.com/lucasrocmoreira/Moreira-Smith_SciAdv_2023/tree/main)
     
-[Identify_candidate_genes.R](R_script/Identify_candidate_genes.R): looks for genes near SNPs strongly correlated with mantle color and compares them to a list of known melanogenesis and climate-linked genes
+[Identify_candidate_genes.R](R_scripts/Identify_candidate_genes.R): looks for genes near SNPs strongly correlated with mantle color and compares them to a list of known melanogenesis and climate-linked genes
 
