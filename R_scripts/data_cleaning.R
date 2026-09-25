@@ -297,7 +297,7 @@ for (i in 1:length(imgfiles)) {
   
   # Separate plumage patch from replicate
   img_plid <- img_ID %>% 
-    separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])")
+    separate(plumage_patch, into = c("pl_code", "rep"), sep = "(?<=[A-Za-z])(?=[0-9])") 
   
   # Bind to the dataframe
   allimg <- rbind(allimg, img_plid)
@@ -319,7 +319,9 @@ allimg_rmnotpl_code <- allimg[-notplrows,]
 allimg_rmrow <- subset(allimg_rmnotpl_code, select = -X)
 
 #fixing wrong plcodes
-allimg_rmrow$pl_code[which(allimg_rmrow$photo == "dorsal" & allimg_rmrow$pl_code != "d")] <-  "d"
+# mantle is the only plumage patch measured on the dorsal surface, so fixing the 'b's because they are just genuine errors and 
+# replacing the d because in the manuscript we opted to use "mantle" to describe the plumage patch
+allimg_rmrow$pl_code[which(allimg_rmrow$photo == "dorsal")] <-  "m"
 
 allimg_rmrow$pl_code[which(allimg_rmrow$photo == "crown" & allimg_rmrow$pl_code != "c")] <- "c"
 
@@ -363,11 +365,11 @@ avgimg_wide <- avg_img %>%
                                                     dblMean, dblSD, area_mm2), names_sep = "_" )
 
 #calculate PC scores for color of each patch - see PCA.R for plots
-dorsum <- avgimg_wide %>% 
-  dplyr::select(ID, ends_with("_d"), -lumSD_d,-lumMean_d, -area_mm2_d) %>% 
+mantle <- avgimg_wide %>% 
+  dplyr::select(ID, ends_with("_m"), -lumSD_m,-lumMean_m, -area_mm2_m) %>% 
   na.omit()
 
-d_pca <- prcomp(~ ., data = dorsum[-1])
+d_pca <- prcomp(~ ., data = mantle[-1])
 
 
 d_biplot <- ggbiplot::ggbiplot(d_pca,
@@ -378,7 +380,7 @@ ggplot2::ggsave(filename = "results/Mantle_biplot.png", plot = d_biplot,
                 width = 8, height = 6)
 
 
-dorsum_pc <- data.frame(ID = dorsum$ID, PC1_d = predict(d_pca)[,1])
+mantle_pc <- data.frame(ID = mantle$ID, PC1_m = predict(d_pca)[,1])
 
 crown <- avgimg_wide %>% 
   dplyr::select(ID, ends_with("_c"), -lumSD_c,-lumMean_c, -area_mm2_c) %>% 
@@ -393,7 +395,7 @@ ggplot2::ggsave(filename = "results/Crown_biplot.png", plot = c_biplot,
                 width = 8, height = 6)
 crown_pc <- data.frame(ID = crown$ID, PC1_c = predict(c_pca)[,1])
 
-dcpc <- merge(dorsum_pc, crown_pc, all = T)
+dcpc <- merge(mantle_pc, crown_pc, all = T)
 
 covert <- avgimg_wide %>% 
   dplyr::select(ID, ends_with("_o"), -lumSD_o,-lumMean_o, -area_mm2_o) %>% 
@@ -470,7 +472,7 @@ avgimgwide_meta <-  merge(avgimgwide_pc, meta, all.x = T, all.y = T)
 write.csv(avgimgwide_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
 
 # confirming that smaller PC scores == darker colors
-plot(avgimgwide_meta$lumMean_d, avgimgwide_meta$PC1_d)
+plot(avgimgwide_meta$lumMean_m, avgimgwide_meta$PC1_m)
 plot(avgimgwide_meta$lumMean_c, avgimgwide_meta$PC1_c)
 plot(avgimgwide_meta$lumMean_o, avgimgwide_meta$PC1_o)
 plot(avgimgwide_meta$lumMean_b, avgimgwide_meta$PC1_b)
@@ -494,14 +496,14 @@ img_wide$ID <- paste0("Z",img_wide$ID)
 
 #merge the two dfs
 fam_img <- merge(fam_id, img_wide, by.x = "V2", by.y = "ID", all.x = F, all.y = F) %>% 
-  dplyr::select(V1, V2, Age, V4, V5, PC1_d)
+  dplyr::select(V1, V2, Age, V4, V5, PC1_m)
 
 head(fam_img)
 
 fam_img_noNA <- fam_img %>%
-  filter(!(is.na(fam_img$PC1_d)))
+  filter(!(is.na(fam_img$PC1_m)))
 
-fam_img_noNA$rand_d <- sample(fam_img_noNA$PC1_d)
+fam_img_noNA$rand_m <- sample(fam_img_noNA$PC1_m)
 
 famcol <- colnames(fam_img_noNA)
 
@@ -510,7 +512,7 @@ asyfam <- fam_img_noNA %>%
   filter(Age == "ASY") 
 
 write.table(asyfam, 
-            "data/BTBW_n95_ASY_forGWAS_PC1_d_rand.fam",
+            "data/BTBW_n95_ASY_forGWAS_PC1_m_rand.fam",
             quote = F, col.names = F, row.names = F)
 
 
