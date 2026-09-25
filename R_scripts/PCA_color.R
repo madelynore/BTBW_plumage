@@ -13,7 +13,7 @@ asy <- avg_img %>%
 
 #filtering for just dorsum measures, removing lum bc redundant with dbl and area bc it's not relevant for this patch
 dorsum <- avg_img %>% 
-  dplyr::select(ends_with("_d"), -lumSD_d,-lumMean_d, -area_mm2_d, -PC1_d) %>% 
+  dplyr::select(ends_with("_d"), -dblSD_d,-dblMean_d, -area_mm2_d, -PC1_d) %>% 
   na.omit()
 
 
@@ -26,11 +26,11 @@ dplot <- ggbiplot(d_pca, choices = c(1,2))+
 
 dorsum_pcs <- cbind(dorsum, predict(d_pca))
 
-plot(dorsum_pcs$dblMean_d, dorsum_pcs$PC1)
+lumvPC_d <- plot(dorsum_pcs$lumMean_d, dorsum_pcs$PC1)
 
 #filtering for just throat measures, removing lum bc redundant with dbl and area bc it's not relevant for this patch
 throat <- asy %>% 
-  dplyr::select(ends_with("_t"), -lumSD_t,-lumMean_t, -area_mm2_t, PC1_t) %>% 
+  dplyr::select(ends_with("_t"), -dblSD_t,-dblMean_t, -area_mm2_t, PC1_t) %>% 
   na.omit()
 
 
@@ -44,11 +44,11 @@ tplot <- ggbiplot(t_pca, choices = c(1,2))+
 
 throat_pcs <- cbind(throat, predict(t_pca))
 
-plot(throat_pcs$dblMean_t, throat_pcs$PC1)
+plot(throat_pcs$lumMean_t, throat_pcs$PC1)
 
 #filtering for just covert measures, removing lum bc redundant with dbl and area bc it's not relevant for this patch
 covert <- asy %>% 
-  dplyr::select(ends_with("_o"), -lumSD_o,-lumMean_o, -area_mm2_o, -PC1_o) %>% 
+  dplyr::select(ends_with("_o"), -dblSD_o,-dblMean_o, -area_mm2_o, -PC1_o) %>% 
   na.omit()
 
 
@@ -61,12 +61,12 @@ oplot <- ggbiplot(o_pca, choices = c(1,2))+
 
 covert_pcs <- cbind(covert, predict(o_pca))
 
-plot(covert_pcs$dblMean_o, covert_pcs$PC1)
+plot(covert_pcs$lumMean_o, covert_pcs$PC1)
 
 
 #filtering for just crown measures, removing lum bc redundant with dbl and area bc it's not relevant for this patch
 crown <- asy %>% 
-  dplyr::select(ends_with("_c"), -lumSD_c,-lumMean_c, -area_mm2_c, -PC1_c) %>% 
+  dplyr::select(ends_with("_c"), -dblSD_c,-dblMean_c, -area_mm2_c, -PC1_c) %>% 
   na.omit()
 
 
@@ -79,12 +79,12 @@ cplot <- ggbiplot(c_pca, choices = c(1,2))+
 
 crown_pcs <- cbind(crown, predict(c_pca))
 
-plot(crown_pcs$dblMean_c, crown_pcs$PC1)
+plot(crown_pcs$lumMean_c, crown_pcs$PC1)
 
 
 #filtering for just wingspot measures, removing lum bc redundant with dbl and area bc i just want color
 wingspot <- asy %>% 
-  dplyr::select(ends_with("_w"), -lumSD_w,-lumMean_w, -area_mm2_w, -PC1_w) %>% 
+  dplyr::select(ends_with("_w"), -dblSD_w,-dblMean_w, -area_mm2_w, -PC1_w) %>% 
   na.omit()
 
 
@@ -97,7 +97,7 @@ wplot <- ggbiplot(w_pca, choices = c(1,2))+
 
 wingspot_pcs <- cbind(wingspot, predict(w_pca))
 
-plot(wingspot_pcs$dblMean_w, wingspot_pcs$PC1)
+plot(wingspot_pcs$lumMean_w, wingspot_pcs$PC1)
 
 
 
@@ -127,6 +127,8 @@ wplot <- fix_biplot(ggbiplot(w_pca, choices = c(1,2)))
 pcaplots <- oplot + cplot + dplot + tplot + wplot +
   plot_layout(ncol = 2) +
   plot_annotation(tag_levels = 'A')
+
+pcaplots
 
 ggsave(filename = "results/Color_PCA_plot.png", plot = pcaplots, 
        width = 12, height = 18, dpi = 600)

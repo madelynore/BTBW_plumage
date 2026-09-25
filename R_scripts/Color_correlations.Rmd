@@ -33,11 +33,12 @@ asy <- avg_img %>%
 
 ```{r normality, echo = F}
 
-vars_to_check <- unique(unlist(lapply(comparisons, function(cmp) c(cmp$x, cmp$y))))
+vars_to_check <- c(colnames(asy[grep(x = colnames(asy), pattern = "^PC1")]), colnames(asy[grep(x = colnames(asy), pattern = "^dblMean")]))
 
 for (v in vars_to_check) {
   hist(asy[[v]], main = v, xlab = v)
 }
+
 
 ```
 
@@ -89,7 +90,7 @@ pcnames <- c(
 )
 
 formnames <- c(
-  "PC1_d" = "Fixed effect: Dorsum PC1, Random effect: Year",
+  "PC1_d" = "Fixed effect: Mantle PC1, Random effect: Year",
   "PC1_w" = "Fixed effect: Wing spot PC1, Random effect: Year",
   "area_mm2_w" = "Fixed effect: Wing spot area (mm²), Random effect: Year"
 )
