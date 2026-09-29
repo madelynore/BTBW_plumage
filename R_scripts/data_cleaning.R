@@ -233,8 +233,13 @@ allimg_rmrow$pl_code[which(allimg_rmrow$photo == "dorsal")] <-  "m"
 
 allimg_rmrow$pl_code[which(allimg_rmrow$photo == "crown" & allimg_rmrow$pl_code != "c")] <- "c"
 
+
 #calculating mm2 area - standardized to 36.5px/mm
 allimg_rmrow$area_mm2 <- allimg_rmrow$area/(36.5^2)
+
+#removing belly measurements because of potential contamination of specimens makes measurements unreliable
+allimg_rmb <- allimg_rmrow |> 
+  filter(pl_code != "b")
 
 ## add metadata
 meta <- read.csv("data/NMNH_specimen_metadata.csv") 
@@ -242,15 +247,16 @@ meta <- read.csv("data/NMNH_specimen_metadata.csv")
 #merging WI forest into the rest
 meta$pop[which(meta$pop == "WI.Forest")] <-  "WI.All"
 
-allimg_meta <-  merge(allimg_rmrow, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
+allimg_meta <-  merge(allimg_rmb, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
-# identify IDs missing metadata
+# check if IDs missing metadata
 unique(allimg_meta$ID[which(is.na(allimg_meta$pop))])
 unique(allimg_meta$ID[which(is.na(allimg_meta$lat))])
 
 write.csv(allimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
+
 allimg_meta <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv")
-avg_img <- allimg_rmrow %>%
+avg_img <- allimg_rmb %>%
   group_by(ID, pl_code) %>%
   summarise(
     across(
@@ -272,120 +278,11 @@ avgimg_wide <- avg_img %>%
                                                     uvMean, uvSD,
                                                     dblMean, dblSD, area_mm2), names_sep = "_" )
 
-#calculate PC scores for color of each patch - see PCA.R for plots
-mantle <- avgimg_wide %>% 
-  dplyr::select(ID, ends_with("_m"), -lumSD_m,-lumMean_m, -area_mm2_m) %>% 
-  na.omit()
+avgimg_widemeta <-  merge(avgimg_wide, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
-d_pca <- prcomp(~ ., data = mantle[-1])
+write.csv(avgimg_widemeta, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
 
 
-d_biplot <- ggbiplot::ggbiplot(d_pca,
-                   varname.size = 4,
-                   varname.color = "red")+ 
-  theme_classic()
-ggplot2::ggsave(filename = "results/Mantle_biplot.png", plot = d_biplot,
-                width = 8, height = 6)
-
-
-mantle_pc <- data.frame(ID = mantle$ID, PC1_m = predict(d_pca)[,1])
-
-crown <- avgimg_wide %>% 
-  dplyr::select(ID, ends_with("_c"), -lumSD_c,-lumMean_c, -area_mm2_c) %>% 
-  na.omit()
-
-c_pca <- prcomp(~ ., data = crown[-1])
-c_biplot <- ggbiplot::ggbiplot(c_pca,
-                               varname.size = 4,
-                               varname.color = "red")+ 
-  theme_classic()
-ggplot2::ggsave(filename = "results/Crown_biplot.png", plot = c_biplot,
-                width = 8, height = 6)
-crown_pc <- data.frame(ID = crown$ID, PC1_c = predict(c_pca)[,1])
-
-dcpc <- merge(mantle_pc, crown_pc, all = T)
-
-covert <- avgimg_wide %>% 
-  dplyr::select(ID, ends_with("_o"), -lumSD_o,-lumMean_o, -area_mm2_o) %>% 
-  na.omit()
-
-o_pca <- prcomp(~ ., data = covert[-1])
-o_biplot <- ggbiplot::ggbiplot(o_pca,
-                               varname.size = 4,
-                               varname.color = "red")+ 
-  theme_classic()
-ggplot2::ggsave(filename = "results/Covert_biplot.png", plot = o_biplot,
-                width = 8, height = 6)
-
-covert_pc <- data.frame(ID = covert$ID, PC1_o = predict(o_pca)[,1])
-
-dcopc <- merge(dcpc, covert_pc, all = T)
-
-belly <- avgimg_wide %>% 
-  dplyr::select(ID, ends_with("_b"), -lumSD_b,-lumMean_b, -area_mm2_b) %>% 
-  na.omit()
-
-b_pca <- prcomp(~ ., data = belly[-1])
-b_biplot <- ggbiplot::ggbiplot(b_pca,
-                               varname.size = 4,
-                               varname.color = "red")+ 
-  theme_classic()
-ggplot2::ggsave(filename = "results/Belly_biplot.png", plot = b_biplot,
-                width = 8, height = 6)
-
-belly_pc <- data.frame(ID = belly$ID, PC1_b = predict(b_pca)[,1])
-
-dcobpc <- merge(dcopc, belly_pc, all = T)
-
-throat <- avgimg_wide %>% 
-  dplyr::select(ID, ends_with("_t"), -lumSD_t,-lumMean_t, -area_mm2_t) %>% 
-  na.omit()
-
-t_pca <- prcomp(~ ., data = throat[-1])
-t_biplot <- ggbiplot::ggbiplot(t_pca,
-                               varname.size = 4,
-                               varname.color = "red")+ 
-  theme_classic()
-ggplot2::ggsave(filename = "results/Throat_biplot.png", plot = t_biplot,
-                width = 8, height = 6)
-
-#flipping orientation so that darkest are smaller values and lightest are larger values
-throat_pc <- data.frame(ID = throat$ID, PC1_t = predict(t_pca)[,1]*-1)
-
-dcobtpc <- merge(dcobpc, throat_pc, all = T)
-
-wingspot <- avgimg_wide %>% 
-  dplyr::select(ID, ends_with("_w"), -lumSD_w,-lumMean_w, -area_mm2_w) %>% 
-  na.omit()
-
-w_pca <- prcomp(~ ., data = wingspot[-1])
-w_biplot <- ggbiplot::ggbiplot(w_pca,
-                               varname.size = 4,
-                               varname.color = "red")+ 
-  theme_classic()
-ggplot2::ggsave(filename = "results/Wingspot_biplot.png", plot = w_biplot,
-                width = 8, height = 6)
-
-
-#flipping orientation so that darkest are smaller values and lightest are larger values
-wingspot_pc <- data.frame(ID = wingspot$ID, PC1_w = predict(w_pca)[,1]*-1)
-
-allplpc <- merge(dcobtpc, wingspot_pc, all = T)
-
-#merge wide img with pcscores and meta data
-avgimgwide_pc <- merge(avgimg_wide, allplpc, all = T)
-
-avgimgwide_meta <-  merge(avgimgwide_pc, meta, all.x = T, all.y = T)
-
-write.csv(avgimgwide_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
-
-# confirming that smaller PC scores == darker colors
-plot(avgimgwide_meta$lumMean_m, avgimgwide_meta$PC1_m)
-plot(avgimgwide_meta$lumMean_c, avgimgwide_meta$PC1_c)
-plot(avgimgwide_meta$lumMean_o, avgimgwide_meta$PC1_o)
-plot(avgimgwide_meta$lumMean_b, avgimgwide_meta$PC1_b)
-plot(avgimgwide_meta$lumMean_t, avgimgwide_meta$PC1_t)
-plot(avgimgwide_meta$lumMean_w, avgimgwide_meta$PC1_w)
 
 # make fam file for GWAS --------------------------------------------------
 library(tidyverse)
@@ -403,15 +300,18 @@ img_wide <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_allpo
 img_wide$ID <- paste0("Z",img_wide$ID)
 
 #merge the two dfs
+# phenotype = mean mantle luminance (double-cone catch)
 fam_img <- merge(fam_id, img_wide, by.x = "V2", by.y = "ID", all.x = F, all.y = F) %>% 
-  dplyr::select(V1, V2, Age, V4, V5, PC1_m)
+  dplyr::select(V1, V2, Age, V4, V5, lumMean_m)
 
 head(fam_img)
 
 fam_img_noNA <- fam_img %>%
-  filter(!(is.na(fam_img$PC1_m)))
+  filter(!(is.na(fam_img$lumMean_m)))
 
-fam_img_noNA$rand_m <- sample(fam_img_noNA$PC1_m)
+# permuted phenotype for a null GWAS; seed so the permutation can be reproduced
+set.seed(20260929)
+fam_img_noNA$rand_m <- sample(fam_img_noNA$lumMean_m)
 
 famcol <- colnames(fam_img_noNA)
 
@@ -420,7 +320,7 @@ asyfam <- fam_img_noNA %>%
   filter(Age == "ASY") 
 
 write.table(asyfam, 
-            "data/BTBW_n95_ASY_forGWAS_PC1_m_rand.fam",
+            "data/BTBW_n95_ASY_forGWAS_lumMean_m_rand.fam",
             quote = F, col.names = F, row.names = F)
 
 
