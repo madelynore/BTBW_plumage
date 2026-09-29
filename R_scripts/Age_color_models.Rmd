@@ -28,22 +28,22 @@ age <- avg_img %>%
 # Crown
 ```{r crown, echo=F}
 
-t <- t.test(PC1_c ~ Age, data = age, na.action = "na.omit")
+t <- t.test(lumMean_c ~ Age, data = age, na.action = "na.omit")
 pval <- t$p.value
 # Calculate means and confidence intervals
 summary_stats <- age %>%
   group_by(Age) %>%
   summarise(
-    mean = mean(PC1_c, na.rm = T),
-    stdev = sd(PC1_c, na.rm = T)
+    mean = mean(lumMean_c, na.rm = T),
+    stdev = sd(lumMean_c, na.rm = T)
   )
 
 # Correct usage of sprintf to create the annotation text with standard deviation
 text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
 
-ggplot(data = age, aes(y = PC1_c, x = Age)) + 
+ggplot(data = age, aes(y = lumMean_c, x = Age)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Age", y = "PC1 Crown") +
+  labs(x = "Age", y = "Crown luminance") +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic() +
@@ -59,23 +59,23 @@ ggplot(data = age, aes(y = PC1_c, x = Age)) +
 
 ```{r coverts, echo=F}
 
-t <- t.test(PC1_o ~ Age, data = age, na.action = "na.omit")
+t <- t.test(lumMean_o ~ Age, data = age, na.action = "na.omit")
 
 pval <- t$p.value
 # Calculate means and confidence intervals
 summary_stats <- age %>%
   group_by(Age) %>%
   summarise(
-    mean = mean(PC1_o, na.rm = T),
-    stdev = sd(PC1_o, na.rm = T)
+    mean = mean(lumMean_o, na.rm = T),
+    stdev = sd(lumMean_o, na.rm = T)
   )
 
 # Correct usage of sprintf to create the annotation text with standard deviation
 text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
 
-ggplot(data = age, aes(y = PC1_o, x = Age)) + 
+ggplot(data = age, aes(y = lumMean_o, x = Age)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Age", y = "PC1 marginal coverts") +
+  labs(x = "Age", y = "Marginal covert luminance") +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic() +
@@ -90,23 +90,23 @@ ggplot(data = age, aes(y = PC1_o, x = Age)) +
 # throat
 ```{r throat, echo=F}
 
-t <- t.test(PC1_t ~ Age, data = age, na.action = "na.omit")
+t <- t.test(lumMean_t ~ Age, data = age, na.action = "na.omit")
 
 pval <- t$p.value
 # Calculate means and confidence intervals
 summary_stats <- age %>%
   group_by(Age) %>%
   summarise(
-    mean = mean(PC1_t, na.rm = T),
-    stdev = sd(PC1_t, na.rm = T)
+    mean = mean(lumMean_t, na.rm = T),
+    stdev = sd(lumMean_t, na.rm = T)
   )
 
 # Correct usage of sprintf to create the annotation text with standard deviation
 text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
 
-ggplot(data = age, aes(y = PC1_t, x = Age)) + 
+ggplot(data = age, aes(y = lumMean_t, x = Age)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Age", y = "PC1 Throat") +
+  labs(x = "Age", y = "Throat luminance") +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic() +
@@ -118,58 +118,26 @@ ggplot(data = age, aes(y = PC1_t, x = Age)) +
 
 ```
 
-# dorsum
-```{r dorsum, echo=F}
-t <- t.test(PC1_d ~ Age, data = age, na.action = "na.omit")
+# mantle
+```{r mantle, echo=F}
+t <- t.test(lumMean_m ~ Age, data = age, na.action = "na.omit")
 
 pval <- t$p.value
 # Calculate means and confidence intervals
 summary_stats <- age %>%
   group_by(Age) %>%
   summarise(
-    mean = mean(PC1_d, na.rm = T),
-    stdev = sd(PC1_d, na.rm = T)
+    mean = mean(lumMean_m, na.rm = T),
+    stdev = sd(lumMean_m, na.rm = T)
   )
 
 # Correct usage of sprintf to create the annotation text with standard deviation
 text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
 
 
-ggplot(data = age, aes(y = PC1_d, x = Age)) + 
+ggplot(data = age, aes(y = lumMean_m, x = Age)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Age", y = "PC1 Dorsum") +
-  annotate("text", x = Inf, y = Inf, label = text_annotation, 
-           hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
-  theme_classic() +
-  theme(
-    aspect.ratio = 0.75,
-    text = element_text(size = 16),
-    axis.text = element_text(size = 14)
-  )
-
-
-```
-
-# belly
-```{r belly, echo=F}
-
-t <- t.test(PC1_b ~ Age, data = age, na.action = "na.omit")
-
-pval <- t$p.value
-# Calculate means and confidence intervals
-summary_stats <- age %>%
-  group_by(Age) %>%
-  summarise(
-    mean = mean(PC1_b, na.rm = T),
-    stdev = sd(PC1_b, na.rm = T)
-  )
-
-# Correct usage of sprintf to create the annotation text with standard deviation
-text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
-
-ggplot(data = age, aes(y = PC1_b, x = Age)) + 
-  geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Age", y = "PC1 Belly") +
+  labs(x = "Age", y = "Mantle luminance") +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic() +
@@ -185,7 +153,7 @@ ggplot(data = age, aes(y = PC1_b, x = Age)) +
 # wingspot
 ```{r wingspot color, echo=F}
 
-t <- t.test(PC1_w ~ Age, data = age, na.action = "na.omit")
+t <- t.test(lumMean_w ~ Age, data = age, na.action = "na.omit")
 
 pval <- t$p.value
 
@@ -193,16 +161,16 @@ pval <- t$p.value
 summary_stats <- age %>%
   group_by(Age) %>%
   summarise(
-    mean = mean(PC1_w, na.rm = T),
-    stdev = sd(PC1_w, na.rm = T)
+    mean = mean(lumMean_w, na.rm = T),
+    stdev = sd(lumMean_w, na.rm = T)
   )
 
 # Correct usage of sprintf to create the annotation text with standard deviation
 text_annotation <- sprintf("ASY: %.3f ± %.3f, SY: %.3f ± %.3f, p-value: %.3f", summary_stats$mean[1], summary_stats$stdev[1], summary_stats$mean[2], summary_stats$stdev[2],pval)
 
-ggplot(data = age, aes(y = PC1_w, x = Age)) + 
+ggplot(data = age, aes(y = lumMean_w, x = Age)) + 
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Age", y = "PC1 wingspot") +
+  labs(x = "Age", y = "Wing spot luminance") +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
   theme_classic() +
@@ -254,24 +222,21 @@ ggplot(data = age, aes(y = area_mm2_w, x = Age)) +
 summary_stats <- age %>%
   group_by(Age) %>%
   summarise(
-    PC1_b = paste0(signif(mean(PC1_b, na.rm = T), digits = 3), 
+    lumMean_c = paste0(signif(mean(lumMean_c, na.rm = T), digits = 3), 
                    " (±",
-                   signif(sd(PC1_b, na.rm = T), digits=2), ")"),
-    PC1_c = paste0(signif(mean(PC1_c, na.rm = T), digits = 3), 
+                   signif(sd(lumMean_c, na.rm = T), digits=2), ")"),
+    lumMean_m = paste0(signif(mean(lumMean_m, na.rm = T), digits = 3), 
                    " (±",
-                   signif(sd(PC1_c, na.rm = T), digits=2), ")"),
-    PC1_d = paste0(signif(mean(PC1_d, na.rm = T), digits = 3), 
+                   signif(sd(lumMean_m, na.rm = T), digits=2), ")"),
+    lumMean_o = paste0(signif(mean(lumMean_o, na.rm = T), digits = 3), 
                    " (±",
-                   signif(sd(PC1_d, na.rm = T), digits=2), ")"),
-    PC1_o = paste0(signif(mean(PC1_o, na.rm = T), digits = 3), 
+                   signif(sd(lumMean_o, na.rm = T), digits=2), ")"),
+    lumMean_t = paste0(signif(mean(lumMean_t, na.rm = T), digits = 3), 
                    " (±",
-                   signif(sd(PC1_o, na.rm = T), digits=2), ")"),
-    PC1_t = paste0(signif(mean(PC1_t, na.rm = T), digits = 3), 
+                   signif(sd(lumMean_t, na.rm = T), digits=2), ")"),
+    lumMean_w = paste0(signif(mean(lumMean_w, na.rm = T), digits = 3), 
                    " (±",
-                   signif(sd(PC1_t, na.rm = T), digits=2), ")"),
-    PC1_w = paste0(signif(mean(PC1_w, na.rm = T), digits = 3), 
-                   " (±",
-                   signif(sd(PC1_w, na.rm = T), digits=2), ")"),
+                   signif(sd(lumMean_w, na.rm = T), digits=2), ")"),
     area_mm2_w = paste0(signif(mean(area_mm2_w, na.rm = T), digits = 3), 
                    " (±",
                    signif(sd(area_mm2_w, na.rm = T), digits=2), ")"),
@@ -289,7 +254,7 @@ sum_stats <- sum_stats[-1, ]
 # get t.test pvals
 # get df with just relevant variables
 age_sel <- age %>% 
-  dplyr::select(Age, PC1_b, PC1_c, PC1_d, PC1_o, PC1_t, PC1_w, area_mm2_w)
+  dplyr::select(Age, lumMean_c, lumMean_m, lumMean_o, lumMean_t, lumMean_w, area_mm2_w)
 # Split the data by group
 grouped_age <- split(age_sel, age_sel$Age)
 
