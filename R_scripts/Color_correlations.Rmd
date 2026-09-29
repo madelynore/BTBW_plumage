@@ -33,7 +33,8 @@ asy <- avg_img %>%
 
 ```{r normality, echo = F}
 
-vars_to_check <- c(colnames(asy[grep(x = colnames(asy), pattern = "^PC1")]), colnames(asy[grep(x = colnames(asy), pattern = "^dblMean")]))
+# luminance of each patch used in the models (belly excluded, see data_cleaning.R)
+vars_to_check <- c("lumMean_c", "lumMean_m", "lumMean_o", "lumMean_t", "lumMean_w", "area_mm2_w")
 
 for (v in vars_to_check) {
   hist(asy[[v]], main = v, xlab = v)
@@ -46,17 +47,18 @@ for (v in vars_to_check) {
 # make a table of results
 ```{r color model table, echo=F}
 
-# response ~ predictor pairs
+# response ~ predictor pairs; color = mean luminance (double-cone catch) of each patch
+# belly left out: removed for possible specimen contamination (see data_cleaning.R)
 model_specs <- list(
   # association with mantle
-  c("PC1_c", "PC1_d"), c("PC1_t", "PC1_d"), c("PC1_o", "PC1_d"),
-  c("PC1_b", "PC1_d"), c("area_mm2_w", "PC1_d"),
+  c("lumMean_c", "lumMean_m"), c("lumMean_t", "lumMean_m"), c("lumMean_o", "lumMean_m"),
+  c("area_mm2_w", "lumMean_m"),
   # associations with wing spot color
-  c("PC1_c", "PC1_w"), c("PC1_o", "PC1_w"), c("PC1_b", "PC1_w"),
-  c("PC1_d", "PC1_w"), c("PC1_t", "PC1_w"),
+  c("lumMean_c", "lumMean_w"), c("lumMean_o", "lumMean_w"),
+  c("lumMean_m", "lumMean_w"), c("lumMean_t", "lumMean_w"),
   # association with wing spot area
-  c("PC1_c", "area_mm2_w"), c("PC1_o", "area_mm2_w"), c("PC1_b", "area_mm2_w"),
-  c("PC1_d", "area_mm2_w"), c("PC1_t", "area_mm2_w")
+  c("lumMean_c", "area_mm2_w"), c("lumMean_o", "area_mm2_w"),
+  c("lumMean_m", "area_mm2_w"), c("lumMean_t", "area_mm2_w")
 )
 
 # Fit all models and extract results in one pipeline
@@ -79,24 +81,23 @@ results_rounded <- results %>%
                                            sprintf("%.2e", .),  # scientific notation
                                            sprintf("%.2g", .)))) # 3 sig figs
 #change names for table presentation
-pcnames <- c(
-  "PC1_c" = "Crown PC1",
-  "PC1_o" = "Covert PC1",
-  "PC1_b" = "Belly PC1",
-  "PC1_d" = "Mantle PC1",
-  "PC1_t" = "Throat PC1",
-  "PC1_w" = "Wing spot PC1",
+lumnames <- c(
+  "lumMean_c" = "Crown luminance",
+  "lumMean_o" = "Covert luminance",
+  "lumMean_m" = "Mantle luminance",
+  "lumMean_t" = "Throat luminance",
+  "lumMean_w" = "Wing spot luminance",
   "area_mm2_w" = "Wing spot area (mm²)"
 )
 
 formnames <- c(
-  "PC1_d" = "Fixed effect: Mantle PC1, Random effect: Year",
-  "PC1_w" = "Fixed effect: Wing spot PC1, Random effect: Year",
+  "lumMean_m" = "Fixed effect: Mantle luminance, Random effect: Year",
+  "lumMean_w" = "Fixed effect: Wing spot luminance, Random effect: Year",
   "area_mm2_w" = "Fixed effect: Wing spot area (mm²), Random effect: Year"
 )
 
 results_rnm <- results_rounded %>%
-  mutate(Response = recode(Response, !!!pcnames)) %>% 
+  mutate(Response = recode(Response, !!!lumnames)) %>% 
   mutate(Explanatory = recode(Explanatory, !!!formnames))
 # View the results
 print(results_rnm)
