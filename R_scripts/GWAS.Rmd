@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 prefix="btbw_n95_ASY_gatk_maxmiss20_minQ30_maf05_ds2x_minInd66_maxd400"
 
 #calculate genotype probabilities and covariance matrix
-angsd -bam $j  -P 8 -ref ref/mywagenomev2.1.fa -anc ref/mywagenomev2.1.fa \
+angsd -bam bam_files -P 8 -ref ref/mywagenomev2.1.fa -anc ref/mywagenomev2.1.fa \
         -uniqueOnly 1 -remove_bads 1 -trim 0 -C 50 -baq 1 \
         -maxDepth 400 -doGlf 2 -doIBS 2 -makeMatrix 1 -doCov 1 -doPlink 2 \
         -minMapQ 33 -minQ 30 -minInd 66 -doCounts 1 \
@@ -22,7 +22,10 @@ angsd -bam $j  -P 8 -ref ref/mywagenomev2.1.fa -anc ref/mywagenomev2.1.fa \
         -SNP_pval 1e-6 -doGeno 3 -doPost 1  -minMaf 0.05 -out $prefix
         
 # impute missing data using beagle
-java -Xmx42g -jar /programs/beagle4/beagle4.jar gt=$prefix.recode.vcf nthreads=6 out=$prefix impute=true >& ASY_beagle.log &
+# for GEMMA: Beagle 4 on the called genotypes
+java -Xmx42g -jar /programs/beagle4/beagle4.jar gt=$prefix.recode.vcf nthreads=6 out=$prefix.impute impute=true >& ASY_beagle.log &
+# for ANGSD-asso: Beagle 3.3.2 on the genotype likelihoods (as in the published run's log)
+java -Xmx76800m -jar beagle.jar like=$prefix.beagle.gz out=${prefix}_impute
 
 
 ```
@@ -32,23 +35,26 @@ java -Xmx42g -jar /programs/beagle4/beagle4.jar gt=$prefix.recode.vcf nthreads=6
 
 ```{bash vcf}
 
-#make plinks
-vcftools --gzvcf $prefix.vcf.gz --plink --out $prefix &
+#make plinks from the Beagle 4 imputed vcf (file names as in the published run's logs)
+vcftools --gzvcf $prefix.impute.vcf.gz --plink --out $prefix.impute
 # make bed
-/programs/plink-1.9-x86_64-beta7/plink --file $prefix --chr-set 31 --make-bed --out $prefix
+/programs/plink-1.9-x86_64-beta7/plink --file $prefix.impute --chr-set 31 --make-bed --out $prefix.impute
+
+# phenotype = mean mantle luminance; fam file made in R_scripts/data_cleaning.R
+phenofam=BTBW_n95_ASY_forGWAS_lumMean_m_rand.fam
 
 # confirm that fam file made in R has the correct order of IDs as the new plink files
 # Compare the first columns directly
-diff <(awk '{print $1}' BTBW_n95_ASY_forGWAS_PC1_d_rand.fam) <(awk '{print $1}' $prefix.fam)
+diff <(awk '{print $1}' $phenofam) <(awk '{print $1}' $prefix.impute.fam)
 
 # change names of fam files with phenotype to match format of the rest of the plink files
-cp BTBW_n95_ASY_forGWAS_PC1_d_rand.fam $prefix.fam
+cp $phenofam $prefix.impute.fam
 
 # run gemma distance matrix
-gemma -bfile $prefix -gk 1 -miss 1 -maf 0 -r2 1 -hwe 0 -o GWAS_n95_ASY_fromvcf_impute
+gemma -bfile $prefix.impute -gk 1 -miss 1 -maf 0 -r2 1 -hwe 0 -o GWAS_n95_ASY_gatk_fromvcf_impute
 
 #run bslmm from gemma
-gemma -bfile $prefix.impute -k /workdir/mjo234/GWAS/output/GWAS_n95_ASY_gatk_fromvcf_impute.cXX.txt -n 1 -w 500000 -s 5000000 -bslmm 1 -o BSLMM_GWAS_n95_ASY_gatk_fromvcf_impute_PC1dorsum
+gemma -bfile $prefix.impute -k /workdir/mjo234/GWAS/output/GWAS_n95_ASY_gatk_fromvcf_impute.cXX.txt -n 1 -w 500000 -s 5000000 -bslmm 1 -o BSLMM_btbw_n95_ASY_gatk_impute_lumMean_m
 
 ```
 
@@ -56,11 +62,14 @@ gemma -bfile $prefix.impute -k /workdir/mjo234/GWAS/output/GWAS_n95_ASY_gatk_fro
 
 ```{bash angsd}
 
-#run angsd -doAsso
-/programs/angsd0.930/angsd/angsd -beagle $prefix.beagle.gz \
+# phenotype file for ANGSD: column 6 of the fam file (mantle luminance), same bird order
+awk '{print $6}' $phenofam > BTBW_n95_ASY_forGWAS_lumMean_m.txt
+
+#run angsd -doAsso on the Beagle 3 imputed genotype probabilities (as in the published run's .arg)
+/programs/angsd0.930/angsd/angsd -beagle ${prefix}_impute.$prefix.beagle.gz.gprobs.gz \
 -fai ref/mywagenomev2.1.fa.fai \
--P 2 -doMaf 4 -doAsso 5 \
--yQuant BTBW_n95_ASY_forGWAS_PC1_d.txt -cov PC1scores_btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.cov \
--out ${prefix}_PC1cov_asso5
+-P 2 -doMaf 4 -doAsso 5 -minCount 5 \
+-yQuant BTBW_n95_ASY_forGWAS_lumMean_m.txt -cov PC1scores_btbw_n95_ASY_mergethenfilter_maxmiss20_minQ30_maf05_ds2x_minInd40_maxd400.cov \
+-out btbw_n95_ASY_gatk_impute_lumMean_m_PC1cov_asso5
 
 ```
