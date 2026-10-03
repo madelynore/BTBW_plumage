@@ -20,45 +20,48 @@ library(patchwork)
 
 ```{r prep data, echo = FALSE}
 
-here::i_am("R_scripts/Color_correlations.Rmd")
+here::i_am("R_scripts/05_Plumage_Env.Rmd")
 
 
 avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
 
-## select only brightness for ASY males
-asy <- avg_img %>% 
-  filter(Age == "ASY") 
 
 # combine w environment data  
-env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T) %>% 
-  dplyr::select(-Year)
+# (the env file has no Year column, so nothing to drop before merging)
+env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
 
-lum_env <- merge(asy, env) %>% 
-  filter(!is.na(PC1_d))
+lum_env <- merge(avg_img, env) %>% 
+  filter(Age == "ASY" | Age == "SY") %>%                 # drops the 2 "?SY" birds (age unknown)
+  mutate(Age = factor(Age, levels = c("ASY", "SY")),     # factor, ASY = baseline for the Age term
+         Year = factor(Year))                            # collection year (88-96) as a category, not a number
+
+out_dir <- "results/"
+
+
+patches <- c(o = "covert", c = "crown", m = "mantle", t = "throat", w = "wspot")
 
 ```
 
 ## Does location predict color ? 
+```{r latitude, echo = F}
 
-```{r spatio-temporal fit, echo = F}
+fit <- summary(lm(lumMean_m ~ lat + Age, data = lum_env, na.action = na.omit))
 
-#perform linear regression
-z <- lm(PC1_d~lat, data = asy, na.action = na.exclude)
-sum_z <- summary(z)
+fit
 
 # Extract the r^2 and p-value
-r2adj <- sum_z$adj.r.squared
-p_value <- sum_z$coefficients[2, "Pr(>|t|)"]
+r2adj <- fit$adj.r.squared
+p_value <- fit$coefficients[2, "Pr(>|t|)"]
 
 # Format the text to include rho and p-value, ready to be used in annotations
 text_annotation <- paste0("Adjusted R² = ", sprintf("%.2f", r2adj), 
                           ", p = ", sprintf("%.3f", p_value))
 
 
-ggplot(data = asy, aes(x = lat, y = PC1_d)) + 
+ggplot(data = filter(lum_env, !is.na(lumMean_m)), aes(x = lat, y = lumMean_m)) + 
   geom_point(width = 0.6, position = position_dodge(width = 0.7)) +
-  labs(x = "Latitude", y = "PC1 mantle") +
-  geom_smooth(aes(x = lat, y = PC1_d), method = "lm", col = "black")+
+  labs(x = "Latitude", y = "Mantle luminance") +
+  geom_smooth(aes(x = lat, y = lumMean_m), method = "lm", col = "black")+
   theme_classic() +
   annotate("text", x = Inf, y = Inf, label = text_annotation, 
            hjust = 1.1, vjust = 1.1, size = 5, color = "blue")+
@@ -67,30 +70,37 @@ ggplot(data = asy, aes(x = lat, y = PC1_d)) +
     text = element_text(size = 16),
     axis.text = element_text(size = 14)
   )
+```
 
+```{r spatio-temporal fit, echo = F}
+
+lum <- lum_env %>%
+      filter(!is.na(lumMean_m))
 
 ## spatio-temporal fit
-mod2d <- gam(PC1_d ~ s(lon, lat), 
-                data = lum_env)
-mod2dbyY <- gam( PC1_d ~ s(lon, lat, by = Year), 
-                data = lum_env)
-mod2dYY <- gam( PC1_d ~ s(lon, lat, by = Year) + Year,
-               data = lum_env)
-mod2dY <- gam( PC1_d ~ s(lon, lat) + Year, method = "REML",
-                   data = lum_env) 
-modnull <- lm(PC1_d ~ 1, data = lum_env) 
-modlmlat_randY <- lmerTest::lmer(PC1_d ~ lat + (1|Year),
-                    data = lum_env, REML = T) 
-modlmY <- lm(PC1_d ~ Year, data = lum_env, REML = T) 
+mod2d <- gam(lumMean_m ~ s(lon, lat) + Age, 
+                data = lum)
+mod2dL <- gam(lumMean_m ~ s(lat) + Age, 
+                data = lum)
+mod2dbyY <- gam( lumMean_m ~ s(lon, lat, by = Year)+ Age, 
+                data = lum)
+mod2dYY <- gam( lumMean_m ~ s(lon, lat, by = Year) + Year + Age,
+               data = lum)
+mod2dY <- gam( lumMean_m ~ s(lon, lat) + Year + Age, method = "REML",
+                   data = lum) 
+modnull <- lm(lumMean_m ~ 1 + Age, data = lum) 
+modlmlat_randY <- lmerTest::lmer(lumMean_m ~ lat + (1|Year) + Age,
+                    data = lum, REML = T) 
+modlmY <- lm(lumMean_m ~ Year + Age, data = lum, REML = T) 
 
 
-aicsc <- AICc(mod2d ,mod2dbyY, mod2dYY, mod2dY,
+aicsc <- AICc(mod2d, mod2dL, mod2dbyY, mod2dYY, mod2dY,
               modnull, modlmlat_randY, modlmY)
 aicsc$deltaic <- aicsc$AIC - min(aicsc$AIC)
-aicsc$weights <- Weights(AICc(mod2d ,mod2dbyY, mod2dYY, mod2dY, 
+aicsc$weights <- Weights(AICc(mod2d ,mod2dL,mod2dbyY, mod2dYY, mod2dY, 
               modnull, modlmlat_randY,modlmY))
 
-mod_names <- c("mod2d" ,"mod2dbyY", "mod2dYY", "mod2dY", 
+mod_names <- c("mod2d", "mod2dL","mod2dbyY", "mod2dYY", "mod2dY", 
               "modnull", "modlmlat_randY", "modlmY")
 # Extract formulas as a character vector
 aicsc$formulas <- lapply(mod_names, function(model_name) {
@@ -135,148 +145,186 @@ model_results
 
 write.csv(model_results, here("results/spatiotemp_model_selection_table.csv"), row.names = F)
 
+# readable table: formulas without the response, best model (lowest AICc) in bold
+source(here("R_scripts/table_helpers.R"))
+save_table(
+  model_results %>%
+    transmute(Model = sub("^lumMean_m ~ ", "", gsub(" +", " ", formulas)),
+              df = sprintf("%.1f", df), AICc = sprintf("%.1f", AICc),
+              `ΔAICc` = sprintf("%.1f", deltaic), Weight = fmt_num(weights)) %>%
+    gt() %>%
+    tab_header(title = "Mantle luminance: spatio-temporal model selection") %>%
+    tab_style(cell_text(weight = "bold"), cells_body(rows = 1)) %>%
+    tab_source_note("Response = mantle luminance. Year = collection year; s() = smooth (mgcv); (1 | Year) = random intercept.") %>%
+    style_table(),
+  "spatiotemp_model_selection_table")
+
 ```
 
 ## GAMs
 
 ```{r env GAM}
 
-mantle <- gam(PC1_d ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
-                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
-            data = lum_env, method = "REML") 
+gam_rhs  <- "s(lon, lat) + s(RH_br) + s(Tave_br) + s(PPT_br) + s(srtm) + s(ndvi_M) + Age"
+response <- "lumMean"  # column prefix: "lumMean" -> lumMean_c, lumMean_m, ...; "PC1" -> PC1_c, ...
 
+gam_fits <- list()          
+gam_results <- list()
+# models: luminance of each patch, plus wing spot size (area, mm2)
+gam_models <- c(setNames(paste0(response, "_", names(patches)), names(patches)), wsize = "area_mm2_w")
+gam_labels <- c(patches, wsize = "wspot size")
+for (p in names(gam_models)) {
+  patch_name <- gam_labels[[p]]
+  column     <- gam_models[[p]]            # e.g. "lumMean_c", "area_mm2_w"
 
-crown <- gam(PC1_c ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
-                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
-            data = lum_env, method = "REML", na.action = "na.omit") 
-summary(crown)
+  if (!column %in% names(lum_env)) stop("Column not found in lum_env: ", column)
 
-covert <- gam(PC1_o ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
-                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
-            data = lum_env, method = "REML", na.action = "na.omit") 
-summary(covert)
+  dat <- lum_env %>%
+    filter(!is.na(.data[[column]]))
 
-throat <- gam(PC1_t ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
-                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
-            data = lum_env, method = "REML", na.action = "na.omit") 
-summary(throat)
+  fit <- gam(as.formula(paste(column, "~", gam_rhs)), select = TRUE, data = dat, method = "REML")
+  gam_fits[[p]] <- fit      # saved by patch code (gam_fits$m = mantle model), used for the plots
+  sm  <- summary(fit)
 
-wspot <- gam(PC1_w ~ s(lon, lat) + s(RH_br) + s(Tave_br) +
-                + s(PPT_br) + s(srtm) + s(ndvi_M), select = T, 
-            data = lum_env, method = "REML", na.action = "na.omit") 
-summary(wspot)
+  # smooth terms
+  smooths <- as.data.frame(sm$s.table) %>%
+    rownames_to_column("term") %>%
+    transmute(term, edf, F, p = `p-value`)
 
+  # Age is a parametric term: reported in the same table (F = t^2 for a 1-df term)
+  age_row <- tibble(term = "Age (SY vs ASY)", edf = 1,
+                    F = sm$p.table["AgeSY", "t value"]^2,
+                    p = sm$p.table["AgeSY", "Pr(>|t|)"])
 
+  gam_results[[column]] <- bind_rows(smooths, age_row) %>%
+    mutate(response = column, patch = patch_name, n = nrow(dat),
+           dev_expl = sm$dev.expl, .before = 1)
+}
+
+gam_results <- bind_rows(gam_results)
 
 
 ```
 
-```{r table env vs plumage}
-library(dplyr)
+```{r table env vs plumage, results = "asis"}
+# GAM results: tidy CSV (numbers as numbers, one row per term) + readable table with one
+# block of rows per patch (n and deviance explained in the block header)
+source(here("R_scripts/table_helpers.R"))
+write.csv(gam_results, here("results/Env_GAM_pl_patches.csv"), row.names = FALSE)
 
-pl_gams <- list(mantle = mantle, belly = belly, covert = covert, crown = crown, throat =  throat, wspot = wspot)
+gam_table <- gam_results %>%
+  mutate(Model = sprintf("%s (n = %d, deviance explained %.0f%%)", patch_label(response), n, 100 * dev_expl)) %>%
+  transmute(Model, Term = term_label(term), edf = sprintf("%.2f", edf), F = sprintf("%.2f", F), p = fmt_p(p))
+gam_note <- paste("GAMs (mgcv, REML, select = TRUE so unneeded smooths shrink towards zero):",
+                  "response ~", gam_rhs, ". Age is parametric (edf = 1, F = t²).")
 
-# Extract smooth and parametric terms for each GAM
-gam_tables <- lapply(pl_gams, function(model) {
-  # Get the summary of the model
-  model_summary <- summary(model)
-  
-  # Extract smooth terms
-  smooth_terms <- as.data.frame(model_summary$s.table)
-  smooth_terms <- cbind(Term = rownames(smooth_terms), smooth_terms)
-  rownames(smooth_terms) <- NULL
+print(knitr::kable(blank_repeats(gam_table, "Model"), caption = "Plumage and environment (GAMs)"))
+cat("\n", gam_note, "\n")
 
-  return(smooth_terms)
-})
-
-
-combined_gam <- bind_rows(gam_tables, .id = "Model")%>% 
- mutate(across(where(is.numeric), ~ ifelse(. < 0.001, format(., scientific = TRUE, digits = 3),
-                                           round(., 2))))
-
-write.csv(combined_gam, here("results/Env_GAM_pl_patches.csv"), row.names = F)
+save_table(
+  gam_table %>%
+    gt(groupname_col = "Model") %>%
+    tab_header(title = "Plumage and environment (GAMs)") %>%
+    tab_source_note(gam_note) %>%
+    style_table(),
+  "Env_GAM_pl_patches")
 
 ```
 
 ```{r plot}
 
-srtm_fit <- data.frame(
-  srtm = seq(min(lum_env$srtm), max(lum_env$srtm), length.out = 100),
-  lat = mean(lum_env$lat),
-  lon = mean(lum_env$lon),
-  RH_br = mean(lum_env$RH_br),
-  Tave_br = mean(lum_env$Tave_br),
-  PPT_br = mean(lum_env$PPT_br),
-  ndvi_M = mean(lum_env$ndvi_M)
-)
+# Partial-effect plots -------------------------------------------------------
+# For each patch GAM, one panel per environmental variable showing that variable's
+# fitted smooth on its own, s(variable), i.e. its partial effect:
+#   - line + band: the smooth and its 95% confidence interval. The y-axis is the
+#     change in the response due to this term; mgcv centres each smooth so its
+#     average over the birds is 0 (so it's a difference from average, not a
+#     predicted luminance, and no "average bird" has to be made up).
+#   - points: partial residuals = each bird's model residual + its value of this
+#     term, i.e. the data with the effects of all OTHER terms (location, other
+#     climate variables, age) removed.
+# A term the model shrank away (select = TRUE) shows as a flat line at 0.
+# The first panel is the RAW latitude relationship (latitude sits inside the 2-D
+# s(lon, lat) surface, so it has no one-dimensional partial effect).
 
-predictions <- predict(mantle, newdata = srtm_fit, se.fit = TRUE)
+# Environmental variables to plot, with axis labels (a named vector: column = label)
+env_vars <- c(PPT_br = "Mean Precipitation (mm)",
+              RH_br = "Relative Humidity (%)",
+              srtm    = "Elevation (m)")
 
-# Add predictions and confidence intervals to the new data frame
-srtm_fit$PC1_d_pred <- predictions$fit
-srtm_fit$lower_CI <- predictions$fit - 1.96 * predictions$se.fit  # 95% lower bound
-srtm_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bound
+response_label <- c(lumMean = "luminance", PC1 = "PC1")[[response]]
 
-elev <- ggplot(data = lum_env, aes(x = srtm, y = PC1_d, color = lat)) +
-  geom_point(size = 4) +  # Observed data
-  scale_color_viridis_c(direction = -1)+
-  geom_line(data = srtm_fit, aes(x = srtm, y = PC1_d_pred), size = 1, color = "black") +  
-  geom_ribbon(data = srtm_fit, aes(x = srtm, ymin = lower_CI, ymax = upper_CI),
-              alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
-  labs(x = "Elevation", y = "PC1 Mantle") +
-  theme_classic()+
-  theme(text=element_text(size=24))  
+# Which patches to plot (codes from `patches`): "m" = mantle only.
+# For all five use names(patches)
+plot_patches <- "m"
 
+for (p in plot_patches) {
+  column  <- paste0(response, "_", p)                  # e.g. "lumMean_m"
+  y_label <- paste(tools::toTitleCase(patches[[p]]), response_label)
+  model   <- gam_fits[[p]]
 
-tave_fit <- data.frame(
-  srtm = mean(lum_env$srtm),
-  lat = mean(lum_env$lat),
-  lon = mean(lum_env$lon),
-  RH_br = mean(lum_env$RH_br),
-  Tave_br = seq(min(lum_env$Tave_br), max(lum_env$Tave_br), length.out = 100),
-  PPT_br = mean(lum_env$PPT_br),
-  ndvi_M = mean(lum_env$ndvi_M)
-)
+  # the exact rows the model was fitted on (so residuals line up with birds)
+  birds <- model$model
 
-predictions <- predict(mantle, newdata = tave_fit, se.fit = TRUE)
+  panels <- list()
 
-# Add predictions and confidence intervals to the new data frame
-tave_fit$PC1_d_pred <- predictions$fit
-tave_fit$lower_CI <- predictions$fit - 1.96 * predictions$se.fit  # 95% lower bound
-tave_fit$upper_CI <- predictions$fit + 1.96 * predictions$se.fit  # 95% upper bound
+  # Latitude: raw data with a linear fit (descriptive, not a model effect)
+  panels[["lat"]] <- ggplot(birds, aes(x = lat, y = .data[[column]])) +
+    geom_point(aes(color = lat, shape = Age), size = 4) +
+    geom_smooth(method = "lm", color = "black") +
+    scale_x_reverse() +
+    scale_color_viridis_c(direction = -1) +
+    labs(x = "Latitude", y = paste(y_label, "(raw)"), color = "Latitude")
 
-temp <- ggplot(data = lum_env, aes(x = Tave08_molt, y = PC1_d, color = lat))+
-  geom_point(size = 4)+
-  scale_color_viridis_c(direction = -1)+
-  labs(x = "Mean Temperature", y = "PC1 Mantle")+
-  geom_line(data = tave_fit, aes(x = Tave_br, y = PC1_d_pred, color = lat), size = 1) +  
-  geom_ribbon(data = tave_fit, aes(x = Tave_br, ymin = lower_CI, ymax = upper_CI),
-              alpha = 0.2, inherit.aes = FALSE) +  # Confidence intervals
-  guides(color = "none") +
-  theme_classic()+
-  theme(text=element_text(size=24))  
+  for (v in names(env_vars)) {
+    term <- paste0("s(", v, ")")                        # e.g. "s(srtm)"
 
+    # The smooth over the observed range of v. predict() needs every model
+    # variable in newdata, but with type = "terms" only this term is returned,
+    # so the other columns (copied from the first bird) don't affect the result.
+    grid <- birds[rep(1, 100), ]
+    grid[[v]] <- seq(min(birds[[v]]), max(birds[[v]]), length.out = 100)
+    curve <- predict(model, newdata = grid, type = "terms", terms = term, se.fit = TRUE)
+    grid$effect   <- curve$fit[, term]
+    grid$lower_CI <- curve$fit[, term] - 1.96 * curve$se.fit[, term]
+    grid$upper_CI <- curve$fit[, term] + 1.96 * curve$se.fit[, term]
 
+    if (anyNA(grid$effect)) stop("Partial effect is NA for ", column, " vs ", v)
 
+    # Partial residuals: residual + this bird's value of the term
+    # (Gaussian model, so the default deviance residuals = observed - fitted)
+    bird_terms <- predict(model, type = "terms", terms = term)
+    birds$partial_residual <- residuals(model) + bird_terms[, term]
 
-latplot <- ggplot(data = lum_env, aes(x = lat, y = PC1_d, color = lat))+
-  geom_point(size = 4)+
-  scale_x_reverse()+
-  scale_color_viridis_c(direction = -1)+
-  labs(x = "Latitude", y = "PC1 Mantle")+
-  guides(color = "none") +
-  geom_smooth(aes(x = lat, y = PC1_d), method = "lm", col = "black")+
-  theme_classic()+
-  theme(text=element_text(size=24))  
+    # edf and p-value of this smooth, shown above the panel
+    term_stats <- summary(model)$s.table[term, ]
+    # mgcv reports p-values below ~2e-16 as exactly 0
+    p_text <- ifelse(term_stats[["p-value"]] < 2e-16, "p < 2e-16",
+                     paste("p =", signif(term_stats[["p-value"]], 2)))
+    subtitle <- paste0("edf = ", round(term_stats[["edf"]], 2), ", ", p_text)
 
-# Combine plots into 1 row and 3 columns with labels
-env_plots <- (latplot + temp + elev) +
-  plot_annotation(tag_levels = "A")+  # Adds labels A, B, C
-  plot_layout(axis_titles = "collect")
+    panels[[v]] <- ggplot(birds, aes(x = .data[[v]], y = partial_residual)) +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
+      geom_point(aes(color = lat, shape = Age), size = 4) +
+      geom_ribbon(data = grid, aes(x = .data[[v]], ymin = lower_CI, ymax = upper_CI),
+                  alpha = 0.2, inherit.aes = FALSE) +
+      geom_line(data = grid, aes(x = .data[[v]], y = effect),
+                linewidth = 1, color = "black", inherit.aes = FALSE) +
+      scale_color_viridis_c(direction = -1) +
+      labs(x = env_vars[[v]], y = paste("Partial effect on", tolower(y_label)),
+           subtitle = subtitle, color = "Latitude")
+  }
 
-env_plots
+  env_plots <- wrap_plots(panels, nrow = 1) +
+    plot_annotation(tag_levels = "A") +
+    plot_layout(axis_titles = "collect", guides = "collect") &   # one shared legend
+    theme_classic() &
+    theme(text = element_text(size = 24))
 
-ggsave(here("results/top_env_plots.png"), plot = env_plots, width = 24, height = 8, dpi = 600)
+  print(env_plots)
+  ggsave(here(paste0("results/env_plots_", column, ".png")), plot = env_plots,
+         width = 8 * length(panels), height = 8, dpi = 600)
+}
 
 ```
 

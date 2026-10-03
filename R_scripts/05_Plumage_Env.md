@@ -1,299 +1,292 @@
-Dorsum_environment
+Plumage_environment
 ================
 Ore, MJ.
 2025-03-11
 
-    ## Warning: package 'ggplot2' was built under R version 4.3.1
+    ## here() starts at /Users/madelynore/Documents/Work/PhD/BTBW_geographic_coloration/BTBW_plumage
 
-    ## Warning: package 'tidyr' was built under R version 4.3.1
-
-    ## Warning: package 'readr' was built under R version 4.3.1
-
-    ## Warning: package 'purrr' was built under R version 4.3.3
-
-    ## Warning: package 'dplyr' was built under R version 4.3.1
-
-    ## Warning: package 'stringr' was built under R version 4.3.1
-
-    ## Warning: package 'lubridate' was built under R version 4.3.1
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-    ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.0.4     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-    ## here() starts at /Users/madelynore/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage
-
-    ## Warning: package 'viridis' was built under R version 4.3.1
-
-    ## Loading required package: viridisLite
-    ## here() starts at /Users/madelynore/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage
-
-# Build model for env-dorsum correlation
-
-    ## Loading required package: lme4
-
-    ## Warning: package 'lme4' was built under R version 4.3.1
-
-    ## Loading required package: Matrix
-
-    ## Warning: package 'Matrix' was built under R version 4.3.1
-
-    ## 
-    ## Attaching package: 'Matrix'
-
-    ## The following objects are masked from 'package:tidyr':
-    ## 
-    ##     expand, pack, unpack
-
-    ## 
-    ## Attaching package: 'lmerTest'
-
-    ## The following object is masked from 'package:lme4':
-    ## 
-    ##     lmer
-
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     step
-
-    ## Warning: package 'MASS' was built under R version 4.3.1
-
-    ## 
-    ## Attaching package: 'MASS'
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     select
-
-    ## Warning in optwrap(optimizer, devfun, getStart(start, rho$pp), lower =
-    ## rho$lower, : convergence code 5 from nloptwrap: NLOPT_MAXEVAL_REACHED:
-    ## Optimization stopped because maxeval (above) was reached.
-
-    ## boundary (singular) fit: see help('isSingular')
-
-    ## Warning: Model failed to converge with 2 negative eigenvalues: -4.6e-03
-    ## -1.3e-02
-
-    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-    ## lmerModLmerTest]
-    ## Formula: dblMean_d ~ bio_10 + bio_18 + srtm + lat + (lat | pop) + (dblMean_d |  
-    ##     Year) + (dblMean_d | prepartor) + (dblMean_d | pop)
-    ##    Data: lumenv_sel
-    ## 
-    ## REML criterion at convergence: -908.3
-    ## 
-    ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.69281 -0.07378  0.00464  0.07716  1.25669 
-    ## 
-    ## Random effects:
-    ##  Groups    Name        Variance  Std.Dev.  Corr 
-    ##  pop       (Intercept) 6.494e-12 2.548e-06      
-    ##            dblMean_d   1.268e-08 1.126e-04 -1.00
-    ##  pop.1     (Intercept) 1.848e-13 4.299e-07      
-    ##            lat         3.916e-15 6.258e-08 1.00 
-    ##  Year      (Intercept) 1.303e-05 3.609e-03      
-    ##            dblMean_d   2.820e-03 5.310e-02 -1.00
-    ##  prepartor (Intercept) 1.295e-04 1.138e-02      
-    ##            dblMean_d   3.585e-02 1.894e-01 -0.99
-    ##  Residual              1.597e-06 1.264e-03      
-    ## Number of obs: 98, groups:  pop, 21; Year, 7; prepartor, 6
-    ## 
-    ## Fixed effects:
-    ##               Estimate Std. Error         df t value Pr(>|t|)    
-    ## (Intercept)  5.883e-02  1.337e-02  2.848e+01   4.400 0.000138 ***
-    ## bio_10       2.972e-05  2.780e-04  2.912e+01   0.107 0.915610    
-    ## bio_18      -9.334e-07  4.260e-06  3.261e+01  -0.219 0.827915    
-    ## srtm         2.137e-07  1.254e-06  2.322e+01   0.170 0.866127    
-    ## lat          1.765e-05  1.777e-04  2.574e+01   0.099 0.921688    
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Correlation of Fixed Effects:
-    ##        (Intr) bio_10 bio_18 srtm  
-    ## bio_10 -0.950                     
-    ## bio_18 -0.439  0.246              
-    ## srtm   -0.873  0.807  0.191       
-    ## lat    -0.988  0.912  0.419  0.892
-    ## optimizer (nloptwrap) convergence code: 5 (NLOPT_MAXEVAL_REACHED: Optimization stopped because maxeval (above) was reached.)
-    ## boundary (singular) fit: see help('isSingular')
-
-    ## Start:  AIC=-919.48
-    ## dblMean_d ~ (bio_10 + bio_18 + srtm + pop)^4
-    ## 
-    ## 
-    ## Step:  AIC=-919.48
-    ## dblMean_d ~ bio_10 + bio_18 + srtm + pop + bio_10:bio_18 + bio_10:srtm + 
-    ##     bio_10:pop + bio_18:srtm + bio_18:pop + srtm:pop + bio_10:bio_18:srtm + 
-    ##     bio_10:bio_18:pop + bio_10:srtm:pop + bio_18:srtm:pop
-    ## 
-    ## 
-    ## Step:  AIC=-919.48
-    ## dblMean_d ~ bio_10 + bio_18 + srtm + pop + bio_10:bio_18 + bio_10:srtm + 
-    ##     bio_10:pop + bio_18:srtm + bio_18:pop + srtm:pop + bio_10:bio_18:srtm + 
-    ##     bio_10:bio_18:pop + bio_10:srtm:pop
-    ## 
-    ## 
-    ## Step:  AIC=-919.48
-    ## dblMean_d ~ bio_10 + bio_18 + srtm + pop + bio_10:bio_18 + bio_10:srtm + 
-    ##     bio_10:pop + bio_18:srtm + bio_18:pop + srtm:pop + bio_10:bio_18:srtm + 
-    ##     bio_10:bio_18:pop
-    ## 
-    ## 
-    ## Step:  AIC=-919.48
-    ## dblMean_d ~ bio_10 + bio_18 + srtm + pop + bio_10:bio_18 + bio_10:srtm + 
-    ##     bio_10:pop + bio_18:srtm + bio_18:pop + srtm:pop + bio_10:bio_18:srtm
-    ## 
-    ## 
-    ## Step:  AIC=-919.48
-    ## dblMean_d ~ bio_10 + bio_18 + srtm + pop + bio_10:bio_18 + bio_10:srtm + 
-    ##     bio_10:pop + bio_18:srtm + bio_18:pop + srtm:pop
-    ## 
-    ## 
-    ## Step:  AIC=-919.48
-    ## dblMean_d ~ bio_10 + bio_18 + srtm + pop + bio_10:bio_18 + bio_10:srtm + 
-    ##     bio_10:pop + bio_18:srtm + bio_18:pop
-    ## 
-    ##                 Df  Sum of Sq       RSS     AIC
-    ## - bio_10:srtm    1 0.00000102 0.0031626 -921.45
-    ## <none>                        0.0031616 -919.48
-    ## - bio_18:srtm    1 0.00010698 0.0032686 -918.22
-    ## - bio_10:bio_18  1 0.00010795 0.0032696 -918.19
-    ## - bio_10:pop     6 0.00049197 0.0036536 -917.31
-    ## - bio_18:pop     6 0.00073666 0.0038983 -910.95
-    ## 
-    ## Step:  AIC=-921.45
-    ## dblMean_d ~ bio_10 + bio_18 + srtm + pop + bio_10:bio_18 + bio_10:pop + 
-    ##     bio_18:srtm + bio_18:pop
-    ## 
-    ##                     Df  Sum of Sq       RSS     AIC
-    ## <none>                            0.0031626 -921.45
-    ## - bio_10:bio_18      1 0.00011022 0.0032728 -920.09
-    ## + bio_10:srtm        1 0.00000102 0.0031616 -919.48
-    ## + srtm:pop           1 0.00000102 0.0031616 -919.48
-    ## + bio_10:bio_18:pop  1 0.00000102 0.0031616 -919.48
-    ## - bio_18:srtm        1 0.00014589 0.0033085 -919.03
-    ## - bio_10:pop         6 0.00073251 0.0038951 -913.03
-    ## - bio_18:pop         6 0.00074077 0.0039034 -912.83
+## Does location predict color ?
 
     ## 
     ## Call:
-    ## lm(formula = dblMean_d ~ bio_10 + bio_18 + srtm + pop + bio_10:bio_18 + 
-    ##     bio_10:pop + bio_18:srtm + bio_18:pop, data = norand)
+    ## lm(formula = lumMean_m ~ lat + Age, data = lum_env, na.action = na.omit)
     ## 
     ## Residuals:
     ##       Min        1Q    Median        3Q       Max 
-    ## -0.014165 -0.002526  0.000000  0.002076  0.015827 
+    ## -0.045068 -0.006676  0.000878  0.006110  0.023236 
     ## 
-    ## Coefficients: (20 not defined because of singularities)
-    ##                            Estimate Std. Error t value Pr(>|t|)  
-    ## (Intercept)               8.728e+01  6.607e+01   1.321   0.1923  
-    ## bio_10                   -4.267e+00  3.414e+00  -1.250   0.2169  
-    ## bio_18                   -3.824e-01  2.734e-01  -1.399   0.1679  
-    ## srtm                     -1.981e-02  1.286e-02  -1.540   0.1295  
-    ## popME.Piscataquis         8.153e+00  5.236e+00   1.557   0.1255  
-    ## popMI.Iron                1.720e+01  7.862e+00   2.188   0.0332 *
-    ## popNB.York                1.276e+00  4.051e+00   0.315   0.7541  
-    ## popNC.Graham              2.114e+01  1.924e+01   1.098   0.2771  
-    ## popNS.Halifax            -2.476e+00  1.762e+00  -1.405   0.1659  
-    ## popNY.Hamilton           -9.186e+00  5.374e+00  -1.709   0.0934 .
-    ## popNY.Sullivan            1.079e+01  7.311e+00   1.476   0.1459  
-    ## popON.Renfrew            -3.081e+00  6.818e+00  -0.452   0.6532  
-    ## popON.Thunder             8.254e+00  5.440e+00   1.517   0.1352  
-    ## popPA.Bedford             4.917e+01  2.873e+01   1.711   0.0930 .
-    ## popPA.Potter              7.914e+00  5.442e+00   1.454   0.1519  
-    ## popSC.Oconee              2.659e+01  2.014e+01   1.320   0.1926  
-    ## popTN.Carter              1.702e+01  1.133e+01   1.503   0.1390  
-    ## popTN.Unicoi              2.232e+01  1.478e+01   1.511   0.1369  
-    ## popVA.Giles               6.710e+00  4.842e+00   1.386   0.1717  
-    ## popVA.Wise                2.315e+01  1.471e+01   1.574   0.1215  
-    ## popWI.All                -1.043e+00  3.264e+00  -0.319   0.7507  
-    ## popWV.Randolph            7.718e+00  5.358e+00   1.441   0.1557  
-    ## popWV.Tucker              2.487e+01  1.746e+01   1.424   0.1605  
-    ## popWV.Webster             3.531e+00  2.339e+00   1.510   0.1372  
-    ## bio_10:bio_18             1.776e-02  1.320e-02   1.346   0.1841  
-    ## bio_10:popME.Piscataquis -9.098e-01  5.594e-01  -1.626   0.1099  
-    ## bio_10:popMI.Iron        -1.173e+00  5.796e-01  -2.024   0.0481 *
-    ## bio_10:popNB.York        -6.417e-01  5.229e-01  -1.227   0.2253  
-    ## bio_10:popNC.Graham      -1.050e+00  9.677e-01  -1.086   0.2827  
-    ## bio_10:popNS.Halifax      7.941e-01  4.993e-01   1.591   0.1178  
-    ## bio_10:popNY.Hamilton    -4.127e-01  3.664e-01  -1.126   0.2652  
-    ## bio_10:popNY.Sullivan            NA         NA      NA       NA  
-    ## bio_10:popON.Renfrew     -5.501e-01  5.143e-01  -1.070   0.2897  
-    ## bio_10:popON.Thunder             NA         NA      NA       NA  
-    ## bio_10:popPA.Bedford     -1.535e+00  8.999e-01  -1.706   0.0940 .
-    ## bio_10:popPA.Potter              NA         NA      NA       NA  
-    ## bio_10:popSC.Oconee      -1.452e+00  1.103e+00  -1.316   0.1939  
-    ## bio_10:popTN.Carter      -6.393e-01  4.121e-01  -1.551   0.1270  
-    ## bio_10:popTN.Unicoi      -9.276e-01  6.066e-01  -1.529   0.1323  
-    ## bio_10:popVA.Giles               NA         NA      NA       NA  
-    ## bio_10:popVA.Wise        -9.435e-01  5.929e-01  -1.591   0.1176  
-    ## bio_10:popWI.All          5.567e-01  4.266e-01   1.305   0.1977  
-    ## bio_10:popWV.Randolph            NA         NA      NA       NA  
-    ## bio_10:popWV.Tucker      -9.793e-01  6.931e-01  -1.413   0.1636  
-    ## bio_10:popWV.Webster             NA         NA      NA       NA  
-    ## bio_18:srtm               6.940e-05  4.481e-05   1.549   0.1275  
-    ## bio_18:popME.Piscataquis  5.486e-02  3.668e-02   1.496   0.1408  
-    ## bio_18:popMI.Iron         3.838e-02  3.298e-02   1.164   0.2499  
-    ## bio_18:popNB.York         6.249e-02  3.797e-02   1.646   0.1059  
-    ## bio_18:popNC.Graham              NA         NA      NA       NA  
-    ## bio_18:popNS.Halifax             NA         NA      NA       NA  
-    ## bio_18:popNY.Hamilton     7.951e-02  5.100e-02   1.559   0.1251  
-    ## bio_18:popNY.Sullivan            NA         NA      NA       NA  
-    ## bio_18:popON.Renfrew      7.537e-02  5.034e-02   1.497   0.1404  
-    ## bio_18:popON.Thunder             NA         NA      NA       NA  
-    ## bio_18:popPA.Bedford     -4.503e-02  2.641e-02  -1.705   0.0941 .
-    ## bio_18:popPA.Potter              NA         NA      NA       NA  
-    ## bio_18:popSC.Oconee              NA         NA      NA       NA  
-    ## bio_18:popTN.Carter              NA         NA      NA       NA  
-    ## bio_18:popTN.Unicoi              NA         NA      NA       NA  
-    ## bio_18:popVA.Giles               NA         NA      NA       NA  
-    ## bio_18:popVA.Wise                NA         NA      NA       NA  
-    ## bio_18:popWI.All                 NA         NA      NA       NA  
-    ## bio_18:popWV.Randolph            NA         NA      NA       NA  
-    ## bio_18:popWV.Tucker              NA         NA      NA       NA  
-    ## bio_18:popWV.Webster             NA         NA      NA       NA  
+    ## Coefficients:
+    ##              Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept) 0.0286940  0.0078148   3.672 0.000318 ***
+    ## lat         0.0008360  0.0001925   4.344 2.35e-05 ***
+    ## AgeSY       0.0101273  0.0016721   6.057 8.06e-09 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 0.007799 on 52 degrees of freedom
-    ##   (10 observations deleted due to missingness)
-    ## Multiple R-squared:  0.7835, Adjusted R-squared:  0.5961 
-    ## F-statistic: 4.182 on 45 and 52 DF,  p-value: 6.584e-07
+    ## Residual standard error: 0.01082 on 178 degrees of freedom
+    ##   (4 observations deleted due to missingness)
+    ## Multiple R-squared:  0.2642, Adjusted R-squared:  0.256 
+    ## F-statistic: 31.96 on 2 and 178 DF,  p-value: 1.382e-12
 
-    ## Warning: not plotting observations with leverage one:
-    ##   34, 35, 44, 48, 51, 61, 62, 64, 73, 81, 82
+    ## Warning in geom_point(width = 0.6, position = position_dodge(width = 0.7)):
+    ## Ignoring unknown parameters: `width`
 
-![](Plumage_Env_files/figure-gfm/lmm%20pheno-env-1.png)<!-- -->![](Plumage_Env_files/figure-gfm/lmm%20pheno-env-2.png)<!-- -->![](Plumage_Env_files/figure-gfm/lmm%20pheno-env-3.png)<!-- -->
+    ## `geom_smooth()` using formula = 'y ~ x'
 
-    ## Warning in sqrt(crit * p * (1 - hh)/hh): NaNs produced
+    ## Warning: `position_dodge()` requires non-overlapping x intervals.
 
-    ## Warning in sqrt(crit * p * (1 - hh)/hh): NaNs produced
+![](Plumage_Env_files/figure-gfm/latitude-1.png)<!-- -->
 
-![](Plumage_Env_files/figure-gfm/lmm%20pheno-env-4.png)<!-- -->
+    ## Warning: In lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...) :
+    ##  extra argument 'REML' will be disregarded
 
-    ## Analysis of Variance Table
-    ## 
-    ## Response: dblMean_d
-    ##               Df    Sum Sq    Mean Sq F value    Pr(>F)    
-    ## bio_10         1 0.0030513 0.00305127 50.1689 3.648e-09 ***
-    ## bio_18         1 0.0000926 0.00009256  1.5219    0.2229    
-    ## srtm           1 0.0001428 0.00014277  2.3475    0.1315    
-    ## pop           20 0.0066615 0.00033307  5.4764 4.025e-07 ***
-    ## bio_10:bio_18  1 0.0000792 0.00007915  1.3014    0.2592    
-    ## bio_10:pop    14 0.0006278 0.00004484  0.7373    0.7278    
-    ## bio_18:srtm    1 0.0000497 0.00004965  0.8164    0.3704    
-    ## bio_18:pop     6 0.0007408 0.00012346  2.0300    0.0781 .  
-    ## Residuals     52 0.0031626 0.00006082                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ##                                                       formulas    df     AICc
+    ## mod2dbyY              lumMean_m ~ s(lon, lat, by = Year) + Age 30.08 -1187.79
+    ## mod2dYY        lumMean_m ~ s(lon, lat, by = Year) + Year + Age 31.01 -1187.22
+    ## mod2d                            lumMean_m ~ s(lon, lat) + Age 29.41 -1173.51
+    ## modlmY                                  lumMean_m ~ Year + Age  9.00 -1161.80
+    ## mod2dY                    lumMean_m ~ s(lon, lat) + Year + Age 17.93 -1161.72
+    ## modlmlat_randY              lumMean_m ~ lat + (1 | Year) + Age  5.00 -1113.57
+    ## modnull                                    lumMean_m ~ 1 + Age  3.00 -1103.41
+    ##                deltaic weights MarginalR2 ConditionalR2
+    ## mod2dbyY          0.00 5.7e-01         NA            NA
+    ## mod2dYY           0.57 4.3e-01         NA            NA
+    ## mod2d            14.28 4.5e-04         NA            NA
+    ## modlmY           25.99 1.3e-06         NA            NA
+    ## mod2dY           26.07 1.2e-06         NA            NA
+    ## modlmlat_randY   74.22 4.4e-17       0.17          0.39
+    ## modnull          84.38 2.7e-19         NA            NA
 
-    ## 'log Lik.' 367.6686 (df=47)
+## GAMs
 
-    ## [1] -641.3373
+``` r
+gam_rhs  <- "s(lon, lat) + s(RH_br) + s(Tave_br) + s(PPT_br) + s(srtm) + s(ndvi_M) + Age"
+response <- "lumMean"  # column prefix: "lumMean" -> lumMean_c, lumMean_m, ...; "PC1" -> PC1_c, ...
+
+gam_fits <- list()          
+gam_results <- list()
+for (p in names(patches)) {
+  patch_name <- patches[[p]]
+  column     <- paste0(response, "_", p)   # e.g. "lumMean_c"
+
+  if (!column %in% names(lum_env)) stop("Column not found in lum_env: ", column)
+
+  dat <- lum_env %>%
+    filter(!is.na(.data[[column]]))
+
+  fit <- gam(as.formula(paste(column, "~", gam_rhs)), select = TRUE, data = dat, method = "REML")
+  gam_fits[[p]] <- fit      # saved by patch code (gam_fits$m = mantle model), used for the plots
+  sm  <- summary(fit)
+
+  # smooth terms
+  smooths <- as.data.frame(sm$s.table) %>%
+    rownames_to_column("term") %>%
+    transmute(term, edf, F, p = `p-value`)
+
+  # Age is a parametric term: reported in the same table (F = t^2 for a 1-df term)
+  age_row <- tibble(term = "Age (SY vs ASY)", edf = 1,
+                    F = sm$p.table["AgeSY", "t value"]^2,
+                    p = sm$p.table["AgeSY", "Pr(>|t|)"])
+
+  gam_results[[column]] <- bind_rows(smooths, age_row) %>%
+    mutate(response = column, patch = patch_name, n = nrow(dat),
+           dev_expl = sm$dev.expl, .before = 1)
+}
+
+gam_results <- bind_rows(gam_results)
+```
+
+``` r
+# Table of GAM results: one block of rows per patch (smooth terms + Age),
+# with sample size and deviance explained for each model
+combined_gam <- gam_results %>%
+  transmute(Model = patch,
+            Response = response,
+            n,
+            `Deviance explained` = dev_expl,
+            Term = term,
+            edf, F,
+            `p-value` = p) %>%
+  mutate(across(where(is.double),
+                ~ ifelse(abs(.x) < 0.001, format(.x, scientific = TRUE, digits = 3),
+                         as.character(round(.x, 2)))))
+
+combined_gam
+```
+
+    ##     Model  Response   n Deviance explained            Term      edf        F
+    ## 1  covert lumMean_o 180               0.58      s(lon,lat)     1.59     0.33
+    ## 2  covert lumMean_o 180               0.58        s(RH_br)     2.15     1.75
+    ## 3  covert lumMean_o 180               0.58      s(Tave_br) 4.06e-05 3.72e-07
+    ## 4  covert lumMean_o 180               0.58       s(PPT_br)     3.77     2.59
+    ## 5  covert lumMean_o 180               0.58         s(srtm)     2.99      2.9
+    ## 6  covert lumMean_o 180               0.58       s(ndvi_M) 3.58e-05 3.03e-07
+    ## 7  covert lumMean_o 180               0.58 Age (SY vs ASY)        1    99.76
+    ## 8   crown lumMean_c 182               0.27      s(lon,lat)     3.78      0.3
+    ## 9   crown lumMean_c 182               0.27        s(RH_br) 1.44e-04 1.26e-05
+    ## 10  crown lumMean_c 182               0.27      s(Tave_br)        2     0.76
+    ## 11  crown lumMean_c 182               0.27       s(PPT_br)     1.65     0.64
+    ## 12  crown lumMean_c 182               0.27         s(srtm)     0.92     1.26
+    ## 13  crown lumMean_c 182               0.27       s(ndvi_M)     1.65     0.68
+    ## 14  crown lumMean_c 182               0.27 Age (SY vs ASY)        1     1.21
+    ## 15 mantle lumMean_m 181               0.56      s(lon,lat)     1.94     2.24
+    ## 16 mantle lumMean_m 181               0.56        s(RH_br)     2.21     2.14
+    ## 17 mantle lumMean_m 181               0.56      s(Tave_br) 3.61e-04 9.26e-06
+    ## 18 mantle lumMean_m 181               0.56       s(PPT_br)     2.33     1.45
+    ## 19 mantle lumMean_m 181               0.56         s(srtm)     4.59     6.97
+    ## 20 mantle lumMean_m 181               0.56       s(ndvi_M) 2.67e-04 1.94e-05
+    ## 21 mantle lumMean_m 181               0.56 Age (SY vs ASY)        1    36.18
+    ## 22 throat lumMean_t 181               0.71      s(lon,lat)     4.24     0.32
+    ## 23 throat lumMean_t 181               0.71        s(RH_br) 2.22e-04 1.48e-06
+    ## 24 throat lumMean_t 181               0.71      s(Tave_br)     2.13        1
+    ## 25 throat lumMean_t 181               0.71       s(PPT_br)     4.67     6.69
+    ## 26 throat lumMean_t 181               0.71         s(srtm)     2.83     4.47
+    ## 27 throat lumMean_t 181               0.71       s(ndvi_M) 7.67e-05 4.62e-07
+    ## 28 throat lumMean_t 181               0.71 Age (SY vs ASY)        1    18.66
+    ## 29  wspot lumMean_w 182               0.46      s(lon,lat) 1.34e-04 3.80e-06
+    ## 30  wspot lumMean_w 182               0.46        s(RH_br) 2.57e-05 1.14e-06
+    ## 31  wspot lumMean_w 182               0.46      s(Tave_br)     0.48      0.1
+    ## 32  wspot lumMean_w 182               0.46       s(PPT_br)     0.85     0.63
+    ## 33  wspot lumMean_w 182               0.46         s(srtm) 9.35e-05 9.00e-06
+    ## 34  wspot lumMean_w 182               0.46       s(ndvi_M) 1.72e-05 2.67e-07
+    ## 35  wspot lumMean_w 182               0.46 Age (SY vs ASY)        1   144.77
+    ##     p-value
+    ## 1  6.76e-04
+    ## 2  1.01e-04
+    ## 3       0.9
+    ## 4  1.75e-05
+    ## 5  9.36e-07
+    ## 6      0.94
+    ## 7  1.01e-18
+    ## 8      0.02
+    ## 9       0.3
+    ## 10        0
+    ## 11     0.01
+    ## 12 4.12e-06
+    ## 13     0.01
+    ## 14     0.27
+    ## 15 0.00e+00
+    ## 16 1.69e-05
+    ## 17     0.74
+    ## 18 7.58e-04
+    ## 19 0.00e+00
+    ## 20     0.47
+    ## 21 1.09e-08
+    ## 22     0.01
+    ## 23     0.94
+    ## 24 1.26e-04
+    ## 25 0.00e+00
+    ## 26 0.00e+00
+    ## 27     0.95
+    ## 28 2.69e-05
+    ## 29     0.46
+    ## 30     0.58
+    ## 31     0.16
+    ## 32     0.01
+    ## 33     0.33
+    ## 34     0.83
+    ## 35 8.36e-25
+
+``` r
+write.csv(combined_gam, here("results/Env_GAM_pl_patches.csv"), row.names = FALSE)
+```
+
+``` r
+# Partial-effect plots -------------------------------------------------------
+# For each patch GAM, one panel per environmental variable showing that variable's
+# fitted smooth on its own, s(variable), i.e. its partial effect:
+#   - line + band: the smooth and its 95% confidence interval. The y-axis is the
+#     change in the response due to this term; mgcv centres each smooth so its
+#     average over the birds is 0 (so it's a difference from average, not a
+#     predicted luminance, and no "average bird" has to be made up).
+#   - points: partial residuals = each bird's model residual + its value of this
+#     term, i.e. the data with the effects of all OTHER terms (location, other
+#     climate variables, age) removed.
+# A term the model shrank away (select = TRUE) shows as a flat line at 0.
+# The first panel is the RAW latitude relationship (latitude sits inside the 2-D
+# s(lon, lat) surface, so it has no one-dimensional partial effect).
+
+# Environmental variables to plot, with axis labels (a named vector: column = label)
+env_vars <- c(PPT_br = "Mean Precipitation (mm)",
+              RH_br = "Relative Humidity (%)",
+              srtm    = "Elevation (m)")
+
+response_label <- c(lumMean = "luminance", PC1 = "PC1")[[response]]
+
+# Which patches to plot (codes from `patches`): "m" = mantle only.
+# For all five use names(patches)
+plot_patches <- "m"
+
+for (p in plot_patches) {
+  column  <- paste0(response, "_", p)                  # e.g. "lumMean_m"
+  y_label <- paste(tools::toTitleCase(patches[[p]]), response_label)
+  model   <- gam_fits[[p]]
+
+  # the exact rows the model was fitted on (so residuals line up with birds)
+  birds <- model$model
+
+  panels <- list()
+
+  # Latitude: raw data with a linear fit (descriptive, not a model effect)
+  panels[["lat"]] <- ggplot(birds, aes(x = lat, y = .data[[column]])) +
+    geom_point(aes(color = lat, shape = Age), size = 4) +
+    geom_smooth(method = "lm", color = "black") +
+    scale_x_reverse() +
+    scale_color_viridis_c(direction = -1) +
+    labs(x = "Latitude", y = paste(y_label, "(raw)"), color = "Latitude")
+
+  for (v in names(env_vars)) {
+    term <- paste0("s(", v, ")")                        # e.g. "s(srtm)"
+
+    # The smooth over the observed range of v. predict() needs every model
+    # variable in newdata, but with type = "terms" only this term is returned,
+    # so the other columns (copied from the first bird) don't affect the result.
+    grid <- birds[rep(1, 100), ]
+    grid[[v]] <- seq(min(birds[[v]]), max(birds[[v]]), length.out = 100)
+    curve <- predict(model, newdata = grid, type = "terms", terms = term, se.fit = TRUE)
+    grid$effect   <- curve$fit[, term]
+    grid$lower_CI <- curve$fit[, term] - 1.96 * curve$se.fit[, term]
+    grid$upper_CI <- curve$fit[, term] + 1.96 * curve$se.fit[, term]
+
+    if (anyNA(grid$effect)) stop("Partial effect is NA for ", column, " vs ", v)
+
+    # Partial residuals: residual + this bird's value of the term
+    # (Gaussian model, so the default deviance residuals = observed - fitted)
+    bird_terms <- predict(model, type = "terms", terms = term)
+    birds$partial_residual <- residuals(model) + bird_terms[, term]
+
+    # edf and p-value of this smooth, shown above the panel
+    term_stats <- summary(model)$s.table[term, ]
+    # mgcv reports p-values below ~2e-16 as exactly 0
+    p_text <- ifelse(term_stats[["p-value"]] < 2e-16, "p < 2e-16",
+                     paste("p =", signif(term_stats[["p-value"]], 2)))
+    subtitle <- paste0("edf = ", round(term_stats[["edf"]], 2), ", ", p_text)
+
+    panels[[v]] <- ggplot(birds, aes(x = .data[[v]], y = partial_residual)) +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
+      geom_point(aes(color = lat, shape = Age), size = 4) +
+      geom_ribbon(data = grid, aes(x = .data[[v]], ymin = lower_CI, ymax = upper_CI),
+                  alpha = 0.2, inherit.aes = FALSE) +
+      geom_line(data = grid, aes(x = .data[[v]], y = effect),
+                linewidth = 1, color = "black", inherit.aes = FALSE) +
+      scale_color_viridis_c(direction = -1) +
+      labs(x = env_vars[[v]], y = paste("Partial effect on", tolower(y_label)),
+           subtitle = subtitle, color = "Latitude")
+  }
+
+  env_plots <- wrap_plots(panels, nrow = 1) +
+    plot_annotation(tag_levels = "A") +
+    plot_layout(axis_titles = "collect", guides = "collect") &   # one shared legend
+    theme_classic() &
+    theme(text = element_text(size = 24))
+
+  print(env_plots)
+  ggsave(here(paste0("results/env_plots_", column, ".png")), plot = env_plots,
+         width = 8 * length(panels), height = 8, dpi = 600)
+}
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+![](Plumage_Env_files/figure-gfm/plot-1.png)<!-- -->
