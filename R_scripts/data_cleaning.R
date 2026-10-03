@@ -62,7 +62,7 @@ specimen_sort$Age[which(specimen_sort$USNM.no. == "608328")] <- "SY"
 
 ## combining USNM data with lat/lon from GEA
 
-meta <- read.csv("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data/Genoscape_locations.csv") %>% 
+meta <- read.csv("~/Documents/Work/PhD/Genoscape BTBW/BTBW-GEA/data/Genoscape_locations.csv") %>% 
   dplyr::select(USNM, pop, Region, lat, lon)
 
 specimen_latlon <- merge(specimen_sort, meta, by.x = "USNM.no.", by.y = "USNM", all.x = T, all.y = F)
@@ -186,15 +186,24 @@ write.csv(specimen_yr, "data/NMNH_specimen_metadata.csv", row.names = F)
 
 library(tidyverse)
 
+# Which measurements to use (added 2026-10-03):
+#   FALSE = micaToolbox output as measured, one file per population (data_raw/by_pop_batch_mspec/)
+#   TRUE  = card-corrected, one file per view (data_raw/card_corrected_mspec/): every photo re-measured
+#           with the colour card outlined, then corrected for exposure and contrast using the card in
+#           that photo (see data_raw/card_corrected_mspec/README.txt)
+# Both folders have the same micaToolbox format, so everything below is the same for either.
+use_card_corrected <- TRUE
+mspec_dir <- if (use_card_corrected) "data_raw/card_corrected_mspec/" else "data_raw/by_pop_batch_mspec/"
+
 # Initialize an empty dataframe
 allimg <- data.frame()
 
 # Load file names
-imgfiles <- list.files(path = "data_raw/by_pop_batch_mspec/", pattern = "*Image*")
+imgfiles <- list.files(path = mspec_dir, pattern = "*Image*")
 
 # Loop through each file
 for (i in 1:length(imgfiles)) {
-  imgnm <- paste0("data_raw/by_pop_batch_mspec/", imgfiles[i])
+  imgnm <- paste0(mspec_dir, imgfiles[i])
   
   # Read in file
   img <- read.csv(file = imgnm)
@@ -220,9 +229,11 @@ length(unique(allimg$ID))
 ## clean up some things from this dataframe
 #remove scalebar calculations and "whole"
 # whole was for the comparison between taking 3 square subsets versus the whole area
-notplrows <- c(grep(allimg$pl_code, pattern = "Scale Bar.*"), grep(allimg$pl_code, pattern = "whole.*"))
+# (logical index: with grep() positions, allimg[-integer(0), ] would drop every row when there is
+# nothing to remove, as in the card-corrected files)
+notplrows <- grepl("Scale Bar|whole", allimg$pl_code)
 
-allimg_rmnotpl_code <- allimg[-notplrows,]
+allimg_rmnotpl_code <- allimg[!notplrows,]
 
 allimg_rmrow <- subset(allimg_rmnotpl_code, select = -X)
 
@@ -232,6 +243,11 @@ allimg_rmrow <- subset(allimg_rmnotpl_code, select = -X)
 allimg_rmrow$pl_code[which(allimg_rmrow$photo == "dorsal")] <-  "m"
 
 allimg_rmrow$pl_code[which(allimg_rmrow$photo == "crown" & allimg_rmrow$pl_code != "c")] <- "c"
+
+# throat: the original outline (t1) only. 5 birds also have a second throat outline (t2), drawn to
+# avoid bare skin for a calibration check; averaging it in would mix two outline rules
+allimg_rmrow <- allimg_rmrow |> 
+  filter(!(pl_code == "t" & rep != "1"))
 
 
 #calculating mm2 area - standardized to 36.5px/mm
@@ -322,16 +338,6 @@ asyfam <- fam_img_noNA %>%
 write.table(asyfam, 
             "data/BTBW_n95_ASY_forGWAS_lumMean_m_rand.fam",
             quote = F, col.names = F, row.names = F)
-
-
-# clean up keratin table --------------------------------------------------
-library(tidyverse)
-
-kgenes <- read.csv("data_raw/Keratin_related_genes.csv")
-
-kgenes_u <- distinct(kgenes, Gene.Symbol, .keep_all = T)
-
-write.csv(kgenes_u, "data/Keratin_related_genes.csv", row.names = F)
 
 
 
