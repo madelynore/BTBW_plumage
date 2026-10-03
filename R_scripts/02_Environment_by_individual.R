@@ -18,7 +18,7 @@ btbw_samp <- read.csv(file = "data/BTBW_whole_specimen_Image_Analysis_measuremen
 
 library(sf)
 
-setwd("~/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage/data_raw/monthly_bioclim_normal_1971_2000/")
+setwd("~/Documents/Work/PhD/BTBW_geographic_coloration/BTBW_plumage/data_raw/monthly_bioclim_normal_1971_2000/")
 
 #load in one file for CRS
 PPT06 <- raster("PPT06.tif")
@@ -54,22 +54,22 @@ climna_sum <- btbw_samp %>%
 
 
 # SRTM --------------------------------------------------------------------
-list.files(path = "~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/srtm/")
-srtm=raster("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/srtm/srtm.tif")
+list.files(path = "~/Documents/Work/PhD/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/srtm/")
+srtm=raster("~/Documents/Work/PhD/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/srtm/srtm.tif")
 coord <- btbw_samp[,2:3]
 srtm_btbw<-raster::extract(srtm,coord,fun=mean)
 
 
 # NDVI --------------------------------------------------------------------
-list.files("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/LandCover/")
-ndvi=raster("~/Documents/Cornell/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/LandCover/ndvimax.tif")
+list.files("~/Documents/Work/PhD/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/LandCover/")
+ndvi=raster("~/Documents/Work/PhD/Genoscape BTBW/BTBW-GEA/data_raw/environ_data/LandCover/ndvimax.tif")
 coord <- btbw_samp[,2:3]
 ndvi_btbw<-raster::extract(ndvi,coord,fun=mean)
 
 
 # combine all together ----------------------------------------------------
 #reset wd
-setwd("~/Documents/Cornell/BTBW_geographic_coloration/BTBW_plumage/")
+setwd("~/Documents/Work/PhD/BTBW_geographic_coloration/BTBW_plumage/")
 
 biona <- merge(btbw_samp, climna_sum, all= T)
 
