@@ -63,10 +63,18 @@ Ore, MJ.
 
 # make a table of results
 
-    ##                         ASY               SY        p
-    ## lumMean_c    0.0718 (±0.01)  0.0718 (±0.011) 9.95e-01
-    ## lumMean_m   0.0623 (±0.013) 0.0735 (±0.0074) 1.17e-11
-    ## lumMean_o   0.0687 (±0.016)  0.0894 (±0.017) 1.45e-13
-    ## lumMean_t  0.0433 (±0.0093) 0.0473 (±0.0097) 7.44e-03
-    ## lumMean_w    0.445 (±0.047)     0.35 (±0.06) 2.44e-20
-    ## area_mm2_w       43.3 (±13)      27.4 (±9.9) 2.62e-17
+| Trait | ASY n | ASY mean (SD) | SY n | SY mean (SD) | t | df | p |
+|:---|---:|:---|---:|:---|---:|---:|:---|
+| Crown luminance | 110 | 0.0718 (0.01) | 72 | 0.0718 (0.011) | 0.01 | 144.1 | 0.995 |
+| Covert luminance | 110 | 0.0687 (0.016) | 70 | 0.0894 (0.017) | -8.21 | 137.7 | 1.45e-13 |
+| Mantle luminance | 112 | 0.0623 (0.013) | 69 | 0.0735 (0.0074) | -7.26 | 177.5 | 1.17e-11 |
+| Throat luminance | 110 | 0.0433 (0.0093) | 71 | 0.0473 (0.0097) | -2.71 | 144.6 | 0.00744 |
+| Wing spot luminance | 112 | 0.445 (0.047) | 70 | 0.35 (0.06) | 11.18 | 120.2 | 2.44e-20 |
+| Wing spot area (mm²) | 112 | 43.3 (13) | 70 | 27.4 (9.9) | 9.45 | 171.1 | 2.62e-17 |
+
+Plumage traits by age class
+
+Note: Welch two-sample t-tests comparing after-second-year (ASY) and
+second-year (SY) males; t \> 0 means ASY is higher. Luminance = mean
+double-cone catch of the patch; n = birds with a measurement for that
+patch.

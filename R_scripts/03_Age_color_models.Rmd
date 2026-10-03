@@ -15,7 +15,7 @@ library(tidyverse)
 library(here)
 library(viridis)
 
-here::i_am("R_scripts/Color_correlations.Rmd")
+here::i_am("R_scripts/03_Age_color_models.Rmd")
 
 avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
 
@@ -217,58 +217,62 @@ ggplot(data = age, aes(y = area_mm2_w, x = Age)) +
 ```
 
 # make a table of results
-```{r age table, echo=F}
+```{r age table, echo=F, results="asis"}
 
-summary_stats <- age %>%
-  group_by(Age) %>%
-  summarise(
-    lumMean_c = paste0(signif(mean(lumMean_c, na.rm = T), digits = 3), 
-                   " (±",
-                   signif(sd(lumMean_c, na.rm = T), digits=2), ")"),
-    lumMean_m = paste0(signif(mean(lumMean_m, na.rm = T), digits = 3), 
-                   " (±",
-                   signif(sd(lumMean_m, na.rm = T), digits=2), ")"),
-    lumMean_o = paste0(signif(mean(lumMean_o, na.rm = T), digits = 3), 
-                   " (±",
-                   signif(sd(lumMean_o, na.rm = T), digits=2), ")"),
-    lumMean_t = paste0(signif(mean(lumMean_t, na.rm = T), digits = 3), 
-                   " (±",
-                   signif(sd(lumMean_t, na.rm = T), digits=2), ")"),
-    lumMean_w = paste0(signif(mean(lumMean_w, na.rm = T), digits = 3), 
-                   " (±",
-                   signif(sd(lumMean_w, na.rm = T), digits=2), ")"),
-    area_mm2_w = paste0(signif(mean(area_mm2_w, na.rm = T), digits = 3), 
-                   " (±",
-                   signif(sd(area_mm2_w, na.rm = T), digits=2), ")"),
-  )
+# One row per trait: sample size, mean (SD) for each age class, and the Welch
+# two-sample t-test (R's default t.test, which does not assume equal variances,
+# so df are not whole numbers)
+traits <- c(lumMean_c  = "Crown luminance",
+            lumMean_o  = "Covert luminance",
+            lumMean_m  = "Mantle luminance",
+            lumMean_t  = "Throat luminance",
+            lumMean_w  = "Wing spot luminance",
+            area_mm2_w = "Wing spot area (mm²)")
 
+source(here("R_scripts/table_helpers.R"))
 
-sum_stats <- as.data.frame(t(summary_stats))
-# Set the first row as column names
-colnames(sum_stats) <- sum_stats[1, ]
+# tidy results: numbers kept as numbers, full precision (readable table below)
+age_table <- list()
+for (var in names(traits)) {
+  asy_values <- na.omit(age[[var]][age$Age == "ASY"])
+  sy_values  <- na.omit(age[[var]][age$Age == "SY"])
+  test <- t.test(asy_values, sy_values)
 
-# Remove the first row (now redundant)
-sum_stats <- sum_stats[-1, ]
+  age_table[[var]] <- data.frame(
+    Trait = var,
+    ASY_n = length(asy_values), ASY_mean = mean(asy_values), ASY_SD = sd(asy_values),
+    SY_n = length(sy_values),   SY_mean = mean(sy_values),   SY_SD = sd(sy_values),
+    t = unname(test$statistic), df = unname(test$parameter), p = test$p.value)
+}
+age_table <- bind_rows(age_table)
+write.csv(age_table, here("results/Age_color_models_table.csv"), row.names = FALSE)
 
+table_note <- paste("Note: Welch two-sample t-tests comparing after-second-year (ASY) and",
+                    "second-year (SY) males; t > 0 means ASY is higher. Luminance = mean",
+                    "double-cone catch of the patch; n = birds with a measurement for that patch.")
+writeLines(table_note, here("results/Age_color_models_table_note.txt"))
 
-# get t.test pvals
-# get df with just relevant variables
-age_sel <- age %>% 
-  dplyr::select(Age, lumMean_c, lumMean_m, lumMean_o, lumMean_t, lumMean_w, area_mm2_w)
-# Split the data by group
-grouped_age <- split(age_sel, age_sel$Age)
+# readable table: mean (SD) with 3 and 2 significant figures, ASY and SY under spanners
+age_display <- age_table %>%
+  transmute(Trait = traits[Trait],
+            ASY_n, `ASY mean (SD)` = paste0(fmt_num(ASY_mean, 3), " (", fmt_num(ASY_SD, 2), ")"),
+            SY_n,  `SY mean (SD)`  = paste0(fmt_num(SY_mean, 3), " (", fmt_num(SY_SD, 2), ")"),
+            t = sprintf("%.2f", t), df = sprintf("%.1f", df), p = fmt_p(p))
 
-# Run t-tests for each variable (excluding the group column)
-variables <- names(age_sel)[names(age_sel) != "Age"]
-p_values <- sapply(variables, function(var) {
-  t.test(grouped_age$ASY[[var]], grouped_age$SY[[var]])$p.value
-})
+print(knitr::kable(age_display, caption = "Plumage traits by age class", row.names = FALSE,
+                   col.names = c("Trait", "ASY n", "ASY mean (SD)", "SY n", "SY mean (SD)", "t", "df", "p")))
+cat("\n", table_note, "\n")
 
-
-sumstats_p <- cbind(sum_stats, p = signif(p_values, digits =3))
-
-sumstats_p
-
-write.csv(sumstats_p, here("results/Age_color_models_table.csv"), row.names = T)
+save_table(
+  age_display %>%
+    gt() %>%
+    tab_header(title = "Plumage traits by age class") %>%
+    tab_spanner("ASY", columns = c(ASY_n, `ASY mean (SD)`)) %>%
+    tab_spanner("SY", columns = c(SY_n, `SY mean (SD)`)) %>%
+    tab_spanner("Welch t-test", columns = c(t, df, p)) %>%
+    cols_label(ASY_n = "n", `ASY mean (SD)` = "Mean (SD)", SY_n = "n", `SY mean (SD)` = "Mean (SD)") %>%
+    tab_source_note(sub("^Note: ", "", table_note)) %>%
+    style_table(),
+  "Age_color_models_table")
 
 ```
