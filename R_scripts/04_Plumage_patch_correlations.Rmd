@@ -18,7 +18,7 @@ library(MuMIn)
 
 ```{r prep data - geographic variation in color, echo = FALSE}
 
-here::i_am("R_scripts/04_Color_correlations.Rmd")
+here::i_am("R_scripts/04_Plumage_patch_correlations.Rmd")
 
 
 avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
@@ -54,13 +54,13 @@ for (v in vars_to_check) {
 model_specs <- list(
   # association with mantle
   c("lumMean_c", "lumMean_m"), c("lumMean_t", "lumMean_m"), c("lumMean_o", "lumMean_m"),
-  c("area_mm2_w", "lumMean_m"),
+  c("lumMean_w", "lumMean_m"), c("area_mm2_w", "lumMean_m"),
   # associations with wing spot color
   c("lumMean_c", "lumMean_w"), c("lumMean_o", "lumMean_w"),
-  c("lumMean_m", "lumMean_w"), c("lumMean_t", "lumMean_w"),
+  c("lumMean_t", "lumMean_w"), c("area_mm2_w", "lumMean_w"),
   # association with wing spot area
   c("lumMean_c", "area_mm2_w"), c("lumMean_o", "area_mm2_w"),
-  c("lumMean_m", "area_mm2_w"), c("lumMean_t", "area_mm2_w")
+  c("lumMean_t", "area_mm2_w")
 )
 
 # Fit all models and extract results in one pipeline
