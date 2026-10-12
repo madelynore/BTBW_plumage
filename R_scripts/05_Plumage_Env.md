@@ -12,21 +12,21 @@ Ore, MJ.
     ## lm(formula = lumMean_m ~ lat + Age, data = lum_env, na.action = na.omit)
     ## 
     ## Residuals:
-    ##       Min        1Q    Median        3Q       Max 
-    ## -0.045068 -0.006676  0.000878  0.006110  0.023236 
+    ##        Min         1Q     Median         3Q        Max 
+    ## -0.0228129 -0.0047847 -0.0000424  0.0056682  0.0242061 
     ## 
     ## Coefficients:
     ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 0.0286940  0.0078148   3.672 0.000318 ***
-    ## lat         0.0008360  0.0001925   4.344 2.35e-05 ***
-    ## AgeSY       0.0101273  0.0016721   6.057 8.06e-09 ***
+    ## (Intercept) 0.0002703  0.0058997   0.046    0.964    
+    ## lat         0.0015714  0.0001453  10.816  < 2e-16 ***
+    ## AgeSY       0.0071890  0.0012569   5.719 4.41e-08 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 0.01082 on 178 degrees of freedom
-    ##   (4 observations deleted due to missingness)
-    ## Multiple R-squared:  0.2642, Adjusted R-squared:  0.256 
-    ## F-statistic: 31.96 on 2 and 178 DF,  p-value: 1.382e-12
+    ## Residual standard error: 0.008171 on 179 degrees of freedom
+    ##   (3 observations deleted due to missingness)
+    ## Multiple R-squared:  0.487,  Adjusted R-squared:  0.4812 
+    ## F-statistic: 84.95 on 2 and 179 DF,  p-value: < 2.2e-16
 
     ## Warning in geom_point(width = 0.6, position = position_dodge(width = 0.7)):
     ## Ignoring unknown parameters: `width`
@@ -35,27 +35,29 @@ Ore, MJ.
 
     ## Warning: `position_dodge()` requires non-overlapping x intervals.
 
-![](Plumage_Env_files/figure-gfm/latitude-1.png)<!-- -->
+![](05_Plumage_Env_files/figure-gfm/latitude-1.png)<!-- -->
 
     ## Warning: In lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...) :
     ##  extra argument 'REML' will be disregarded
 
     ##                                                       formulas    df     AICc
-    ## mod2dbyY              lumMean_m ~ s(lon, lat, by = Year) + Age 30.08 -1187.79
-    ## mod2dYY        lumMean_m ~ s(lon, lat, by = Year) + Year + Age 31.01 -1187.22
-    ## mod2d                            lumMean_m ~ s(lon, lat) + Age 29.41 -1173.51
-    ## modlmY                                  lumMean_m ~ Year + Age  9.00 -1161.80
-    ## mod2dY                    lumMean_m ~ s(lon, lat) + Year + Age 17.93 -1161.72
-    ## modlmlat_randY              lumMean_m ~ lat + (1 | Year) + Age  5.00 -1113.57
-    ## modnull                                    lumMean_m ~ 1 + Age  3.00 -1103.41
+    ## mod2d                            lumMean_m ~ s(lon, lat) + Age  8.64 -1242.35
+    ## mod2dL                                lumMean_m ~ s(lat) + Age  7.83 -1241.41
+    ## mod2dbyY              lumMean_m ~ s(lon, lat, by = Year) + Age 27.20 -1237.77
+    ## modlmY                                  lumMean_m ~ Year + Age  9.00 -1237.57
+    ## mod2dY                    lumMean_m ~ s(lon, lat) + Year + Age 13.16 -1234.57
+    ## mod2dYY        lumMean_m ~ s(lon, lat, by = Year) + Year + Age 30.30 -1232.80
+    ## modlmlat_randY              lumMean_m ~ lat + (1 | Year) + Age  5.00 -1193.62
+    ## modnull                                    lumMean_m ~ 1 + Age  3.00 -1138.66
     ##                deltaic weights MarginalR2 ConditionalR2
-    ## mod2dbyY          0.00 5.7e-01         NA            NA
-    ## mod2dYY           0.57 4.3e-01         NA            NA
-    ## mod2d            14.28 4.5e-04         NA            NA
-    ## modlmY           25.99 1.3e-06         NA            NA
-    ## mod2dY           26.07 1.2e-06         NA            NA
-    ## modlmlat_randY   74.22 4.4e-17       0.17          0.39
-    ## modnull          84.38 2.7e-19         NA            NA
+    ## mod2d             0.00 5.4e-01         NA            NA
+    ## mod2dL            0.94 3.4e-01         NA            NA
+    ## mod2dbyY          4.57 5.5e-02         NA            NA
+    ## modlmY            4.78 5.0e-02         NA            NA
+    ## mod2dY            7.78 1.1e-02         NA            NA
+    ## mod2dYY           9.54 4.6e-03         NA            NA
+    ## modlmlat_randY   48.72 1.4e-11       0.46          0.51
+    ## modnull         103.69 1.7e-23         NA            NA
 
 ## GAMs
 
@@ -65,9 +67,12 @@ response <- "lumMean"  # column prefix: "lumMean" -> lumMean_c, lumMean_m, ...; 
 
 gam_fits <- list()          
 gam_results <- list()
-for (p in names(patches)) {
-  patch_name <- patches[[p]]
-  column     <- paste0(response, "_", p)   # e.g. "lumMean_c"
+# models: luminance of each patch, plus wing spot size (area, mm2)
+gam_models <- c(setNames(paste0(response, "_", names(patches)), names(patches)), wsize = "area_mm2_w")
+gam_labels <- c(patches, wsize = "wspot size")
+for (p in names(gam_models)) {
+  patch_name <- gam_labels[[p]]
+  column     <- gam_models[[p]]            # e.g. "lumMean_c", "area_mm2_w"
 
   if (!column %in% names(lum_env)) stop("Column not found in lum_env: ", column)
 
@@ -97,98 +102,83 @@ gam_results <- bind_rows(gam_results)
 ```
 
 ``` r
-# Table of GAM results: one block of rows per patch (smooth terms + Age),
-# with sample size and deviance explained for each model
-combined_gam <- gam_results %>%
-  transmute(Model = patch,
-            Response = response,
-            n,
-            `Deviance explained` = dev_expl,
-            Term = term,
-            edf, F,
-            `p-value` = p) %>%
-  mutate(across(where(is.double),
-                ~ ifelse(abs(.x) < 0.001, format(.x, scientific = TRUE, digits = 3),
-                         as.character(round(.x, 2)))))
+# GAM results: tidy CSV (numbers as numbers, one row per term) + readable table with one
+# block of rows per patch (n and deviance explained in the block header)
+source(here("R_scripts/table_helpers.R"))
+write.csv(gam_results, here("results/Env_GAM_pl_patches.csv"), row.names = FALSE)
 
-combined_gam
+gam_table <- gam_results %>%
+  mutate(Model = sprintf("%s (n = %d, deviance explained %.0f%%)", patch_label(response), n, 100 * dev_expl)) %>%
+  transmute(Model, Term = term_label(term), edf = sprintf("%.2f", edf), F = sprintf("%.2f", F), p = fmt_p(p))
+gam_note <- paste("GAMs (mgcv, REML, select = TRUE so unneeded smooths shrink towards zero):",
+                  "response ~", gam_rhs, ". Age is parametric (edf = 1, F = t²).")
+
+print(knitr::kable(blank_repeats(gam_table, "Model"), caption = "Plumage and environment (GAMs)"))
 ```
 
-    ##     Model  Response   n Deviance explained            Term      edf        F
-    ## 1  covert lumMean_o 180               0.58      s(lon,lat)     1.59     0.33
-    ## 2  covert lumMean_o 180               0.58        s(RH_br)     2.15     1.75
-    ## 3  covert lumMean_o 180               0.58      s(Tave_br) 4.06e-05 3.72e-07
-    ## 4  covert lumMean_o 180               0.58       s(PPT_br)     3.77     2.59
-    ## 5  covert lumMean_o 180               0.58         s(srtm)     2.99      2.9
-    ## 6  covert lumMean_o 180               0.58       s(ndvi_M) 3.58e-05 3.03e-07
-    ## 7  covert lumMean_o 180               0.58 Age (SY vs ASY)        1    99.76
-    ## 8   crown lumMean_c 182               0.27      s(lon,lat)     3.78      0.3
-    ## 9   crown lumMean_c 182               0.27        s(RH_br) 1.44e-04 1.26e-05
-    ## 10  crown lumMean_c 182               0.27      s(Tave_br)        2     0.76
-    ## 11  crown lumMean_c 182               0.27       s(PPT_br)     1.65     0.64
-    ## 12  crown lumMean_c 182               0.27         s(srtm)     0.92     1.26
-    ## 13  crown lumMean_c 182               0.27       s(ndvi_M)     1.65     0.68
-    ## 14  crown lumMean_c 182               0.27 Age (SY vs ASY)        1     1.21
-    ## 15 mantle lumMean_m 181               0.56      s(lon,lat)     1.94     2.24
-    ## 16 mantle lumMean_m 181               0.56        s(RH_br)     2.21     2.14
-    ## 17 mantle lumMean_m 181               0.56      s(Tave_br) 3.61e-04 9.26e-06
-    ## 18 mantle lumMean_m 181               0.56       s(PPT_br)     2.33     1.45
-    ## 19 mantle lumMean_m 181               0.56         s(srtm)     4.59     6.97
-    ## 20 mantle lumMean_m 181               0.56       s(ndvi_M) 2.67e-04 1.94e-05
-    ## 21 mantle lumMean_m 181               0.56 Age (SY vs ASY)        1    36.18
-    ## 22 throat lumMean_t 181               0.71      s(lon,lat)     4.24     0.32
-    ## 23 throat lumMean_t 181               0.71        s(RH_br) 2.22e-04 1.48e-06
-    ## 24 throat lumMean_t 181               0.71      s(Tave_br)     2.13        1
-    ## 25 throat lumMean_t 181               0.71       s(PPT_br)     4.67     6.69
-    ## 26 throat lumMean_t 181               0.71         s(srtm)     2.83     4.47
-    ## 27 throat lumMean_t 181               0.71       s(ndvi_M) 7.67e-05 4.62e-07
-    ## 28 throat lumMean_t 181               0.71 Age (SY vs ASY)        1    18.66
-    ## 29  wspot lumMean_w 182               0.46      s(lon,lat) 1.34e-04 3.80e-06
-    ## 30  wspot lumMean_w 182               0.46        s(RH_br) 2.57e-05 1.14e-06
-    ## 31  wspot lumMean_w 182               0.46      s(Tave_br)     0.48      0.1
-    ## 32  wspot lumMean_w 182               0.46       s(PPT_br)     0.85     0.63
-    ## 33  wspot lumMean_w 182               0.46         s(srtm) 9.35e-05 9.00e-06
-    ## 34  wspot lumMean_w 182               0.46       s(ndvi_M) 1.72e-05 2.67e-07
-    ## 35  wspot lumMean_w 182               0.46 Age (SY vs ASY)        1   144.77
-    ##     p-value
-    ## 1  6.76e-04
-    ## 2  1.01e-04
-    ## 3       0.9
-    ## 4  1.75e-05
-    ## 5  9.36e-07
-    ## 6      0.94
-    ## 7  1.01e-18
-    ## 8      0.02
-    ## 9       0.3
-    ## 10        0
-    ## 11     0.01
-    ## 12 4.12e-06
-    ## 13     0.01
-    ## 14     0.27
-    ## 15 0.00e+00
-    ## 16 1.69e-05
-    ## 17     0.74
-    ## 18 7.58e-04
-    ## 19 0.00e+00
-    ## 20     0.47
-    ## 21 1.09e-08
-    ## 22     0.01
-    ## 23     0.94
-    ## 24 1.26e-04
-    ## 25 0.00e+00
-    ## 26 0.00e+00
-    ## 27     0.95
-    ## 28 2.69e-05
-    ## 29     0.46
-    ## 30     0.58
-    ## 31     0.16
-    ## 32     0.01
-    ## 33     0.33
-    ## 34     0.83
-    ## 35 8.36e-25
+| Model | Term | edf | F | p |
+|:---|:---|:---|:---|:---|
+| Covert luminance (n = 180, deviance explained 43%) | Location (longitude × latitude) | 4.60 | 0.55 | 0.0010 |
+|  | Relative humidity, breeding season | 2.78 | 1.17 | 0.0033 |
+|  | Mean temperature, breeding season | 0.14 | 0.02 | 0.24 |
+|  | Precipitation, breeding season | 0.00 | 0.00 | 0.46 |
+|  | Elevation | 0.00 | 0.00 | 0.31 |
+|  | NDVI (maximum) | 0.00 | 0.00 | 0.58 |
+|  | Age (SY vs ASY) | 1.00 | 78.54 | \< 0.001 |
+| Crown luminance (n = 185, deviance explained 30%) | Location (longitude × latitude) | 6.63 | 1.21 | \< 0.001 |
+|  | Relative humidity, breeding season | 0.84 | 0.22 | 0.034 |
+|  | Mean temperature, breeding season | 0.00 | 0.00 | 0.24 |
+|  | Precipitation, breeding season | 2.11 | 1.35 | \< 0.001 |
+|  | Elevation | 0.96 | 2.39 | \< 0.001 |
+|  | NDVI (maximum) | 1.46 | 0.53 | 0.018 |
+|  | Age (SY vs ASY) | 1.00 | 0.83 | 0.36 |
+| Mantle luminance (n = 182, deviance explained 60%) | Location (longitude × latitude) | 3.21 | 1.68 | \< 0.001 |
+|  | Relative humidity, breeding season | 0.79 | 0.41 | 0.018 |
+|  | Mean temperature, breeding season | 0.00 | 0.00 | 0.33 |
+|  | Precipitation, breeding season | 1.78 | 0.90 | 0.0040 |
+|  | Elevation | 2.33 | 1.24 | \< 0.001 |
+|  | NDVI (maximum) | 0.00 | 0.00 | 0.61 |
+|  | Age (SY vs ASY) | 1.00 | 31.08 | \< 0.001 |
+| Throat luminance (n = 182, deviance explained 26%) | Location (longitude × latitude) | 1.77 | 0.81 | \< 0.001 |
+|  | Relative humidity, breeding season | 0.20 | 0.03 | 0.26 |
+|  | Mean temperature, breeding season | 0.30 | 0.05 | 0.20 |
+|  | Precipitation, breeding season | 0.00 | 0.00 | 0.54 |
+|  | Elevation | 0.00 | 0.00 | 0.88 |
+|  | NDVI (maximum) | 1.64 | 0.63 | 0.022 |
+|  | Age (SY vs ASY) | 1.00 | 16.59 | \< 0.001 |
+| Wing spot luminance (n = 182, deviance explained 47%) | Location (longitude × latitude) | 0.63 | 0.03 | 0.24 |
+|  | Relative humidity, breeding season | 0.00 | 0.00 | 0.33 |
+|  | Mean temperature, breeding season | 1.49 | 0.44 | 0.049 |
+|  | Precipitation, breeding season | 0.81 | 0.48 | 0.017 |
+|  | Elevation | 0.00 | 0.00 | 0.71 |
+|  | NDVI (maximum) | 0.50 | 0.10 | 0.15 |
+|  | Age (SY vs ASY) | 1.00 | 140.99 | \< 0.001 |
+| Wing spot area (mm²) (n = 182, deviance explained 31%) | Location (longitude × latitude) | 0.00 | 0.00 | 0.86 |
+|  | Relative humidity, breeding season | 0.00 | 0.00 | 0.55 |
+|  | Mean temperature, breeding season | 0.00 | 0.00 | 0.43 |
+|  | Precipitation, breeding season | 0.00 | 0.00 | 0.55 |
+|  | Elevation | 0.00 | 0.00 | 0.62 |
+|  | NDVI (maximum) | 0.00 | 0.00 | 0.85 |
+|  | Age (SY vs ASY) | 1.00 | 80.02 | \< 0.001 |
+
+Plumage and environment (GAMs)
 
 ``` r
-write.csv(combined_gam, here("results/Env_GAM_pl_patches.csv"), row.names = FALSE)
+cat("\n", gam_note, "\n")
+```
+
+GAMs (mgcv, REML, select = TRUE so unneeded smooths shrink towards
+zero): response ~ s(lon, lat) + s(RH_br) + s(Tave_br) + s(PPT_br) +
+s(srtm) + s(ndvi_M) + Age . Age is parametric (edf = 1, F = t²).
+
+``` r
+save_table(
+  gam_table %>%
+    gt(groupname_col = "Model") %>%
+    tab_header(title = "Plumage and environment (GAMs)") %>%
+    tab_source_note(gam_note) %>%
+    style_table(),
+  "Env_GAM_pl_patches")
 ```
 
 ``` r
@@ -289,4 +279,4 @@ for (p in plot_patches) {
     ## `geom_smooth()` using formula = 'y ~ x'
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](Plumage_Env_files/figure-gfm/plot-1.png)<!-- -->
+![](05_Plumage_Env_files/figure-gfm/plot-1.png)<!-- -->

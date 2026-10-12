@@ -1,0 +1,9 @@
+"formulas","df","AICc","deltaic","weights","MarginalR2","ConditionalR2"
+"lumMean_m ~ s(lon, lat) + Age",8.64,-1242.35,0,0.54,NA,NA
+"lumMean_m ~ s(lat) + Age",7.83,-1241.41,0.94,0.34,NA,NA
+"lumMean_m ~ s(lon, lat, by = Year) + Age",27.2,-1237.77,4.57,0.055,NA,NA
+"lumMean_m ~ Year + Age",9,-1237.57,4.78,0.05,NA,NA
+"lumMean_m ~ s(lon, lat) + Year + Age",13.16,-1234.57,7.78,0.011,NA,NA
+"lumMean_m ~ s(lon, lat, by = Year) + Year + Age",30.3,-1232.8,9.54,0.0046,NA,NA
+"lumMean_m ~ lat + (1 | Year) + Age",5,-1193.62,48.72,1.4e-11,0.46,0.51
+"lumMean_m ~ 1 + Age",3,-1138.66,103.69,1.7e-23,NA,NA
