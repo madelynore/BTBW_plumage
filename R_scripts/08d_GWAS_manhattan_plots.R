@@ -14,7 +14,7 @@ library(patchwork)
 library(here)
 
 prefix <- "btbw_n152_allages_lumMean_m_cc"
-lrt_file <- here("data_raw/gwas/gwas_allages/asso/btbw_n152_allages_lumMean_m_cc__PC1cov_age.lrt0.gz")   # for chromosome lengths
+lrt_file <- here("data_raw/gwas/asso/btbw_n152_allages_lumMean_m_cc__PC1cov_age.lrt0.gz")   # for chromosome lengths
 
 windows    <- fread(here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_windows.tsv.gz")))
 thresholds <- fread(here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_window_thresholds.csv")))   # row 1 null line, row 2 observed line

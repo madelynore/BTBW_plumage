@@ -41,7 +41,6 @@ GWAS phenotype files), `gene_lists/`, `pst_fst/`; in `results/` also `card_corre
 
 [05_Plumage_Env.Rmd](R_scripts/05_Plumage_Env.md): model selection and generalized additive models for associations between plumage color and environmental variables
 
-[table_helpers.R](R_scripts/table_helpers.R): formatting of the results tables (sourced by 03–05)
 
 [06_Pst_Fst.R](R_scripts/09_Pst_Fst.R): compares among-site differentiation in plumage luminance (Pst) with pairwise genomic Fst, and tests whether colour differences between sites follow geographic distance or Fst (Mantel tests)
 
@@ -60,3 +59,6 @@ GWAS phenotype files), `gene_lists/`, `pst_fst/`; in `results/` also `card_corre
 
 [08d_GWAS_manhattan_plots.R](R_scripts/08d_GWAS_manhattan_plots.R): Manhattan plots (ANGSD window medians, BSLMM PIP) with the suggestive hits and their genes labelled
 
+### Extras
+
+[table_helpers.R](R_scripts/table_helpers.R): formatting of the results tables (sourced by 03–05)

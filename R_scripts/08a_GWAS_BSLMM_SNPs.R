@@ -12,7 +12,7 @@ library(coda)
 library(here)
 
 # Settings -----------------------------------------------------------------------------------------------------
-bslmm_dir  <- here("data_raw/gwas/gwas_allages/gemma/output")
+bslmm_dir  <- here("data_raw/gwas/bslmm")
 prefix     <- "btbw_n152_allages_lumMean_m_cc"
 chains     <- paste0("BSLMM_", prefix, "_age_adjusted_seed", c(101, 202, 303))
 null_chain <- paste0("BSLMM_", prefix, "_withinsite_perm_age_adjusted_seed505")   # NA if not available

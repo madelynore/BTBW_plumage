@@ -23,8 +23,8 @@ library(here)
 
 # Settings -----------------------------------------------------------------------
 prefix           <- "btbw_n152_allages_lumMean_m_cc"
-observed_file    <- here("data_raw/gwas/gwas_allages/asso/btbw_n152_allages_lumMean_m_cc__PC1cov_age.lrt0.gz")
-window_null_file <- here("data_raw/gwas/gwas_allages/perm_withinage/LRT_window_null.rds")   # null window medians (windows x shuffles)
+observed_file    <- here("data_raw/gwas/asso/btbw_n152_allages_lumMean_m_cc__PC1cov_age.lrt0.gz")
+window_null_file <- here("data_raw/gwas/asso/LRT_window_null.rds")   # null window medians (windows x shuffles)
 
 win_size   <- 50       # SNPs per window (must match LRT_window_permutation_null.R)
 win_step   <- 10       # SNPs between window starts
