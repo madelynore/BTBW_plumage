@@ -4,7 +4,7 @@
 # regions: merged 50-SNP windows above the null line or the observed line, both 99.99th percentiles).
 #   1. the hits of both methods: BSLMM SNPs (a point) and ANGSD window regions (start-end); a BSLMM SNP inside an
 #      ANGSD region is flagged in_other_method on both rows (rows are kept separate)
-#   2. search intervals = hit +/- 25 kb (written as a BED file)
+#   2. search intervals = hit +/- 25 kb
 #   3. genes in those regions: protein_match features of the Yellow-rumped Warbler annotation (GFF), with GenomicRanges
 #   4. gene symbols for the RefSeq protein accessions: bioDBnet db2db (RefSeq Protein Accession -> Gene Symbol); the
 #      tables in data_raw/gene_lists/ cover every accession in the genome (~58% have a symbol)
@@ -56,8 +56,6 @@ cat("Suggestive hits:", nrow(hits), "| BSLMM SNPs", nrow(hits_bslmm), "| ANGSD-a
 # 2. search intervals: hit +/- 25 kb --------------------------------------------------------------------------------
 hits$start <- hits$start_hit - flank
 hits$end   <- hits$end_hit + flank
-write_tsv(hits %>% select(chr, start, end), file = here(paste0("data/gwas/suggestive_regions_", prefix, "_25kb.bed")),
-          quote = "none", col_names = FALSE)
 sugSNPs <- hits   # name used below
 
 

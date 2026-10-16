@@ -1,0 +1,3 @@
+line,description,LRT_median
+null line,99.90th percentile of null window medians (200 shuffles),1.3007266045
+observed line,99.99th percentile of observed window medians,1.80325415700001

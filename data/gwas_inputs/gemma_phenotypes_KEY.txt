@@ -1,0 +1,6 @@
+-n 1 = lumMean_m
+-n 2 = lumMean_m_cc
+-n 3 = lumMean_m_age_adjusted
+-n 4 = lumMean_m_cc_age_adjusted
+-n 5 = lumMean_m_permuted
+-n 6 = lumMean_m_cc_permuted

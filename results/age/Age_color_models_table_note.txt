@@ -1,0 +1,1 @@
+Note: Welch two-sample t-tests comparing after-second-year (ASY) and second-year (SY) males; t > 0 means ASY is higher. Luminance = mean double-cone catch of the patch; n = birds with a measurement for that patch.

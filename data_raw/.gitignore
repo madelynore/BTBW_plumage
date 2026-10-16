@@ -11,3 +11,7 @@ prelim_GWAS
 Image Analysis Results Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65_restarting_from_614284_dorsal.mspec.csv
 monthly_bioclim_normal_1971_2000
 ~$Melanogenesis_genes_Poelstra_etal_2015_moleco.xlsx
+
+# GWAS server output: too large for GitHub (deposit on Dryad)
+gwas/asso/
+gwas/bslmm/

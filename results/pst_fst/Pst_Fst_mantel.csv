@@ -1,0 +1,6 @@
+"test","r","p"
+"Fst ~ distance",0.345524302761224,0.0099
+"mantle difference ~ distance",0.44418969155944,2e-04
+"mantle difference ~ Fst",0.143861242145177,0.0493
+"mantle difference ~ Fst | distance",-0.0114386767103046,0.5448
+"mantle difference ~ distance | Fst",0.424791731141051,1e-04

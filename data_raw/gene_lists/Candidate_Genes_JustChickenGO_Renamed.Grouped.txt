@@ -1,0 +1,2714 @@
+gene	FunctionList	Count
+10-Sep	Thermal_Tolerance_Xu2023	1
+2-Sep	Thermal_Tolerance_Zhang2017	1
+44628	Thermal_Tolerance_Carvalho2021	1
+7	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Zhang2017	2
+A0A1D5P4P2	Oxidative_Stress_GO	1
+A0A1D5PL18	Oxidative_Stress_GO	1
+A0A1D5PNT7	Respiratory_System_Processes_GO	1
+A0A1D5PNX5	Respiratory_System_Processes_GO	1
+A0A3Q2UBD3	Oxidative_Stress_GO	1
+A4GNT	Thermal_Tolerance_Zhang2017	1
+AADAC	Thermal_Tolerance_Xu2023	1
+AAR2	Thermal_Tolerance_Xu2023	1
+ABCB8	Thermal_Tolerance_Carvalho2021	1
+ABCC3	Thermal_Tolerance_Xu2023	1
+ABCD3	Climate_Kumar2019	1
+ABCF2	Thermal_Tolerance_Xu2023	1
+ABCG2	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Xu2023	2
+ABHD1	Thermal_Tolerance_Carvalho2021	1
+ABHD14B	Thermal_Tolerance_Carvalho2021	1
+ABHD3	Thermal_Tolerance_Romanov2023	1
+ABHD5	Climate_Kumar2019, Thermal_Tolerance_Xu2023	2
+ABL1	Oxidative_Stress_GO	1
+ABLIM2	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+ACAA1	Climate_Kumar2019	1
+ACACA	Climate_Kumar2019	1
+ACAD9	Respiratory_System_Processes_GO	1
+ACADL	Fat_Metabolism_Romanov2023	1
+ACAN	Thermal_Tolerance_Carvalho2021	1
+ACBD4	Thermal_Tolerance_Carvalho2021	1
+ACBD7	Fat_Metabolism_Romanov2023	1
+ACMSD	Thermal_Tolerance_Zhang2017	1
+ACO1	ThermalTolerance_VanGoor2016	1
+ACOT9	Energy_FeedIntake_Romanov2023, Fat_Metabolism_Romanov2023	2
+ACOX2	Oxidative_Stress_GO, Fat_Metabolism_Romanov2023, Immunity_Romanov2023	3
+ACOX3	Thermal_Tolerance_Xu2023	1
+ACSBG1	Thermal_Tolerance_Carvalho2021, ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023, Immunity_Romanov2023	4
+ACSF2	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+ACSL1	Fat_Metabolism_Romanov2023, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	3
+ACTB	Immunity_Romanov2023	1
+ACTL6A	Thermal_Tolerance_Xu2023	1
+ACTN1	Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023	2
+ACTR10	Thermal_Tolerance_Xu2023	1
+ACTR10L	Thermal_Tolerance_Xu2023	1
+ACTR6	Thermal_Tolerance_Xu2023	1
+ACVR1	Bone_Morphogenesis_GO, Thermal_Tolerance_Xu2023	2
+ACVR2B	Respiratory_System_Processes_GO	1
+ACYP1	Thermal_Tolerance_Romanov2023	1
+ADA	Immunity_Romanov2023	1
+ADAL	ThermalTolerance_VanGoor2016	1
+ADAM23	Skin_Feather_Romanov2023	1
+ADAM9	Oxidative_Stress_GO	1
+ADAMTS15	Thermal_Tolerance_Wang2020	1
+ADAMTS17	ThermalTolerance_VanGoor2016	1
+ADAMTS2	Respiratory_System_Processes_GO	1
+ADAMTSL2	Respiratory_System_Processes_GO	1
+ADAMTSL5	ThermalTolerance_VanGoor2016	1
+ADCY1	Thermal_Tolerance_Xu2023	1
+ADCY8	Thermal_Tolerance_Zhang2017	1
+ADGRD1	Thermal_Tolerance_Xu2023	1
+ADGRL3	Thermal_Tolerance_Xu2023	1
+ADH4	Respiratory_System_Processes_GO	1
+ADIPOQ	Thermal_Tolerance_Federova2022	1
+ADNP2	Oxidative_Stress_GO	1
+ADO	Thermal_Tolerance_Carvalho2021	1
+ADORA3	ThermalTolerance_VanGoor2016	1
+ADPRHL2	Oxidative_Stress_GO	1
+ADRA1A	ThermalTolerance_VanGoor2016	1
+ADRA2B	Thermal_Tolerance_Carvalho2021	1
+ADRA2C	Thermal_Tolerance_Zhang2017	1
+ADRB1	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+ADRB2	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+AFF3	Skin_Feather_Romanov2023	1
+AFMID	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Thermal_Tolerance_Xu2023	3
+AGAP1	Thermal_Tolerance_Xu2023	1
+AGAP2	Thermal_Tolerance_Carvalho2021	1
+AGR2	Respiratory_System_Processes_GO	1
+AHCYL1	Climate_Kumar2019	1
+AHI1	Thermal_Tolerance_Xu2023	1
+AHR2	Fat_Metabolism_Romanov2023	1
+AHSG	Immunity_Romanov2023	1
+AICDA	Immunity_Romanov2023, Thermal_Tolerance_Xu2023	2
+AIFM2	Thermal_Tolerance_Xu2023	1
+AKR1B1	Fat_Metabolism_Romanov2023, Immunity_Romanov2023	2
+AKR1B1L	Climate_Kumar2019	1
+AKR1D1	Climate_Kumar2019	1
+AKT1	Temperature_Homeostasis_GO, Response_To_Heat_GO, Oxidative_Stress_GO, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	5
+ALDH1A2	Respiratory_System_Processes_GO	1
+ALDH6	Respiratory_System_Processes_GO, ThermalTolerance_VanGoor2016	2
+ALDH8A1	Thermal_Tolerance_Xu2023	1
+ALDOC	Climate_Kumar2019, Romanov_Chicken_Stress_Adaptation	2
+ALG12	Thermal_Tolerance_Federova2022	1
+ALG9	Thermal_Tolerance_Carvalho2021	1
+ALKBH1	Oxidative_Stress_GO	1
+ALKBH2	Oxidative_Stress_GO	1
+ALKBH3	Oxidative_Stress_GO	1
+ALKBH5	Oxidative_Stress_GO	1
+ALPL	Thermal_Tolerance_Zhang2017, Bone_Morphogenesis_GO	2
+ALS2	Oxidative_Stress_GO	1
+ALS2CL	Thermal_Tolerance_Zhang2017	1
+ALX1	Bill_Morphology_Lundregan2018, Bill_Morphology_Lamichhaney2015_2016, Bill_Morphology_Lawson2015, Skin_Feather_Romanov2023	4
+ALX4	Bill_Morphology_Bosse2017	1
+AMIGO1	Thermal_Tolerance_Carvalho2021	1
+AMN	Climate_Kumar2019	1
+AMPD1	ThermalTolerance_VanGoor2016	1
+AMT	Thermal_Tolerance_Carvalho2021	1
+AMY2A	Romanov_Chicken_Stress_Adaptation	1
+ANAPC11	Thermal_Tolerance_Carvalho2021	1
+ANGEL1	Thermal_Tolerance_Xu2023	1
+ANGPTL5	Thermal_Tolerance_Zhang2017	1
+ANK2	Thermal_Tolerance_Xu2023	1
+ANKRD1	Thermal_Tolerance_Zhang2017	1
+ANKRD17	Thermal_Tolerance_Xu2023	1
+ANKRD22	Climate_Kumar2019	1
+ANKRD34C	Thermal_Tolerance_Carvalho2021	1
+ANKRD40	Thermal_Tolerance_Xu2023	1
+ANKRD40L	Thermal_Tolerance_Xu2023	1
+ANKRD44	Skin_Feather_Romanov2023	1
+ANKS1B	Thermal_Tolerance_Xu2023	1
+ANKZF1	Oxidative_Stress_GO	1
+ANLN	Thermal_Tolerance_Zhang2017	1
+ANO1	Response_To_Heat_GO	1
+ANO2	Thermal_Tolerance_Zhang2017, Romanov_Chicken_Thermosensation	2
+ANO5	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+ANPEP	Climate_Kumar2019	1
+ANTXR2	Energy_FeedIntake_Romanov2023	1
+ANXA1	Oxidative_Stress_GO, Climate_Kumar2019	2
+ANXA10	Fat_Metabolism_Romanov2023	1
+ANXA2	Bone_Morphogenesis_GO, Immunity_Romanov2023, Thermal_Tolerance_Xu2023	3
+ANXA4	ThermalTolerance_VanGoor2016	1
+ANXA5	Thermal_Tolerance_Zhuang2019, Climate_Kumar2019	2
+ANXA6	Thermal_Tolerance_Carvalho2021, Bone_Morphogenesis_GO, Bone_Morphogenesis_GO	3
+AP1M1	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+AP2B1	Thermal_Tolerance_Xu2023	1
+AP3B1	Respiratory_System_Processes_GO	1
+AP3S2	Climate_Kumar2019, Climate_Kumar2019	2
+AP4B1	ThermalTolerance_VanGoor2016	1
+AP4E1	Thermal_Tolerance_Xu2023	1
+APBA2	ThermalTolerance_VanGoor2016	1
+APBB1	Thermal_Tolerance_Carvalho2021	1
+APC2	ThermalTolerance_VanGoor2016	1
+API5	Immunity_Romanov2023	1
+APITD1	Thermal_Tolerance_Zhang2017	1
+APOA1	Response_To_Heat_GO	1
+APOA4	Oxidative_Stress_GO	1
+APOO	Thermal_Tolerance_Romanov2023, Fat_Metabolism_Romanov2023	2
+APOPT1	Oxidative_Stress_GO	1
+APOV1	Climate_Kumar2019	1
+APP	Oxidative_Stress_GO	1
+APPL2	Temperature_Homeostasis_GO	1
+APTX	Oxidative_Stress_GO, ThermalTolerance_VanGoor2016	2
+AQP3	Thermal_Tolerance_Zhang2017	1
+AQR	Thermal_Tolerance_Xu2023	1
+ARAP3	Thermal_Tolerance_Carvalho2021	1
+ARC	Thermal_Tolerance_Carvalho2021	1
+ARF4	Immunity_Romanov2023	1
+ARFGEF3	Thermal_Tolerance_Zhang2017	1
+ARG2	Thermal_Tolerance_Zhuang2019	1
+ARHGAP15	Thermal_Tolerance_Zhang2017	1
+ARHGAP19	Thermal_Tolerance_Zhang2017	1
+ARHGAP32	Thermal_Tolerance_Xu2023	1
+ARHGAP40	Thermal_Tolerance_Xu2023	1
+ARHGAP6	Thermal_Tolerance_Xu2023	1
+ARHGAP8	Thermal_Tolerance_Xu2023	1
+ARHGEF9	Thermal_Tolerance_Zhuang2019	1
+ARID1A	Thermal_Tolerance_Xu2023	1
+ARIH2	Immunity_Romanov2023	1
+ARL6IP5	Oxidative_Stress_GO	1
+ARL8A	Skin_Feather_Romanov2023	1
+ARMC6	ThermalTolerance_VanGoor2016	1
+ARNT	Oxidative_Stress_GO	1
+ARNTL	Response_To_Heat_GO, Thermal_Tolerance_Carvalho2021	2
+ARPP21	Response_To_Heat_GO	1
+ARRDC2	ThermalTolerance_VanGoor2016	1
+ARRDC3	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+ART7C	Thermal_Tolerance_Wang2020	1
+ARVCF	Thermal_Tolerance_Xu2023	1
+ASAP1	Thermal_Tolerance_Xu2023	1
+ASB10	Thermal_Tolerance_Xu2023	1
+ASB7	ThermalTolerance_VanGoor2016	1
+ASCL1	Respiratory_System_Processes_GO	1
+ASCL2	Thermal_Tolerance_Zhang2017	1
+ASL2	Climate_Kumar2019	1
+ASNS	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+ASNSD1	Thermal_Tolerance_Xu2023	1
+ASPA	Thermal_Tolerance_Carvalho2021	1
+ASPM	Thermal_Tolerance_Zhang2017	1
+ASPN	Thermal_Tolerance_Zhang2017	1
+ATF1	Thermal_Tolerance_Xu2023	1
+ATF2	Oxidative_Stress_GO	1
+ATF3	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+ATF4	Oxidative_Stress_GO	1
+ATG101	Thermal_Tolerance_Carvalho2021	1
+ATG9B	Thermal_Tolerance_Carvalho2021	1
+ATOH8	Climate_Kumar2019	1
+ATP13A2	Oxidative_Stress_GO	1
+ATP1B3	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+ATP2A2	Oxidative_Stress_GO	1
+ATP2B1	Thermal_Tolerance_Xu2023	1
+ATP5A1W	Thermal_Tolerance_Zhang2017	1
+ATP5F1	ThermalTolerance_VanGoor2016	1
+ATP6V0D2	Thermal_Tolerance_Federova2022	1
+ATP6V1F	Thermal_Tolerance_Carvalho2021	1
+ATP8A2	Immunity_Romanov2023	1
+ATRAID	Thermal_Tolerance_Carvalho2021	1
+AURKAIP2	Thermal_Tolerance_Zhuang2019	1
+AUTS2	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+AVEN	Immunity_Romanov2023	1
+AVPR1A	Thermal_Tolerance_Carvalho2021	1
+AXDND1	Thermal_Tolerance_Xu2023	1
+AXIN2	Bone_Morphogenesis_GO	1
+AZIN2	Climate_Kumar2019	1
+ApoD	Oxidative_Stress_GO	1
+Apoc3	Climate_Kumar2019	1
+B3GAT2	Thermal_Tolerance_Federova2022	1
+B4GALNT1	Thermal_Tolerance_Carvalho2021	1
+B4GALT6	Climate_Kumar2019	1
+BAG3	Temperature_Homeostasis_GO, Response_To_Heat_GO, Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Wang2020	4
+BAG5	Oxidative_Stress_GO	1
+BANP	Immunity_Romanov2023, WaterScarcity_Gheyas2021	2
+BASP1	Thermal_Tolerance_Xu2023	1
+BBS5	Thermal_Tolerance_Xu2023	1
+BCAN	Thermal_Tolerance_Zhang2017	1
+BCAS2	ThermalTolerance_VanGoor2016	1
+BCL2	Oxidative_Stress_GO	1
+BCL2L1	Bone_Morphogenesis_GO	1
+BCL2L15	ThermalTolerance_VanGoor2016	1
+BCR	Respiratory_System_Processes_GO	1
+BDNF	Response_To_Heat_GO, Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	4
+BEND2	Thermal_Tolerance_Xu2023	1
+BEND6	Thermal_Tolerance_Xu2023	1
+BG1	Climate_Kumar2019	1
+BHLHA15	Thermal_Tolerance_Wang2020	1
+BHLHE23	Thermal_Tolerance_Carvalho2021	1
+BHLHE40	Thermal_Tolerance_Carvalho2021	1
+BHLHE41	Thermal_Tolerance_Carvalho2021	1
+BIRC5	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+BLMH	Fat_Metabolism_Romanov2023	1
+BLNK	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhuang2019	2
+BLOC1S2	Thermal_Tolerance_Xu2023	1
+BLOC1S3	Thermal_Tolerance_Carvalho2021	1
+BMF	Climate_Kumar2019	1
+BMP-10	Thermal_Tolerance_Zhang2017	1
+BMP2	Bone_Morphogenesis_GO	1
+BMP4	Respiratory_System_Processes_GO, Bill_Morphology_Lundregan2018, Bill_Morphology_Lawson2015, Bone_Morphogenesis_GO, Skin_Feather_Romanov2023, Romanov_Chicken_Stress_Adaptation	6
+BMPR1A	Respiratory_System_Processes_GO, Bill_Morphology_Bosse2017, Bone_Morphogenesis_GO	3
+BMPR1B	Bone_Morphogenesis_GO, Bone_Morphogenesis_GO, Romanov_Chicken_Stress_Adaptation	3
+BNIP2	ThermalTolerance_VanGoor2016	1
+BOLA3	Thermal_Tolerance_Carvalho2021	1
+BORA	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+BORCS5	Thermal_Tolerance_Xu2023	1
+BRCA1	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+BRF2	Oxidative_Stress_GO	1
+BRINP1	Climate_Kumar2019, Bill_Morphology_Cheng2020	2
+BRPF3	Thermal_Tolerance_Xu2023	1
+BSG	Climate_Kumar2019	1
+BTBD9	Temperature_Homeostasis_GO, Skin_Feather_Romanov2023	2
+BTF3	Thermal_Tolerance_Zhang2017	1
+BTN1A1	Immunity_Romanov2023	1
+BUB1	Thermal_Tolerance_Zhang2017	1
+BUB1B	Climate_Kumar2019	1
+BZRAP1	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	2
+Bcat	Bill_Morphology_Lawson2015	1
+BlSK1	Skin_Feather_Romanov2023	1
+Blimp-1	Thermal_Tolerance_Zhang2017	1
+C15H22orf39	Thermal_Tolerance_Carvalho2021	1
+C18H17orf62	Respiratory_System_Processes_GO	1
+C18H17orf89	Thermal_Tolerance_Carvalho2021	1
+C19orf25	ThermalTolerance_VanGoor2016	1
+C19orf44	ThermalTolerance_VanGoor2016	1
+C19orf45	ThermalTolerance_VanGoor2016	1
+C1H12orf57	Thermal_Tolerance_Carvalho2021	1
+C1H7orf55	Thermal_Tolerance_Carvalho2021	1
+C1HXORF59	Thermal_Tolerance_Xu2023	1
+C1QBP	Immunity_Romanov2023	1
+C1QTNF4	Thermal_Tolerance_Xu2023	1
+C1QTNF6	Thermal_Tolerance_Carvalho2021	1
+C1orf109	Thermal_Tolerance_Zhang2017	1
+C1orf145	Thermal_Tolerance_Xu2023	1
+C1orf74	ThermalTolerance_VanGoor2016	1
+C22H8ORF4	Response_To_Heat_GO	1
+C28H19ORF10	ThermalTolerance_VanGoor2016	1
+C28H19orf60	Thermal_Tolerance_Carvalho2021	1
+C2H6orf62	Thermal_Tolerance_Carvalho2021	1
+C2orf40	Thermal_Tolerance_Zhang2017	1
+C3AR1	Climate_Kumar2019	1
+C4H2orf81	Thermal_Tolerance_Carvalho2021	1
+C4H4orf54	Thermal_Tolerance_Xu2023	1
+C5H11orf31	Thermal_Tolerance_Carvalho2021	1
+C5H14orf37	Thermal_Tolerance_Xu2023	1
+C5H15orf41	Thermal_Tolerance_Xu2023	1
+C6orf132	ThermalTolerance_VanGoor2016	1
+C8ORF22	Climate_Kumar2019	1
+C9orf152	Climate_Kumar2019	1
+CA12	ThermalTolerance_VanGoor2016	1
+CA14	Thermal_Tolerance_Carvalho2021	1
+CAB39	Thermal_Tolerance_Federova2022	1
+CAB39L	Thermal_Tolerance_Zhang2017	1
+CABLES1	Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023	2
+CACNA1C	Thermal_Tolerance_Xu2023	1
+CACNA1D	Skin_Feather_Romanov2023	1
+CACNA1G	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Thermal_Tolerance_Xu2023	3
+CACNA1I	Thermal_Tolerance_Xu2023	1
+CACNA2D2	Thermal_Tolerance_Zhang2017	1
+CACNB4	Rainfall_Humidity_Gheyas2021	1
+CACYBP	Immunity_Romanov2023	1
+CALB1	Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	2
+CALB2	Thermal_Tolerance_Xu2023	1
+CALCRL	Climate_Kumar2019	1
+CALD1	Romanov_Chicken_Stress_Adaptation	1
+CALM	Bill_Morphology_Lamichhaney2015_2016	1
+CALM1	Immunity_Romanov2023	1
+CALR3	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+CAMC2G	Thermal_Tolerance_Federova2022	1
+CAMK1D	Respiratory_System_Processes_GO, Thermal_Tolerance_Xu2023	2
+CAMK1G	ThermalTolerance_VanGoor2016	1
+CAMK2D	Thermal_Tolerance_Xu2023	1
+CAMK2N2	Thermal_Tolerance_Carvalho2021	1
+CAMKK1	Skin_Feather_Romanov2023, Romanov_Chicken_Stress_Adaptation	2
+CAMTA1	Thermal_Tolerance_Xu2023	1
+CAPZA1	ThermalTolerance_VanGoor2016	1
+CARTPT	Thermal_Tolerance_Carvalho2021	1
+CASC1	Thermal_Tolerance_Xu2023	1
+CASP14	Climate_Kumar2019	1
+CASP6	Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	2
+CAT	Oxidative_Stress_GO, Climate_Kumar2019, Thermal_Tolerance_Romanov2023, Thermal_Tolerance_Romanov2023, Romanov_Chicken_Stress_Adaptation	5
+CBARP	Thermal_Tolerance_Carvalho2021	1
+CBLB	Bill_Morphology_Lundregan2018	1
+CCAR1	Thermal_Tolerance_Xu2023	1
+CCDC103	Thermal_Tolerance_Wang2020	1
+CCDC14	Fat_Metabolism_Romanov2023	1
+CCDC142	Thermal_Tolerance_Carvalho2021	1
+CCDC40	Respiratory_System_Processes_GO	1
+CCKAR	Energy_FeedIntake_Romanov2023	1
+CCKBR	Thermal_Tolerance_Carvalho2021	1
+CCL1	Climate_Kumar2019	1
+CCL4	Thermal_Tolerance_Zhuang2019	1
+CCLI5	Thermal_Tolerance_Zhang2017	1
+CCN1	Bone_Morphogenesis_GO	1
+CCN3	Bone_Morphogenesis_GO	1
+CCNA2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CCNB2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CCNB3	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CCNK	Thermal_Tolerance_Xu2023	1
+CCR9	Thermal_Tolerance_Xu2023	1
+CCSER1	Thermal_Tolerance_Xu2023	1
+CD109	Thermal_Tolerance_Federova2022	1
+CD151	Climate_Kumar2019	1
+CD164L2	Thermal_Tolerance_Carvalho2021	1
+CD200	Thermal_Tolerance_Xu2023	1
+CD200L	Thermal_Tolerance_Xu2023	1
+CD28	Climate_Kumar2019, Thermal_Tolerance_Federova2022	2
+CD300L-S1	Thermal_Tolerance_Zhang2017	1
+CD300LG	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+CD320	Thermal_Tolerance_Carvalho2021	1
+CD36	Oxidative_Stress_GO	1
+CD4	Thermal_Tolerance_Zhang2017	1
+CD40LG	Thermal_Tolerance_Zhang2017	1
+CD44	Thermal_Tolerance_Xu2023	1
+CD79B	Immunity_Romanov2023	1
+CD80	Climate_Kumar2019	1
+CD8A	Thermal_Tolerance_Zhang2017	1
+CD93	Thermal_Tolerance_Carvalho2021	1
+CDC20	Climate_Kumar2019	1
+CDC26	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+CDC37	Response_To_Heat_GO	1
+CDC42BPA	Thermal_Tolerance_Xu2023	1
+CDC45	Thermal_Tolerance_Zhang2017	1
+CDCA3	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CDH1	Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023	2
+CDH12	Thermal_Tolerance_Xu2023	1
+CDH5	Climate_Kumar2019	1
+CDH8	Thermal_Tolerance_Zhang2017	1
+CDK1	Response_To_Heat_GO, Response_To_Heat_GO, Climate_Kumar2019, Thermal_Tolerance_Zhang2017	4
+CDK18	Thermal_Tolerance_Zhang2017	1
+CDK2	Climate_Kumar2019	1
+CDK2AP2	Thermal_Tolerance_Carvalho2021	1
+CDK3	Climate_Kumar2019	1
+CDK5R1	Thermal_Tolerance_Carvalho2021	1
+CDKL5	Thermal_Tolerance_Xu2023	1
+CDKN1A	Thermal_Tolerance_Zhang2017	1
+CDKN1B	Immunity_Romanov2023	1
+CDKN3	Climate_Kumar2019	1
+CDO1	Thermal_Tolerance_Carvalho2021	1
+CDS2	Thermal_Tolerance_Carvalho2021	1
+CEBPG	Thermal_Tolerance_Federova2022	1
+CELA2A	Thermal_Tolerance_Zhang2017	1
+CEMIP	Thermal_Tolerance_Wang2020	1
+CENPE	Thermal_Tolerance_Zhang2017	1
+CENPF	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CENPI	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CENPK	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CENPM	Climate_Kumar2019	1
+CENPN	Climate_Kumar2019	1
+CENPP	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CENPQ	Thermal_Tolerance_Zhang2017	1
+CENPV	Thermal_Tolerance_Xu2023	1
+CENPW	Thermal_Tolerance_Zhang2017	1
+CEP128	Thermal_Tolerance_Xu2023	1
+CEP57L1	Thermal_Tolerance_Xu2023	1
+CEPT1	Climate_Kumar2019	1
+CER1	Bone_Morphogenesis_GO	1
+CERS1	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Zhang2017	2
+CERS3	ThermalTolerance_VanGoor2016	1
+CERS6	Thermal_Tolerance_Romanov2023	1
+CETP	Climate_Kumar2019	1
+CFAP221	Respiratory_System_Processes_GO	1
+CFTR	Thermal_Tolerance_Zhang2017	1
+CGAS	Thermal_Tolerance_Federova2022	1
+CHCHD1	Thermal_Tolerance_Xu2023	1
+CHCHD10	Fat_Metabolism_Romanov2023	1
+CHCHD2P9	Oxidative_Stress_GO	1
+CHCHD3	Thermal_Tolerance_Xu2023	1
+CHD7	Respiratory_System_Processes_GO	1
+CHERP	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+CHORDC1	Response_To_Heat_GO, Energy_FeedIntake_Romanov2023, Thermal_Tolerance_Romanov2023	3
+CHRNA3	ThermalTolerance_VanGoor2016	1
+CHRNA4	Oxidative_Stress_GO	1
+CHRNA5	ThermalTolerance_VanGoor2016	1
+CHRNB4	ThermalTolerance_VanGoor2016	1
+CHST11	Skin_Feather_Romanov2023	1
+CHST2	Thermal_Tolerance_Carvalho2021	1
+CHST3	Thermal_Tolerance_Xu2023	1
+CIART	Thermal_Tolerance_Carvalho2021	1
+CIB2	ThermalTolerance_VanGoor2016	1
+CIB3	ThermalTolerance_VanGoor2016	1
+CIDEA	Temperature_Homeostasis_GO	1
+CIDEC	Fat_Metabolism_Romanov2023	1
+CIITA	Thermal_Tolerance_Zhang2017	1
+CIRBP	Thermal_Tolerance_Carvalho2021	1
+CITED2	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017, Bone_Morphogenesis_GO	3
+CKAP2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+CKI	ThermalTolerance_VanGoor2016	1
+CKM	Response_To_Heat_GO	1
+CLCN2	Thermal_Tolerance_Zhang2017	1
+CLDND1	Climate_Kumar2019	1
+CLINT1	Thermal_Tolerance_Xu2023	1
+CLIP1	Thermal_Tolerance_Xu2023	1
+CLN8	Oxidative_Stress_GO	1
+CLP1	LowMinTemp_Gheyas2021	1
+CLPB	Thermal_Tolerance_Carvalho2021	1
+CLPS	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Romanov2023, Fat_Metabolism_Romanov2023, Thermal_Tolerance_Xu2023	4
+CLRN1	Thermal_Tolerance_Xu2023	1
+CLRN2	Thermal_Tolerance_Wang2020	1
+CMBL	Thermal_Tolerance_Xu2023	1
+CMC1	Thermal_Tolerance_Xu2023	1
+CMTM7	Immunity_Romanov2023	1
+CNKSR2	Thermal_Tolerance_Xu2023	1
+CNKSR3	Thermal_Tolerance_Xu2023	1
+CNOT1	Thermal_Tolerance_Xu2023	1
+CNOT2	Thermal_Tolerance_Xu2023	1
+CNTN1	Thermal_Tolerance_Zhang2017	1
+CNTN5	Thermal_Tolerance_Xu2023	1
+COA6	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+COBL	Thermal_Tolerance_Xu2023	1
+COCH	Climate_Kumar2019	1
+COG3	Thermal_Tolerance_Romanov2023	1
+COL12A1	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+COL18A1	Thermal_Tolerance_Carvalho2021, Energy_FeedIntake_Romanov2023	2
+COL1A1	Bone_Morphogenesis_GO	1
+COL1A2	Bone_Morphogenesis_GO	1
+COL22A1	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+COL27A1	Bill_Morphology_Cheng2020	1
+COL28A1	Thermal_Tolerance_Zhang2017	1
+COL4A5	Bill_Morphology_Bosse2017	1
+COL6A1	Thermal_Tolerance_Carvalho2021, Fat_Metabolism_Romanov2023	2
+COL6A2	Energy_FeedIntake_Romanov2023	1
+COL7A1L	Thermal_Tolerance_Xu2023	1
+COMP	ThermalTolerance_VanGoor2016	1
+COMT	Thermal_Tolerance_Federova2022	1
+COPE	ThermalTolerance_VanGoor2016	1
+CORO2A	ThermalTolerance_VanGoor2016	1
+COX18	Thermal_Tolerance_Xu2023	1
+CPAMD8	Thermal_Tolerance_Carvalho2021, ThermalTolerance_VanGoor2016	2
+CPM	Thermal_Tolerance_Carvalho2021	1
+CPNE4 	migratory sleeplessness_Bossu_et_al2022  	1
+CPNE5	Thermal_Tolerance_Zhang2017	1
+CPNE7	Thermal_Tolerance_Carvalho2021	1
+CPSF3L	Thermal_Tolerance_Zhuang2019	1
+CPT1A	Climate_Kumar2019	1
+CPZ	Thermal_Tolerance_Xu2023	1
+CRABP-I	ThermalTolerance_VanGoor2016	1
+CRABP1	Skin_Feather_Romanov2023	1
+CRELD2	Thermal_Tolerance_Federova2022	1
+CRH	Temperature_Homeostasis_GO, Respiratory_System_Processes_GO	2
+CRHR2	Thermal_Tolerance_Zhang2017	1
+CRKL	Thermal_Tolerance_Xu2023	1
+CRLF1	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Romanov2023	2
+CROCC	Thermal_Tolerance_Carvalho2021	1
+CROT	Fat_Metabolism_Romanov2023	1
+CRTC1	ThermalTolerance_VanGoor2016	1
+CRY1	Romanov_Chicken_Stress_Adaptation	1
+CRY1 	circadian rhythm pathway_Bossu_et_al2022  	1
+CRY2	Thermal_Tolerance_Carvalho2021	1
+CRYAB	Response_To_Heat_GO, Oxidative_Stress_GO	2
+CRYBB1	Thermal_Tolerance_Carvalho2021	1
+CRYBG3	Thermal_Tolerance_Carvalho2021	1
+CSDE1	ThermalTolerance_VanGoor2016	1
+CSPG5	Thermal_Tolerance_Carvalho2021	1
+CSRNP2	Thermal_Tolerance_Carvalho2021	1
+CSRP1	Climate_Kumar2019	1
+CTK-1	ThermalTolerance_VanGoor2016	1
+CTLA4	Thermal_Tolerance_Federova2022	1
+CTNNA3	Thermal_Tolerance_Xu2023	1
+CTNNB1	Respiratory_System_Processes_GO, Oxidative_Stress_GO, Climate_Kumar2019, Bill_Morphology_Cheng2020, Bill_Morphology_Lawson2015, Bone_Morphogenesis_GO	6
+CTSD	Climate_Kumar2019	1
+CTSH	Respiratory_System_Processes_GO	1
+CTSO	Climate_Kumar2019	1
+CTSZ	Respiratory_System_Processes_GO	1
+CTTNBP2NL	ThermalTolerance_VanGoor2016	1
+CUBN	Thermal_Tolerance_Zhang2017	1
+CUL3	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	2
+CUL4B	Thermal_Tolerance_Xu2023	1
+CUX2	Thermal_Tolerance_Zhang2017	1
+CWF19L1	Oxidative_Stress_GO	1
+CX3CR1	Thermal_Tolerance_Zhang2017	1
+CXCR4	Thermal_Tolerance_Zhang2017	1
+CYBA	Respiratory_System_Processes_GO, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	3
+CYBB	Respiratory_System_Processes_GO, Climate_Kumar2019, Romanov_Chicken_Stress_Adaptation	3
+CYBRD1	Thermal_Tolerance_Zhuang2019	1
+CYLD	Bill_Morphology_Cheng2020	1
+CYP19A1	Skin_Feather_Romanov2023	1
+CYP1B1	Oxidative_Stress_GO	1
+CYP21A2	Thermal_Tolerance_Zhang2017	1
+CYP26B1	Bill_Morphology_Cheng2020, Bone_Morphogenesis_GO	2
+CYP2AC1	Climate_Kumar2019	1
+CYP2U1	Immunity_Romanov2023	1
+CYP4B7	Climate_Kumar2019	1
+CZH9ORF100	Thermal_Tolerance_Zhang2017	1
+CaM	Bill_Morphology_Bai2018, Bill_Morphology_Lawson2015	2
+Calm1	Bill_Morphology_Lundregan2018	1
+DAB2IP	Thermal_Tolerance_Zhuang2019	1
+DACH1	Respiratory_System_Processes_GO, Thermal_Tolerance_Xu2023	2
+DAD1	Skin_Feather_Romanov2023	1
+DAPK1	Oxidative_Stress_GO	1
+DAPK2	ThermalTolerance_VanGoor2016	1
+DAPP1	Thermal_Tolerance_Xu2023	1
+DAZAP1	ThermalTolerance_VanGoor2016	1
+DAZAP2	Thermal_Tolerance_Carvalho2021	1
+DBH	Temperature_Homeostasis_GO	1
+DBN1	Thermal_Tolerance_Carvalho2021	1
+DCBLD1	Thermal_Tolerance_Xu2023	1
+DCHS2	Thermal_Tolerance_Xu2023	1
+DCLRE1B	ThermalTolerance_VanGoor2016	1
+DCTD	Thermal_Tolerance_Zhang2017	1
+DDI2	Thermal_Tolerance_Xu2023	1
+DDIAS	Thermal_Tolerance_Romanov2023	1
+DDIT4	Thermal_Tolerance_Carvalho2021	1
+DDOST	Thermal_Tolerance_Xu2023	1
+DDX11	Thermal_Tolerance_Zhang2017	1
+DDX20	ThermalTolerance_VanGoor2016	1
+DDX43	Thermal_Tolerance_Xu2023	1
+DDX49	ThermalTolerance_VanGoor2016	1
+DDX60	Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023	2
+DECR1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+DENND2C	ThermalTolerance_VanGoor2016	1
+DEPDC1	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+DEPDC1B	Thermal_Tolerance_Zhang2017	1
+DEPDC7	Thermal_Tolerance_Zhuang2019	1
+DFNB59	Oxidative_Stress_GO	1
+DGCR8	Thermal_Tolerance_Federova2022	1
+DGKB	Thermal_Tolerance_Xu2023	1
+DGKD	Thermal_Tolerance_Xu2023	1
+DGKG	Thermal_Tolerance_Federova2022	1
+DGKQ	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Zhang2017	2
+DHCR24	Oxidative_Stress_GO	1
+DHDH	Thermal_Tolerance_Zhang2017	1
+DHFR	Oxidative_Stress_GO	1
+DHH	Thermal_Tolerance_Carvalho2021	1
+DHRS12	Thermal_Tolerance_Zhang2017	1
+DHRS7	Thermal_Tolerance_Xu2023	1
+DHX36	Response_To_Heat_GO, Immunity_Romanov2023	2
+DIABLO	Oxidative_Stress_GO	1
+DIAPH3	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+DIO2	Thermal_Tolerance_Carvalho2021	1
+DIP2B	Thermal_Tolerance_Xu2023	1
+DIRAS1	ThermalTolerance_VanGoor2016	1
+DISC1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+DJ-1	Oxidative_Stress_GO	1
+DKK1	Thermal_Tolerance_Xu2023	1
+DKK2	Skin_Feather_Romanov2023	1
+DKK3	Bill_Morphology_Cheng2020	1
+DLD	Respiratory_System_Processes_GO	1
+DLG1	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	2
+DLG5	Respiratory_System_Processes_GO	1
+DLGAP4	Thermal_Tolerance_Xu2023	1
+DLK1	Thermal_Tolerance_Zhang2017, Bill_Morphology_Lawson2015	2
+DLX2	Thermal_Tolerance_Carvalho2021	1
+DLX5	Respiratory_System_Processes_GO, Bone_Morphogenesis_GO	2
+DLX6	Thermal_Tolerance_Carvalho2021	1
+DMBT1L	Climate_Kumar2019	1
+DNA2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	3
+DNAH17	Thermal_Tolerance_Xu2023	1
+DNAJA1	Response_To_Heat_GO, ThermalTolerance_VanGoor2016	2
+DNAJA2	Response_To_Heat_GO, Immunity_Romanov2023	2
+DNAJA3	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+DNAJA4	Response_To_Heat_GO, Thermal_Tolerance_Wang2020, ThermalTolerance_VanGoor2016, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	5
+DNAJB12	Response_To_Heat_GO	1
+DNAJB14	Response_To_Heat_GO	1
+DNAJB2	Response_To_Heat_GO	1
+DNAJB9	Response_To_Heat_GO	1
+DNAJC10	Response_To_Heat_GO	1
+DNAJC12	Climate_Kumar2019, Thermal_Tolerance_Xu2023	2
+DNAJC15	Oxidative_Stress_GO	1
+DNAJC18	Response_To_Heat_GO	1
+DNAJC30	Thermal_Tolerance_Zhang2017	1
+DNAJC5G	Thermal_Tolerance_Carvalho2021	1
+DNAJC6	Climate_Kumar2019	1
+DNASE1L3	Immunity_Romanov2023	1
+DNASE2B	Thermal_Tolerance_Wang2020	1
+DNER	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhang2017	2
+DNMT3A	Response_To_Heat_GO	1
+DOCK2	Thermal_Tolerance_Federova2022	1
+DOCK4	Immunity_Romanov2023	1
+DOHH	Thermal_Tolerance_Carvalho2021	1
+DOK1	Thermal_Tolerance_Xu2023	1
+DPP9	ThermalTolerance_VanGoor2016	1
+DRAM1	Thermal_Tolerance_Zhang2017	1
+DRAXIN	Thermal_Tolerance_Zhang2017	1
+DRD2	Temperature_Homeostasis_GO	1
+DRD5	Thermal_Tolerance_Xu2023	1
+DST	Thermal_Tolerance_Xu2023	1
+DTL	Climate_Kumar2019	1
+DUOX1	Oxidative_Stress_GO	1
+DUSP10	Respiratory_System_Processes_GO	1
+DUSP16	Thermal_Tolerance_Xu2023	1
+DUSP5	Thermal_Tolerance_Zhang2017	1
+DUSP6	Immunity_Romanov2023	1
+DVL1	Thermal_Tolerance_Zhuang2019	1
+DYNC1I1	Thermal_Tolerance_Xu2023	1
+DYNC1I2	Thermal_Tolerance_Zhuang2019	1
+DYTN	Thermal_Tolerance_Xu2023	1
+Dkk2	Bill_Morphology_Lundregan2018	1
+Dkk3	Bill_Morphology_Lawson2015	1
+E1C4B7	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+E1C8P9	Respiratory_System_Processes_GO	1
+EBAG9	Climate_Kumar2019	1
+ECEL1	Respiratory_System_Processes_GO	1
+ECT2	Oxidative_Stress_GO, Thermal_Tolerance_Zhang2017	2
+EDA	Respiratory_System_Processes_GO	1
+EDAR	Skin_Feather_Romanov2023	1
+EDARADD	Thermal_Tolerance_Federova2022	1
+EDN1	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+EDN2	Temperature_Homeostasis_GO, Thermal_Tolerance_Zhang2017	2
+EDNRA	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+EEF2	Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	2
+EFHD1	Climate_Kumar2019	1
+EFNA2	Thermal_Tolerance_Zhuang2019, Bill_Morphology_Cheng2020, Bone_Morphogenesis_GO, Bone_Morphogenesis_GO	4
+EFR3B	Thermal_Tolerance_Carvalho2021	1
+EGF	Skin_Feather_Romanov2023, Immunity_Romanov2023	2
+EGFR	Oxidative_Stress_GO, Skin_Feather_Romanov2023	2
+EGLN1	Fat_Metabolism_Romanov2023, Romanov_Chicken_Stress_Adaptation	2
+EGR1	Temperature_Homeostasis_GO, Thermal_Tolerance_Carvalho2021	2
+EHBP1	Fat_Metabolism_Romanov2023	1
+EHF	Energy_FeedIntake_Romanov2023, Thermal_Tolerance_Romanov2023, Romanov_Chicken_Stress_Adaptation	3
+EIF2A	Thermal_Tolerance_Xu2023	1
+EIF2B4	Immunity_Romanov2023	1
+EIF2B5	Response_To_Heat_GO	1
+EIF2S1	Oxidative_Stress_GO	1
+EIF2S3	Immunity_Romanov2023	1
+EIF4B	Thermal_Tolerance_Carvalho2021	1
+ELL	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+ELMO3	Climate_Kumar2019	1
+ELN	Thermal_Tolerance_Zhuang2019	1
+ELOVL5	Thermal_Tolerance_Carvalho2021	1
+ELOVL6	Fat_Metabolism_Romanov2023	1
+ELP4	Thermal_Tolerance_Xu2023	1
+EMCN	Thermal_Tolerance_Carvalho2021	1
+EML5	Thermal_Tolerance_Romanov2023	1
+ENGASE	Thermal_Tolerance_Federova2022	1
+ENHO	Climate_Kumar2019	1
+ENSGALG00000007381	LowMinTemp_Gheyas2021	1
+ENSGALG00000036204	WaterScarcity_Gheyas2021	1
+ENTPD2L	Thermal_Tolerance_Xu2023	1
+EOMES	Skin_Feather_Romanov2023, Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023, Thermal_Tolerance_Xu2023	4
+EP300	Respiratory_System_Processes_GO	1
+EPAS1	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+EPHA3	Thermal_Tolerance_Xu2023	1
+EPHA7	WaterScarcity_Gheyas2021	1
+EPHB4	Thermal_Tolerance_Carvalho2021	1
+EPS15L1	ThermalTolerance_VanGoor2016	1
+EPT1	Thermal_Tolerance_Carvalho2021	1
+EPX	Oxidative_Stress_GO	1
+ERBB3	Climate_Kumar2019	1
+ERCC3	Oxidative_Stress_GO	1
+ERCC6	Oxidative_Stress_GO	1
+ERCC8	Oxidative_Stress_GO	1
+ERI2	Thermal_Tolerance_Zhang2017	1
+ERMP1	Oxidative_Stress_GO	1
+ERN1	Response_To_Heat_GO, Climate_Kumar2019	2
+ERO1A	Oxidative_Stress_GO	1
+ERO1B	Thermal_Tolerance_Federova2022	1
+ERRFI1	Respiratory_System_Processes_GO	1
+ESCO1	Thermal_Tolerance_Romanov2023	1
+ESR1	Response_To_Heat_GO	1
+ESRRG	Thermal_Tolerance_Zhuang2019	1
+ESYT2	Thermal_Tolerance_Xu2023	1
+ETFDH	Oxidative_Stress_GO	1
+ETFRF1	Thermal_Tolerance_Xu2023	1
+ETNK1	Thermal_Tolerance_Xu2023	1
+ETNK2	Thermal_Tolerance_Zhuang2019	1
+ETV4	Thermal_Tolerance_Zhang2017	1
+ETV5	Oxidative_Stress_GO, Thermal_Tolerance_Federova2022	2
+EVC2	Thermal_Tolerance_Romanov2023	1
+EXFABP	Climate_Kumar2019	1
+EXOC2	Thermal_Tolerance_Carvalho2021, Romanov_Chicken_Stress_Adaptation	2
+EXOC6	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	2
+EXOSC3	Thermal_Tolerance_Carvalho2021	1
+EXOSC4	Thermal_Tolerance_Carvalho2021	1
+EXT1	Respiratory_System_Processes_GO	1
+EXTL3	Thermal_Tolerance_Xu2023	1
+EYS	Thermal_Tolerance_Xu2023	1
+EZH2	Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	2
+Ept1	Climate_Kumar2019	1
+Ex-FABP	Thermal_Tolerance_Zhang2017	1
+F10	Thermal_Tolerance_Carvalho2021	1
+F1P0P3	Oxidative_Stress_GO	1
+F2RL2	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+F2RL3	ThermalTolerance_VanGoor2016	1
+FABP1	Oxidative_Stress_GO, Climate_Kumar2019	2
+FABP2	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+FADDS6	Thermal_Tolerance_Federova2022	1
+FADS6	Thermal_Tolerance_Romanov2023, Fat_Metabolism_Romanov2023	2
+FAF1	Response_To_Heat_GO	1
+FAM114A1	Immunity_Romanov2023	1
+FAM135A	Thermal_Tolerance_Federova2022	1
+FAM136A	Thermal_Tolerance_Carvalho2021	1
+FAM160A2	Thermal_Tolerance_Carvalho2021	1
+FAM166A	Thermal_Tolerance_Xu2023	1
+FAM169B	ThermalTolerance_VanGoor2016	1
+FAM180B	Thermal_Tolerance_Xu2023	1
+FAM181B	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Romanov2023	2
+FAM189A1	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Xu2023	2
+FAM194A	Thermal_Tolerance_Xu2023	1
+FAM212B	ThermalTolerance_VanGoor2016	1
+FAM213A	Climate_Kumar2019	1
+FAM49B	Thermal_Tolerance_Xu2023	1
+FAM65B	Climate_Kumar2019	1
+FAM65C	Thermal_Tolerance_Carvalho2021	1
+FAN1	ThermalTolerance_VanGoor2016	1
+FANCC	Oxidative_Stress_GO	1
+FAR1	Climate_Kumar2019	1
+FARSB	Thermal_Tolerance_Xu2023	1
+FASN	Climate_Kumar2019	1
+FASTKD1	Thermal_Tolerance_Xu2023	1
+FASTKD2	Thermal_Tolerance_Xu2023	1
+FBF1	Climate_Kumar2019	1
+FBLN5	Fat_Metabolism_Romanov2023	1
+FBN2	Thermal_Tolerance_Wang2020	1
+FBRSL1	Thermal_Tolerance_Xu2023	1
+FBXL22	ThermalTolerance_VanGoor2016	1
+FBXO11	Fat_Metabolism_Romanov2023, Thermal_Tolerance_Romanov2023	2
+FBXO22	Romanov_Chicken_Stress_Adaptation	1
+FBXO5	Thermal_Tolerance_Xu2023	1
+FBXO7	Oxidative_Stress_GO	1
+FBXW7	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+FEM1A	ThermalTolerance_VanGoor2016	1
+FER	Oxidative_Stress_GO	1
+FETUB	Climate_Kumar2019	1
+FGA	Immunity_Romanov2023	1
+FGB	Thermal_Tolerance_Xu2023	1
+FGD4	Thermal_Tolerance_Xu2023	1
+FGD6	Thermal_Tolerance_Xu2023	1
+FGF-18	Respiratory_System_Processes_GO	1
+FGF1	Response_To_Heat_GO, Respiratory_System_Processes_GO, Climate_Kumar2019	3
+FGF10	Respiratory_System_Processes_GO, Bill_Morphology_Lamichhaney2015_2016	2
+FGF14	Thermal_Tolerance_Federova2022	1
+FGF19	Bill_Morphology_Lundregan2018	1
+FGF2	Respiratory_System_Processes_GO	1
+FGF22	Thermal_Tolerance_Zhang2017	1
+FGF23	Energy_FeedIntake_Romanov2023	1
+FGF3	Skin_Feather_Romanov2023	1
+FGF4	Bone_Morphogenesis_GO, Skin_Feather_Romanov2023	2
+FGF5	Romanov_Chicken_Stress_Adaptation	1
+FGF8	Respiratory_System_Processes_GO, Bill_Morphology_Lundregan2018, Bone_Morphogenesis_GO	3
+FGF9	Respiratory_System_Processes_GO	1
+FHL2	Skin_Feather_Romanov2023	1
+FHOD3	Thermal_Tolerance_Xu2023	1
+FIBIN	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+FICD	Response_To_Heat_GO	1
+FITM2	Fat_Metabolism_Romanov2023	1
+FKBP12	Respiratory_System_Processes_GO	1
+FKBP12.6	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+FKBP4	Response_To_Heat_GO, Fat_Metabolism_Romanov2023, Thermal_Tolerance_Xu2023	3
+FKBP5	Thermal_Tolerance_Carvalho2021, Climate_Kumar2019, Romanov_Chicken_Stress_Adaptation	3
+FKBP51	Response_To_Heat_GO, Thermal_Tolerance_Zhang2017	2
+FKBP8	ThermalTolerance_VanGoor2016	1
+FKBP9	Thermal_Tolerance_Federova2022	1
+FLNB	Fat_Metabolism_Romanov2023	1
+FMC1	Thermal_Tolerance_Xu2023	1
+FN1	Immunity_Romanov2023	1
+FOS	Oxidative_Stress_GO, Thermal_Tolerance_Romanov2023	2
+FOSL2	Thermal_Tolerance_Carvalho2021	1
+FOXA1	Respiratory_System_Processes_GO, Thermal_Tolerance_Xu2023	2
+FOXB1	ThermalTolerance_VanGoor2016	1
+FOXC1	Bill_Morphology_Lamichhaney2015_2016	1
+FOXE3	ThermalTolerance_VanGoor2016	1
+FOXF1	Respiratory_System_Processes_GO	1
+FOXF2	Energy_FeedIntake_Romanov2023	1
+FOXJ1	Respiratory_System_Processes_GO	1
+FOXN1	Skin_Feather_Romanov2023	1
+FOXO1	Oxidative_Stress_GO	1
+FOXO3	Oxidative_Stress_GO	1
+FOXO6	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+FRMD5	Thermal_Tolerance_Zhang2017	1
+FRZB	Skin_Feather_Romanov2023	1
+FST	Thermal_Tolerance_Zhang2017	1
+FTO	Temperature_Homeostasis_GO, Respiratory_System_Processes_GO, Oxidative_Stress_GO	3
+FUT11	Thermal_Tolerance_Xu2023	1
+FUT7	Thermal_Tolerance_Carvalho2021	1
+FUT9	Thermal_Tolerance_Xu2023	1
+FXN	Oxidative_Stress_GO	1
+FYCO1	Thermal_Tolerance_Xu2023	1
+FZD1	Oxidative_Stress_GO, Bill_Morphology_Lundregan2018	2
+FZD3	Bill_Morphology_Cheng2020	1
+FZD4	Skin_Feather_Romanov2023	1
+Fgf7	Respiratory_System_Processes_GO	1
+G0S2	ThermalTolerance_VanGoor2016	1
+GADD45G	Thermal_Tolerance_Wang2020	1
+GAL12	Thermal_Tolerance_Zhang2017	1
+GALNT13	Thermal_Tolerance_Zhang2017	1
+GALNT4	Thermal_Tolerance_Xu2023	1
+GALNTL4	Thermal_Tolerance_Zhuang2019	1
+GAMT	ThermalTolerance_VanGoor2016	1
+GANC	Thermal_Tolerance_Carvalho2021	1
+GAREM	Thermal_Tolerance_Zhang2017	1
+GAS2	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+GAS2L2	Thermal_Tolerance_Xu2023	1
+GATA6	Respiratory_System_Processes_GO, Climate_Kumar2019, Thermal_Tolerance_Romanov2023	3
+GATAD2A	ThermalTolerance_VanGoor2016	1
+GATM	Climate_Kumar2019	1
+GBE	Thermal_Tolerance_Xu2023	1
+GBP1	Immunity_Romanov2023	1
+GCG	Thermal_Tolerance_Zhang2017	1
+GCGR	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+GCH1	Oxidative_Stress_GO, Immunity_Romanov2023	2
+GCLC	Temperature_Homeostasis_GO, Response_To_Heat_GO, Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	4
+GCNT3	ThermalTolerance_VanGoor2016	1
+GFRA2	Climate_Kumar2019	1
+GGCX	Thermal_Tolerance_Carvalho2021	1
+GGPS1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Fat_Metabolism_Romanov2023	3
+GGT5	Immunity_Romanov2023	1
+GGT7	Oxidative_Stress_GO	1
+GHOX-7	Bone_Morphogenesis_GO	1
+GHRL	Fat_Metabolism_Romanov2023	1
+GILT	ThermalTolerance_VanGoor2016	1
+GJA1	Climate_Kumar2019	1
+GJA8	Thermal_Tolerance_Xu2023	1
+GJB1	Climate_Kumar2019	1
+GJD2	Thermal_Tolerance_Zhang2017, Romanov_Chicken_Stress_Adaptation	2
+GK5	Climate_Kumar2019, Thermal_Tolerance_Xu2023	2
+GLCCI1	Climate_Kumar2019	1
+GLG1	Bone_Morphogenesis_GO	1
+GLI1	Respiratory_System_Processes_GO	1
+GLI3	Respiratory_System_Processes_GO, Bill_Morphology_Bosse2017, Thermal_Tolerance_Xu2023	3
+GLP1R	Skin_Feather_Romanov2023	1
+GLRA1	Respiratory_System_Processes_GO	1
+GLRX2	Oxidative_Stress_GO	1
+GLS2	Respiratory_System_Processes_GO	1
+GLUL	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+GNASXL	Bone_Morphogenesis_GO	1
+GNG2	Skin_Feather_Romanov2023, Immunity_Romanov2023	2
+GNPDA1	Thermal_Tolerance_Xu2023	1
+GOSR2	Immunity_Romanov2023	1
+GOT2	Thermal_Tolerance_Xu2023	1
+GPALPP1	Thermal_Tolerance_Romanov2023	1
+GPC3	Respiratory_System_Processes_GO	1
+GPC5	Thermal_Tolerance_Xu2023	1
+GPD1L	Thermal_Tolerance_Romanov2023	1
+GPHN	Thermal_Tolerance_Zhuang2019	1
+GPR1	Fat_Metabolism_Romanov2023	1
+GPR137B	Thermal_Tolerance_Federova2022	1
+GPR146	Thermal_Tolerance_Zhang2017	1
+GPR157	Thermal_Tolerance_Zhang2017	1
+GPR158	Thermal_Tolerance_Zhang2017	1
+GPR171	Thermal_Tolerance_Xu2023	1
+GPR182	Thermal_Tolerance_Wang2020, Thermal_Tolerance_Zhang2017	2
+GPR183	Thermal_Tolerance_Zhang2017	1
+GPR34	Thermal_Tolerance_Zhang2017	1
+GPR37	Response_To_Heat_GO, Oxidative_Stress_GO, Thermal_Tolerance_Carvalho2021	3
+GPR37L1	Oxidative_Stress_GO	1
+GPR55	Thermal_Tolerance_Federova2022	1
+GPR61	Thermal_Tolerance_Carvalho2021	1
+GPR78	Thermal_Tolerance_Xu2023	1
+GPR83L	Thermal_Tolerance_Xu2023	1
+GPR87	Thermal_Tolerance_Xu2023	1
+GPR89B	Thermal_Tolerance_Xu2023	1
+GPRC5B	Thermal_Tolerance_Wang2020, Thermal_Tolerance_Wang2020	2
+GPT2	Thermal_Tolerance_Zhuang2019, Fat_Metabolism_Romanov2023	2
+GPX1	Oxidative_Stress_GO	1
+GPX3	Oxidative_Stress_GO	1
+GPX4	Oxidative_Stress_GO	1
+GPX7	Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	2
+GPX8	Oxidative_Stress_GO	1
+GRAP2	Thermal_Tolerance_Zhang2017	1
+GREB1L	Thermal_Tolerance_Romanov2023	1
+GREM1	Bone_Morphogenesis_GO, Skin_Feather_Romanov2023, Immunity_Romanov2023	3
+GRIA1	Thermal_Tolerance_Xu2023	1
+GRIK1	Thermal_Tolerance_Zhang2017	1
+GRIK2	Temperature_Homeostasis_GO	1
+GRIP2	Thermal_Tolerance_Wang2020	1
+GRK7	Thermal_Tolerance_Xu2023	1
+GRM5	Skin_Feather_Romanov2023, Thermal_Tolerance_Xu2023	2
+GRM8	Thermal_Tolerance_Xu2023	1
+GSC	Bill_Morphology_Lamichhaney2015_2016	1
+GSKIP	Oxidative_Stress_GO	1
+GSR	Oxidative_Stress_GO	1
+GSTA2	Skin_Feather_Romanov2023, Romanov_Chicken_Stress_Adaptation	2
+GSTA3	Climate_Kumar2019, Immunity_Romanov2023	2
+GSTAL2	Thermal_Tolerance_Romanov2023, Romanov_Chicken_Stress_Adaptation	2
+GSTO1	Climate_Kumar2019	1
+GSTT1	Thermal_Tolerance_Romanov2023	1
+GSTT1L	Thermal_Tolerance_Romanov2023	1
+GTF2A1	Thermal_Tolerance_Xu2023	1
+GTF2A2	ThermalTolerance_VanGoor2016	1
+GTF2F1	Thermal_Tolerance_Carvalho2021	1
+GTSE1	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+GUCA1A	ThermalTolerance_VanGoor2016	1
+GUCA1B	ThermalTolerance_VanGoor2016	1
+GUCY1A3	Thermal_Tolerance_Zhang2017	1
+GZMM	ThermalTolerance_VanGoor2016	1
+Glis1	Bill_Morphology_Lundregan2018	1
+H2AFY2	Thermal_Tolerance_Xu2023	1
+HADHA	Climate_Kumar2019, Fat_Metabolism_Romanov2023	2
+HADHB	Fat_Metabolism_Romanov2023	1
+HAPLN4	ThermalTolerance_VanGoor2016	1
+HAT1	Fat_Metabolism_Romanov2023	1
+HAUS8	ThermalTolerance_VanGoor2016	1
+HBEGF	Climate_Kumar2019	1
+HBS1L	Thermal_Tolerance_Xu2023	1
+HCRT	Temperature_Homeostasis_GO	1
+HDAC4	Thermal_Tolerance_Xu2023	1
+HDAC9	Thermal_Tolerance_Xu2023	1
+HDC	Thermal_Tolerance_Zhang2017	1
+HDLBP	Thermal_Tolerance_Federova2022	1
+HEATR5A	Thermal_Tolerance_Carvalho2021	1
+HEATR7B2L1	Thermal_Tolerance_Xu2023	1
+HEMGN	ThermalTolerance_VanGoor2016	1
+HEPH	Thermal_Tolerance_Xu2023	1
+HERC1	ThermalTolerance_VanGoor2016	1
+HERC4	Thermal_Tolerance_Xu2023	1
+HES1	Respiratory_System_Processes_GO	1
+HES6	Thermal_Tolerance_Federova2022	1
+HESX1	Respiratory_System_Processes_GO	1
+HEYL	Thermal_Tolerance_Carvalho2021	1
+HGF	Oxidative_Stress_GO	1
+HHEX	Respiratory_System_Processes_GO	1
+HHIP	Respiratory_System_Processes_GO	1
+HHLA1	Thermal_Tolerance_Xu2023	1
+HIBCH	Fat_Metabolism_Romanov2023	1
+HIC1	Immunity_Romanov2023	1
+HIF1A	Response_To_Heat_GO, Oxidative_Stress_GO	2
+HIF1AN	Thermal_Tolerance_Xu2023	1
+HIKESHI	Response_To_Heat_GO	1
+HIPK1	ThermalTolerance_VanGoor2016	1
+HIST1H2B5	Climate_Kumar2019	1
+HIST1H2B8	Climate_Kumar2019	1
+HIST1H3H	Climate_Kumar2019	1
+HIVEP2	Thermal_Tolerance_Xu2023	1
+HJURP	Climate_Kumar2019	1
+HKDC1	Thermal_Tolerance_Wang2020	1
+HMBOX1	Thermal_Tolerance_Xu2023	1
+HMGA1	Thermal_Tolerance_Carvalho2021	1
+HMGA2	Bill_Morphology_Lamichhaney2015_2016, Bill_Morphology_Lawson2015	2
+HMGB1	Respiratory_System_Processes_GO	1
+HMGB3	Thermal_Tolerance_Federova2022	1
+HMGCL	Climate_Kumar2019, Climate_Kumar2019, Climate_Kumar2019, Climate_Kumar2019	4
+HMGCS1	Climate_Kumar2019	1
+HMGN4	Thermal_Tolerance_Xu2023	1
+HMHA1	Thermal_Tolerance_Carvalho2021	1
+HMOX1	Temperature_Homeostasis_GO, Response_To_Heat_GO, Oxidative_Stress_GO, Oxidative_Stress_GO	4
+HMOX2	Oxidative_Stress_GO	1
+HMX3	Thermal_Tolerance_Carvalho2021	1
+HNF1A	Oxidative_Stress_GO	1
+HNF4A	Fat_Metabolism_Romanov2023, Immunity_Romanov2023	2
+HNF4G	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+HNRNPA0	Thermal_Tolerance_Carvalho2021	1
+HNRNPM	Oxidative_Stress_GO	1
+HOMER3	ThermalTolerance_VanGoor2016	1
+HOXA1	Bill_Morphology_Bai2018	1
+HOXA11	Bone_Morphogenesis_GO	1
+HPGD	Immunity_Romanov2023	1
+HPGDS	Skin_Feather_Romanov2023	1
+HRH4	Thermal_Tolerance_Xu2023	1
+HSBP1	Response_To_Heat_GO	1
+HSBP1L1	Response_To_Heat_GO, Thermal_Tolerance_Federova2022	2
+HSD3B2	Climate_Kumar2019	1
+HSF1	Response_To_Heat_GO, Thermal_Tolerance_Romanov2023	2
+HSF2	Response_To_Heat_GO	1
+HSF2BP	Response_To_Heat_GO	1
+HSF3	Response_To_Heat_GO, Response_To_Heat_GO	2
+HSF4	Thermal_Tolerance_Federova2022	1
+HSP90AA1	Response_To_Heat_GO, Response_To_Heat_GO, Thermal_Tolerance_Wang2020	3
+HSP90AB1	Response_To_Heat_GO, Response_To_Heat_GO, Thermal_Tolerance_Carvalho2021	3
+HSP90B1	Response_To_Heat_GO, Response_To_Heat_GO, Energy_FeedIntake_Romanov2023, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	5
+HSPA13	Response_To_Heat_GO	1
+HSPA14	Response_To_Heat_GO, Response_To_Heat_GO	2
+HSPA2	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Wang2020	2
+HSPA4	Thermal_Tolerance_Xu2023	1
+HSPA5	Response_To_Heat_GO, Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Wang2020	3
+HSPA8	Response_To_Heat_GO, Response_To_Heat_GO, Thermal_Tolerance_Wang2020, Thermal_Tolerance_Wang2020, Thermal_Tolerance_Zhang2017	5
+HSPA9	Response_To_Heat_GO, Response_To_Heat_GO	2
+HSPB1	Response_To_Heat_GO, Response_To_Heat_GO, Oxidative_Stress_GO, Oxidative_Stress_GO, Thermal_Tolerance_Carvalho2021	5
+HSPB11	Respiratory_System_Processes_GO	1
+HSPB2	Response_To_Heat_GO	1
+HSPB8	Response_To_Heat_GO	1
+HSPD1	Response_To_Heat_GO, Thermal_Tolerance_Romanov2023	2
+HSPH1	Thermal_Tolerance_Wang2020, Thermal_Tolerance_Romanov2023	2
+HTR2C	HighPrecipSeasonality_Gheyas2021	1
+HTR5A	Thermal_Tolerance_Romanov2023	1
+HTRA2	Response_To_Heat_GO, Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	3
+HTRA3	Thermal_Tolerance_Xu2023	1
+HTT	Response_To_Heat_GO	1
+HYAL1	Oxidative_Stress_GO	1
+HYAL2	Oxidative_Stress_GO	1
+HYDIN	Thermal_Tolerance_Xu2023	1
+HYKK	ThermalTolerance_VanGoor2016	1
+HoxD3	Bill_Morphology_Bai2018	1
+IAPP	Energy_FeedIntake_Romanov2023	1
+ICE2	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Xu2023	2
+ICOS	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Federova2022	2
+ID1	Thermal_Tolerance_Carvalho2021	1
+ID4	Thermal_Tolerance_Carvalho2021, Climate_Kumar2019	2
+IDH1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+IDH3A	ThermalTolerance_VanGoor2016, Energy_FeedIntake_Romanov2023, Thermal_Tolerance_Romanov2023, Romanov_Chicken_Stress_Adaptation	4
+IER5	Response_To_Heat_GO, Thermal_Tolerance_Carvalho2021	2
+IFI6	Climate_Kumar2019	1
+IFIT5	Climate_Kumar2019	1
+IFITM5	Bone_Morphogenesis_GO	1
+IFNG	Immunity_Romanov2023	1
+IFRD1	Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	2
+IFT22	Skin_Feather_Romanov2023	1
+IFT43	Thermal_Tolerance_Xu2023	1
+IGF-I	ThermalTolerance_VanGoor2016	1
+IGF1	Response_To_Heat_GO, Fat_Metabolism_Romanov2023	2
+IGFBP1	Climate_Kumar2019, Thermal_Tolerance_Federova2022	2
+IGFBP3	Thermal_Tolerance_Federova2022	1
+IGFBP5	Thermal_Tolerance_Zhang2017	1
+IGLL1	Immunity_Romanov2023	1
+IGSF10	Romanov_Chicken_Stress_Adaptation, Thermal_Tolerance_Xu2023	2
+IGSF6	Thermal_Tolerance_Zhang2017	1
+IHH	Bill_Morphology_Cheng2020, Bone_Morphogenesis_GO	2
+IKBKAP	ThermalTolerance_VanGoor2016	1
+IL10	Oxidative_Stress_GO	1
+IL12A	Immunity_Romanov2023	1
+IL12B	Climate_Kumar2019, Thermal_Tolerance_Xu2023	2
+IL12RB1	ThermalTolerance_VanGoor2016	1
+IL17C	Immunity_Romanov2023	1
+IL17REL	Thermal_Tolerance_Federova2022	1
+IL18	Climate_Kumar2019	1
+IL18R1	Immunity_Romanov2023	1
+IL1R1	Thermal_Tolerance_Romanov2023, Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023	3
+IL1RAPL1	Immunity_Romanov2023, Thermal_Tolerance_Xu2023	2
+IL1RL1	Thermal_Tolerance_Carvalho2021, Climate_Kumar2019	2
+IL2	Thermal_Tolerance_Zhuang2019	1
+IL21	Thermal_Tolerance_Zhuang2019	1
+IL23R	Thermal_Tolerance_Carvalho2021	1
+IL2RB	Thermal_Tolerance_Zhang2017	1
+IL2RG	Immunity_Romanov2023	1
+IL4R	Thermal_Tolerance_Xu2023	1
+IL6	Temperature_Homeostasis_GO	1
+IL7	Thermal_Tolerance_Federova2022	1
+IMMP2L	Respiratory_System_Processes_GO, Immunity_Romanov2023	2
+IMPACT	Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	2
+INAFM2	Thermal_Tolerance_Carvalho2021	1
+ING2	Thermal_Tolerance_Xu2023	1
+INHA	Thermal_Tolerance_Zhang2017	1
+INHBA	Bill_Morphology_Bosse2017	1
+INO80B	Thermal_Tolerance_Carvalho2021	1
+INO80C	Immunity_Romanov2023	1
+INPP5J	Thermal_Tolerance_Zhang2017	1
+INSIG2	Climate_Kumar2019	1
+INSM1	Thermal_Tolerance_Carvalho2021	1
+INSM2	Thermal_Tolerance_Carvalho2021	1
+INSR	Respiratory_System_Processes_GO	1
+INTS9	Thermal_Tolerance_Xu2023	1
+IP6K1	Thermal_Tolerance_Carvalho2021	1
+IPCEF1	Thermal_Tolerance_Xu2023	1
+IRAK2	Immunity_Romanov2023	1
+IREB2	ThermalTolerance_VanGoor2016, Romanov_Chicken_Stress_Adaptation	2
+IRF2	Immunity_Romanov2023	1
+IRF2BPL	Thermal_Tolerance_Carvalho2021	1
+IRF6	ThermalTolerance_VanGoor2016	1
+IRF8	Skin_Feather_Romanov2023, Immunity_Romanov2023	2
+IRS1	Thermal_Tolerance_Zhang2017	1
+IRX2	Thermal_Tolerance_Zhang2017	1
+ISM2	Thermal_Tolerance_Zhang2017	1
+ISPD	Thermal_Tolerance_Xu2023	1
+ISYNA1	Thermal_Tolerance_Carvalho2021	1
+ITGA3	Respiratory_System_Processes_GO, Thermal_Tolerance_Carvalho2021	2
+ITGA6	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	2
+ITGB2	Fat_Metabolism_Romanov2023, Immunity_Romanov2023	2
+ITGB3BP	Thermal_Tolerance_Zhang2017	1
+ITGB5	Immunity_Romanov2023	1
+ITGB6	Respiratory_System_Processes_GO	1
+ITIH5	Thermal_Tolerance_Carvalho2021	1
+ITM2B	Thermal_Tolerance_Xu2023	1
+ITM2C	Thermal_Tolerance_Zhang2017	1
+ITPR1	Thermal_Tolerance_Xu2023	1
+JAG2	Respiratory_System_Processes_GO, Fat_Metabolism_Romanov2023	2
+JCHAIN	Respiratory_System_Processes_GO	1
+JDP2	Fat_Metabolism_Romanov2023	1
+JMJD6	Respiratory_System_Processes_GO, Thermal_Tolerance_Wang2020	2
+JUN	Oxidative_Stress_GO	1
+JUND	Thermal_Tolerance_Carvalho2021, Immunity_Romanov2023	2
+K123	Climate_Kumar2019	1
+KALRN	Thermal_Tolerance_Xu2023	1
+KAZALD1	Thermal_Tolerance_Carvalho2021	1
+KBTBD4	Thermal_Tolerance_Xu2023	1
+KCND3	ThermalTolerance_VanGoor2016	1
+KCNIP1	Thermal_Tolerance_Federova2022	1
+KCNIP4	Thermal_Tolerance_Xu2023	1
+KCNJ1	Thermal_Tolerance_Xu2023	1
+KCNJ5	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+KCNK10	Thermal_Tolerance_Xu2023	1
+KCNMB1	Climate_Kumar2019, Thermal_Tolerance_Federova2022	2
+KCNMB4	Thermal_Tolerance_Xu2023	1
+KCNQ3	Thermal_Tolerance_Xu2023	1
+KCNQ5	Thermal_Tolerance_Xu2023	1
+KCNS2	Thermal_Tolerance_Zhuang2019	1
+KCTD15	Thermal_Tolerance_Federova2022	1
+KCTD2	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+KDM4B	ThermalTolerance_VanGoor2016	1
+KDM8	Thermal_Tolerance_Xu2023	1
+KDR	Bone_Morphogenesis_GO	1
+KDSR	Climate_Kumar2019	1
+KIAA1024	Climate_Kumar2019	1
+KIAA1324	Thermal_Tolerance_Zhang2017	1
+KIAA1324L	Thermal_Tolerance_Zhang2017	1
+KIAA1328	ThermalTolerance_VanGoor2016	1
+KIF11	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+KIF13B	Thermal_Tolerance_Xu2023	1
+KIF15	Thermal_Tolerance_Zhang2017	1
+KIF17	Thermal_Tolerance_Xu2023	1
+KIF18A	Climate_Kumar2019	1
+KIF1B	Thermal_Tolerance_Romanov2023	1
+KIF20A	Thermal_Tolerance_Zhang2017	1
+KIF21B	Fat_Metabolism_Romanov2023	1
+KIF23	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+KIF25	Thermal_Tolerance_Zhang2017	1
+KIF26B	Thermal_Tolerance_Xu2023	1
+KIF4A	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+KIF5A	Thermal_Tolerance_Carvalho2021	1
+KIT	Thermal_Tolerance_Zhang2017, Bone_Morphogenesis_GO	2
+KITLG	Skin_Feather_Romanov2023	1
+KIZ	Thermal_Tolerance_Xu2023	1
+KLF13	ThermalTolerance_VanGoor2016	1
+KLF2	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+KLF3	Fat_Metabolism_Romanov2023, Immunity_Romanov2023	2
+KLF6	Climate_Kumar2019	1
+KLF7	Fat_Metabolism_Romanov2023, Thermal_Tolerance_Xu2023	2
+KLF8	Thermal_Tolerance_Carvalho2021	1
+KLHL22	Thermal_Tolerance_Xu2023	1
+KLHL23	Thermal_Tolerance_Zhang2017	1
+KLHL29	Thermal_Tolerance_Xu2023	1
+KLHL41	Thermal_Tolerance_Xu2023	1
+KMT5C	Thermal_Tolerance_Carvalho2021	1
+KNSTRN	Climate_Kumar2019	1
+KNTC1	Thermal_Tolerance_Zhang2017	1
+KPNA2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+KPNB1	Response_To_Heat_GO	1
+KRAS	Respiratory_System_Processes_GO, Thermal_Tolerance_Xu2023	2
+KRT23	Thermal_Tolerance_Carvalho2021	1
+KXD1	ThermalTolerance_VanGoor2016	1
+LACTB	ThermalTolerance_VanGoor2016	1
+LAD1	Skin_Feather_Romanov2023	1
+LAMA1	Respiratory_System_Processes_GO	1
+LAMA5	Respiratory_System_Processes_GO	1
+LAMB3	ThermalTolerance_VanGoor2016	1
+LAMB4	Thermal_Tolerance_Zhang2017	1
+LAMP2	Thermal_Tolerance_Xu2023	1
+LANCL1	Oxidative_Stress_GO	1
+LARP4	Thermal_Tolerance_Xu2023	1
+LARP6	ThermalTolerance_VanGoor2016	1
+LCP2	Thermal_Tolerance_Federova2022	1
+LCTL	Thermal_Tolerance_Xu2023	1
+LDB1	Climate_Kumar2019	1
+LDHA	Climate_Kumar2019	1
+LDHB	Climate_Kumar2019	1
+LDHD	Thermal_Tolerance_Carvalho2021	1
+LDLRAD3	Thermal_Tolerance_Wang2020	1
+LEF1	Respiratory_System_Processes_GO, Bone_Morphogenesis_GO, Skin_Feather_Romanov2023, Immunity_Romanov2023	4
+LEPR	Energy_FeedIntake_Romanov2023	1
+LGALS1	Climate_Kumar2019	1
+LGALS3	Climate_Kumar2019	1
+LGALS8	Thermal_Tolerance_Federova2022	1
+LGR4	Bone_Morphogenesis_GO, Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023, Romanov_Chicken_Stress_Adaptation	5
+LHFPL4	Thermal_Tolerance_Carvalho2021	1
+LHFPL5	Thermal_Tolerance_Xu2023	1
+LHX8	Climate_Kumar2019	1
+LIAS	Oxidative_Stress_GO	1
+LIG1	Thermal_Tolerance_Xu2023	1
+LIG3	Thermal_Tolerance_Xu2023	1
+LIMA1	Thermal_Tolerance_Xu2023	1
+LIN28B	Thermal_Tolerance_Xu2023	1
+LINS1	ThermalTolerance_VanGoor2016	1
+LIPA	Respiratory_System_Processes_GO	1
+LIPI	Thermal_Tolerance_Xu2023	1
+LMBR1 	limb development_Bossu_et_al2022  	1
+LMNB1	Thermal_Tolerance_Zhang2017	1
+LOC100857197	Thermal_Tolerance_Xu2023	1
+LOC100858655	Climate_Kumar2019	1
+LOC100858796	Oxidative_Stress_GO	1
+LOC100859173	Thermal_Tolerance_Xu2023	1
+LOC100859645	Thermal_Tolerance_Romanov2023, Romanov_Chicken_Stress_Adaptation	2
+LOC101747660	Thermal_Tolerance_Xu2023	1
+LOC101747670	Thermal_Tolerance_Xu2023	1
+LOC101747680	Climate_Kumar2019	1
+LOC101747860	Thermal_Tolerance_Xu2023	1
+LOC101748060	Thermal_Tolerance_Xu2023	1
+LOC101748065	Thermal_Tolerance_Xu2023	1
+LOC101749201	Oxidative_Stress_GO	1
+LOC101749238	Climate_Kumar2019	1
+LOC101749540	Skin_Feather_Romanov2023	1
+LOC101749696	Thermal_Tolerance_Xu2023	1
+LOC101750121	Thermal_Tolerance_Xu2023	1
+LOC107049075	Response_To_Heat_GO	1
+LOC107049379	Thermal_Tolerance_Xu2023	1
+LOC107049386	Thermal_Tolerance_Xu2023	1
+LOC107049387	Thermal_Tolerance_Xu2023	1
+LOC107049447	Thermal_Tolerance_Xu2023	1
+LOC107050147	Oxidative_Stress_GO	1
+LOC107051537	Respiratory_System_Processes_GO	1
+LOC107051795	Thermal_Tolerance_Xu2023	1
+LOC107052673	Thermal_Tolerance_Xu2023	1
+LOC107053632	Thermal_Tolerance_Xu2023	1
+LOC107056377	Respiratory_System_Processes_GO	1
+LOC107057170	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+LOC107057437	Thermal_Tolerance_Xu2023	1
+LOC107306239	Thermal_Tolerance_Carvalho2021	1
+LOC107306336	Thermal_Tolerance_Carvalho2021	1
+LOC107306478	Thermal_Tolerance_Carvalho2021	1
+LOC107306800	Thermal_Tolerance_Carvalho2021	1
+LOC107306838	Thermal_Tolerance_Carvalho2021	1
+LOC107306852	Thermal_Tolerance_Carvalho2021	1
+LOC107306858	Thermal_Tolerance_Carvalho2021	1
+LOC107306860	Thermal_Tolerance_Carvalho2021	1
+LOC107306986	Thermal_Tolerance_Carvalho2021	1
+LOC107306989	Thermal_Tolerance_Carvalho2021	1
+LOC107306994	Thermal_Tolerance_Carvalho2021	1
+LOC107306998	Thermal_Tolerance_Carvalho2021	1
+LOC107307003	Thermal_Tolerance_Carvalho2021	1
+LOC107307024	Thermal_Tolerance_Carvalho2021	1
+LOC107307053	Thermal_Tolerance_Carvalho2021	1
+LOC107307091	Thermal_Tolerance_Carvalho2021	1
+LOC107307114	Thermal_Tolerance_Carvalho2021	1
+LOC107307121	Thermal_Tolerance_Carvalho2021	1
+LOC107307123	Thermal_Tolerance_Carvalho2021	1
+LOC107307124	Thermal_Tolerance_Carvalho2021	1
+LOC107307195	Thermal_Tolerance_Carvalho2021	1
+LOC107307199	Thermal_Tolerance_Carvalho2021	1
+LOC107307292	Thermal_Tolerance_Carvalho2021	1
+LOC107307302	Thermal_Tolerance_Carvalho2021	1
+LOC107307304	Thermal_Tolerance_Carvalho2021	1
+LOC107307319	Thermal_Tolerance_Carvalho2021	1
+LOC107307327	Thermal_Tolerance_Carvalho2021	1
+LOC107307349	Thermal_Tolerance_Carvalho2021	1
+LOC107307393	Thermal_Tolerance_Carvalho2021	1
+LOC107307409	Thermal_Tolerance_Carvalho2021	1
+LOC107307470	Thermal_Tolerance_Carvalho2021	1
+LOC107307472	Thermal_Tolerance_Carvalho2021	1
+LOC107307474	Thermal_Tolerance_Carvalho2021	1
+LOC107307485	Thermal_Tolerance_Carvalho2021	1
+LOC107307553	Thermal_Tolerance_Carvalho2021	1
+LOC107307582	Thermal_Tolerance_Carvalho2021	1
+LOC107307612	Thermal_Tolerance_Carvalho2021	1
+LOC107307646	Thermal_Tolerance_Carvalho2021	1
+LOC107307731	Thermal_Tolerance_Carvalho2021	1
+LOC107307744	Thermal_Tolerance_Carvalho2021	1
+LOC107307747	Thermal_Tolerance_Carvalho2021	1
+LOC107307765	Thermal_Tolerance_Carvalho2021	1
+LOC107307801	Thermal_Tolerance_Carvalho2021	1
+LOC107307808	Thermal_Tolerance_Carvalho2021	1
+LOC107307820	Thermal_Tolerance_Carvalho2021	1
+LOC107307821	Thermal_Tolerance_Carvalho2021	1
+LOC107307823	Thermal_Tolerance_Carvalho2021	1
+LOC107307827	Thermal_Tolerance_Carvalho2021	1
+LOC107307873	Thermal_Tolerance_Carvalho2021	1
+LOC107307876	Thermal_Tolerance_Carvalho2021	1
+LOC107307886	Thermal_Tolerance_Carvalho2021	1
+LOC107308020	Thermal_Tolerance_Carvalho2021	1
+LOC107308510	Thermal_Tolerance_Carvalho2021	1
+LOC107308555	Thermal_Tolerance_Carvalho2021	1
+LOC107308639	Thermal_Tolerance_Carvalho2021	1
+LOC107308682	Thermal_Tolerance_Carvalho2021	1
+LOC107308687	Thermal_Tolerance_Carvalho2021	1
+LOC107308688	Thermal_Tolerance_Carvalho2021	1
+LOC107308689	Thermal_Tolerance_Carvalho2021	1
+LOC107308695	Thermal_Tolerance_Carvalho2021	1
+LOC107308730	Thermal_Tolerance_Carvalho2021	1
+LOC107309811	Thermal_Tolerance_Carvalho2021	1
+LOC107310113	Thermal_Tolerance_Carvalho2021	1
+LOC107310703	Thermal_Tolerance_Carvalho2021	1
+LOC107311341	Thermal_Tolerance_Carvalho2021	1
+LOC107311534	Thermal_Tolerance_Carvalho2021	1
+LOC107311779	Thermal_Tolerance_Carvalho2021	1
+LOC107311899	Thermal_Tolerance_Carvalho2021	1
+LOC107312385	Thermal_Tolerance_Carvalho2021	1
+LOC107312553	Thermal_Tolerance_Carvalho2021	1
+LOC107312719	Thermal_Tolerance_Carvalho2021	1
+LOC107312844	Thermal_Tolerance_Carvalho2021	1
+LOC107313078	Thermal_Tolerance_Carvalho2021	1
+LOC107313674	Thermal_Tolerance_Carvalho2021	1
+LOC107313685	Thermal_Tolerance_Carvalho2021	1
+LOC107314091	Thermal_Tolerance_Carvalho2021	1
+LOC107314286	Thermal_Tolerance_Carvalho2021	1
+LOC107314688	Thermal_Tolerance_Carvalho2021	1
+LOC107315187	Thermal_Tolerance_Carvalho2021	1
+LOC107315550	Thermal_Tolerance_Carvalho2021	1
+LOC107316226	Thermal_Tolerance_Carvalho2021	1
+LOC107317084	Thermal_Tolerance_Carvalho2021	1
+LOC107318000	Thermal_Tolerance_Carvalho2021	1
+LOC107318263	Thermal_Tolerance_Carvalho2021	1
+LOC107318451	Thermal_Tolerance_Carvalho2021	1
+LOC107319009	Thermal_Tolerance_Carvalho2021	1
+LOC107319130	Thermal_Tolerance_Carvalho2021	1
+LOC107319383	Thermal_Tolerance_Carvalho2021	1
+LOC107319436	Thermal_Tolerance_Carvalho2021	1
+LOC107319466	Thermal_Tolerance_Carvalho2021	1
+LOC107319603	Thermal_Tolerance_Carvalho2021	1
+LOC107319774	Thermal_Tolerance_Carvalho2021	1
+LOC107319847	Thermal_Tolerance_Carvalho2021	1
+LOC107319878	Thermal_Tolerance_Carvalho2021	1
+LOC107319971	Thermal_Tolerance_Carvalho2021	1
+LOC107320268	Thermal_Tolerance_Carvalho2021	1
+LOC107320275	Thermal_Tolerance_Carvalho2021	1
+LOC107320279	Thermal_Tolerance_Carvalho2021	1
+LOC107320912	Thermal_Tolerance_Carvalho2021	1
+LOC107321054	Thermal_Tolerance_Carvalho2021	1
+LOC107321074	Thermal_Tolerance_Carvalho2021	1
+LOC107321210	Thermal_Tolerance_Carvalho2021	1
+LOC107321260	Thermal_Tolerance_Carvalho2021	1
+LOC107321811	Thermal_Tolerance_Carvalho2021	1
+LOC107321855	Thermal_Tolerance_Carvalho2021	1
+LOC107321951	Thermal_Tolerance_Carvalho2021	1
+LOC107322794	Thermal_Tolerance_Carvalho2021	1
+LOC107322891	Thermal_Tolerance_Carvalho2021	1
+LOC107323028	Thermal_Tolerance_Carvalho2021	1
+LOC107323484	Thermal_Tolerance_Carvalho2021	1
+LOC107323601	Thermal_Tolerance_Carvalho2021	1
+LOC107323667	Thermal_Tolerance_Carvalho2021	1
+LOC107323972	Thermal_Tolerance_Carvalho2021	1
+LOC107324115	Thermal_Tolerance_Carvalho2021	1
+LOC107324320	Thermal_Tolerance_Carvalho2021	1
+LOC107324348	Thermal_Tolerance_Carvalho2021	1
+LOC107324751	Thermal_Tolerance_Carvalho2021	1
+LOC107324764	Thermal_Tolerance_Carvalho2021	1
+LOC107324880	Thermal_Tolerance_Carvalho2021	1
+LOC107324992	Thermal_Tolerance_Carvalho2021	1
+LOC107325029	Thermal_Tolerance_Carvalho2021	1
+LOC107325076	Thermal_Tolerance_Carvalho2021	1
+LOC107325272	Thermal_Tolerance_Carvalho2021	1
+LOC107325279	Thermal_Tolerance_Carvalho2021	1
+LOC107325312	Thermal_Tolerance_Carvalho2021	1
+LOC107325652	Thermal_Tolerance_Carvalho2021	1
+LOC107325783	Thermal_Tolerance_Carvalho2021	1
+LOC107325806	Thermal_Tolerance_Carvalho2021	1
+LOC107325851	Thermal_Tolerance_Carvalho2021	1
+LOC107325870	Thermal_Tolerance_Carvalho2021	1
+LOC107325881	Thermal_Tolerance_Carvalho2021	1
+LOC112530510	Thermal_Tolerance_Xu2023	1
+LOC112530523	Thermal_Tolerance_Xu2023	1
+LOC112531744	Thermal_Tolerance_Xu2023	1
+LOC112532613	Thermal_Tolerance_Xu2023	1
+LOC112532649	Thermal_Tolerance_Xu2023	1
+LOC112532988	Thermal_Tolerance_Xu2023	1
+LOC124418108	Skin_Feather_Romanov2023	1
+LOC395933	Climate_Kumar2019	1
+LOC396380	Climate_Kumar2019	1
+LOC416924	Thermal_Tolerance_Romanov2023, Energy_FeedIntake_Romanov2023	2
+LOC417848	Climate_Kumar2019	1
+LOC417973	Thermal_Tolerance_Xu2023	1
+LOC418424	Climate_Kumar2019	1
+LOC419851	Climate_Kumar2019	1
+LOC420362	Response_To_Heat_GO	1
+LOC421792	Climate_Kumar2019	1
+LOC421892	Bill_Morphology_Bai2018	1
+LOC424167	Thermal_Tolerance_Xu2023	1
+LOC425137	Climate_Kumar2019	1
+LOC425431	Response_To_Heat_GO	1
+LOC426037	Thermal_Tolerance_Xu2023	1
+LOC426064	Thermal_Tolerance_Xu2023	1
+LOC426217	Bill_Morphology_Bai2018	1
+LOC428383	Thermal_Tolerance_Xu2023	1
+LOC430422	Thermal_Tolerance_Xu2023	1
+LOC769510	Thermal_Tolerance_Xu2023	1
+LOC769852	Climate_Kumar2019	1
+LOC770026	Thermal_Tolerance_Xu2023	1
+LOC771456	Climate_Kumar2019	1
+LONP1	Oxidative_Stress_GO	1
+LOXL3	Respiratory_System_Processes_GO, Thermal_Tolerance_Xu2023	2
+LPL	Climate_Kumar2019	1
+LPO	Oxidative_Stress_GO	1
+LRAT	Thermal_Tolerance_Xu2023	1
+LRFN1	Thermal_Tolerance_Carvalho2021	1
+LRIG2	ThermalTolerance_VanGoor2016	1
+LRMP	Thermal_Tolerance_Xu2023	1
+LRP11	Response_To_Heat_GO	1
+LRP2	Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023, Thermal_Tolerance_Xu2023	3
+LRP2BP	Fat_Metabolism_Romanov2023	1
+LRRC14B	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Xu2023	2
+LRRC28	ThermalTolerance_VanGoor2016	1
+LRRC49	ThermalTolerance_VanGoor2016	1
+LRRC59	Thermal_Tolerance_Federova2022	1
+LRRC7	Thermal_Tolerance_Xu2023	1
+LRRC74A	Thermal_Tolerance_Xu2023	1
+LRRFIP1	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	2
+LRRIQ1	Bill_Morphology_Bosse2017	1
+LRRK1	ThermalTolerance_VanGoor2016	1
+LRRK2	Oxidative_Stress_GO	1
+LRRTM4	ThermalTolerance_VanGoor2016	1
+LSM4	ThermalTolerance_VanGoor2016	1
+LSS	Fat_Metabolism_Romanov2023	1
+LTBP2	Thermal_Tolerance_Carvalho2021	1
+LUC7L2	Thermal_Tolerance_Xu2023	1
+LUC7L3	Thermal_Tolerance_Xu2023	1
+LXN	Immunity_Romanov2023	1
+LYG2	Climate_Kumar2019, Immunity_Romanov2023	2
+LYPD3	Thermal_Tolerance_Carvalho2021	1
+LYSMD2	Thermal_Tolerance_Xu2023	1
+LYSMD4	ThermalTolerance_VanGoor2016	1
+LYVE1	Thermal_Tolerance_Zhang2017	1
+LZTFL1	Thermal_Tolerance_Xu2023	1
+M1AP	Thermal_Tolerance_Xu2023	1
+MAB21L2	Thermal_Tolerance_Carvalho2021	1
+MACROD2	Thermal_Tolerance_Xu2023	1
+MACROH2A1	Oxidative_Stress_GO	1
+MAD2L1	Climate_Kumar2019	1
+MADD	Thermal_Tolerance_Xu2023	1
+MAEL	Thermal_Tolerance_Carvalho2021	1
+MAFB	Respiratory_System_Processes_GO	1
+MAGI1	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+MAGI2	Thermal_Tolerance_Xu2023	1
+MAGI3	ThermalTolerance_VanGoor2016	1
+MAN2A1	Respiratory_System_Processes_GO	1
+MANEA	WaterScarcity_Gheyas2021	1
+MANF	Thermal_Tolerance_Carvalho2021	1
+MANSC1	Thermal_Tolerance_Xu2023	1
+MAOA	Bill_Morphology_Lundregan2018	1
+MAOB	Thermal_Tolerance_Zhang2017	1
+MAP1LC3B	Climate_Kumar2019	1
+MAP1S	ThermalTolerance_VanGoor2016	1
+MAP2K1	Respiratory_System_Processes_GO, Thermal_Tolerance_Xu2023	2
+MAP3K14	Immunity_Romanov2023	1
+MAP3K21	Thermal_Tolerance_Xu2023	1
+MAP3K5	Oxidative_Stress_GO	1
+MAP6	Thermal_Tolerance_Xu2023	1
+MAP7D1	Thermal_Tolerance_Carvalho2021	1
+MAP9	Thermal_Tolerance_Carvalho2021	1
+MAPK10	Immunity_Romanov2023	1
+MAPK11	Thermal_Tolerance_Federova2022	1
+MAPK12	Thermal_Tolerance_Federova2022	1
+MAPK13	Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	2
+MAPK14	Bone_Morphogenesis_GO, Fat_Metabolism_Romanov2023, Thermal_Tolerance_Xu2023	3
+MAPK3	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+MAPK8	Oxidative_Stress_GO	1
+MAPK8IP3	Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023	2
+MAPKAP1	Oxidative_Stress_GO	1
+MARCKSL1	Thermal_Tolerance_Carvalho2021	1
+MARCO	Climate_Kumar2019, Immunity_Romanov2023	2
+MAST3	ThermalTolerance_VanGoor2016	1
+MAU2	ThermalTolerance_VanGoor2016	1
+MB21D1	Thermal_Tolerance_Xu2023	1
+MBD4	Immunity_Romanov2023	1
+MBNL1	Thermal_Tolerance_Xu2023	1
+MBOAT2	Climate_Kumar2019, Thermal_Tolerance_Wang2020	2
+MBOAT7	Thermal_Tolerance_Carvalho2021	1
+MBTPS1	Thermal_Tolerance_Federova2022	1
+MC1R	Skin_Feather_Romanov2023, Immunity_Romanov2023	2
+MCEE	ThermalTolerance_VanGoor2016	1
+MCL1	Oxidative_Stress_GO	1
+MCM2	Climate_Kumar2019	1
+MCM3	Climate_Kumar2019	1
+MCM5	Climate_Kumar2019	1
+MCM6	Climate_Kumar2019	1
+MDH1B	Thermal_Tolerance_Xu2023	1
+ME3	Thermal_Tolerance_Romanov2023, Fat_Metabolism_Romanov2023	2
+MEA1	Thermal_Tolerance_Carvalho2021	1
+MECOM	Thermal_Tolerance_Carvalho2021	1
+MED1	Bone_Morphogenesis_GO	1
+MED11	Thermal_Tolerance_Carvalho2021	1
+MED12L	Thermal_Tolerance_Xu2023	1
+MED15	Thermal_Tolerance_Xu2023	1
+MED16	ThermalTolerance_VanGoor2016	1
+MED9	Immunity_Romanov2023	1
+MEF2A	ThermalTolerance_VanGoor2016	1
+MEF2BNB	ThermalTolerance_VanGoor2016	1
+MEIS1	Bone_Morphogenesis_GO	1
+MEIS2	Thermal_Tolerance_Xu2023	1
+MELK	Oxidative_Stress_GO, Thermal_Tolerance_Zhang2017	2
+MET	Oxidative_Stress_GO	1
+METRNL	Temperature_Homeostasis_GO	1
+METTL1	Thermal_Tolerance_Carvalho2021	1
+METTL21A	Climate_Kumar2019	1
+METTL21C	Response_To_Heat_GO, Thermal_Tolerance_Federova2022	2
+MFGE8	Climate_Kumar2019, Climate_Kumar2019	2
+MFSD5	Thermal_Tolerance_Carvalho2021	1
+MGP	Climate_Kumar2019	1
+MGST1	Oxidative_Stress_GO, Romanov_Chicken_Stress_Adaptation	2
+MIB1	Thermal_Tolerance_Romanov2023	1
+MID1	Thermal_Tolerance_Xu2023	1
+MID1IP1	Thermal_Tolerance_Carvalho2021	1
+MIF	Immunity_Romanov2023	1
+MIF4CD	Thermal_Tolerance_Federova2022	1
+MIF4GD	Thermal_Tolerance_Romanov2023	1
+MINDY4B	Thermal_Tolerance_Xu2023	1
+MIR	Thermal_Tolerance_Federova2022	1
+MIR15B	Immunity_Romanov2023	1
+MIR1603	Immunity_Romanov2023	1
+MIR1696	Romanov_Chicken_Stress_Adaptation	1
+MIR451	Immunity_Romanov2023	1
+MIR6615	Romanov_Chicken_Stress_Adaptation	1
+MIR6644-2	Romanov_Chicken_Stress_Adaptation	1
+MIR6666	Fat_Metabolism_Romanov2023	1
+MIR6693	Fat_Metabolism_Romanov2023	1
+MIS12	Climate_Kumar2019	1
+MITF	Skin_Feather_Romanov2023	1
+MKI67	Thermal_Tolerance_Zhang2017	1
+MKKS	Fat_Metabolism_Romanov2023	1
+MLC1	Thermal_Tolerance_Federova2022	1
+MLK4	Immunity_Romanov2023	1
+MLPH	Energy_FeedIntake_Romanov2023, Skin_Feather_Romanov2023	2
+MMP16	Bone_Morphogenesis_GO, Skin_Feather_Romanov2023	2
+MMP2	Oxidative_Stress_GO, Thermal_Tolerance_Carvalho2021, Bone_Morphogenesis_GO	3
+MMP28	Thermal_Tolerance_Xu2023	1
+MMP9	Oxidative_Stress_GO, Climate_Kumar2019	2
+MMRN1	Thermal_Tolerance_Zhang2017	1
+MMS22L	WaterScarcity_Gheyas2021	1
+MOGAT1	Thermal_Tolerance_Xu2023	1
+MOGS	Thermal_Tolerance_Carvalho2021	1
+MORN5	Thermal_Tolerance_Zhang2017	1
+MOV10	ThermalTolerance_VanGoor2016	1
+MOV10L1	Thermal_Tolerance_Zhuang2019	1
+MPC1	Climate_Kumar2019	1
+MPDU1	Thermal_Tolerance_Carvalho2021	1
+MPHOSPH10	ThermalTolerance_VanGoor2016	1
+MPO	Thermal_Tolerance_Zhuang2019	1
+MPP5	Thermal_Tolerance_Zhuang2019	1
+MPP6	Thermal_Tolerance_Carvalho2021	1
+MPV17L2	ThermalTolerance_VanGoor2016	1
+MPZL1	Thermal_Tolerance_Carvalho2021	1
+MRAS	Climate_Kumar2019	1
+MRC1	Immunity_Romanov2023	1
+MRPL20	Thermal_Tolerance_Zhuang2019	1
+MRPL43	Thermal_Tolerance_Carvalho2021	1
+MRPL47	Thermal_Tolerance_Xu2023	1
+MRPS16	Climate_Kumar2019	1
+MRPS18A	Climate_Kumar2019	1
+MSC	Thermal_Tolerance_Wang2020	1
+MSH2	Oxidative_Stress_GO	1
+MSN	Climate_Kumar2019	1
+MSRA	Oxidative_Stress_GO, WaterScarcity_Gheyas2021	2
+MSRB3	Oxidative_Stress_GO	1
+MST1R	Thermal_Tolerance_Zhang2017	1
+MSX1	Thermal_Tolerance_Xu2023	1
+MT-CO2	Oxidative_Stress_GO	1
+MT-CYB	Oxidative_Stress_GO	1
+MTERF4	Thermal_Tolerance_Carvalho2021	1
+MTF1	Oxidative_Stress_GO	1
+MTFP1	Thermal_Tolerance_Carvalho2021	1
+MTG1	Respiratory_System_Processes_GO	1
+MTG2	Respiratory_System_Processes_GO	1
+MTHFD1L	Thermal_Tolerance_Carvalho2021	1
+MTM1	Thermal_Tolerance_Federova2022	1
+MTMR10	ThermalTolerance_VanGoor2016	1
+MTO1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Xu2023	2
+MTOR	Response_To_Heat_GO	1
+MTPN	Thermal_Tolerance_Xu2023	1
+MTRF1L	Thermal_Tolerance_Xu2023	1
+MTRR	Skin_Feather_Romanov2023	1
+MTTP	Fat_Metabolism_Romanov2023, Thermal_Tolerance_Romanov2023	2
+MTTPL	Climate_Kumar2019	1
+MTUS1	Thermal_Tolerance_Xu2023	1
+MUC13	Thermal_Tolerance_Zhang2017	1
+MVB12A	Climate_Kumar2019	1
+MX1	Climate_Kumar2019	1
+MXD3	Thermal_Tolerance_Zhang2017	1
+MXRA8	Thermal_Tolerance_Zhuang2019	1
+MYBL1	Thermal_Tolerance_Zhang2017	1
+MYEF2	Oxidative_Stress_GO	1
+MYH15	Thermal_Tolerance_Romanov2023	1
+MYH1E	Thermal_Tolerance_Zhang2017	1
+MYH7	Thermal_Tolerance_Zhang2017	1
+MYL4	Climate_Kumar2019	1
+MYLK	Fat_Metabolism_Romanov2023, Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023	3
+MYLK4	Skin_Feather_Romanov2023	1
+MYO1A	Thermal_Tolerance_Zhang2017	1
+MYO1B	Thermal_Tolerance_Zhang2017, Romanov_Chicken_Stress_Adaptation	2
+MYO1F	Romanov_Chicken_Stress_Adaptation	1
+MYO7A	Fat_Metabolism_Romanov2023	1
+MYO9B	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+MYOC	Thermal_Tolerance_Zhang2017	1
+MYOZ1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Xu2023	2
+MYPN	Thermal_Tolerance_Xu2023	1
+N-RAS	ThermalTolerance_VanGoor2016	1
+NAA38	Thermal_Tolerance_Carvalho2021	1
+NACC2 	circadian rhythm pathway_Bossu_et_al2022  	1
+NAGK	Thermal_Tolerance_Carvalho2021	1
+NALCN	Thermal_Tolerance_Federova2022	1
+NANOS1	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+NAPEPLD	Temperature_Homeostasis_GO	1
+NAPRT	Oxidative_Stress_GO	1
+NARS2	Thermal_Tolerance_Romanov2023	1
+NAT10	Energy_FeedIntake_Romanov2023	1
+NAT6	Thermal_Tolerance_Carvalho2021	1
+NBEAL1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+NCAPD3	Thermal_Tolerance_Zhang2017	1
+NCAPG	Thermal_Tolerance_Zhang2017	1
+NCAPG2	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+NCAPH	Climate_Kumar2019	1
+NCBP1	ThermalTolerance_VanGoor2016	1
+NCF1C	Oxidative_Stress_GO	1
+NCF2	Respiratory_System_Processes_GO	1
+NCF4	Respiratory_System_Processes_GO	1
+NCKAP5	Thermal_Tolerance_Xu2023	1
+NCOA7	Oxidative_Stress_GO, Oxidative_Stress_GO	2
+NCOR1	Thermal_Tolerance_Xu2023	1
+NDC80	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+NDFIP2	Climate_Kumar2019	1
+NDUFA12	Oxidative_Stress_GO	1
+NDUFA4	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	3
+NDUFA6	Oxidative_Stress_GO	1
+NDUFA7	Thermal_Tolerance_Carvalho2021	1
+NDUFA8	Thermal_Tolerance_Zhuang2019	1
+NDUFAF3	Thermal_Tolerance_Carvalho2021	1
+NDUFB1	Immunity_Romanov2023	1
+NDUFB2	Thermal_Tolerance_Carvalho2021	1
+NDUFB4	Oxidative_Stress_GO, Thermal_Tolerance_Carvalho2021	2
+NDUFB5	Thermal_Tolerance_Xu2023	1
+NDUFB7	Thermal_Tolerance_Carvalho2021	1
+NDUFB8	Thermal_Tolerance_Xu2023	1
+NDUFS3	Thermal_Tolerance_Xu2023	1
+NDUFS7	ThermalTolerance_VanGoor2016	1
+NDUFS8	Oxidative_Stress_GO	1
+NDUFV2	Respiratory_System_Processes_GO	1
+NDUFV3	Climate_Kumar2019	1
+NECAB1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+NECAB2	Thermal_Tolerance_Federova2022	1
+NEDD9	Thermal_Tolerance_Xu2023	1
+NEIL1	Oxidative_Stress_GO	1
+NEK2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+NELFB	Thermal_Tolerance_Xu2023	1
+NELL1	Bill_Morphology_Bosse2017, Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	3
+NES	Thermal_Tolerance_Zhang2017	1
+NET1	Oxidative_Stress_GO	1
+NEU3	Climate_Kumar2019	1
+NEUROD6	Thermal_Tolerance_Federova2022	1
+NEUROG1	Bone_Morphogenesis_GO	1
+NFAT5	Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023	2
+NFATC1	Thermal_Tolerance_Federova2022	1
+NFE2L1	Oxidative_Stress_GO	1
+NFE2L2	Oxidative_Stress_GO, Thermal_Tolerance_Carvalho2021	2
+NFIA	Bill_Morphology_Lundregan2018	1
+NFIB	Respiratory_System_Processes_GO	1
+NFIL3	Thermal_Tolerance_Carvalho2021	1
+NFKB1	Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023	2
+NFX1	Thermal_Tolerance_Federova2022	1
+NGB	Thermal_Tolerance_Xu2023	1
+NGF	ThermalTolerance_VanGoor2016	1
+NGFR	Temperature_Homeostasis_GO	1
+NHSL1	Thermal_Tolerance_Carvalho2021	1
+NICN1	Thermal_Tolerance_Carvalho2021	1
+NIM1K	Climate_Kumar2019	1
+NINJ2	Thermal_Tolerance_Zhang2017	1
+NIPAL4	Thermal_Tolerance_Zhang2017	1
+NKX2-1	Respiratory_System_Processes_GO	1
+NKX2-4	Thermal_Tolerance_Carvalho2021	1
+NKX2-8	Respiratory_System_Processes_GO	1
+NKX3-1	Thermal_Tolerance_Carvalho2021	1
+NLGN3	Climate_Kumar2019	1
+NME5	Oxidative_Stress_GO	1
+NME9	Oxidative_Stress_GO	1
+NMS	Energy_FeedIntake_Romanov2023	1
+NMU	Temperature_Homeostasis_GO	1
+NONO	Oxidative_Stress_GO	1
+NOS1	Response_To_Heat_GO	1
+NOTCH1	Respiratory_System_Processes_GO	1
+NOV	Respiratory_System_Processes_GO	1
+NOX1	Oxidative_Stress_GO	1
+NOX3	Temperature_Homeostasis_GO	1
+NOX4	Thermal_Tolerance_Romanov2023, Energy_FeedIntake_Romanov2023, Thermal_Tolerance_Romanov2023	3
+NPAL2	Thermal_Tolerance_Zhuang2019	1
+NPAS2	Response_To_Heat_GO, Thermal_Tolerance_Carvalho2021	2
+NPAS2 	circadian rhythm pathway_Bossu_et_al2022  	1
+NPAS3	Thermal_Tolerance_Xu2023	1
+NPB	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+NPC1L1	Thermal_Tolerance_Carvalho2021	1
+NPHS2	Thermal_Tolerance_Xu2023	1
+NPL	Thermal_Tolerance_Carvalho2021	1
+NPPC	Bone_Morphogenesis_GO, Bone_Morphogenesis_GO	2
+NPSR1	Thermal_Tolerance_Xu2023	1
+NPTX1	Thermal_Tolerance_Federova2022	1
+NPY2R	Thermal_Tolerance_Xu2023	1
+NQO1	Thermal_Tolerance_Romanov2023	1
+NR0B1	Romanov_Chicken_Stress_Adaptation	1
+NR0B2	Energy_FeedIntake_Romanov2023	1
+NR1D1	Temperature_Homeostasis_GO	1
+NR1D2	Thermal_Tolerance_Carvalho2021	1
+NR2C2AP	ThermalTolerance_VanGoor2016	1
+NR2F1	Thermal_Tolerance_Zhang2017	1
+NR3C1	Response_To_Heat_GO	1
+NR3C2	Climate_Kumar2019	1
+NR4A2	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+NR4A3	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+NRG2	Thermal_Tolerance_Xu2023	1
+NRN1L	Thermal_Tolerance_Carvalho2021	1
+NRXN1	Thermal_Tolerance_Xu2023	1
+NRXN3	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+NSMCE1	Thermal_Tolerance_Xu2023	1
+NSMF	Thermal_Tolerance_Zhang2017	1
+NT5DC2	Thermal_Tolerance_Carvalho2021	1
+NTF3	Thermal_Tolerance_Romanov2023	1
+NTL	Thermal_Tolerance_Xu2023	1
+NTNG1	Romanov_Chicken_Stress_Adaptation	1
+NTRK2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+NUAK1	Skin_Feather_Romanov2023	1
+NUDT1	Thermal_Tolerance_Carvalho2021	1
+NUDT13	Thermal_Tolerance_Carvalho2021	1
+NUDT15	Oxidative_Stress_GO	1
+NUDT18	Thermal_Tolerance_Carvalho2021	1
+NUF2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+NUFIP1	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Romanov2023	2
+NUMA1	Climate_Kumar2019	1
+NUMB	Climate_Kumar2019	1
+NUP210L	Thermal_Tolerance_Zhang2017	1
+NUP37	Climate_Kumar2019	1
+NUSAP1	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+NWD2	Thermal_Tolerance_Zhang2017	1
+OBSCN	Thermal_Tolerance_Xu2023	1
+OC90	Thermal_Tolerance_Xu2023	1
+OGFRL1	Thermal_Tolerance_Federova2022	1
+OGG1	Thermal_Tolerance_Carvalho2021	1
+OIT3	Thermal_Tolerance_Xu2023	1
+OLA1	Thermal_Tolerance_Xu2023	1
+OLFM1	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+OLFML3	ThermalTolerance_VanGoor2016	1
+OPHN1	Thermal_Tolerance_Xu2023	1
+OPRL1	Thermal_Tolerance_Carvalho2021	1
+ORC1	Climate_Kumar2019	1
+ORMDL1	Thermal_Tolerance_Xu2023	1
+OS9	Thermal_Tolerance_Carvalho2021	1
+OSBPL1A	Thermal_Tolerance_Xu2023	1
+OSER1	Oxidative_Stress_GO	1
+OSGEPL1	Thermal_Tolerance_Xu2023	1
+OSGIN2	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+OSR1	Bone_Morphogenesis_GO	1
+OST4	Thermal_Tolerance_Carvalho2021	1
+OTOP1	Thermal_Tolerance_Xu2023	1
+OTP	Thermal_Tolerance_Carvalho2021	1
+OTUD7A	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Xu2023	2
+OVALX	Immunity_Romanov2023	1
+OXR1	Oxidative_Stress_GO	1
+OXSR1	Oxidative_Stress_GO	1
+P08106	Response_To_Heat_GO	1
+P2RX1	Climate_Kumar2019	1
+P2RX3	LowMinTemp_Gheyas2021	1
+P2RY1	Thermal_Tolerance_Xu2023	1
+P2RY12	Thermal_Tolerance_Xu2023	1
+P2RY13	Thermal_Tolerance_Xu2023	1
+P2RY14	Thermal_Tolerance_Xu2023	1
+P4HA1	Thermal_Tolerance_Xu2023	1
+P4HB	Oxidative_Stress_GO	1
+PAFAH1B1	Bone_Morphogenesis_GO	1
+PAIP1	Climate_Kumar2019	1
+PALMD	Climate_Kumar2019	1
+PAMR1	Thermal_Tolerance_Carvalho2021	1
+PAPLN	Thermal_Tolerance_Carvalho2021	1
+PAQR7	Climate_Kumar2019	1
+PARD3	Thermal_Tolerance_Xu2023	1
+PARK2	Response_To_Heat_GO, Oxidative_Stress_GO	2
+PARK7	Oxidative_Stress_GO	1
+PARP1	Oxidative_Stress_GO	1
+PARP9	Immunity_Romanov2023	1
+PARVG	Thermal_Tolerance_Zhang2017	1
+PAWR	Oxidative_Stress_GO	1
+PBK	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+PC	Climate_Kumar2019	1
+PCBP4	Thermal_Tolerance_Zhang2017	1
+PCDH15	Thermal_Tolerance_Xu2023	1
+PCDH17	Thermal_Tolerance_Carvalho2021, Skin_Feather_Romanov2023	2
+PCDH18	Thermal_Tolerance_Xu2023	1
+PCDH7	Thermal_Tolerance_Zhang2017, Skin_Feather_Romanov2023	2
+PCDH8	Skin_Feather_Romanov2023	1
+PCDH9	Skin_Feather_Romanov2023	1
+PCK1	Climate_Kumar2019	1
+PCK2	Climate_Kumar2019	1
+PCMTD1	Climate_Kumar2019	1
+PCNT	Immunity_Romanov2023	1
+PCNX2	Thermal_Tolerance_Xu2023	1
+PCNX4	Thermal_Tolerance_Xu2023	1
+PCOLCE2	Thermal_Tolerance_Zhuang2019	1
+PCSK4	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Zhang2017	2
+PCSK5	Respiratory_System_Processes_GO	1
+PCYOX1	Thermal_Tolerance_Carvalho2021	1
+PDCD10	Oxidative_Stress_GO	1
+PDCD6	Response_To_Heat_GO	1
+PDE12	Oxidative_Stress_GO	1
+PDE1C	Thermal_Tolerance_Federova2022	1
+PDE4A	Thermal_Tolerance_Carvalho2021	1
+PDE4C	ThermalTolerance_VanGoor2016	1
+PDE5A	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+PDE8A	Oxidative_Stress_GO	1
+PDF	Thermal_Tolerance_Carvalho2021	1
+PDGFRA	Respiratory_System_Processes_GO	1
+PDHA1	Climate_Kumar2019	1
+PDHB	Climate_Kumar2019, Fat_Metabolism_Romanov2023	2
+PDK1	Oxidative_Stress_GO	1
+PDK4	Climate_Kumar2019	1
+PDPN	Respiratory_System_Processes_GO	1
+PDXK	Climate_Kumar2019	1
+PDXP	Response_To_Heat_GO	1
+PDZK1	Thermal_Tolerance_Xu2023	1
+PEAK1 	cytoskeleton, cardiac and muscle regulation_Bossu_et_al2022  	1
+PER2	Thermal_Tolerance_Carvalho2021, Climate_Kumar2019	2
+PER3	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Carvalho2021	2
+PEX11B	Thermal_Tolerance_Carvalho2021	1
+PEX11G	ThermalTolerance_VanGoor2016	1
+PEX12	Thermal_Tolerance_Xu2023	1
+PEX19	Thermal_Tolerance_Carvalho2021	1
+PEX5L	Thermal_Tolerance_Xu2023	1
+PFN2	Immunity_Romanov2023	1
+PGAM5	Thermal_Tolerance_Federova2022	1
+PGBD5	Thermal_Tolerance_Xu2023	1
+PGM1	Climate_Kumar2019	1
+PGM2	Energy_FeedIntake_Romanov2023, Fat_Metabolism_Romanov2023	2
+PGPEP1	ThermalTolerance_VanGoor2016	1
+PGR	Response_To_Heat_GO	1
+PGR2	LowMinTemp_Gheyas2021	1
+PGR3	LowMinTemp_Gheyas2021	1
+PGRMC2	Climate_Kumar2019	1
+PGS1	Thermal_Tolerance_Xu2023	1
+PHC2	Thermal_Tolerance_Carvalho2021	1
+PHEX	Thermal_Tolerance_Carvalho2021	1
+PHF14	Thermal_Tolerance_Xu2023	1
+PHLDA3	Skin_Feather_Romanov2023	1
+PHLPP1	circadian rhythm and light-input pathway_Bossu_et_al2022 	1
+PHOX2B	Respiratory_System_Processes_GO	1
+PHTF1	ThermalTolerance_VanGoor2016	1
+PIAS4	Immunity_Romanov2023	1
+PID1	Climate_Kumar2019	1
+PIGH	Thermal_Tolerance_Zhuang2019	1
+PIGL	Thermal_Tolerance_Xu2023, Thermal_Tolerance_Xu2023	2
+PIK3C2G	Thermal_Tolerance_Romanov2023	1
+PIK3CB	Thermal_Tolerance_Federova2022	1
+PIKFYVE	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+PIM1	Immunity_Romanov2023	1
+PIT54	Climate_Kumar2019	1
+PITX2	Respiratory_System_Processes_GO, Thermal_Tolerance_Zhang2017, Bone_Morphogenesis_GO, Thermal_Tolerance_Romanov2023	4
+PIWIL1	Thermal_Tolerance_Carvalho2021	1
+PKD1	Respiratory_System_Processes_GO	1
+PKD2	Romanov_Chicken_Thermosensation	1
+PKD2L1	Thermal_Tolerance_Xu2023	1
+PKN2	Thermal_Tolerance_Xu2023	1
+PLA2G12A	Fat_Metabolism_Romanov2023	1
+PLA2G12B	Thermal_Tolerance_Xu2023	1
+PLA2G3	Thermal_Tolerance_Carvalho2021	1
+PLA2G4A	Climate_Kumar2019	1
+PLA2R1	Oxidative_Stress_GO	1
+PLAU	Climate_Kumar2019	1
+PLCXD1	Thermal_Tolerance_Zhang2017	1
+PLDN	Thermal_Tolerance_Zhuang2019	1
+PLEKHA1	Oxidative_Stress_GO	1
+PLEKHA5	Thermal_Tolerance_Xu2023	1
+PLEKHA6	Thermal_Tolerance_Zhuang2019	1
+PLEKHA7	Thermal_Tolerance_Xu2023	1
+PLEKHG4	Thermal_Tolerance_Carvalho2021	1
+PLEKHG5	Thermal_Tolerance_Carvalho2021	1
+PLEKHH3	Thermal_Tolerance_Carvalho2021	1
+PLIN1	Climate_Kumar2019	1
+PLIN4	Climate_Kumar2019	1
+PLIN5	Thermal_Tolerance_Zhang2017	1
+PLK1	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+PLK2	Bone_Morphogenesis_GO	1
+PLK3	Oxidative_Stress_GO	1
+PLK4	Thermal_Tolerance_Zhang2017	1
+PLOD2	Thermal_Tolerance_Zhuang2019	1
+PLRG1	Thermal_Tolerance_Xu2023	1
+PLS1	Thermal_Tolerance_Xu2023	1
+PLTP	Thermal_Tolerance_Carvalho2021	1
+PLXNB2	Thermal_Tolerance_Federova2022	1
+PMM1	Thermal_Tolerance_Carvalho2021	1
+PMVK	Thermal_Tolerance_Zhang2017	1
+PNOC	Thermal_Tolerance_Carvalho2021	1
+PNP	Thermal_Tolerance_Xu2023	1
+PNPLA2	Thermal_Tolerance_Zhang2017	1
+PNPLA3	Fat_Metabolism_Romanov2023	1
+PNPLA8	Oxidative_Stress_GO	1
+PNPT1	Oxidative_Stress_GO	1
+PNRC2	Climate_Kumar2019	1
+POC1B	Thermal_Tolerance_Xu2023	1
+POLQ	Thermal_Tolerance_Zhang2017	1
+POLR2D	Response_To_Heat_GO	1
+POMC	Fat_Metabolism_Romanov2023	1
+POMT2	Thermal_Tolerance_Xu2023	1
+POP1	Thermal_Tolerance_Zhuang2019	1
+POP5	Thermal_Tolerance_Carvalho2021	1
+POU3F2	Thermal_Tolerance_Carvalho2021	1
+PPARG	Climate_Kumar2019	1
+PPARGC1A	Respiratory_System_Processes_GO, Oxidative_Stress_GO, Thermal_Tolerance_Wang2020, Fat_Metabolism_Romanov2023, WaterScarcity_Gheyas2021	5
+PPEF2	Response_To_Heat_GO	1
+PPID	Response_To_Heat_GO	1
+PPIF	Oxidative_Stress_GO	1
+PPIL6	Thermal_Tolerance_Zhang2017	1
+PPM1J	ThermalTolerance_VanGoor2016	1
+PPP1CA	Respiratory_System_Processes_GO	1
+PPP1R12C	Thermal_Tolerance_Carvalho2021	1
+PPP1R17	Thermal_Tolerance_Federova2022	1
+PPP1R1C	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+PPP2CA	Oxidative_Stress_GO	1
+PPP3R1	Respiratory_System_Processes_GO	1
+PRC1	Thermal_Tolerance_Zhang2017	1
+PRCP	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Romanov2023	2
+PRDM8	Thermal_Tolerance_Carvalho2021	1
+PRDX1	Oxidative_Stress_GO	1
+PRDX3	Oxidative_Stress_GO	1
+PRDX4	Oxidative_Stress_GO, Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023	3
+PRDX6	Oxidative_Stress_GO	1
+PREB	Thermal_Tolerance_Carvalho2021	1
+PREX1	Thermal_Tolerance_Xu2023	1
+PRICKLE1	Bone_Morphogenesis_GO	1
+PRKAA1	Temperature_Homeostasis_GO, Response_To_Heat_GO, Oxidative_Stress_GO	3
+PRKAA2	Temperature_Homeostasis_GO, Response_To_Heat_GO, Oxidative_Stress_GO	3
+PRKCD	Oxidative_Stress_GO	1
+PRKD1	Oxidative_Stress_GO	1
+PRKDC	Skin_Feather_Romanov2023	1
+PRKG1	Thermal_Tolerance_Xu2023	1
+PRLR	Climate_Kumar2019	1
+PRMT3	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+PRNP	Oxidative_Stress_GO	1
+PROKR2	Thermal_Tolerance_Zhang2017	1
+PROX1	Respiratory_System_Processes_GO, Respiratory_System_Processes_GO	2
+PRPS2	Thermal_Tolerance_Xu2023	1
+PRR11	Thermal_Tolerance_Zhang2017	1
+PRR5	Thermal_Tolerance_Zhang2017	1
+PRR5L	Oxidative_Stress_GO	1
+PRRT3	Thermal_Tolerance_Carvalho2021	1
+PRRX1	Thermal_Tolerance_Wang2020	1
+PRSS23	Thermal_Tolerance_Romanov2023	1
+PSD	Thermal_Tolerance_Zhang2017	1
+PSD2	Thermal_Tolerance_Zhang2017	1
+PSIP1	Response_To_Heat_GO, Response_To_Heat_GO, Oxidative_Stress_GO, Oxidative_Stress_GO	4
+PSMA4	ThermalTolerance_VanGoor2016	1
+PTGDS	Thermal_Tolerance_Zhang2017	1
+PTGER2	Skin_Feather_Romanov2023	1
+PTGES	Response_To_Heat_GO	1
+PTGS1	Oxidative_Stress_GO	1
+PTGS2	Oxidative_Stress_GO	1
+PTHLH	Bone_Morphogenesis_GO	1
+PTK7	Respiratory_System_Processes_GO	1
+PTN	Bone_Morphogenesis_GO	1
+PTPMT1	Thermal_Tolerance_Xu2023	1
+PTPN22	ThermalTolerance_VanGoor2016	1
+PTPN6	Bone_Morphogenesis_GO	1
+PTPRB	Thermal_Tolerance_Xu2023	1
+PTPRD	Thermal_Tolerance_Wang2020	1
+PTPRG	Thermal_Tolerance_Xu2023	1
+PTPRK	Oxidative_Stress_GO	1
+PTPRN	Oxidative_Stress_GO, Thermal_Tolerance_Carvalho2021	2
+PTPRN2	Thermal_Tolerance_Xu2023	1
+PTPRS	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+PTTG1	Climate_Kumar2019	1
+PTX3	Immunity_Romanov2023	1
+PUM2	Respiratory_System_Processes_GO	1
+PXDN	Oxidative_Stress_GO, Romanov_Chicken_Stress_Adaptation	2
+PXDNL	Oxidative_Stress_GO	1
+PYCR1	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Romanov2023	2
+PYCR2	Climate_Kumar2019	1
+PYROXD1	Oxidative_Stress_GO	1
+Protein	ThermalTolerance_VanGoor2016	1
+QARS	Romanov_Chicken_Stress_Adaptation	1
+QRFP	Thermal_Tolerance_Carvalho2021	1
+R3HDM4	ThermalTolerance_VanGoor2016	1
+RAB30	Thermal_Tolerance_Romanov2023	1
+RAB38	Skin_Feather_Romanov2023	1
+RAB3A	Respiratory_System_Processes_GO	1
+RAB8A	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+RAB8B	ThermalTolerance_VanGoor2016	1
+RABGAP1L	Fat_Metabolism_Romanov2023	1
+RABIF	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+RAC2	Respiratory_System_Processes_GO	1
+RACK1	Oxidative_Stress_GO	1
+RAD51	Climate_Kumar2019	1
+RAD51B	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	2
+RAD51D	Thermal_Tolerance_Xu2023	1
+RAD52	Oxidative_Stress_GO	1
+RAI2	Thermal_Tolerance_Carvalho2021	1
+RALGAPA2	Thermal_Tolerance_Xu2023	1
+RAMP3	Thermal_Tolerance_Xu2023	1
+RAP1A	ThermalTolerance_VanGoor2016	1
+RAPGEF4	Thermal_Tolerance_Zhuang2019	1
+RARA	Respiratory_System_Processes_GO	1
+RASA2	Thermal_Tolerance_Xu2023	1
+RASAL1	Thermal_Tolerance_Carvalho2021	1
+RASGRF1	Thermal_Tolerance_Zhang2017	1
+RASL10B	Thermal_Tolerance_Xu2023	1
+RASSF1	Thermal_Tolerance_Carvalho2021	1
+RASSF3	Climate_Kumar2019	1
+RASSF6	Thermal_Tolerance_Carvalho2021	1
+RASSF8	Thermal_Tolerance_Xu2023	1
+RAX	Thermal_Tolerance_Carvalho2021	1
+RB1CC1	Thermal_Tolerance_Romanov2023	1
+RBBP7	Response_To_Heat_GO	1
+RBBP8	Thermal_Tolerance_Romanov2023	1
+RBFA	Thermal_Tolerance_Federova2022	1
+RBFOX1	Thermal_Tolerance_Xu2023	1
+RBM11	Oxidative_Stress_GO	1
+RBM42	Thermal_Tolerance_Carvalho2021	1
+RBM46	Thermal_Tolerance_Xu2023	1
+RBP14L	Oxidative_Stress_GO	1
+RBPJ	Respiratory_System_Processes_GO	1
+RCCD1	Thermal_Tolerance_Carvalho2021	1
+RD3	Thermal_Tolerance_Xu2023	1
+RDH10	Respiratory_System_Processes_GO	1
+RDH14	Bill_Morphology_Lamichhaney2015_2016	1
+RECK	Thermal_Tolerance_Federova2022	1
+RELA	Oxidative_Stress_GO, Oxidative_Stress_GO	2
+RET	Bill_Morphology_Bai2018	1
+RFC2	Climate_Kumar2019	1
+RFC3	Climate_Kumar2019	1
+RFFL	Thermal_Tolerance_Xu2023	1
+RFLNA	Bone_Morphogenesis_GO	1
+RFLNB	Bone_Morphogenesis_GO	1
+RFWD2	Immunity_Romanov2023	1
+RFX2	Thermal_Tolerance_Zhang2017	1
+RFXANK	ThermalTolerance_VanGoor2016	1
+RFXAP	Thermal_Tolerance_Carvalho2021	1
+RGS1	Thermal_Tolerance_Zhang2017	1
+RGS17	Thermal_Tolerance_Xu2023	1
+RGS20	Thermal_Tolerance_Carvalho2021	1
+RGS6	Thermal_Tolerance_Xu2023	1
+RHD	Thermal_Tolerance_Zhang2017	1
+RHO	Temperature_Homeostasis_GO	1
+RHOB	Climate_Kumar2019	1
+RHOC	ThermalTolerance_VanGoor2016	1
+RHOF	Thermal_Tolerance_Xu2023	1
+RHPN1	Thermal_Tolerance_Carvalho2021	1
+RIMBP3C	Thermal_Tolerance_Xu2023	1
+RIMKLB	Thermal_Tolerance_Carvalho2021	1
+RIMS1	Thermal_Tolerance_Xu2023	1
+RIPK1	Oxidative_Stress_GO	1
+RIPK2	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	3
+RMDN1	Climate_Kumar2019	1
+RNASEH2B	Thermal_Tolerance_Romanov2023	1
+RNASEH2C	Thermal_Tolerance_Carvalho2021	1
+RNASET2	Thermal_Tolerance_Carvalho2021	1
+RND2	Thermal_Tolerance_Zhang2017	1
+RNF115	Thermal_Tolerance_Carvalho2021	1
+RNF128	Thermal_Tolerance_Federova2022	1
+RNF14	Thermal_Tolerance_Xu2023	1
+RNF157	Thermal_Tolerance_Zhang2017	1
+RNF208	Thermal_Tolerance_Carvalho2021	1
+RNF44	Thermal_Tolerance_Carvalho2021	1
+RNF7	Thermal_Tolerance_Xu2023	1
+RNPC3	Immunity_Romanov2023	1
+ROGDI	Thermal_Tolerance_Carvalho2021	1
+ROMO1	Oxidative_Stress_GO	1
+ROR1	Bill_Morphology_Cheng2020	1
+RORA	Thermal_Tolerance_Xu2023	1
+RORalpha1	ThermalTolerance_VanGoor2016	1
+ROS1	Thermal_Tolerance_Xu2023	1
+RPGRIP1L	Respiratory_System_Processes_GO	1
+RPL22L1	Climate_Kumar2019	1
+RPL32	Immunity_Romanov2023	1
+RPL4	Thermal_Tolerance_Xu2023	1
+RPRD1A	Thermal_Tolerance_Xu2023	1
+RPRM	Thermal_Tolerance_Carvalho2021	1
+RPS15	ThermalTolerance_VanGoor2016	1
+RPS19	Respiratory_System_Processes_GO	1
+RPS28	Thermal_Tolerance_Carvalho2021	1
+RPS29	Climate_Kumar2019	1
+RPS3	Response_To_Heat_GO, Oxidative_Stress_GO	2
+RPS6KA1L	Thermal_Tolerance_Xu2023	1
+RPS6KA2	Thermal_Tolerance_Xu2023	1
+RPUSD3	Thermal_Tolerance_Carvalho2021	1
+RRM2	Thermal_Tolerance_Zhang2017	1
+RRM2B	Oxidative_Stress_GO	1
+RRP8	Thermal_Tolerance_Carvalho2021	1
+RRS1	Thermal_Tolerance_Carvalho2021	1
+RSBN1	ThermalTolerance_VanGoor2016	1
+RSPO2	Respiratory_System_Processes_GO	1
+RSU1	Climate_Kumar2019, Thermal_Tolerance_Xu2023	2
+RTKN	Thermal_Tolerance_Carvalho2021	1
+RTN4RL2	Thermal_Tolerance_Zhang2017, LowMinTemp_Gheyas2021	2
+RUNX1T1	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+RWDD1	Oxidative_Stress_GO	1
+RWDD4	Thermal_Tolerance_Xu2023	1
+RXFP1	Respiratory_System_Processes_GO	1
+RYCR1	Thermal_Tolerance_Federova2022	1
+RYR2	Thermal_Tolerance_Federova2022	1
+RYR3	Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023	2
+S100A10	Climate_Kumar2019	1
+S100A11	Climate_Kumar2019	1
+S100A6	Climate_Kumar2019	1
+S100A9	Climate_Kumar2019	1
+S1PR1	Bone_Morphogenesis_GO, Immunity_Romanov2023	2
+SAAL1	Thermal_Tolerance_Xu2023	1
+SAG	Thermal_Tolerance_Carvalho2021	1
+SALL1	Thermal_Tolerance_Carvalho2021, Climate_Kumar2019	2
+SAMD11	Climate_Kumar2019	1
+SAT1	Energy_FeedIntake_Romanov2023	1
+SATB2	Bill_Morphology_Bosse2017, Thermal_Tolerance_Xu2023	2
+SAV1	Respiratory_System_Processes_GO	1
+SBK2	Thermal_Tolerance_Xu2023	1
+SBNO2	Bone_Morphogenesis_GO	1
+SCAMP3	Thermal_Tolerance_Carvalho2021	1
+SCARA5	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+SCARB1	Thermal_Tolerance_Zhuang2019	1
+SCD	Thermal_Tolerance_Carvalho2021	1
+SCF14M2	Thermal_Tolerance_Wang2020	1
+SCG3	Thermal_Tolerance_Xu2023	1
+SCN11A	Thermal_Tolerance_Xu2023	1
+SCN2A	Thermal_Tolerance_Zhuang2019	1
+SCN2B	Response_To_Heat_GO	1
+SCN4B	Thermal_Tolerance_Zhang2017	1
+SCN5A 	circadian regulated cardiac function_Bossu_et_al2022  	1
+SCO2	Respiratory_System_Processes_GO	1
+SCRIB	Thermal_Tolerance_Xu2023	1
+SCTR	Climate_Kumar2019	1
+SCUBE2	Thermal_Tolerance_Carvalho2021	1
+SCYL2	Thermal_Tolerance_Xu2023	1
+SDC3	Bone_Morphogenesis_GO	1
+SDCBP2	Thermal_Tolerance_Zhang2017	1
+SDHAF4	Respiratory_System_Processes_GO	1
+SDHD	Oxidative_Stress_GO	1
+SDK1	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+SEC16B	Climate_Kumar2019	1
+SEC24B	Respiratory_System_Processes_GO	1
+SEC24C	Thermal_Tolerance_Xu2023	1
+SEC31B	Thermal_Tolerance_Xu2023	1
+SELENOK	Respiratory_System_Processes_GO, Oxidative_Stress_GO	2
+SELENOT	Thermal_Tolerance_Xu2023	1
+SEMA3A	Thermal_Tolerance_Xu2023	1
+SEMA4B	Thermal_Tolerance_Carvalho2021	1
+SEMA4D	Bone_Morphogenesis_GO, Bone_Morphogenesis_GO	2
+SEMA5A	Immunity_Romanov2023	1
+SERGEF	Thermal_Tolerance_Xu2023	1
+SERINC2	Climate_Kumar2019	1
+SERP1	Thermal_Tolerance_Xu2023	1
+SERPINA4	Climate_Kumar2019	1
+SERPINB10	Climate_Kumar2019	1
+SERPINF1	Immunity_Romanov2023	1
+SERPINF2	Immunity_Romanov2023	1
+SERTAD2	Climate_Kumar2019	1
+SESN1	Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	2
+SESN2	Oxidative_Stress_GO	1
+SESN3	Oxidative_Stress_GO	1
+SETD1B	Thermal_Tolerance_Xu2023	1
+SETD3	Thermal_Tolerance_Xu2023	1
+SETX	Oxidative_Stress_GO	1
+SF3B1	Immunity_Romanov2023	1
+SFPQ	Oxidative_Stress_GO	1
+SFRP1	Climate_Kumar2019	1
+SFRP2	Romanov_Chicken_Stress_Adaptation	1
+SFTPC	Respiratory_System_Processes_GO	1
+SGCZ	Thermal_Tolerance_Xu2023	1
+SGK1	Climate_Kumar2019	1
+SGPP2	Thermal_Tolerance_Xu2023	1
+SGTA	ThermalTolerance_VanGoor2016	1
+SH3BP5L	Thermal_Tolerance_Carvalho2021	1
+SH3TC1	Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Xu2023	2
+SHANK2	Energy_FeedIntake_Romanov2023	1
+SHD	Thermal_Tolerance_Carvalho2021	1
+SHH	Respiratory_System_Processes_GO, Bone_Morphogenesis_GO	2
+SHISA6	Thermal_Tolerance_Xu2023	1
+SHPK	Oxidative_Stress_GO	1
+SHPRH	Thermal_Tolerance_Xu2023	1
+SIAH2	Thermal_Tolerance_Xu2023	1
+SIK1	Thermal_Tolerance_Carvalho2021	1
+SIKE1	ThermalTolerance_VanGoor2016	1
+SIM2	Respiratory_System_Processes_GO, Thermal_Tolerance_Carvalho2021	2
+SIN3B	ThermalTolerance_VanGoor2016	1
+SIRT1	Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	2
+SIRT2	Oxidative_Stress_GO, Climate_Kumar2019	2
+SIRT7	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+SIVA1	Immunity_Romanov2023	1
+SIX2	Bill_Morphology_Bosse2017	1
+SIX5	Respiratory_System_Processes_GO	1
+SKIV2L	Thermal_Tolerance_Carvalho2021	1
+SLA	Thermal_Tolerance_Zhang2017	1
+SLBP	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+SLC10A2	Thermal_Tolerance_Federova2022	1
+SLC11A1	Respiratory_System_Processes_GO	1
+SLC12A2	Response_To_Heat_GO	1
+SLC12A5	Temperature_Homeostasis_GO	1
+SLC13A3	Thermal_Tolerance_Carvalho2021	1
+SLC13A5	Thermal_Tolerance_Carvalho2021	1
+SLC16A1	ThermalTolerance_VanGoor2016	1
+SLC16A14	Thermal_Tolerance_Xu2023	1
+SLC17A6	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+SLC1A1	Oxidative_Stress_GO, Thermal_Tolerance_Zhang2017	2
+SLC20A2	Thermal_Tolerance_Carvalho2021	1
+SLC22A3	Thermal_Tolerance_Zhang2017	1
+SLC22A31	Thermal_Tolerance_Carvalho2021	1
+SLC23A1	Respiratory_System_Processes_GO	1
+SLC25A16	Thermal_Tolerance_Xu2023	1
+SLC25A24	Oxidative_Stress_GO	1
+SLC25A34	Thermal_Tolerance_Carvalho2021	1
+SLC25A4	Oxidative_Stress_GO	1
+SLC25A42	ThermalTolerance_VanGoor2016	1
+SLC25A46	Respiratory_System_Processes_GO	1
+SLC25A47	Thermal_Tolerance_Carvalho2021	1
+SLC26A7	Thermal_Tolerance_Carvalho2021	1
+SLC26A8	Thermal_Tolerance_Xu2023	1
+SLC27A1	Response_To_Heat_GO	1
+SLC27A6	Thermal_Tolerance_Zhang2017	1
+SLC2A14	Skin_Feather_Romanov2023	1
+SLC2A3	Thermal_Tolerance_Carvalho2021	1
+SLC31A1	Climate_Kumar2019	1
+SLC32A1	Thermal_Tolerance_Xu2023	1
+SLC35C2	Climate_Kumar2019	1
+SLC35E1	ThermalTolerance_VanGoor2016	1
+SLC37A4	Respiratory_System_Processes_GO	1
+SLC38A10	Thermal_Tolerance_Federova2022	1
+SLC38A7	Thermal_Tolerance_Xu2023	1
+SLC39A10	Thermal_Tolerance_Carvalho2021	1
+SLC39A3	ThermalTolerance_VanGoor2016	1
+SLC41A2	Skin_Feather_Romanov2023	1
+SLC43A2	Immunity_Romanov2023	1
+SLC43A3	LowMinTemp_Gheyas2021	1
+SLC47A1	Thermal_Tolerance_Zhang2017	1
+SLC47A2	Thermal_Tolerance_Zhang2017	1
+SLC4A11	Oxidative_Stress_GO	1
+SLC51A	Climate_Kumar2019	1
+SLC52A3	Response_To_Heat_GO	1
+SLC5A1	Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	2
+SLC5A12	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+SLC5A7	Thermal_Tolerance_Carvalho2021	1
+SLC5A9	Thermal_Tolerance_Xu2023	1
+SLC6A17	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+SLC6A20	Thermal_Tolerance_Xu2023	1
+SLC6A4	Thermal_Tolerance_Zhang2017	1
+SLC7A1	Climate_Kumar2019	1
+SLC7A11	Oxidative_Stress_GO	1
+SLC7A2	Climate_Kumar2019	1
+SLC7A5	Fat_Metabolism_Romanov2023	1
+SLC8A2	Thermal_Tolerance_Carvalho2021	1
+SLC9A3	Thermal_Tolerance_Xu2023	1
+SLC9A9	Thermal_Tolerance_Zhuang2019	1
+SLK	WaterScarcity_Gheyas2021	1
+SLP76	Thermal_Tolerance_Zhang2017	1
+SLU7	Response_To_Heat_GO	1
+SMAD1	Bone_Morphogenesis_GO	1
+SMAD5	Skin_Feather_Romanov2023	1
+SMAP1	Thermal_Tolerance_Carvalho2021	1
+SMARCA4	Climate_Kumar2019	1
+SMARCD3	Thermal_Tolerance_Xu2023	1
+SMC2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+SMCHD1	Respiratory_System_Processes_GO	1
+SMIM7	Fat_Metabolism_Romanov2023	1
+SMOC1	Skin_Feather_Romanov2023, Immunity_Romanov2023	2
+SMPD3	Oxidative_Stress_GO, Thermal_Tolerance_Zhang2017	2
+SMU1	ThermalTolerance_VanGoor2016	1
+SNAI1	Skin_Feather_Romanov2023	1
+SNAI2	Thermal_Tolerance_Zhang2017	1
+SNAP29	Thermal_Tolerance_Carvalho2021	1
+SNAPC5	Thermal_Tolerance_Xu2023	1
+SNCA	Response_To_Heat_GO, Respiratory_System_Processes_GO, Oxidative_Stress_GO	3
+SNORA66	ThermalTolerance_VanGoor2016	1
+SNORD47	Thermal_Tolerance_Zhang2017	1
+SNRPA1	Climate_Kumar2019	1
+SNRPF	Thermal_Tolerance_Carvalho2021	1
+SNTB2	Thermal_Tolerance_Romanov2023	1
+SNW1	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	3
+SNX21	Thermal_Tolerance_Carvalho2021	1
+SNX4	Thermal_Tolerance_Xu2023	1
+SNX9	Thermal_Tolerance_Xu2023	1
+SOAT1	Thermal_Tolerance_Xu2023	1
+SOCS1	Thermal_Tolerance_Wang2020	1
+SOCS2	Thermal_Tolerance_Zhang2017	1
+SOCS3	Climate_Kumar2019, Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Fat_Metabolism_Romanov2023, Immunity_Romanov2023, Thermal_Tolerance_Xu2023	7
+SOD1	Temperature_Homeostasis_GO, Response_To_Heat_GO, Oxidative_Stress_GO, Oxidative_Stress_GO	4
+SOD2	Oxidative_Stress_GO	1
+SOD3	Oxidative_Stress_GO	1
+SORBS1	Thermal_Tolerance_Federova2022	1
+SORBS2	Thermal_Tolerance_Xu2023	1
+SORL1	Thermal_Tolerance_Zhang2017	1
+SOUL	Thermal_Tolerance_Zhang2017	1
+SOWAHC	Thermal_Tolerance_Xu2023	1
+SOX1	Thermal_Tolerance_Carvalho2021	1
+SOX5	Fat_Metabolism_Romanov2023, Skin_Feather_Romanov2023	2
+SOX7	Thermal_Tolerance_Carvalho2021	1
+SOX9	Respiratory_System_Processes_GO, Bone_Morphogenesis_GO	2
+SP3	Respiratory_System_Processes_GO	1
+SP4	Thermal_Tolerance_Xu2023	1
+SP8	Thermal_Tolerance_Carvalho2021	1
+SPAG16	Respiratory_System_Processes_GO, Thermal_Tolerance_Xu2023	2
+SPAG9	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Fat_Metabolism_Romanov2023	3
+SPATA2L	Thermal_Tolerance_Carvalho2021	1
+SPC25	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+SPDEF	Respiratory_System_Processes_GO	1
+SPI1	Climate_Kumar2019	1
+SPINK4	ThermalTolerance_VanGoor2016	1
+SPOCK2	Thermal_Tolerance_Carvalho2021	1
+SPOCK3	Fat_Metabolism_Romanov2023	1
+SPON1	Thermal_Tolerance_Zhang2017	1
+SPP2	Climate_Kumar2019	1
+SPRY1	Respiratory_System_Processes_GO	1
+SPRY2	Respiratory_System_Processes_GO	1
+SQSTM1	Temperature_Homeostasis_GO	1
+SRA1	Thermal_Tolerance_Carvalho2021	1
+SRCIN1	Thermal_Tolerance_Zhang2017	1
+SRF	Respiratory_System_Processes_GO, Bone_Morphogenesis_GO	2
+SRGN	Thermal_Tolerance_Carvalho2021	1
+SRPK1	Thermal_Tolerance_Xu2023	1
+SRSF5	Climate_Kumar2019, Immunity_Romanov2023	2
+SRXN1	Oxidative_Stress_GO	1
+SSFA2	Thermal_Tolerance_Carvalho2021	1
+SSX2IP	Climate_Kumar2019	1
+ST13	Thermal_Tolerance_Carvalho2021	1
+ST13P5	Response_To_Heat_GO	1
+ST6GALNAC2	Thermal_Tolerance_Carvalho2021	1
+ST7	Thermal_Tolerance_Zhuang2019	1
+ST7L	ThermalTolerance_VanGoor2016	1
+ST8SIA2	Thermal_Tolerance_Zhang2017	1
+STAB2	Thermal_Tolerance_Zhang2017, Skin_Feather_Romanov2023	2
+STAC	Response_To_Heat_GO	1
+STAG2	Thermal_Tolerance_Xu2023	1
+STAT1	Romanov_Chicken_Stress_Adaptation, Immunity_Romanov2023	2
+STAT3	Temperature_Homeostasis_GO	1
+STAT4	Thermal_Tolerance_Zhang2017, Romanov_Chicken_Stress_Adaptation	2
+STAT6	Thermal_Tolerance_Xu2023	1
+STC2	Oxidative_Stress_GO	1
+STIP1	Response_To_Heat_GO	1
+STK24	Oxidative_Stress_GO	1
+STK25	Oxidative_Stress_GO, Thermal_Tolerance_Federova2022	2
+STK26	Oxidative_Stress_GO	1
+STK3	Thermal_Tolerance_Zhuang2019	1
+STK32A	Skin_Feather_Romanov2023	1
+STK32B	Thermal_Tolerance_Xu2023	1
+STMN1	Climate_Kumar2019, Thermal_Tolerance_Zhang2017, Bill_Morphology_Bai2018	3
+STOM	Thermal_Tolerance_Zhuang2019	1
+STRA6	Respiratory_System_Processes_GO	1
+STRAP	Skin_Feather_Romanov2023	1
+STUB1	Response_To_Heat_GO	1
+STX2	Oxidative_Stress_GO, Thermal_Tolerance_Xu2023	2
+STXBP6	Thermal_Tolerance_Xu2023	1
+SUCNR1	Thermal_Tolerance_Xu2023	1
+SUGCT	Thermal_Tolerance_Carvalho2021	1
+SUGP1	ThermalTolerance_VanGoor2016	1
+SUGP2	ThermalTolerance_VanGoor2016	1
+SULT1B1	Climate_Kumar2019	1
+SUMO1	Response_To_Heat_GO	1
+SUOX	Thermal_Tolerance_Carvalho2021	1
+SVIL	Thermal_Tolerance_Carvalho2021	1
+SWAP70	Thermal_Tolerance_Carvalho2021	1
+SYCP1	ThermalTolerance_VanGoor2016	1
+SYK	Oxidative_Stress_GO, Bone_Morphogenesis_GO	2
+SYN2	Thermal_Tolerance_Xu2023	1
+SYNJ2	Thermal_Tolerance_Xu2023	1
+SYNM	ThermalTolerance_VanGoor2016	1
+SYNPO2L	Thermal_Tolerance_Xu2023	1
+SYPL1	Climate_Kumar2019	1
+SYT6	ThermalTolerance_VanGoor2016	1
+SYTL3	Thermal_Tolerance_Zhang2017	1
+SZRD1	Climate_Kumar2019	1
+Segment	Thermal_Tolerance_Zhang2017	1
+Shh	Bill_Morphology_Lundregan2018	1
+Sial-T2	Response_To_Heat_GO	1
+Six1	Respiratory_System_Processes_GO	1
+TAB1	Respiratory_System_Processes_GO	1
+TAB3	Immunity_Romanov2023	1
+TAC1	Thermal_Tolerance_Carvalho2021	1
+TACC3	Climate_Kumar2019	1
+TAF6L	Thermal_Tolerance_Carvalho2021	1
+TANGO2	Thermal_Tolerance_Xu2023	1
+TAP2	Thermal_Tolerance_Carvalho2021	1
+TARSL2	ThermalTolerance_VanGoor2016	1
+TAS2R7	Romanov_Chicken_Stress_Adaptation	1
+TAZ	Respiratory_System_Processes_GO	1
+TBC1D1	Energy_FeedIntake_Romanov2023, Fat_Metabolism_Romanov2023	2
+TBC1D2	ThermalTolerance_VanGoor2016	1
+TBC1D22B	Thermal_Tolerance_Xu2023	1
+TBC1D24	Oxidative_Stress_GO	1
+TBC1D2B	ThermalTolerance_VanGoor2016	1
+TBC1D5	Thermal_Tolerance_Xu2023	1
+TBCB	Thermal_Tolerance_Carvalho2021	1
+TBL3	Thermal_Tolerance_Zhuang2019	1
+TBX19	Climate_Kumar2019	1
+TBX2	Respiratory_System_Processes_GO, Thermal_Tolerance_Carvalho2021	2
+TBX3	Climate_Kumar2019	1
+TBX4	Respiratory_System_Processes_GO	1
+TBX5	Respiratory_System_Processes_GO	1
+TBXAS1	Thermal_Tolerance_Xu2023	1
+TCF15	Respiratory_System_Processes_GO	1
+TCF21	Respiratory_System_Processes_GO	1
+TCTE1	Thermal_Tolerance_Zhang2017	1
+TDRD3	Bill_Morphology_Bai2018	1
+TDRD6	Thermal_Tolerance_Zhang2017	1
+TDRD7	ThermalTolerance_VanGoor2016	1
+TEF	Thermal_Tolerance_Carvalho2021	1
+TELO2	Response_To_Heat_GO	1
+TEN1	Climate_Kumar2019	1
+TENM1	Thermal_Tolerance_Xu2023	1
+TERF1	Climate_Kumar2019	1
+TESC	Thermal_Tolerance_Zhang2017	1
+TESK2	Thermal_Tolerance_Carvalho2021	1
+TET1	Thermal_Tolerance_Xu2023	1
+TET2	Thermal_Tolerance_Xu2023	1
+TFDP2	Thermal_Tolerance_Xu2023	1
+TFEC	Response_To_Heat_GO, Thermal_Tolerance_Zhang2017	2
+TGFA	ThermalTolerance_VanGoor2016	1
+TGFB2	Respiratory_System_Processes_GO, Thermal_Tolerance_Zhuang2019	2
+TGFB3	Energy_FeedIntake_Romanov2023, Immunity_Romanov2023, Thermal_Tolerance_Xu2023	3
+TGFBR2	Respiratory_System_Processes_GO, Bill_Morphology_Cheng2020, Immunity_Romanov2023	3
+TGFBR3	Respiratory_System_Processes_GO, Energy_FeedIntake_Romanov2023	2
+TGFBRII	Bill_Morphology_Lawson2015	1
+TGFbrII	Bill_Morphology_Lundregan2018	1
+THADA	Thermal_Tolerance_Zhuang2019, Energy_FeedIntake_Romanov2023	2
+THBS1	Immunity_Romanov2023	1
+THBS2	Climate_Kumar2019	1
+THBS4	Thermal_Tolerance_Zhang2017	1
+THEMIS2	Immunity_Romanov2023	1
+THG1L	Oxidative_Stress_GO	1
+THOC1	Immunity_Romanov2023	1
+THOC7	Immunity_Romanov2023	1
+THOP1	ThermalTolerance_VanGoor2016	1
+THRSP	Fat_Metabolism_Romanov2023	1
+THSD4	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Zhang2017	2
+THSD7A	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+TICAM1	ThermalTolerance_VanGoor2016	1
+TIMELESS	Respiratory_System_Processes_GO	1
+TIMM10	LowMinTemp_Gheyas2021	1
+TIMM10B	Thermal_Tolerance_Carvalho2021	1
+TJP1	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Xu2023	2
+TJP2	Thermal_Tolerance_Carvalho2021	1
+TK1	Climate_Kumar2019, Thermal_Tolerance_Zhang2017, Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	4
+TLCD1	Climate_Kumar2019	1
+TLDC1	Oxidative_Stress_GO	1
+TLDC2	Oxidative_Stress_GO	1
+TLN2	ThermalTolerance_VanGoor2016	1
+TLR1A	Immunity_Romanov2023	1
+TLR1B	Immunity_Romanov2023	1
+TLR2A	Climate_Kumar2019, Immunity_Romanov2023	2
+TLR2B	Skin_Feather_Romanov2023	1
+TLR4	Oxidative_Stress_GO	1
+TLR7	Thermal_Tolerance_Xu2023	1
+TLX1	Thermal_Tolerance_Wang2020	1
+TLX3	Respiratory_System_Processes_GO	1
+TM2D3	ThermalTolerance_VanGoor2016	1
+TM4SF18	Thermal_Tolerance_Zhang2017	1
+TM6SF2	ThermalTolerance_VanGoor2016	1
+TMBIM6	Thermal_Tolerance_Carvalho2021	1
+TMC6	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	2
+TMEM128	Thermal_Tolerance_Xu2023	1
+TMEM132A	Thermal_Tolerance_Carvalho2021	1
+TMEM158	Thermal_Tolerance_Carvalho2021	1
+TMEM161A	Oxidative_Stress_GO, ThermalTolerance_VanGoor2016	2
+TMEM168	Immunity_Romanov2023	1
+TMEM200C	Thermal_Tolerance_Xu2023	1
+TMEM242	Thermal_Tolerance_Xu2023	1
+TMEM255A	Thermal_Tolerance_Wang2020	1
+TMEM38A	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+TMEM38B	Respiratory_System_Processes_GO	1
+TMEM41A	Climate_Kumar2019, Climate_Kumar2019	2
+TMEM41B	Climate_Kumar2019	1
+TMEM56	Climate_Kumar2019	1
+TMEM59L	ThermalTolerance_VanGoor2016	1
+TMEM63C	Thermal_Tolerance_Xu2023	1
+TMOD1	ThermalTolerance_VanGoor2016	1
+TMOD2	Thermal_Tolerance_Xu2023	1
+TMPRSS12	Thermal_Tolerance_Carvalho2021	1
+TMSB15B	Climate_Kumar2019	1
+TMSB4X	Climate_Kumar2019	1
+TMUB1	Thermal_Tolerance_Carvalho2021	1
+TNC	Thermal_Tolerance_Zhang2017	1
+TNFAIP3	Oxidative_Stress_GO	1
+TNFAIP8L1	Climate_Kumar2019, ThermalTolerance_VanGoor2016	2
+TNFAIP8L3	Thermal_Tolerance_Xu2023	1
+TNFIP6	Thermal_Tolerance_Zhang2017	1
+TNFRSF11A	Temperature_Homeostasis_GO, Response_To_Heat_GO, Fat_Metabolism_Romanov2023, Romanov_Chicken_Stress_Adaptation	4
+TNFRSF14	Immunity_Romanov2023	1
+TNFSF10	Climate_Kumar2019	1
+TNFSF11	Response_To_Heat_GO	1
+TNIP3	Thermal_Tolerance_Zhuang2019	1
+TNKS2	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Zhuang2019	2
+TNNI1	Thermal_Tolerance_Romanov2023	1
+TNNT3	Thermal_Tolerance_Zhang2017	1
+TNS3	Thermal_Tolerance_Xu2023	1
+TOMM20	Thermal_Tolerance_Carvalho2021	1
+TOMM6	Thermal_Tolerance_Carvalho2021	1
+TOP1 	circadian rhythm and metabolism sensor pathway_Bossu_et_al2022  	1
+TOP2A	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+TP53INP1	Response_To_Heat_GO, Oxidative_Stress_GO	2
+TPCN1	Thermal_Tolerance_Carvalho2021	1
+TPGS2	ThermalTolerance_VanGoor2016	1
+TPH1	Thermal_Tolerance_Xu2023	1
+TPM1	ThermalTolerance_VanGoor2016	1
+TPM4	ThermalTolerance_VanGoor2016	1
+TPO	Oxidative_Stress_GO, Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023	3
+TPR	Response_To_Heat_GO	1
+TPT1	Climate_Kumar2019	1
+TPX2	Climate_Kumar2019, Thermal_Tolerance_Zhang2017	2
+TRA2B	Thermal_Tolerance_Carvalho2021	1
+TRABD	Thermal_Tolerance_Federova2022	1
+TRAF3IP3	ThermalTolerance_VanGoor2016	1
+TRAF4	Respiratory_System_Processes_GO	1
+TRAF6	Bone_Morphogenesis_GO, Immunity_Romanov2023	2
+TRAIP	Thermal_Tolerance_Zhang2017	1
+TRAPPC12	Thermal_Tolerance_Xu2023	1
+TRDN	Thermal_Tolerance_Xu2023	1
+TRDNL	Thermal_Tolerance_Xu2023	1
+TRH	Thermal_Tolerance_Romanov2023	1
+TRHR	Thermal_Tolerance_Romanov2023	1
+TRIL	Thermal_Tolerance_Carvalho2021	1
+TRIM3	Thermal_Tolerance_Carvalho2021	1
+TRIM33	ThermalTolerance_VanGoor2016	1
+TRIM58	Thermal_Tolerance_Zhuang2019	1
+TRIP12	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+TRMT44	Thermal_Tolerance_Xu2023	1
+TRNP1	Thermal_Tolerance_Carvalho2021	1
+TRPA1	Oxidative_Stress_GO, Climate_Kumar2019	2
+TRPC1	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+TRPC3	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Wang2020	2
+TRPC6	Thermal_Tolerance_Zhang2017	1
+TRPC7	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023, Romanov_Chicken_Thermosensation	4
+TRPM1	ThermalTolerance_VanGoor2016, Romanov_Chicken_Thermosensation	2
+TRPM2	Temperature_Homeostasis_GO, Response_To_Heat_GO, Oxidative_Stress_GO, Thermal_Tolerance_Federova2022	4
+TRPM8	Temperature_Homeostasis_GO	1
+TRPS1	Bill_Morphology_Bosse2017	1
+TRPV1	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+TRPV2	Response_To_Heat_GO, Thermal_Tolerance_Romanov2023, Romanov_Chicken_Thermosensation, Thermal_Tolerance_Xu2023	4
+TSC2	Response_To_Heat_GO	1
+TSC22D1	Thermal_Tolerance_Romanov2023	1
+TSC22D2	Thermal_Tolerance_Xu2023	1
+TSC22D3	Climate_Kumar2019	1
+TSFM	Thermal_Tolerance_Carvalho2021	1
+TSGA10	Skin_Feather_Romanov2023	1
+TSHB	ThermalTolerance_VanGoor2016	1
+TSHR	Thermal_Tolerance_Xu2023	1
+TSKU	Climate_Kumar2019, Bone_Morphogenesis_GO, Romanov_Chicken_Stress_Adaptation	3
+TSNARE1	Thermal_Tolerance_Xu2023	1
+TSNAX	Energy_FeedIntake_Romanov2023	1
+TSPAN10	Thermal_Tolerance_Federova2022	1
+TSPAN2	ThermalTolerance_VanGoor2016	1
+TSPAN3	Immunity_Romanov2023	1
+TSPAN31	Thermal_Tolerance_Carvalho2021	1
+TSSC1	Thermal_Tolerance_Xu2023	1
+TSTD2	ThermalTolerance_VanGoor2016	1
+TTC21B	Thermal_Tolerance_Zhuang2019	1
+TTC4	Response_To_Heat_GO	1
+TTC6	Thermal_Tolerance_Xu2023	1
+TTC7A	Thermal_Tolerance_Wang2020, Thermal_Tolerance_Wang2020	2
+TTLL1	Respiratory_System_Processes_GO	1
+TTLL12	Immunity_Romanov2023	1
+TTLL5	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+TTR	Climate_Kumar2019, Energy_FeedIntake_Romanov2023	2
+TUBA1C	Climate_Kumar2019	1
+TUBA3E	Climate_Kumar2019	1
+TUBB4B	Climate_Kumar2019, Thermal_Tolerance_Xu2023	2
+TUBB6	Climate_Kumar2019	1
+TULP1	Fat_Metabolism_Romanov2023	1
+TULP3	Respiratory_System_Processes_GO	1
+TUSC1	Thermal_Tolerance_Zhang2017	1
+TUSC5	Thermal_Tolerance_Carvalho2021	1
+TWIST1	Oxidative_Stress_GO	1
+TXK	Thermal_Tolerance_Zhang2017	1
+TXN	Oxidative_Stress_GO	1
+TXNRD2	Thermal_Tolerance_Federova2022	1
+TYMS	Thermal_Tolerance_Zhang2017	1
+TYR	Thermal_Tolerance_Romanov2023, Skin_Feather_Romanov2023	2
+U2SURP	Thermal_Tolerance_Zhuang2019	1
+U6	ThermalTolerance_VanGoor2016, ThermalTolerance_VanGoor2016	2
+UACA	Thermal_Tolerance_Carvalho2021	1
+UBA52	Immunity_Romanov2023	1
+UBASH3A	Thermal_Tolerance_Zhang2017	1
+UBB	Thermal_Tolerance_Xu2023	1
+UBE2C	Thermal_Tolerance_Zhang2017	1
+UBE2L6	LowMinTemp_Gheyas2021	1
+UBE2Q2	ThermalTolerance_VanGoor2016	1
+UBN2	Thermal_Tolerance_Xu2023	1
+UBQLN1	Oxidative_Stress_GO	1
+UCHL1	Climate_Kumar2019	1
+UCP	Oxidative_Stress_GO	1
+UGP2	Climate_Kumar2019	1
+UHRF1	ThermalTolerance_VanGoor2016	1
+UHRF1BP1L	Thermal_Tolerance_Xu2023	1
+UNC45B	Thermal_Tolerance_Xu2023	1
+UNC79	Thermal_Tolerance_Romanov2023	1
+UPF1	ThermalTolerance_VanGoor2016	1
+UQCRFS1	Thermal_Tolerance_Zhuang2019	1
+UQCRQ	Respiratory_System_Processes_GO	1
+URI1	Fat_Metabolism_Romanov2023	1
+USE1	ThermalTolerance_VanGoor2016, Fat_Metabolism_Romanov2023	2
+USF1	Climate_Kumar2019	1
+USP13	Thermal_Tolerance_Xu2023	1
+USP18	Thermal_Tolerance_Wang2020	1
+USP19	Response_To_Heat_GO	1
+USP3	ThermalTolerance_VanGoor2016	1
+USP36	Thermal_Tolerance_Federova2022	1
+USP5	Thermal_Tolerance_Carvalho2021	1
+USP54	Thermal_Tolerance_Xu2023	1
+USP6NL	Thermal_Tolerance_Carvalho2021	1
+USP7	Immunity_Romanov2023	1
+UTP18	LowMinTemp_Gheyas2021	1
+UVRAG	Skin_Feather_Romanov2023	1
+VAV3	Thermal_Tolerance_Zhang2017	1
+VEGFC	Immunity_Romanov2023	1
+VEZT	Thermal_Tolerance_Xu2023	1
+VKORC1L1	Oxidative_Stress_GO	1
+VPS13B	Bill_Morphology_Bosse2017	1
+VPS13C	ThermalTolerance_VanGoor2016	1
+VPS29L	Climate_Kumar2019	1
+VPS33A	Thermal_Tolerance_Xu2023	1
+VPS33B	Bone_Morphogenesis_GO	1
+VPS37D	Thermal_Tolerance_Carvalho2021, Thermal_Tolerance_Zhang2017	2
+VRK1	Thermal_Tolerance_Romanov2023	1
+VRK2	Oxidative_Stress_GO	1
+VSNL1	Climate_Kumar2019	1
+VSTM2L	Thermal_Tolerance_Carvalho2021	1
+VTG1	Climate_Kumar2019	1
+VWA1	Thermal_Tolerance_Carvalho2021	1
+VWA5A	Thermal_Tolerance_Xu2023	1
+WASF2	Bone_Morphogenesis_GO	1
+WBP1	Thermal_Tolerance_Carvalho2021	1
+WDPCP	Respiratory_System_Processes_GO	1
+WDR13	Thermal_Tolerance_Carvalho2021	1
+WDR48	Thermal_Tolerance_Xu2023	1
+WDR61	ThermalTolerance_VanGoor2016	1
+WDR77	ThermalTolerance_VanGoor2016	1
+WDR83OS	Thermal_Tolerance_Zhang2017	1
+WEE1	Climate_Kumar2019	1
+WFIKKN2	Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023, Immunity_Romanov2023, Thermal_Tolerance_Xu2023	4
+WIPF2	Thermal_Tolerance_Carvalho2021	1
+WISP2	Immunity_Romanov2023	1
+WNK2	Thermal_Tolerance_Zhang2017	1
+WNT11	Respiratory_System_Processes_GO, Climate_Kumar2019, Bone_Morphogenesis_GO, Skin_Feather_Romanov2023	4
+WNT16	Oxidative_Stress_GO	1
+WNT2B	ThermalTolerance_VanGoor2016	1
+WNT3	Skin_Feather_Romanov2023	1
+WNT3A	Skin_Feather_Romanov2023	1
+WNT5A	Respiratory_System_Processes_GO	1
+WNT8B	Thermal_Tolerance_Xu2023	1
+WRN	Oxidative_Stress_GO	1
+WWC2	Thermal_Tolerance_Xu2023	1
+WWC3	Thermal_Tolerance_Xu2023	1
+WWP1	Climate_Kumar2019, Thermal_Tolerance_Federova2022, Thermal_Tolerance_Romanov2023	3
+Worthington	Thermal_Tolerance_Zhang2017	1
+XBP1	Thermal_Tolerance_Romanov2023, Immunity_Romanov2023	2
+XIAP	Thermal_Tolerance_Xu2023	1
+XKR9	Thermal_Tolerance_Zhang2017	1
+XPA	ThermalTolerance_VanGoor2016	1
+XRN1	Thermal_Tolerance_Zhuang2019, Thermal_Tolerance_Xu2023	2
+YAP1	Respiratory_System_Processes_GO	1
+YIPF6	Thermal_Tolerance_Xu2023	1
+YPEL4	LowMinTemp_Gheyas2021	1
+YRK	Bone_Morphogenesis_GO	1
+YTHDF3	Rainfall_Humidity_Gheyas2021	1
+YWHAE	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+ZAP70	Fat_Metabolism_Romanov2023, Romanov_Chicken_Stress_Adaptation	2
+ZBTB16	Climate_Kumar2019, Thermal_Tolerance_Wang2020	2
+ZBTB20	Thermal_Tolerance_Xu2023	1
+ZBTB49	Thermal_Tolerance_Xu2023	1
+ZC3H12A	Oxidative_Stress_GO	1
+ZCCHC10	Thermal_Tolerance_Xu2023	1
+ZCCHC11	Thermal_Tolerance_Xu2023	1
+ZCCHC24	Thermal_Tolerance_Xu2023	1
+ZCCHC8	Thermal_Tolerance_Xu2023	1
+ZDHHC14	Thermal_Tolerance_Xu2023	1
+ZDHHC7	Immunity_Romanov2023	1
+ZDHHC8	Thermal_Tolerance_Federova2022	1
+ZFAND2B	Thermal_Tolerance_Carvalho2021	1
+ZFHX3	Immunity_Romanov2023	1
+ZFP36L1	Climate_Kumar2019	1
+ZFPM2	Respiratory_System_Processes_GO, Fat_Metabolism_Romanov2023	2
+ZIC3	Respiratory_System_Processes_GO	1
+ZMIZ2	Thermal_Tolerance_Carvalho2021	1
+ZMYM2	Thermal_Tolerance_Xu2023	1
+ZMYM6NB	Thermal_Tolerance_Carvalho2021	1
+ZNF148	Thermal_Tolerance_Xu2023	1
+ZNF277	Oxidative_Stress_GO	1
+ZNF366	Thermal_Tolerance_Zhang2017	1
+ZNF423	Fat_Metabolism_Romanov2023	1
+ZNF451	Thermal_Tolerance_Xu2023	1
+ZNF503	Thermal_Tolerance_Carvalho2021	1
+ZNF536	Thermal_Tolerance_Romanov2023	1
+ZNF622	Oxidative_Stress_GO	1
+ZNF628	Thermal_Tolerance_Xu2023	1
+ZNRD1	Thermal_Tolerance_Carvalho2021	1
+ZOV3	Thermal_Tolerance_Zhang2017	1
+ZP1	Climate_Kumar2019	1
+ZWILCH	Thermal_Tolerance_Xu2023	1
+angiopoietin-2	Thermal_Tolerance_Zhang2017	1
+apitd1	Climate_Kumar2019	1
+bla	Climate_Kumar2019	1
+cRac1A	Respiratory_System_Processes_GO	1
+cRhoA	Oxidative_Stress_GO	1
+cRhoB	Oxidative_Stress_GO	1
+cSp5	Bone_Morphogenesis_GO	1
+cVg1	ThermalTolerance_VanGoor2016, Thermal_Tolerance_Zhang2017	2
+dAK	Thermal_Tolerance_Zhang2017	1
+gga-mir-1565	ThermalTolerance_VanGoor2016	1
+gga-mir-1574	ThermalTolerance_VanGoor2016	1
+gga-mir-1621	ThermalTolerance_VanGoor2016	1
+gga-mir-1669	ThermalTolerance_VanGoor2016	1
+gga-mir-1737	ThermalTolerance_VanGoor2016	1
+gga-mir-1777	ThermalTolerance_VanGoor2016	1
+gga-mir-1813-2	ThermalTolerance_VanGoor2016	1
+gga-mir-190a	ThermalTolerance_VanGoor2016	1
+gga-mir-204-2	ThermalTolerance_VanGoor2016	1
+gga-mir-205a	ThermalTolerance_VanGoor2016	1
+gga-mir-6666	ThermalTolerance_VanGoor2016	1
+gga-mir-6693	ThermalTolerance_VanGoor2016	1
+gga-mir-7-3	ThermalTolerance_VanGoor2016	1
+gga-mir-9-1	ThermalTolerance_VanGoor2016	1
+gsta	Climate_Kumar2019	1
+il-1beta	Temperature_Homeostasis_GO, Response_To_Heat_GO	2
+nfic	Climate_Kumar2019	1
+nlgn1	Respiratory_System_Processes_GO	1
+rasa4	Climate_Kumar2019	1
+rbp	Climate_Kumar2019	1
+scyc1	Thermal_Tolerance_Zhang2017	1
+sgol1	Climate_Kumar2019	1
+slc22a5	Climate_Kumar2019	1
+uc_338	ThermalTolerance_VanGoor2016	1
