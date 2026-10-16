@@ -8,7 +8,7 @@ For the 10 grey-patch test birds, the hand-drawn t2 (throat avoiding bare patche
 carried over and the earlier hand-drawn w1-w3 are replaced.
 The source files on the drive and in Box/Dropbox are not changed.
 
-Usage (from the project root):  python3 R_scripts/card_correction/build_card_folders.py <view> [bird IDs]
+Usage (from the project root):  python3 R_scripts/00_card_correction/build_card_folders.py <view> [bird IDs]
 Writes /Volumes/Madelyn Ore/BTBW_card_check/<view>/ and a log in results/card_correction/detection/<view>/build_log.tsv
 """
 import glob, json, os, re, shutil, sys, zipfile

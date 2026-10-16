@@ -14,7 +14,7 @@
 # Exceptions: UV and crown: g only (k = 1); 608348 side: k from the white patch only; photos whose card
 # outlines fail a plausibility check are left uncorrected and listed (none in the final data).
 #
-# Run from the project root:  Rscript R_scripts/card_correction/card_correction.R
+# Run from the project root:  Rscript R_scripts/00_card_correction/card_correction.R
 # Writes
 #   data_raw/card_corrected_mspec/<view>_card_corrected_Image Analysis Results.csv  (read by 01_data_cleaning.R)
 #   data_raw/card_corrected_mspec/card_k_by_photo.csv     card values, g and k per photo x channel

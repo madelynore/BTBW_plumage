@@ -12,17 +12,17 @@ The output is `data_raw/card_corrected_mspec/`, which `R_scripts/01_data_cleanin
 
 ## Steps (run from the project root)
 
-1. **Find the card in every photo:** `python3 R_scripts/card_correction/detect_cards.py <view>`, for ventral, dorsal, side and crown.
+1. **Find the card in every photo:** `python3 R_scripts/00_card_correction/detect_cards.py <view>`, for ventral, dorsal, side and crown.
    - **How it works:** it reads the full-size JPEG embedded in each raw .SRW photo, which has the same pixel grid as the .mspec image. It finds the two grey patches as large uniform rectangles below the specimen, places the white patch one patch-step beyond the mid grey, and puts a square box (40% of the patch's shorter side, clear of the ruler) in each patch.
    - **Output:** `results/card_correction/detection/<view>/`, with a table and contact sheets to check by eye.
    - **When it gets a photo wrong:** add hand-placed boxes (full-resolution pixels) to `manual_boxes/<view>.json`. Eight crown photos needed this: the white patch was cut off in two, and automatic placement failed in six.
-2. **Build the batch folders:** `python3 R_scripts/card_correction/build_card_folders.py <view> [bird IDs]`.
+2. **Build the batch folders:** `python3 R_scripts/00_card_correction/build_card_folders.py <view> [bird IDs]`.
    - **What it builds:** for each bird, a copy of its .mspec, both photos, and its outline .zip with the card boxes added. They are named w1–w3 in ventral/dorsal, and q1–q3 in side/crown, where w1 is the wing spot (1 = white, 2 = 18%, 3 = dark).
    - **Where:** `/Volumes/Madelyn Ore/BTBW_card_check/<view>/`. The original files aren't changed.
 3. **Measure:** in ImageJ, run micaToolbox *Batch Multispectral Image Analysis* on each folder.
    - **Settings:** the same as the original measurements: cone-catch model "Samsung NX1000 Nikkor EL 80mm D65 to Bluetit D65", scale 36.5 px/mm.
    - **Re-measured photos:** the six crowns with hand-placed boxes were re-measured in `crown_fix/`.
-4. **Correct:** `Rscript R_scripts/card_correction/card_correction.R`.
+4. **Correct:** `Rscript R_scripts/00_card_correction/card_correction.R`.
    - **For each photo and channel:**
      - exposure g = the 18% patch / its mean over all photos of that view;
      - contrast k = the mean of the estimates from the dark and white patches;
@@ -31,7 +31,7 @@ The output is `data_raw/card_corrected_mspec/`, which `R_scripts/01_data_cleanin
      - UV and crown: g only;
      - 608348 side: k from the white patch;
      - photos failing the card plausibility check (white > 3 × 18%, dark 0.4–0.8 × 18%) are left uncorrected and listed. None fail in the final data.
-   - **Output:** `data_raw/card_corrected_mspec/` and checks in `results/00_card_correction/`.
+   - **Output:** `data_raw/card_corrected_mspec/` and checks in `results/card_correction/`.
 
 ## Checks (2026-10-03)
 - **The script reproduces `data_raw/card_corrected_mspec/` byte for byte.** The detector reproduces the recorded card boxes.

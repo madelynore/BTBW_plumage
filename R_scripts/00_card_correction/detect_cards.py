@@ -2,7 +2,7 @@
 one, otherwise its population folder; archive_versions skipped), for checking by eye before the
 batch folders are built. No ROI files are written here.
 
-Usage (from the project root):  python3 R_scripts/card_correction/detect_cards.py <ventral|dorsal|side|crown>
+Usage (from the project root):  python3 R_scripts/00_card_correction/detect_cards.py <ventral|dorsal|side|crown>
 Writes results/card_correction/detection/<view>/detections.tsv (boxes, mean grey and SD of each patch;
 check = LOOK if the patches aren't white > grey > dark or aren't uniform) and contact sheets sheet_XX.png
 (20 photos each, white/18%/dark boxes in red/blue/green). Photos the detector gets wrong get hand-placed
