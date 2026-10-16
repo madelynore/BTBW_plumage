@@ -186,7 +186,7 @@ write.csv(specimen_yr, "data/specimens/NMNH_specimen_metadata.csv", row.names = 
 
 library(tidyverse)
 
-# Which measurements to use (added 2026-10-03):
+# Which measurements to use:
 #   FALSE = micaToolbox output as measured, one file per population (data_raw/photos/by_pop_batch_mspec/)
 #   TRUE  = card-corrected, one file per view (data_raw/photos/card_corrected_mspec/): every photo re-measured
 #           with the colour card outlined, then corrected for exposure and contrast using the card in
@@ -244,8 +244,7 @@ allimg_rmrow$pl_code[which(allimg_rmrow$photo == "dorsal")] <-  "m"
 
 allimg_rmrow$pl_code[which(allimg_rmrow$photo == "crown" & allimg_rmrow$pl_code != "c")] <- "c"
 
-# throat: the original outline (t1) only. 5 birds also have a second throat outline (t2), drawn to
-# avoid bare skin for a calibration check; averaging it in would mix two outline rules
+# throat: the original outline (t1) only
 allimg_rmrow <- allimg_rmrow |> 
   filter(!(pl_code == "t" & rep != "1"))
 
