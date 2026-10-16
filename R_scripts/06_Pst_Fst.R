@@ -12,16 +12,7 @@
 #     PST = FST   lower 95% CI does not exceed Fst at c/h2 = 1 (critical shown as "-")
 #   strong_cutoff (0.125) has no standard value; it is set to reproduce the split in the example table format.
 # Traits: luminance of the five patches and wing spot area (all age-adjusted through the Age fixed effect).
-# Fst: pairwise Fst between sampling sites (ANGSD realSFS, weighted; whole-genome data of the same sites, related
-#   birds removed, LD-pruned SNPs; data_raw/pst_fst/Pairwise.fst...txt from the BTBW-GEA project), our 22 sites only.
-#   With few birds per site, realSFS pairwise Fst has a small positive floor, so the mean is treated as an upper bound
-#   (conservative for Pst > Fst).
-# Mantel tests (site level; vegan::mantel and vegan::mantel.partial, Pearson, 9999 permutations): pairwise Fst vs
-#   geographic distance (isolation by distance), and the difference in site mean mantle luminance vs distance and vs
-#   Fst, each also partial on the other.
-#
-# Run after 01_data_cleaning.R (uses data/..._avgimg_wide.csv). Writes results/pst_fst/Pst_Fst_table.csv, results/pst_fst/Pst_Fst_mantel.csv,
-# results/pst_fst/Pst_Fst.png and results/tables/Pst_Fst_table.html (+ .docx when pandoc is available).
+# Fst: pairwise Fst between sampling sites
 
 library(tidyverse)
 library(lme4)
@@ -71,27 +62,6 @@ pst_table <- pst_curves %>% group_by(patch, n, n_sites) %>%
 write.csv(pst_table, here("results/pst_fst/Pst_Fst_table.csv"), row.names = FALSE)
 print(pst_table)
 
-# Mantel tests ---------------------------------------------------------------------------------------------------
-site_means <- avg_img %>% group_by(pop) %>%
-  summarise(lat = mean(lat), lon = mean(lon), mantle = mean(lumMean_m, na.rm = TRUE))
-km <- function(lat1, lon1, lat2, lon2) {          # great-circle distance (haversine)
-  p <- pi / 180; a <- sin((lat2 - lat1) * p / 2)^2 + cos(lat1 * p) * cos(lat2 * p) * sin((lon2 - lon1) * p / 2)^2
-  2 * 6371 * asin(sqrt(a)) }
-pairs <- fst %>% left_join(site_means, by = c(pop1 = "pop")) %>% left_join(site_means, by = c(pop2 = "pop"), suffix = c("1", "2")) %>%
-  mutate(distance_km = km(lat1, lon1, lat2, lon2), mantle_difference = abs(mantle1 - mantle2))
-to_matrix <- function(v) { m <- matrix(0, length(sites), length(sites), dimnames = list(sites, sites))
-  m[cbind(pairs$pop1, pairs$pop2)] <- v; m[cbind(pairs$pop2, pairs$pop1)] <- v; m }
-F_d <- as.dist(to_matrix(pairs$fst_weighted)); D_d <- as.dist(to_matrix(pairs$distance_km)); C_d <- as.dist(to_matrix(pairs$mantle_difference))
-mantel_r <- function(m) c(r = unname(m$statistic), p = m$signif)
-mantel_table <- rbind(
-  "Fst ~ distance"                     = mantel_r(mantel(F_d, D_d, method = "pearson", permutations = 9999)),
-  "mantle difference ~ distance"       = mantel_r(mantel(C_d, D_d, method = "pearson", permutations = 9999)),
-  "mantle difference ~ Fst"            = mantel_r(mantel(C_d, F_d, method = "pearson", permutations = 9999)),
-  "mantle difference ~ Fst | distance" = mantel_r(mantel.partial(C_d, F_d, D_d, method = "pearson", permutations = 9999)),
-  "mantle difference ~ distance | Fst" = mantel_r(mantel.partial(C_d, D_d, F_d, method = "pearson", permutations = 9999))) %>%
-  as.data.frame() %>% rownames_to_column("test")
-write.csv(mantel_table, here("results/pst_fst/Pst_Fst_mantel.csv"), row.names = FALSE)
-print(mantel_table)
 
 # readable table ------------------------------------------------------------------------------------------------
 save_table(
@@ -109,14 +79,3 @@ save_table(
     style_table(),
   "Pst_Fst_table")
 
-# figure ------------------------------------------------------------------------------------------------------------
-plot_dat <- pst_curves %>% mutate(patch = factor(patch_label(patch), patch_label(pst_table$patch)))
-pst_plot <- ggplot(plot_dat, aes(c_h2, Pst, colour = patch, fill = patch)) +
-  annotate("rect", xmin = -Inf, xmax = Inf, ymin = fst_min, ymax = fst_max, alpha = 0.25, fill = "grey40") +
-  geom_hline(yintercept = fst_mean, linetype = "dashed") +
-  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.12, colour = NA) +
-  geom_line(linewidth = 0.8) +
-  labs(x = expression(c/h^2), y = expression(P[ST]~"(95% CI)"), colour = NULL, fill = NULL,
-       caption = "Grey band: range of pairwise genomic Fst among sites; dashed line: mean Fst") +
-  theme_classic(base_size = 12)
-ggsave(here("results/pst_fst/Pst_Fst.png"), pst_plot, width = 7, height = 4.5, dpi = 300)
