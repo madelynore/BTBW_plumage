@@ -140,7 +140,6 @@ melanoSNP <- merge(ugenehits_detailed, melano, by.x = "Gene.Symbol", by.y = "Mel
 env <- read.csv(env_file)
 envSNP <- merge(ugenehits_detailed, env, by.x = "Gene.Symbol", by.y = "Gene", all = FALSE)
 
-# expected number of melanogenesis genes by chance: share of all named genes in the genome that are on the list
 named_genome <- unique(genesymb$Gene.Symbol)
 cat(sprintf("Melanogenesis genes: %d (%s)",
             nrow(melanoSNP), paste(melanoSNP$Gene.Symbol, collapse = ", ")))

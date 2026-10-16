@@ -79,4 +79,4 @@ p_pip <- ggplot(pip[mean_pip > 1e-4], aes(pos, mean_pip)) +
 
 ggsave(here(paste0("results/gwas/GWAS_", prefix, "_manhattan_ANGSD.png")), p_lrt, width = 12, height = 4, dpi = 300)
 ggsave(here(paste0("results/gwas/GWAS_", prefix, "_manhattan_BSLMM.png")), p_pip, width = 12, height = 4, dpi = 300)
-ggsave(here(paste0("results/gwas/GWAS_", prefix, "_manhattan.png")), p_lrt / p_pip + plot_annotation(tag_levels = "A"), width = 12, height = 8, dpi = 300)
+ggsave(here(paste0("results/gwas/GWAS_", prefix, "_manhattan.png")), p_pip/ p_lrt + plot_annotation(tag_levels = "A"), width = 12, height = 8, dpi = 300)
