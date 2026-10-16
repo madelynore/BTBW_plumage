@@ -18,6 +18,7 @@ library(here)
 out <- here("data/gwas_allages_inputs"); dir.create(out, showWarnings = FALSE)
 set.seed(20260929)
 
+# loco-pipe sample table of the n = 152 run (docs/sample_table.tsv on the server; bird order of the beagle files)
 s <- read_tsv(here("data_raw/gwas_allages/sample_table.tsv"), show_col_types = FALSE) %>%
   mutate(ID = as.integer(sub("^Z", "", sample_name)))
 stopifnot(!anyNA(s$age_SY), all(s$age_SY == (s$Age == "SY")), !any(duplicated(s$ID)))

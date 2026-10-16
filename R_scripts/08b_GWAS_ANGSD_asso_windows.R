@@ -28,7 +28,9 @@ window_null_file <- here("data_raw/gwas_allages/perm_withinage/LRT_window_null.r
 
 win_size   <- 50       # SNPs per window (must match LRT_window_permutation_null.R)
 win_step   <- 10       # SNPs between window starts
-percentile <- 0.9999   # top percentile
+obs_percentile <- 0.9999   # top percentile
+null_percentile <- 0.999   # top percentile
+
 
 
 # 1. Median LRT in sliding windows -----------------------------------------------------
@@ -61,23 +63,23 @@ stopifnot("The null windows differ from these windows; rerun LRT_window_permutat
 null_medians <- window_null$null_medians
 cat("Shuffles in the null:", ncol(null_medians), "\n")
 
-observed_line <- quantile(windows$LRT_median, percentile, names = FALSE)
-null_line     <- quantile(as.vector(null_medians), percentile, names = FALSE)
+observed_line <- quantile(windows$LRT_median, obs_percentile, names = FALSE)
+null_line     <- quantile(as.vector(null_medians), null_percentile, names = FALSE)
 
 windows[, above_observed_line := LRT_median > observed_line]
 windows[, above_null_line     := LRT_median > null_line]
 windows[, suggestive          := above_observed_line | above_null_line]
 
-cat(sprintf("Observed line (%.2fth percentile of observed window medians): %.3f\n", 100 * percentile, observed_line))
-cat(sprintf("Null line (%.2fth percentile of null window medians): %.3f\n", 100 * percentile, null_line))
+cat(sprintf("Observed line (%.2fth percentile of observed window medians): %.3f\n", 100 * obs_percentile, observed_line))
+cat(sprintf("Null line (%.2fth percentile of null window medians): %.3f\n", 100 * null_percentile, null_line))
 cat("Windows above the observed line:", sum(windows$above_observed_line), "| above the null line:", sum(windows$above_null_line),
-    "(expected by chance:", round(nrow(windows) * (1 - percentile), 1), ")\n")
+    "(expected by chance:", round(nrow(windows) * (1 - null_percentile), 1), ")\n")
 
 fwrite(windows, here(paste0("data/GWAS_", prefix, "_ANGSD_windows.tsv.gz")), sep = "\t")
 fwrite(data.table(line = c("null line", "observed line"),
                   description = sprintf(c("%.2fth percentile of null window medians (%d shuffles)",
                                           "%.2fth percentile of observed window medians"),
-                                        100 * percentile, ncol(null_medians)),
+                                        c(100 * null_percentile, 100 * obs_percentile), ncol(null_medians)),
                   LRT_median = c(null_line, observed_line)),
        here(paste0("data/GWAS_", prefix, "_ANGSD_window_thresholds.csv")))
 
