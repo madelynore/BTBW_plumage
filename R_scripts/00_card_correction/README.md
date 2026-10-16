@@ -2,7 +2,7 @@
 
 Every specimen photo includes a QPcard 101 (white, 18% grey and dark grey patches). micaToolbox normalises each image to the 18% patch, which corrects exposure but not contrast. Contrast differed between photo sessions: the dark patch read lighter and the white patch darker in some sessions. These scripts measure the card in every photo and correct each photo's plumage values for both exposure and contrast.
 
-The output is `data_raw/card_corrected_mspec/`, which `R_scripts/01_data_cleaning.R` reads when `use_card_corrected <- TRUE`. The uncorrected measurements stay in `data_raw/by_pop_batch_mspec/`.
+The output is `data_raw/photos/card_corrected_mspec/`, which `R_scripts/01_data_cleaning.R` reads when `use_card_corrected <- TRUE`. The uncorrected measurements stay in `data_raw/photos/by_pop_batch_mspec/`.
 
 ## Requirements
 - **Python 3 with numpy and Pillow:** steps 1–2.
@@ -31,10 +31,10 @@ The output is `data_raw/card_corrected_mspec/`, which `R_scripts/01_data_cleanin
      - UV and crown: g only;
      - 608348 side: k from the white patch;
      - photos failing the card plausibility check (white > 3 × 18%, dark 0.4–0.8 × 18%) are left uncorrected and listed. None fail in the final data.
-   - **Output:** `data_raw/card_corrected_mspec/` and checks in `results/card_correction/`.
+   - **Output:** `data_raw/photos/card_corrected_mspec/` and checks in `results/card_correction/`.
 
 ## Checks (2026-10-03)
-- **The script reproduces `data_raw/card_corrected_mspec/` byte for byte.** The detector reproduces the recorded card boxes.
+- **The script reproduces `data_raw/photos/card_corrected_mspec/` byte for byte.** The detector reproduces the recorded card boxes.
 - **The two contrast estimates agree:** dark-patch and white-patch estimates of k correlate at r = 0.94 across photos (ventral, dorsal and side), so the contrast differences between photos are real.
 - **Size of the corrections:**
   - exposure g: median 1.00, SD 0.01–0.03 by view;

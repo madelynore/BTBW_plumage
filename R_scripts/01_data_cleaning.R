@@ -3,9 +3,9 @@
 # combining banding records for 2021 and 2022 -----------------------------
 library(tidyverse)
 
-bw2021 <- readxl::read_xlsx(path =  "data_raw/BTBW_banding_record.xlsx")
+bw2021 <- readxl::read_xlsx(path =  "data_raw/specimens/BTBW_banding_record.xlsx")
 
-bw2022 <- readxl::read_xlsx(path =  "data_raw/2022_banding_record.xlsx")
+bw2022 <- readxl::read_xlsx(path =  "data_raw/specimens/2022_banding_record.xlsx")
 
 ## fix column names, so they don't have `` and match each other
 colnames(bw2021)
@@ -27,7 +27,7 @@ bw2022_rn <- bw2022 %>%
 band_record <- merge(bw2021_rn, bw2022_rn, by = intersect(names(bw2021_rn), names(bw2022_rn)),
       all = T)
 
-write.csv(band_record, "data/BTBW_banding_record_2021_22.csv", row.names = F)
+write.csv(band_record, "data/specimens/BTBW_banding_record_2021_22.csv", row.names = F)
 
 
 # specimen metadata -------------------------------------------------------
@@ -35,7 +35,7 @@ write.csv(band_record, "data/BTBW_banding_record_2021_22.csv", row.names = F)
 
 library(tidyverse)
 
-specimen <- read.csv("data_raw/NMNH_specimen_data_from_Box.csv")
+specimen <- read.csv("data_raw/specimens/NMNH_specimen_data_from_Box.csv")
 
 #sort the final DataFrame by ID for better readability
 specimen_sort <- specimen %>%
@@ -171,7 +171,7 @@ specimen_coords$lat[which(specimen_coords$USNM.no. == "614261")] <- 45.794
 specimen_coords$lon[which(specimen_coords$USNM.no. == "614261")] <- -66.854
 
 ## add tarsus measurements
-tarsus <- read.csv("data_raw/Tarsometatarsus.csv") %>% 
+tarsus <- read.csv("data_raw/specimens/Tarsometatarsus.csv") %>% 
   dplyr::select(USNM.no., Tarsometatarsus)
 
 specimen_tar <- merge(specimen_coords, tarsus, all.x = T)
@@ -180,20 +180,20 @@ specimen_tar <- merge(specimen_coords, tarsus, all.x = T)
 specimen_yr <- specimen_tar %>% 
   separate(date.d.m.y, into = c("Day", "Month", "Year"), sep = "-", remove = F)
 
-write.csv(specimen_yr, "data/NMNH_specimen_metadata.csv", row.names = F) 
+write.csv(specimen_yr, "data/specimens/NMNH_specimen_metadata.csv", row.names = F) 
 
 # cleaning raw output from micatoolbox ------------------------------------
 
 library(tidyverse)
 
 # Which measurements to use (added 2026-10-03):
-#   FALSE = micaToolbox output as measured, one file per population (data_raw/by_pop_batch_mspec/)
-#   TRUE  = card-corrected, one file per view (data_raw/card_corrected_mspec/): every photo re-measured
+#   FALSE = micaToolbox output as measured, one file per population (data_raw/photos/by_pop_batch_mspec/)
+#   TRUE  = card-corrected, one file per view (data_raw/photos/card_corrected_mspec/): every photo re-measured
 #           with the colour card outlined, then corrected for exposure and contrast using the card in
-#           that photo (see data_raw/card_corrected_mspec/README.txt)
+#           that photo (see data_raw/photos/card_corrected_mspec/README.txt)
 # Both folders have the same micaToolbox format, so everything below is the same for either.
 use_card_corrected <- TRUE
-mspec_dir <- if (use_card_corrected) "data_raw/card_corrected_mspec/" else "data_raw/by_pop_batch_mspec/"
+mspec_dir <- if (use_card_corrected) "data_raw/photos/card_corrected_mspec/" else "data_raw/photos/by_pop_batch_mspec/"
 
 # Initialize an empty dataframe
 allimg <- data.frame()
@@ -258,7 +258,7 @@ allimg_rmb <- allimg_rmrow |>
   filter(pl_code != "b")
 
 ## add metadata
-meta <- read.csv("data/NMNH_specimen_metadata.csv") 
+meta <- read.csv("data/specimens/NMNH_specimen_metadata.csv") 
 
 #merging WI forest into the rest
 meta$pop[which(meta$pop == "WI.Forest")] <-  "WI.All"
@@ -269,9 +269,9 @@ allimg_meta <-  merge(allimg_rmb, meta, by.x = "ID", by.y = "USNM.no.", all.x = 
 unique(allimg_meta$ID[which(is.na(allimg_meta$pop))])
 unique(allimg_meta$ID[which(is.na(allimg_meta$lat))])
 
-write.csv(allimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
+write.csv(allimg_meta, "data/photos/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv", row.names = F)
 
-allimg_meta <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv")
+allimg_meta <- read.csv("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_raw_allpop.csv")
 avg_img <- allimg_rmb %>%
   group_by(ID, pl_code) %>%
   summarise(
@@ -284,8 +284,8 @@ avg_img <- allimg_rmb %>%
 
 avgimg_meta <-  merge(avg_img, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
-write.csv(avgimg_meta, "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
-avgimg_meta <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv")
+write.csv(avgimg_meta, "data/photos/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv", row.names = F)
+avgimg_meta <- read.csv("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv")
 
 avgimg_wide <- avg_img %>% 
   pivot_wider(names_from = pl_code, values_from = c(lumMean, lumSD,
@@ -296,57 +296,15 @@ avgimg_wide <- avg_img %>%
 
 avgimg_widemeta <-  merge(avgimg_wide, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
 
-write.csv(avgimg_widemeta, "data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
-
-
-
-# make fam file for GWAS --------------------------------------------------
-library(tidyverse)
-
-#read in fam file
-fam <- read.table("data_raw/BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_rmrelatedind5_impute4.1_GWAS_bed.fam")
-# make column with just IDs
-fam_id <- fam %>% 
-  separate(V2, into = c("V2", NA), sep = "_", remove = F )
-
-#get phenotype data
-img_wide <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv")
-
-#match ID
-img_wide$ID <- paste0("Z",img_wide$ID)
-
-#merge the two dfs
-# phenotype = mean mantle luminance (double-cone catch)
-fam_img <- merge(fam_id, img_wide, by.x = "V2", by.y = "ID", all.x = F, all.y = F) %>% 
-  dplyr::select(V1, V2, Age, V4, V5, lumMean_m)
-
-head(fam_img)
-
-fam_img_noNA <- fam_img %>%
-  filter(!(is.na(fam_img$lumMean_m)))
-
-# permuted phenotype for a null GWAS; seed so the permutation can be reproduced
-set.seed(20260929)
-fam_img_noNA$rand_m <- sample(fam_img_noNA$lumMean_m)
-
-famcol <- colnames(fam_img_noNA)
-
-# select only the ASY
-asyfam <- fam_img_noNA %>% 
-  filter(Age == "ASY") 
-
-write.table(asyfam, 
-            "data/BTBW_n95_ASY_forGWAS_lumMean_m_rand.fam",
-            quote = F, col.names = F, row.names = F)
-
+write.csv(avgimg_widemeta, "data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
 
 
 # make table of samples for supplement ------------------------------------
 library(tidyverse)
-meta <- read.csv("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv") 
+meta <- read.csv("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv") 
 
 supptable <- meta %>% 
   dplyr::select(ID, GRG.no., Species, date.d.m.y, Locality, County, State.Province, Collector,
                 prepartor, Sex, Age, Latitude = lat, Longitude = lon)
 
-write.table(supptable, file = "results/Supplemental_table_samples_photo.csv", row.names = F)
+write.table(supptable, file = "results/samples/Supplemental_table_samples_photo.csv", row.names = F)

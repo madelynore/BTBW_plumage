@@ -8,7 +8,7 @@ library(sp)
 
 # extract data points from each individual's location for each environ --------
 ##extract for specific lat/long
-btbw_samp <- read.csv(file = "data/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv") %>% 
+btbw_samp <- read.csv(file = "data/photos/BTBW_whole_specimen_Image_Analysis_measurements_averaged_allpop.csv") %>% 
   dplyr::select(ID, lon, lat) %>% 
   group_by(ID) %>% 
   summarise(lon = mean(lon), lat = mean(lat))
@@ -18,7 +18,7 @@ btbw_samp <- read.csv(file = "data/BTBW_whole_specimen_Image_Analysis_measuremen
 
 library(sf)
 
-setwd("~/Documents/Work/PhD/BTBW_geographic_coloration/BTBW_plumage/data_raw/monthly_bioclim_normal_1971_2000/")
+setwd("~/Documents/Work/PhD/BTBW_geographic_coloration/BTBW_plumage/data_raw/environment/monthly_bioclim_normal_1971_2000/")
 
 #load in one file for CRS
 PPT06 <- raster("PPT06.tif")
@@ -75,6 +75,6 @@ biona <- merge(btbw_samp, climna_sum, all= T)
 
 btbw_env <- cbind(biona, ndvi_M = ndvi_btbw, srtm = srtm_btbw)
 
-write.table(btbw_env, "data/Env_by_individual_specimen_samples.txt",
+write.table(btbw_env, "data/environment/Env_by_individual_specimen_samples.txt",
             row.names = F, quote = F, col.names = T)
 

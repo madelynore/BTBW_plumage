@@ -14,11 +14,11 @@ library(patchwork)
 library(here)
 
 prefix <- "btbw_n152_allages_lumMean_m_cc"
-lrt_file <- here("data_raw/gwas_allages/asso/btbw_n152_allages_lumMean_m_cc__PC1cov_age.lrt0.gz")   # for chromosome lengths
+lrt_file <- here("data_raw/gwas/gwas_allages/asso/btbw_n152_allages_lumMean_m_cc__PC1cov_age.lrt0.gz")   # for chromosome lengths
 
-windows    <- fread(here(paste0("data/GWAS_", prefix, "_ANGSD_windows.tsv.gz")))
-thresholds <- fread(here(paste0("data/GWAS_", prefix, "_ANGSD_window_thresholds.csv")))   # row 1 null line, row 2 observed line
-genes <- fread(here(paste0("data/GWAS_", prefix, "_suggestive_hits_genes.csv")))
+windows    <- fread(here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_windows.tsv.gz")))
+thresholds <- fread(here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_window_thresholds.csv")))   # row 1 null line, row 2 observed line
+genes <- fread(here(paste0("data/gwas/GWAS_", prefix, "_suggestive_hits_genes.csv")))
 n_chains_total <- 3
 
 # genome coordinates: chromosomes in numeric order (1, 1a, 2, ..., 4a, ..., z), cumulative positions
@@ -63,7 +63,7 @@ p_lrt <- ggplot(windows, aes(pos, LRT_median)) +
   theme_classic() + theme(axis.text.x = element_text(size = 6), plot.subtitle = element_text(size = 7))
 
 # BSLMM -------------------------------------------------------------------------------------------------------------
-pip <- add_pos(fread(here(paste0("data/GWAS_", prefix, "_BSLMM_PIP_all.tsv.gz")))[Chromosome %in% lens$Chromosome])
+pip <- add_pos(fread(here(paste0("data/gwas/GWAS_", prefix, "_BSLMM_PIP_all.tsv.gz")))[Chromosome %in% lens$Chromosome])
 lab_pip <- genes[grepl("BSLMM", source)][, label := sprintf("%s\n(%d/%d chains)", ifelse(label == "", "no named gene", label), n_chains, n_chains_total)]
 p_pip <- ggplot(pip[mean_pip > 1e-4], aes(pos, mean_pip)) +
   geom_point(aes(colour = shade), size = 0.5, show.legend = FALSE) +
@@ -77,6 +77,6 @@ p_pip <- ggplot(pip[mean_pip > 1e-4], aes(pos, mean_pip)) +
   labs(x = "Chromosome", y = "Mean PIP (BSLMM, log scale)")+
   theme_classic() + theme(axis.text.x = element_text(size = 6), plot.subtitle = element_text(size = 7))
 
-ggsave(here(paste0("results/GWAS_", prefix, "_manhattan_ANGSD.png")), p_lrt, width = 12, height = 4, dpi = 300)
-ggsave(here(paste0("results/GWAS_", prefix, "_manhattan_BSLMM.png")), p_pip, width = 12, height = 4, dpi = 300)
-ggsave(here(paste0("results/GWAS_", prefix, "_manhattan.png")), p_lrt / p_pip + plot_annotation(tag_levels = "A"), width = 12, height = 8, dpi = 300)
+ggsave(here(paste0("results/gwas/GWAS_", prefix, "_manhattan_ANGSD.png")), p_lrt, width = 12, height = 4, dpi = 300)
+ggsave(here(paste0("results/gwas/GWAS_", prefix, "_manhattan_BSLMM.png")), p_pip, width = 12, height = 4, dpi = 300)
+ggsave(here(paste0("results/gwas/GWAS_", prefix, "_manhattan.png")), p_lrt / p_pip + plot_annotation(tag_levels = "A"), width = 12, height = 8, dpi = 300)

@@ -4,7 +4,7 @@
 # Age: ANGSD takes covariates (age class + genomic PC1). GEMMA BSLMM takes
 # none, so its phenotypes are age-adjusted: the residuals of phenotype ~ age class (0 = ASY, 1 = SY).
 #
-# Writes data/gwas_allages_inputs/ (copy into inputs/ on the server):
+# Writes data/gwas_inputs/ (copy into inputs/ on the server):
 #   yQuant_<phenotype>.txt      ANGSD -yQuant, one value per line
 #   age_SY.txt                  0 = ASY, 1 = SY
 #   gemma_phenotypes.txt        GEMMA -p, one column per phenotype (picked with -n; KEY file lists the columns)
@@ -15,15 +15,15 @@
 library(tidyverse)
 library(here)
 
-out <- here("data/gwas_allages_inputs"); dir.create(out, showWarnings = FALSE)
+out <- here("data/gwas_inputs"); dir.create(out, showWarnings = FALSE)
 set.seed(20260929)
 
 # loco-pipe sample table of the n = 152 run (docs/sample_table.tsv on the server; bird order of the beagle files)
-s <- read_tsv(here("data_raw/gwas_allages/sample_table.tsv"), show_col_types = FALSE) %>%
+s <- read_tsv(here("data_raw/gwas/gwas_allages/sample_table.tsv"), show_col_types = FALSE) %>%
   mutate(ID = as.integer(sub("^Z", "", sample_name)))
 stopifnot(!anyNA(s$age_SY), all(s$age_SY == (s$Age == "SY")), !any(duplicated(s$ID)))
 
-cc <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv")) %>%
+cc <- read.csv(here("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv")) %>%
   select(ID, lumMean_m_cc = lumMean_m)
 s <- left_join(s, cc, by = "ID")
 stopifnot("Some birds have no phenotype" = !anyNA(s[, c("lumMean_m", "lumMean_m_cc")]))

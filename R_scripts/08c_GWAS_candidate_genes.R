@@ -7,11 +7,11 @@
 #   2. search intervals = hit +/- 25 kb (written as a BED file)
 #   3. genes in those regions: protein_match features of the Yellow-rumped Warbler annotation (GFF), with GenomicRanges
 #   4. gene symbols for the RefSeq protein accessions: bioDBnet db2db (RefSeq Protein Accession -> Gene Symbol); the
-#      tables in data_raw/bioDBnet_all_accessions/ cover every accession in the genome (~58% have a symbol)
-#   5. one row per gene with its hits and methods (results/Unique_gene_hits_<prefix>.csv)
-#   6. comparison with melanogenesis genes (data_raw/Melanogenesis_genes.csv) and with genes linked to environmental
-#      adaptation (data/Environmental_adaptation_genes.csv: Gene, Function, Reference, Source)
-#   7. table for the paper (results/Candidate_genes_table_<prefix>.csv)
+#      tables in data_raw/gene_lists/ cover every accession in the genome (~58% have a symbol)
+#   5. one row per gene with its hits and methods (results/gwas/Unique_gene_hits_<prefix>.csv)
+#   6. comparison with melanogenesis genes (data_raw/gene_lists/Melanogenesis_genes.csv) and with genes linked to environmental
+#      adaptation (data/gwas/Environmental_adaptation_genes.csv: Gene, Function, Reference, Source)
+#   7. table for the paper (results/gwas/Candidate_genes_table_<prefix>.csv)
 # Note: several proteins (paralogs, other species) often align to one locus, so names at one locus are alternatives
 # for the same gene; "loci" (hits within 50 kb of each other) are reported alongside.
 
@@ -24,15 +24,15 @@ library(here)
 prefix      <- "btbw_n152_allages_lumMean_m_cc"
 flank       <- 25000
 gff_file    <- "/Users/madelynore/Documents/Work/PhD/Genoscape BTBW/BTBW-GEA/data/mywagenomev2.1.all.noseq.gff"   # full annotation
-melano_file <- here("data_raw/Melanogenesis_genes.csv")
-env_file    <- here("data/Environmental_adaptation_genes.csv")
+melano_file <- here("data_raw/gene_lists/Melanogenesis_genes.csv")
+env_file    <- here("data/gwas/Environmental_adaptation_genes.csv")
 
 
 # 1. suggestive hits from both methods -------------------------------------------------------------------------------
-hits_bslmm <- fread(here(paste0("data/GWAS_", prefix, "_BSLMM_SNPs.csv"))) %>%
+hits_bslmm <- fread(here(paste0("data/gwas/GWAS_", prefix, "_BSLMM_SNPs.csv"))) %>%
   transmute(chr = Chromosome, start_hit = Position, end_hit = Position, hit = SNP, gamma = mean_pip, n_chains, beta,
             source = "BSLMM")
-hits_asso <- fread(here(paste0("data/GWAS_", prefix, "_ANGSD_window_regions.csv"))) %>%
+hits_asso <- fread(here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_window_regions.csv"))) %>%
   transmute(chr = Chromosome, start_hit = start_bp, end_hit = end_bp,
             hit = sprintf("%s:%.3f-%.3fMb", Chromosome, start_bp / 1e6, end_bp / 1e6),
             LRT_median = max_LRT_median, n_windows, above_observed_line, above_null_line,
@@ -56,7 +56,7 @@ cat("Suggestive hits:", nrow(hits), "| BSLMM SNPs", nrow(hits_bslmm), "| ANGSD-a
 # 2. search intervals: hit +/- 25 kb --------------------------------------------------------------------------------
 hits$start <- hits$start_hit - flank
 hits$end   <- hits$end_hit + flank
-write_tsv(hits %>% select(chr, start, end), file = here(paste0("data/suggestive_regions_", prefix, "_25kb.bed")),
+write_tsv(hits %>% select(chr, start, end), file = here(paste0("data/gwas/suggestive_regions_", prefix, "_25kb.bed")),
           quote = "none", col_names = FALSE)
 sugSNPs <- hits   # name used below
 
@@ -87,14 +87,14 @@ AutoOutlier_merged[, RefSeq.Protein.Accession.clean := gsub("\\..*", "", RefSeq.
 # distance from the hit (SNP or region) to the protein alignment (0 = overlapping)
 AutoOutlier_merged[, distance_kb := pmax(0, i.start - end_hit, start_hit - i.end) / 1000]
 
-write.csv(AutoOutlier_merged, here(paste0("data/GWAS_", prefix, "_outlier_genehits25kb.csv")), row.names = FALSE)
+write.csv(AutoOutlier_merged, here(paste0("data/gwas/GWAS_", prefix, "_outlier_genehits25kb.csv")), row.names = FALSE)
 unique_genehits <- unique(AutoOutlier_merged$RefSeq.Protein.Accession.clean)
-write.table(unique_genehits, here(paste0("data/GWAS_", prefix, "_outlier_unique_genehits25kb.txt")), row.names = FALSE, quote = FALSE, col.names = FALSE)
+write.table(unique_genehits, here(paste0("data/gwas/GWAS_", prefix, "_outlier_unique_genehits25kb.txt")), row.names = FALSE, quote = FALSE, col.names = FALSE)
 cat("Protein matches within 25 kb:", nrow(AutoOutlier_merged), "| unique accessions:", length(unique_genehits), "\n")
 
 
 # 4. gene symbols (bioDBnet: RefSeq Protein Accession -> Gene Symbol) ----------------------------------------------
-genesymb <- fread("data_raw/bioDBnet_db2db_261016134332_716025924.txt", sep = "\t", header = TRUE, select = 1:2, col.names = c("RefSeq.Protein.Accession", "Gene.Symbol"))
+genesymb <- fread("data_raw/gene_lists/bioDBnet_db2db_261016134332_716025924.txt", sep = "\t", header = TRUE, select = 1:2, col.names = c("RefSeq.Protein.Accession", "Gene.Symbol"))
 genesymb <- unique(genesymb[!Gene.Symbol %in% c("-", "")], by = "RefSeq.Protein.Accession")
 genesymb_source <- merge(genesymb, AutoOutlier_merged, by.x = "RefSeq.Protein.Accession", by.y = "RefSeq.Protein.Accession.clean")
 cat("Accessions with a gene symbol:", uniqueN(genesymb_source$RefSeq.Protein.Accession), "of", length(unique_genehits), "\n")
@@ -116,7 +116,7 @@ ugenehits_detailed <- genesymb_source %>%
     has_multiple_sources = n_distinct(source) > 1,
     .groups = "drop") %>%
   mutate(across(c(best_PIP, best_LRT_median), ~ ifelse(is.infinite(.x), NA, .x)))
-write.csv(ugenehits_detailed, here(paste0("results/Unique_gene_hits_", prefix, ".csv")), row.names = FALSE)
+write.csv(ugenehits_detailed, here(paste0("results/gwas/Unique_gene_hits_", prefix, ".csv")), row.names = FALSE)
 cat("Named genes within 25 kb:", nrow(ugenehits_detailed), "at", n_distinct(unlist(strsplit(ugenehits_detailed$loci, "; "))), "loci\n")
 
 
@@ -130,7 +130,7 @@ hit_genes <- as_tibble(sugSNPs) %>% left_join(per_hit, by = "hit") %>%
          melanogenesis_genes = coalesce(melanogenesis_genes, "")) %>%
   transmute(Chromosome = chr, start = start_hit, end = end_hit, hit, source, locus, in_other_method, PIP = gamma, n_chains,
             LRT_median, n_windows, above_observed_line, above_null_line, genes, melanogenesis_genes)
-write.csv(hit_genes, here(paste0("data/GWAS_", prefix, "_suggestive_hits_genes.csv")), row.names = FALSE)
+write.csv(hit_genes, here(paste0("data/gwas/GWAS_", prefix, "_suggestive_hits_genes.csv")), row.names = FALSE)
 
 
 # 6. melanogenesis and environmental-adaptation genes ---------------------------------------------------------------
@@ -164,5 +164,5 @@ cand_tbl <- cands %>%
             Lists = paste(unique(list), collapse = "; "), Function = paste(unique(na.omit(Function)), collapse = "; "),
             Citation = paste(unique(na.omit(Citation[Citation != ""])), collapse = "; "), .groups = "drop") %>%
   arrange(desc(LRT_median), desc(PIP))
-write.csv(cand_tbl, here(paste0("results/Candidate_genes_table_", prefix, ".csv")), row.names = FALSE)
+write.csv(cand_tbl, here(paste0("results/gwas/Candidate_genes_table_", prefix, ".csv")), row.names = FALSE)
 print(cand_tbl, n = 50)

@@ -16,8 +16,8 @@
 #
 # Run from the project root:  Rscript R_scripts/00_card_correction/card_correction.R
 # Writes
-#   data_raw/card_corrected_mspec/<view>_card_corrected_Image Analysis Results.csv  (read by 01_data_cleaning.R)
-#   data_raw/card_corrected_mspec/card_k_by_photo.csv     card values, g and k per photo x channel
+#   data_raw/photos/card_corrected_mspec/<view>_card_corrected_Image Analysis Results.csv  (read by 01_data_cleaning.R)
+#   data_raw/photos/card_corrected_mspec/card_k_by_photo.csv     card values, g and k per photo x channel
 #   results/card_correction/corrected_wide.csv, remeasured_wide.csv   one row per bird (checks)
 #   results/card_correction/project_vs_remeasured_by_photo.csv        original vs re-measured (uncorrected)
 #   results/card_correction/card_boxes_to_check.csv                   photos failing the plausibility check
@@ -25,7 +25,7 @@
 # Paths ------------------------------------------------------------------------------------------------
 base      <- "/Volumes/Madelyn Ore/BTBW_card_check"        # card-check folders: <view>/, crown_fix/
 redo_dirs <- path.expand(c("~/Documents/Work/PhD/BTBW_redo/done", "~/Documents/Work/PhD/BTBW_redo/RUN_THIS_BATCH"))
-out_data  <- "data_raw/card_corrected_mspec"
+out_data  <- "data_raw/photos/card_corrected_mspec"
 out       <- "results/card_correction"
 
 suppressPackageStartupMessages(library(tidyverse))
@@ -146,7 +146,7 @@ write_csv(to_wide(corr), file.path(out, "corrected_wide.csv"))
 write_csv(to_wide(plum %>% select(Label, all_of(means), all_of(sds), area)), file.path(out, "remeasured_wide.csv"))
 
 # project values vs re-measured (same outline, uncorrected): mismatches = different photo or .mspec
-proj <- map_dfr(list.files("data_raw/by_pop_batch_mspec", "Image", full.names = TRUE),
+proj <- map_dfr(list.files("data_raw/photos/by_pop_batch_mspec", "Image", full.names = TRUE),
                 ~ read.csv(.x) %>% mutate(project_file = sub("_scaled.*", "", basename(.x)))) %>%
   separate(Label, c("ID", "view", "roi"), sep = "_", extra = "merge") %>% filter(!grepl("^Scale|whole", roi)) %>%
   distinct(ID, view, roi, .keep_all = TRUE) %>% select(ID, view, roi, project_file, lum_project = lumMean)

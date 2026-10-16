@@ -17,7 +17,7 @@ library(viridis)
 
 here::i_am("R_scripts/03_Age_color_models.Rmd")
 
-avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
+avg_img <- read.csv(here("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
 
 ## select only brightness for ASY males
 age <- avg_img %>% 
@@ -55,12 +55,12 @@ for (var in names(traits)) {
     t = unname(test$statistic), df = unname(test$parameter), p = test$p.value)
 }
 age_table <- bind_rows(age_table)
-write.csv(age_table, here("results/Age_color_models_table.csv"), row.names = FALSE)
+write.csv(age_table, here("results/age/Age_color_models_table.csv"), row.names = FALSE)
 
 table_note <- paste("Note: Welch two-sample t-tests comparing after-second-year (ASY) and",
                     "second-year (SY) males; t > 0 means ASY is higher. Luminance = mean",
                     "double-cone catch of the patch; n = birds with a measurement for that patch.")
-writeLines(table_note, here("results/Age_color_models_table_note.txt"))
+writeLines(table_note, here("results/age/Age_color_models_table_note.txt"))
 
 # readable table: mean (SD) with 3 and 2 significant figures, ASY and SY under spanners
 age_display <- age_table %>%

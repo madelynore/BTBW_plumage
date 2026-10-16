@@ -21,7 +21,7 @@ library(MuMIn)
 here::i_am("R_scripts/04_Plumage_patch_correlations.Rmd")
 
 
-avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
+avg_img <- read.csv(here("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
 
 ## ASY and SY males, with age as a cofactor in the models; the 2 "?SY" birds (age
 ## unknown) are left out
@@ -91,7 +91,7 @@ results <- do.call(rbind, lapply(model_specs, function(spec) {
 }))
 
 # tidy results: numbers kept as numbers, full precision (readable table below)
-write.csv(results, file = here("results/Color_lmm_model_results.csv"), row.names = F)
+write.csv(results, file = here("results/patch_correlations/Color_lmm_model_results.csv"), row.names = F)
 
 # readable table: rows grouped by explanatory patch, model formula once in a note
 source(here("R_scripts/table_helpers.R"))

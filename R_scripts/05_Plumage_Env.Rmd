@@ -23,12 +23,12 @@ library(patchwork)
 here::i_am("R_scripts/05_Plumage_Env.Rmd")
 
 
-avg_img <- read.csv(here("data/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
+avg_img <- read.csv(here("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv"))
 
 
 # combine w environment data  
 # (the env file has no Year column, so nothing to drop before merging)
-env <- read.table(here("data/Env_by_individual_specimen_samples.txt"), header = T)
+env <- read.table(here("data/environment/Env_by_individual_specimen_samples.txt"), header = T)
 
 lum_env <- merge(avg_img, env) %>% 
   filter(Age == "ASY" | Age == "SY") %>%                 # drops the 2 "?SY" birds (age unknown)
@@ -143,7 +143,7 @@ model_results <- aicsc_r %>%
 
 model_results
 
-write.csv(model_results, here("results/spatiotemp_model_selection_table.csv"), row.names = F)
+write.csv(model_results, here("results/environment/spatiotemp_model_selection_table.csv"), row.names = F)
 
 # readable table: formulas without the response, best model (lowest AICc) in bold
 source(here("R_scripts/table_helpers.R"))
@@ -210,7 +210,7 @@ gam_results <- bind_rows(gam_results)
 # GAM results: tidy CSV (numbers as numbers, one row per term) + readable table with one
 # block of rows per patch (n and deviance explained in the block header)
 source(here("R_scripts/table_helpers.R"))
-write.csv(gam_results, here("results/Env_GAM_pl_patches.csv"), row.names = FALSE)
+write.csv(gam_results, here("results/environment/Env_GAM_pl_patches.csv"), row.names = FALSE)
 
 gam_table <- gam_results %>%
   mutate(Model = sprintf("%s (n = %d, deviance explained %.0f%%)", patch_label(response), n, 100 * dev_expl)) %>%
@@ -303,7 +303,7 @@ for (p in plot_patches) {
     theme(text = element_text(size = 24))
 
   print(env_plots)
-  ggsave(here(paste0("results/env_plots_", column, ".png")), plot = env_plots,
+  ggsave(here(paste0("results/environment/env_plots_", column, ".png")), plot = env_plots,
          width = 8 * length(panels), height = 8, dpi = 600)
 }
 

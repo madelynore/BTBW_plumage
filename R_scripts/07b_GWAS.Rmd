@@ -32,7 +32,7 @@ snakemake --use-conda --conda-frontend conda --rerun-triggers mtime --scheduler 
 
 ## Phenotypes and covariates
 
-Files made by `06b_GWAS_phenotype_inputs.R` (in `data/gwas_allages_inputs/`, copied to `inputs/` on the server).
+Files made by `06_GWAS_phenotype_inputs.R` (in `data/gwas_inputs/`, copied to `inputs/` on the server).
 
 - ANGSD (`-yQuant`): card-corrected mantle luminance, one value per bird.
 - ANGSD (`-cov`): genomic PC1 and age class (0 = ASY, 1 = SY). Genomic PC1 is the first eigenvector of the PCAngsd

@@ -15,16 +15,16 @@
 # current dplyr (it uses rename_() and group_by_(), which are defunct). Windows: 50 SNPs, starting at SNP 1 and moving
 # 10 SNPs at a time; the last window is the first one to reach the chromosome's last SNP (so only end windows have
 # fewer than 50 SNPs).
-# Writes data/GWAS_<prefix>_ANGSD_windows.tsv.gz (every window), data/GWAS_<prefix>_ANGSD_window_thresholds.csv,
-# data/GWAS_<prefix>_ANGSD_window_regions.csv (suggestive regions).
+# Writes data/gwas/GWAS_<prefix>_ANGSD_windows.tsv.gz (every window), data/gwas/GWAS_<prefix>_ANGSD_window_thresholds.csv,
+# data/gwas/GWAS_<prefix>_ANGSD_window_regions.csv (suggestive regions).
 
 library(data.table)
 library(here)
 
 # Settings -----------------------------------------------------------------------
 prefix           <- "btbw_n152_allages_lumMean_m_cc"
-observed_file    <- here("data_raw/gwas_allages/asso/btbw_n152_allages_lumMean_m_cc__PC1cov_age.lrt0.gz")
-window_null_file <- here("data_raw/gwas_allages/perm_withinage/LRT_window_null.rds")   # null window medians (windows x shuffles)
+observed_file    <- here("data_raw/gwas/gwas_allages/asso/btbw_n152_allages_lumMean_m_cc__PC1cov_age.lrt0.gz")
+window_null_file <- here("data_raw/gwas/gwas_allages/perm_withinage/LRT_window_null.rds")   # null window medians (windows x shuffles)
 
 win_size   <- 50       # SNPs per window (must match LRT_window_permutation_null.R)
 win_step   <- 10       # SNPs between window starts
@@ -75,13 +75,13 @@ cat(sprintf("Null line (%.2fth percentile of null window medians): %.3f\n", 100 
 cat("Windows above the observed line:", sum(windows$above_observed_line), "| above the null line:", sum(windows$above_null_line),
     "(expected by chance:", round(nrow(windows) * (1 - null_percentile), 1), ")\n")
 
-fwrite(windows, here(paste0("data/GWAS_", prefix, "_ANGSD_windows.tsv.gz")), sep = "\t")
+fwrite(windows, here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_windows.tsv.gz")), sep = "\t")
 fwrite(data.table(line = c("null line", "observed line"),
                   description = sprintf(c("%.2fth percentile of null window medians (%d shuffles)",
                                           "%.2fth percentile of observed window medians"),
                                         c(100 * null_percentile, 100 * obs_percentile), ncol(null_medians)),
                   LRT_median = c(null_line, observed_line)),
-       here(paste0("data/GWAS_", prefix, "_ANGSD_window_thresholds.csv")))
+       here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_window_thresholds.csv")))
 
 
 # 3. Suggestive regions: overlapping suggestive windows merged ----------------------------
@@ -91,6 +91,6 @@ regions <- regions[, .(start_bp = min(start_bp), end_bp = max(end_bp), n_windows
                        max_LRT_median = max(LRT_median),
                        above_observed_line = any(above_observed_line), above_null_line = any(above_null_line)),
                    by = .(Chromosome, region)]
-fwrite(regions, here(paste0("data/GWAS_", prefix, "_ANGSD_window_regions.csv")))
+fwrite(regions, here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_window_regions.csv")))
 cat("Suggestive regions:", nrow(regions), "| above both lines:", sum(regions$above_observed_line & regions$above_null_line), "\n")
 print(regions[order(-max_LRT_median)])
