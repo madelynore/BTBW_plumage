@@ -12,11 +12,11 @@ colnames(bw2021)
 bw2021_rn <- bw2021 %>% 
   #  columns that dont need changing    "Date"           "Species"        "Locality"         
  # "Age"            "Sex"             "Bander"
-  rename(USGS_band = `USGS Band`, GPS_N = `GPS N`, GPS_E = `GPS E`, tissue_type = `Tissue Sampled`)
+  dplyr::rename(USGS_band = `USGS Band`, GPS_N = `GPS N`, GPS_E = `GPS E`, tissue_type = `Tissue Sampled`)
 
 colnames(bw2022)
 bw2022_rn <- bw2022 %>% 
-  rename(USGS_band = `Aluminum Band`, GPS_E = UTM_Easting, GPS_N = UTM_Northing,
+  dplyr::rename(USGS_band = `Aluminum Band`, GPS_E = UTM_Easting, GPS_N = UTM_Northing,
          Count_State = `County and State/Province`, Date = `Date Banded`, Bander = Banders,
          Bill_depth = `Bill Depth`,Bill_length_culmen = `Bill Length_culmen`,
          Bill_length_nares = `Bill Length_nares`, Bill_width = `Bill Width`,

@@ -78,3 +78,48 @@ btbw_env <- cbind(biona, ndvi_M = ndvi_btbw, srtm = srtm_btbw)
 write.table(btbw_env, "data/environment/Env_by_individual_specimen_samples.txt",
             row.names = F, quote = F, col.names = T)
 
+
+
+# relationship between env and latitude at site level ---------------------
+# add site level info and summarize to avoid inflated n
+pop_info <- read.csv("data/specimens/NMNH_specimen_metadata.csv") |>
+  dplyr::select(USNM.no., pop)
+
+# one row per site: mean latitude and environment of the birds collected there
+envbysite <- btbw_env |>
+  left_join(pop_info, by = join_by("ID" == "USNM.no.")) |>
+  group_by(pop) |>
+  summarize(lat = mean(lat),
+            Tave_br = mean(Tave_br),
+            PPT_br = mean(PPT_br),
+            RH_br = mean(RH_br),
+            ndvi_M = mean(ndvi_M),
+            srtm = mean(srtm))
+stopifnot("Some birds have no site" = !anyNA(envbysite$pop))
+
+# chosen env variables
+env_vars <- c("Tave_br", "PPT_br", "RH_br", "ndvi_M", "srtm")
+
+# linear model of each environmental variable on latitude, site level
+env_table <- list()
+for (v in env_vars) {
+  model <- lm(as.formula(paste(v, "~ lat")), data = envbysite)
+  fit   <- summary(model)
+  env_table[[v]] <- data.frame(
+    Trait     = v,
+    n_sites   = nrow(envbysite),
+    Estimate  = fit$coefficients["lat", "Estimate"],
+    SE        = fit$coefficients["lat", "Std. Error"],
+    df        = fit$df[2],
+    P_value   = fit$coefficients["lat", "Pr(>|t|)"],
+    R2_adj    = fit$adj.r.squared)
+}
+env_table <- dplyr::bind_rows(env_table)
+source(here::here("R_scripts/table_helpers.R"))   # fmt_p(), fmt_num()
+
+env_table <- dplyr::bind_rows(env_table) |>
+  dplyr::mutate(P_value  = fmt_p(P_value),
+                Estimate = fmt_num(Estimate),
+                SE       = fmt_num(SE),
+                R2_adj   = fmt_num(R2_adj))
+env_table

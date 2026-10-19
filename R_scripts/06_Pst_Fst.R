@@ -23,10 +23,11 @@ set.seed(20261003)
 
 avg_img <- read.csv(here("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv")) %>%
   filter(Age == "ASY" | Age == "SY")
+avg_img$pop <- sub(x = avg_img$pop, pattern = "\\.", replacement = "_")
 sites <- sort(unique(avg_img$pop))
 
 # pairwise Fst among our sites --------------------------------------------------------------------------------
-fst <- read.table(here("data_raw/pst_fst/Pairwise.fst.BTBW_wgs_ds2x_mergedthenfiltered_maxmiss0.8_minQ30_maf.05_rmrelatedind7_vcfsites_ngsLDpruned_NovoS.majmin4.txt"),
+fst <- read.table(here("data_raw/pst_fst/Pairwise.fst.txt"),
                   col.names = c("pop1", "pop2", "fst_unweighted", "fst_weighted")) %>%
   filter(pop1 %in% sites, pop2 %in% sites)
 stopifnot("Fst missing for some pairs of sites" = nrow(fst) == choose(length(sites), 2))
@@ -38,7 +39,7 @@ pst <- function(vb, vw, r) r * vb / (r * vb + 2 * vw)
 var_comp <- function(fit) { v <- as.data.frame(VarCorr(fit))
   c(vb = v$vcov[v$grp == "site"], vw = v$vcov[v$grp == "Residual"]) }
 
-patch_cols <- c("lumMean_m", "lumMean_t", "lumMean_c", "lumMean_o", "lumMean_w", "area_mm2_w")
+patch_cols <- c("lumMean_m", "lumMean_t", "lumMean_c", "lumMean_o", "area_mm2_w")
 strong_cutoff <- 0.125
 pst_curves <- map_dfr(patch_cols, function(col) {
   dat <- avg_img %>% filter(!is.na(.data[[col]])) %>% transmute(y = .data[[col]], Age, site = pop)
