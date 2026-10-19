@@ -38,7 +38,7 @@ lum_env <- merge(avg_img, env) %>%
 out_dir <- "results/"
 
 
-patches <- c(o = "covert", c = "crown", m = "mantle", t = "throat", w = "wspot")
+patches <- c( m = "mantle", c = "crown", o = "covert", t = "throat")
 
 ```
 

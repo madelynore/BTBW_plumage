@@ -63,7 +63,7 @@ Ore, MJ.
 
 ``` r
 gam_rhs  <- "s(lon, lat) + s(RH_br) + s(Tave_br) + s(PPT_br) + s(srtm) + s(ndvi_M) + Age"
-response <- "lumMean"  # column prefix: "lumMean" -> lumMean_c, lumMean_m, ...; "PC1" -> PC1_c, ...
+response <- "lumMean"  
 
 gam_fits <- list()          
 gam_results <- list()
@@ -105,7 +105,7 @@ gam_results <- bind_rows(gam_results)
 # GAM results: tidy CSV (numbers as numbers, one row per term) + readable table with one
 # block of rows per patch (n and deviance explained in the block header)
 source(here("R_scripts/table_helpers.R"))
-write.csv(gam_results, here("results/Env_GAM_pl_patches.csv"), row.names = FALSE)
+write.csv(gam_results, here("results/environment/Env_GAM_pl_patches.csv"), row.names = FALSE)
 
 gam_table <- gam_results %>%
   mutate(Model = sprintf("%s (n = %d, deviance explained %.0f%%)", patch_label(response), n, 100 * dev_expl)) %>%
@@ -118,20 +118,6 @@ print(knitr::kable(blank_repeats(gam_table, "Model"), caption = "Plumage and env
 
 | Model | Term | edf | F | p |
 |:---|:---|:---|:---|:---|
-| Covert luminance (n = 180, deviance explained 43%) | Location (longitude × latitude) | 4.60 | 0.55 | 0.0010 |
-|  | Relative humidity, breeding season | 2.78 | 1.17 | 0.0033 |
-|  | Mean temperature, breeding season | 0.14 | 0.02 | 0.24 |
-|  | Precipitation, breeding season | 0.00 | 0.00 | 0.46 |
-|  | Elevation | 0.00 | 0.00 | 0.31 |
-|  | NDVI (maximum) | 0.00 | 0.00 | 0.58 |
-|  | Age (SY vs ASY) | 1.00 | 78.54 | \< 0.001 |
-| Crown luminance (n = 185, deviance explained 30%) | Location (longitude × latitude) | 6.63 | 1.21 | \< 0.001 |
-|  | Relative humidity, breeding season | 0.84 | 0.22 | 0.034 |
-|  | Mean temperature, breeding season | 0.00 | 0.00 | 0.24 |
-|  | Precipitation, breeding season | 2.11 | 1.35 | \< 0.001 |
-|  | Elevation | 0.96 | 2.39 | \< 0.001 |
-|  | NDVI (maximum) | 1.46 | 0.53 | 0.018 |
-|  | Age (SY vs ASY) | 1.00 | 0.83 | 0.36 |
 | Mantle luminance (n = 182, deviance explained 60%) | Location (longitude × latitude) | 3.21 | 1.68 | \< 0.001 |
 |  | Relative humidity, breeding season | 0.79 | 0.41 | 0.018 |
 |  | Mean temperature, breeding season | 0.00 | 0.00 | 0.33 |
@@ -139,6 +125,20 @@ print(knitr::kable(blank_repeats(gam_table, "Model"), caption = "Plumage and env
 |  | Elevation | 2.33 | 1.24 | \< 0.001 |
 |  | NDVI (maximum) | 0.00 | 0.00 | 0.61 |
 |  | Age (SY vs ASY) | 1.00 | 31.08 | \< 0.001 |
+| Crown luminance (n = 185, deviance explained 30%) | Location (longitude × latitude) | 6.63 | 1.21 | \< 0.001 |
+|  | Relative humidity, breeding season | 0.84 | 0.22 | 0.034 |
+|  | Mean temperature, breeding season | 0.00 | 0.00 | 0.24 |
+|  | Precipitation, breeding season | 2.11 | 1.35 | \< 0.001 |
+|  | Elevation | 0.96 | 2.39 | \< 0.001 |
+|  | NDVI (maximum) | 1.46 | 0.53 | 0.018 |
+|  | Age (SY vs ASY) | 1.00 | 0.83 | 0.36 |
+| Covert luminance (n = 180, deviance explained 43%) | Location (longitude × latitude) | 4.60 | 0.55 | 0.0010 |
+|  | Relative humidity, breeding season | 2.78 | 1.17 | 0.0033 |
+|  | Mean temperature, breeding season | 0.14 | 0.02 | 0.24 |
+|  | Precipitation, breeding season | 0.00 | 0.00 | 0.46 |
+|  | Elevation | 0.00 | 0.00 | 0.31 |
+|  | NDVI (maximum) | 0.00 | 0.00 | 0.58 |
+|  | Age (SY vs ASY) | 1.00 | 78.54 | \< 0.001 |
 | Throat luminance (n = 182, deviance explained 26%) | Location (longitude × latitude) | 1.77 | 0.81 | \< 0.001 |
 |  | Relative humidity, breeding season | 0.20 | 0.03 | 0.26 |
 |  | Mean temperature, breeding season | 0.30 | 0.05 | 0.20 |
@@ -146,13 +146,6 @@ print(knitr::kable(blank_repeats(gam_table, "Model"), caption = "Plumage and env
 |  | Elevation | 0.00 | 0.00 | 0.88 |
 |  | NDVI (maximum) | 1.64 | 0.63 | 0.022 |
 |  | Age (SY vs ASY) | 1.00 | 16.59 | \< 0.001 |
-| Wing spot luminance (n = 182, deviance explained 47%) | Location (longitude × latitude) | 0.63 | 0.03 | 0.24 |
-|  | Relative humidity, breeding season | 0.00 | 0.00 | 0.33 |
-|  | Mean temperature, breeding season | 1.49 | 0.44 | 0.049 |
-|  | Precipitation, breeding season | 0.81 | 0.48 | 0.017 |
-|  | Elevation | 0.00 | 0.00 | 0.71 |
-|  | NDVI (maximum) | 0.50 | 0.10 | 0.15 |
-|  | Age (SY vs ASY) | 1.00 | 140.99 | \< 0.001 |
 | Wing spot area (mm²) (n = 182, deviance explained 31%) | Location (longitude × latitude) | 0.00 | 0.00 | 0.86 |
 |  | Relative humidity, breeding season | 0.00 | 0.00 | 0.55 |
 |  | Mean temperature, breeding season | 0.00 | 0.00 | 0.43 |
@@ -184,21 +177,11 @@ save_table(
 ``` r
 # Partial-effect plots -------------------------------------------------------
 # For each patch GAM, one panel per environmental variable showing that variable's
-# fitted smooth on its own, s(variable), i.e. its partial effect:
-#   - line + band: the smooth and its 95% confidence interval. The y-axis is the
-#     change in the response due to this term; mgcv centres each smooth so its
-#     average over the birds is 0 (so it's a difference from average, not a
-#     predicted luminance, and no "average bird" has to be made up).
-#   - points: partial residuals = each bird's model residual + its value of this
-#     term, i.e. the data with the effects of all OTHER terms (location, other
-#     climate variables, age) removed.
-# A term the model shrank away (select = TRUE) shows as a flat line at 0.
-# The first panel is the RAW latitude relationship (latitude sits inside the 2-D
-# s(lon, lat) surface, so it has no one-dimensional partial effect).
+# fitted smooth on its own, s(variable), i.e. its partial effect
+# The first panel is the RAW latitude relationship
 
-# Environmental variables to plot, with axis labels (a named vector: column = label)
-env_vars <- c(PPT_br = "Mean Precipitation (mm)",
-              RH_br = "Relative Humidity (%)",
+# Environmental variables to plot, with axis labels 
+env_vars <- c(RH_br = "Relative Humidity (%)",
               srtm    = "Elevation (m)")
 
 response_label <- c(lumMean = "luminance", PC1 = "PC1")[[response]]
@@ -228,9 +211,7 @@ for (p in plot_patches) {
   for (v in names(env_vars)) {
     term <- paste0("s(", v, ")")                        # e.g. "s(srtm)"
 
-    # The smooth over the observed range of v. predict() needs every model
-    # variable in newdata, but with type = "terms" only this term is returned,
-    # so the other columns (copied from the first bird) don't affect the result.
+    # The smooth over the observed range of v
     grid <- birds[rep(1, 100), ]
     grid[[v]] <- seq(min(birds[[v]]), max(birds[[v]]), length.out = 100)
     curve <- predict(model, newdata = grid, type = "terms", terms = term, se.fit = TRUE)
@@ -241,16 +222,8 @@ for (p in plot_patches) {
     if (anyNA(grid$effect)) stop("Partial effect is NA for ", column, " vs ", v)
 
     # Partial residuals: residual + this bird's value of the term
-    # (Gaussian model, so the default deviance residuals = observed - fitted)
     bird_terms <- predict(model, type = "terms", terms = term)
     birds$partial_residual <- residuals(model) + bird_terms[, term]
-
-    # edf and p-value of this smooth, shown above the panel
-    term_stats <- summary(model)$s.table[term, ]
-    # mgcv reports p-values below ~2e-16 as exactly 0
-    p_text <- ifelse(term_stats[["p-value"]] < 2e-16, "p < 2e-16",
-                     paste("p =", signif(term_stats[["p-value"]], 2)))
-    subtitle <- paste0("edf = ", round(term_stats[["edf"]], 2), ", ", p_text)
 
     panels[[v]] <- ggplot(birds, aes(x = .data[[v]], y = partial_residual)) +
       geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
@@ -261,7 +234,7 @@ for (p in plot_patches) {
                 linewidth = 1, color = "black", inherit.aes = FALSE) +
       scale_color_viridis_c(direction = -1) +
       labs(x = env_vars[[v]], y = paste("Partial effect on", tolower(y_label)),
-           subtitle = subtitle, color = "Latitude")
+           color = "Latitude")
   }
 
   env_plots <- wrap_plots(panels, nrow = 1) +
@@ -271,7 +244,7 @@ for (p in plot_patches) {
     theme(text = element_text(size = 24))
 
   print(env_plots)
-  ggsave(here(paste0("results/env_plots_", column, ".png")), plot = env_plots,
+  ggsave(here(paste0("results/environment/env_plots_", column, ".png")), plot = env_plots,
          width = 8 * length(panels), height = 8, dpi = 600)
 }
 ```

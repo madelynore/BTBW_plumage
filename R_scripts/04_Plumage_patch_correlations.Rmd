@@ -36,7 +36,7 @@ males <- avg_img %>%
 ```{r normality, echo = F}
 
 # luminance of each patch used in the models (belly excluded, see 01_data_cleaning.R)
-vars_to_check <- c("lumMean_c", "lumMean_m", "lumMean_o", "lumMean_t", "lumMean_w", "area_mm2_w")
+vars_to_check <- c("lumMean_m", "lumMean_c","lumMean_o", "lumMean_t", "area_mm2_w")
 
 for (v in vars_to_check) {
   hist(males[[v]], main = v, xlab = v)
@@ -53,14 +53,11 @@ for (v in vars_to_check) {
 # belly left out: removed for possible specimen contamination (see 01_data_cleaning.R)
 model_specs <- list(
   # association with mantle
-  c("lumMean_c", "lumMean_m"), c("lumMean_t", "lumMean_m"), c("lumMean_o", "lumMean_m"),
-  c("lumMean_w", "lumMean_m"), c("area_mm2_w", "lumMean_m"),
-  # associations with wing spot color
-  c("lumMean_c", "lumMean_w"), c("lumMean_o", "lumMean_w"),
-  c("lumMean_t", "lumMean_w"), c("area_mm2_w", "lumMean_w"),
+  c("lumMean_c", "lumMean_m"),  c("lumMean_o", "lumMean_m"), c("lumMean_t", "lumMean_m"),
+  c("area_mm2_w", "lumMean_m"),
   # association with wing spot area
-  c("lumMean_c", "area_mm2_w"), c("lumMean_o", "area_mm2_w"),
-  c("lumMean_t", "area_mm2_w")
+  c("lumMean_c", "area_mm2_w"),  c("lumMean_o", "area_mm2_w"), c("lumMean_t", "area_mm2_w")
+  
 )
 
 # Fit all models and extract results in one pipeline

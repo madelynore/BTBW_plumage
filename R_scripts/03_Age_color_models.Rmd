@@ -32,11 +32,10 @@ age <- avg_img %>%
 # One row per trait: sample size, mean (SD) for each age class, and the Welch
 # two-sample t-test (R's default t.test, which does not assume equal variances,
 # so df are not whole numbers)
-traits <- c(lumMean_c  = "Crown luminance",
+traits <- c(lumMean_m  = "Mantle luminance",
+            lumMean_c  = "Crown luminance",
             lumMean_o  = "Covert luminance",
-            lumMean_m  = "Mantle luminance",
             lumMean_t  = "Throat luminance",
-            lumMean_w  = "Wing spot luminance",
             area_mm2_w = "Wing spot area (mm²)")
 
 source(here("R_scripts/table_helpers.R"))
