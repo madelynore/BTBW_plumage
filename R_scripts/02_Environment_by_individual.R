@@ -81,7 +81,7 @@ write.table(btbw_env, "data/environment/Env_by_individual_specimen_samples.txt",
 
 
 # relationship between env and latitude at site level ---------------------
-# add site level info and summarize to avoid inflated n
+# add site level info and summarize to avoid inflated n, since many individuals have very similar latitudes
 pop_info <- read.csv("data/specimens/NMNH_specimen_metadata.csv") |>
   dplyr::select(USNM.no., pop)
 
