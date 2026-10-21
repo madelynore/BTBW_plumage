@@ -91,12 +91,56 @@ write.table(unique_genehits, here(paste0("data/gwas/GWAS_", prefix, "_outlier_un
 cat("Protein matches within 25 kb:", nrow(AutoOutlier_merged), "| unique accessions:", length(unique_genehits), "\n")
 
 
-# 4. gene symbols (bioDBnet: RefSeq Protein Accession -> Gene Symbol) ----------------------------------------------
-genesymb <- fread("data_raw/gene_lists/bioDBnet_db2db_261016134332_716025924.txt", sep = "\t", header = TRUE, select = 1:2, col.names = c("RefSeq.Protein.Accession", "Gene.Symbol"))
-genesymb <- unique(genesymb[!Gene.Symbol %in% c("-", "")], by = "RefSeq.Protein.Accession")
-genesymb_source <- merge(genesymb, AutoOutlier_merged, by.x = "RefSeq.Protein.Accession", by.y = "RefSeq.Protein.Accession.clean")
-cat("Accessions with a gene symbol:", uniqueN(genesymb_source$RefSeq.Protein.Accession), "of", length(unique_genehits), "\n")
+# 4b. gene symbols from NCBI (current RefSeq records) ---------------------------------------
+# every accession in the genome is looked up in NCBI Protein (gene name = the /gene qualifier of the protein record).
+# The lookup takes ~10 min and is cached in data_raw/gene_lists/.
+library(rentrez)
 
+ncbi_file  <- here("data_raw/gene_lists/NCBI_protein_to_gene_symbol.csv")
+genome_acc <- warbler.gff_mrna[V2 != "repeatrunner", unique(str_extract(V9, "(XP|NP|YP)_[0-9]+"))]
+
+if (!file.exists(ncbi_file)) {
+  parse_gp <- function(txt) {
+    recs <- strsplit(txt, "\n//\n", fixed = TRUE)[[1]]
+    recs <- recs[grepl("\nVERSION", recs)]
+    tibble(RefSeq.Protein.Accession = str_match(recs, "\nVERSION\\s+([A-Z]{2}_[0-9]+)")[, 2],
+           Gene.Symbol = str_match(recs, '/gene="([^"]+)"')[, 2],
+           GeneID      = str_match(recs, "GeneID:([0-9]+)")[, 2],
+           Organism    = str_match(recs, "\n  ORGANISM  ([^\n]+)")[, 2])
+  }
+  fetch_gp <- insistently(entrez_fetch, rate_backoff(max_times = 3))   # retry if NCBI times out
+  batches  <- split(genome_acc, ceiling(seq_along(genome_acc) / 200))
+  ncbi <- map_dfr(seq_along(batches), function(i) {
+    if (i %% 20 == 0) cat("batch", i, "of", length(batches), "\n")
+    txt <- fetch_gp(db = "protein", id = batches[[i]], rettype = "gp", retmode = "text")
+    Sys.sleep(0.4)   # NCBI allows 3 requests/s without an API key
+    parse_gp(txt)
+  })
+  write.csv(ncbi, ncbi_file, row.names = FALSE)
+}
+ncbi <- fread(ncbi_file)
+
+# accession by accession: same symbol, different symbol, or found by only one method
+cmp <- tibble(RefSeq.Protein.Accession = genome_acc) %>%
+  left_join(ncbi %>% select(RefSeq.Protein.Accession, NCBI = Gene.Symbol), by = "RefSeq.Protein.Accession") %>%
+  left_join(as_tibble(genesymb) %>% select(RefSeq.Protein.Accession, bioDBnet = Gene.Symbol), by = "RefSeq.Protein.Accession") %>%
+  mutate(status = case_when(is.na(NCBI) & is.na(bioDBnet) ~ "no symbol",
+                            is.na(bioDBnet)                ~ "NCBI only",
+                            is.na(NCBI)                    ~ "bioDBnet only",
+                            toupper(NCBI) == toupper(bioDBnet) ~ "same",
+                            TRUE                           ~ "different"))
+print(count(cmp, status))
+write.csv(filter(cmp, status == "different"), here("data_raw/gene_lists/bioDBnet_vs_NCBI_different_symbols.csv"), row.names = FALSE)
+
+cat("Unique genes in the hits:", uniqueN(genesymb_source$Gene.Symbol), "\n")
+# background for the hypergeometric test (symbols in upper case: proteins come from several bird species)
+named_genome_ncbi <- unique(toupper(na.omit(ncbi$Gene.Symbol)))
+cat("Unique gene symbols in the genome: NCBI", length(named_genome_ncbi),
+    "(", sum(!grepl("^LOC", named_genome_ncbi)), "without LOC ) | bioDBnet", n_distinct(toupper(genesymb$Gene.Symbol)), "\n")
+
+# to use the NCBI symbols downstream, replace genesymb and rerun the merge from section 4:
+genesymb <- ncbi[!is.na(Gene.Symbol), .(RefSeq.Protein.Accession, Gene.Symbol = toupper(Gene.Symbol))]
+genesymb_source <- merge(genesymb, AutoOutlier_merged, by.x = "RefSeq.Protein.Accession", by.y = "RefSeq.Protein.Accession.clean")
 
 # 5. one row per gene -------------------------------------------------------------------------------------------------
 ugenehits_detailed <- genesymb_source %>%

@@ -294,13 +294,19 @@ for (p in plot_patches) {
       scale_color_viridis_c(direction = -1) +
       labs(x = env_vars[[v]], y = paste("Partial effect on", tolower(y_label)),
            color = "Latitude")
+      if (v == "srtm") panels[[v]] <- panels[[v]] +
+      scale_x_continuous(breaks = seq(0, 1400, by = 200))             # ticks every 200 m
   }
 
   env_plots <- wrap_plots(panels, nrow = 1) +
     plot_annotation(tag_levels = "A") +
     plot_layout(axis_titles = "collect", guides = "collect") &   # one shared legend
-    theme_classic() &
-    theme(text = element_text(size = 24))
+      theme_classic() &
+    theme(text = element_text(size = 24),
+          axis.title = element_text(size = 27),                       # axis labels slightly larger
+          axis.title.x = element_text(margin = margin(t = 15)),       # x-axis label moved down (larger t = lower)
+          axis.ticks = element_line(linewidth = 1),                   # thicker ticks
+          axis.ticks.length = unit(0.3, "cm"))                        # longer ticks
 
   print(env_plots)
   ggsave(here(paste0("results/environment/env_plots_", column, ".png")), plot = env_plots,
