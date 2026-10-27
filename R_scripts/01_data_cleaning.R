@@ -253,8 +253,9 @@ allimg_rmrow <- allimg_rmrow |>
 allimg_rmrow$area_mm2 <- allimg_rmrow$area/(36.5^2)
 
 #removing belly measurements because of potential contamination of specimens makes measurements unreliable
+# remove 608328 and 608329 because they only have crown view
 allimg_rmb <- allimg_rmrow |> 
-  filter(pl_code != "b")
+  filter(pl_code != "b" & ID != "608328" & ID != "608329")
 
 ## add metadata
 meta <- read.csv("data/specimens/NMNH_specimen_metadata.csv") 
@@ -293,10 +294,28 @@ avgimg_wide <- avg_img %>%
                                                     uvMean, uvSD,
                                                     dblMean, dblSD, area_mm2), names_sep = "_" )
 
-avgimg_widemeta <-  merge(avgimg_wide, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = T)
+avgimg_widemeta <-  merge(avgimg_wide, meta, by.x = "ID", by.y = "USNM.no.", all.x = T, all.y = F)
 
 write.csv(avgimg_widemeta, "data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv", row.names = F)
 
+
+# Determine which samples have sequencing; make sample table for GWAS ---------------------------------
+
+img_dat <- read.csv("data/photos/BTBW_whole_specimen_Image_Analysis_measurements_allpop_avgimg_wide.csv") |> 
+  dplyr::select(sample_name = ID, Species, population = pop, Age)
+
+#reformat to match bam ID
+img_dat$sample_name <- paste0("Z", img_dat$sample_name)
+
+# list of all the bam files
+seq <- read_table("data_raw/specimens/BTBW_bams.txt", col_names = F) |> 
+  dplyr::rename(filename = X1)
+
+seq$sample_name <- sub(x = seq$filename, pattern = "(_merged)?_sortedRGmark_ds2x\\.bam", replacement = "")
+
+img_seqd <- merge(img_dat, seq, by = "sample_name", all = F)
+
+readr::write_tsv(x = img_seqd, file = "data/gwas_inputs/sample_table.tsv", quote = "none", col_names = T)
 
 # make table of samples for supplement ------------------------------------
 library(tidyverse)

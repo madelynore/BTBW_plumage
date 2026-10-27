@@ -120,18 +120,6 @@ if (!file.exists(ncbi_file)) {
 }
 ncbi <- fread(ncbi_file)
 
-# accession by accession: same symbol, different symbol, or found by only one method
-cmp <- tibble(RefSeq.Protein.Accession = genome_acc) %>%
-  left_join(ncbi %>% select(RefSeq.Protein.Accession, NCBI = Gene.Symbol), by = "RefSeq.Protein.Accession") %>%
-  left_join(as_tibble(genesymb) %>% select(RefSeq.Protein.Accession, bioDBnet = Gene.Symbol), by = "RefSeq.Protein.Accession") %>%
-  mutate(status = case_when(is.na(NCBI) & is.na(bioDBnet) ~ "no symbol",
-                            is.na(bioDBnet)                ~ "NCBI only",
-                            is.na(NCBI)                    ~ "bioDBnet only",
-                            toupper(NCBI) == toupper(bioDBnet) ~ "same",
-                            TRUE                           ~ "different"))
-print(count(cmp, status))
-write.csv(filter(cmp, status == "different"), here("data_raw/gene_lists/bioDBnet_vs_NCBI_different_symbols.csv"), row.names = FALSE)
-
 cat("Unique genes in the hits:", uniqueN(genesymb_source$Gene.Symbol), "\n")
 # background for the hypergeometric test (symbols in upper case: proteins come from several bird species)
 named_genome_ncbi <- unique(toupper(na.omit(ncbi$Gene.Symbol)))

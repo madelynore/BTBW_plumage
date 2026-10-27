@@ -150,8 +150,8 @@ source(here("R_scripts/table_helpers.R"))
 save_table(
   model_results %>%
     transmute(Model = sub("^lumMean_m ~ ", "", gsub(" +", " ", formulas)),
-              df = sprintf("%.1f", df), AICc = sprintf("%.1f", AICc),
-              `ΔAICc` = sprintf("%.1f", deltaic), Weight = fmt_num(weights)) %>%
+              df = sprintf("%.2f", df), AICc = sprintf("%.2f", AICc),
+              `ΔAICc` = sprintf("%.2f", deltaic), Weight = fmt_num(weights)) %>%
     gt() %>%
     tab_header(title = "Mantle luminance: spatio-temporal model selection") %>%
     tab_style(cell_text(weight = "bold"), cells_body(rows = 1)) %>%

@@ -72,8 +72,7 @@ windows[, suggestive          := above_observed_line | above_null_line]
 
 cat(sprintf("Observed line (%.2fth percentile of observed window medians): %.3f\n", 100 * obs_percentile, observed_line))
 cat(sprintf("Null line (%.2fth percentile of null window medians): %.3f\n", 100 * null_percentile, null_line))
-cat("Windows above the observed line:", sum(windows$above_observed_line), "| above the null line:", sum(windows$above_null_line),
-    "(expected by chance:", round(nrow(windows) * (1 - null_percentile), 1), ")\n")
+cat("Windows above the observed line:", sum(windows$above_observed_line), "| above the null line:", sum(windows$above_null_line))
 
 fwrite(windows, here(paste0("data/gwas/GWAS_", prefix, "_ANGSD_windows.tsv.gz")), sep = "\t")
 fwrite(data.table(line = c("null line", "observed line"),

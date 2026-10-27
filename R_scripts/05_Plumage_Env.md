@@ -24,7 +24,7 @@ Ore, MJ.
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Residual standard error: 0.008171 on 179 degrees of freedom
-    ##   (3 observations deleted due to missingness)
+    ##   (1 observation deleted due to missingness)
     ## Multiple R-squared:  0.487,  Adjusted R-squared:  0.4812 
     ## F-statistic: 84.95 on 2 and 179 DF,  p-value: < 2.2e-16
 
@@ -125,13 +125,13 @@ print(knitr::kable(blank_repeats(gam_table, "Model"), caption = "Plumage and env
 |  | Elevation | 2.33 | 1.24 | \< 0.001 |
 |  | NDVI (maximum) | 0.00 | 0.00 | 0.61 |
 |  | Age (SY vs ASY) | 1.00 | 31.08 | \< 0.001 |
-| Crown luminance (n = 185, deviance explained 30%) | Location (longitude × latitude) | 6.63 | 1.21 | \< 0.001 |
-|  | Relative humidity, breeding season | 0.84 | 0.22 | 0.034 |
+| Crown luminance (n = 183, deviance explained 30%) | Location (longitude × latitude) | 6.48 | 1.18 | \< 0.001 |
+|  | Relative humidity, breeding season | 0.81 | 0.20 | 0.039 |
 |  | Mean temperature, breeding season | 0.00 | 0.00 | 0.24 |
-|  | Precipitation, breeding season | 2.11 | 1.35 | \< 0.001 |
-|  | Elevation | 0.96 | 2.39 | \< 0.001 |
-|  | NDVI (maximum) | 1.46 | 0.53 | 0.018 |
-|  | Age (SY vs ASY) | 1.00 | 0.83 | 0.36 |
+|  | Precipitation, breeding season | 2.08 | 1.30 | \< 0.001 |
+|  | Elevation | 0.95 | 2.32 | \< 0.001 |
+|  | NDVI (maximum) | 1.42 | 0.49 | 0.022 |
+|  | Age (SY vs ASY) | 1.00 | 0.86 | 0.35 |
 | Covert luminance (n = 180, deviance explained 43%) | Location (longitude × latitude) | 4.60 | 0.55 | 0.0010 |
 |  | Relative humidity, breeding season | 2.78 | 1.17 | 0.0033 |
 |  | Mean temperature, breeding season | 0.14 | 0.02 | 0.24 |
